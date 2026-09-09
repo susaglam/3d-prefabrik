@@ -1,0 +1,1177 @@
+[
+  {
+    "step": "Afmetingen",
+    "index": 0.0,
+    "variants": [
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image8971844643550057732.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "STALE_QUESTION",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1623267596743966906.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "STALE_QUESTION",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 1.0,
+    "variants": [
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10026176501678124396.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Baksteen rood",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1224600682984028497.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Baksteen zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image15466197350725761656.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Baksteen wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16539943821578243094.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Baksteen geel",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image5207703071815143427.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Hout horizontaal",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3608926398554443358.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Hout verticaal",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image2653025074535009209.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Opengevel verticaal",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14249029256234432767.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Opengevel horizontaal",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14252444910864574821.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Kunststof zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image2731276028436919554.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Kunststof groen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image3479184541272657749.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Kunststof creme wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12321241846830361476.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Kunststof antraciet",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12917163447046734356.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Baksteen steenstrips",
+            "answer": "Buitenstuc",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 2.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Geen deur",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image18241182130675596059.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12122904189503234658.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16410570280330104459.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur met roedes zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image988074941304954784.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur met roedes wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11574388192057941929.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "2-delige schuifpui zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image18159716632403854630.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "2-delige schuifpui wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image996027695750941255.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "4-delige schuifpui zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4140394911217142279.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "4-delige schuifpui wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9315344664584621600.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Harmonicapui zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image6465311339607291544.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Harmonicapui wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 3.0,
+    "variants": [
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image15184632544029465779.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "STALE_QUESTION",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1666699412097683082.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "STALE_QUESTION",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 4.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Rollaag",
+            "answer": "Rollaag",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image8073008600497716360.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Rollaag",
+            "answer": "Geen rollaag wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image10682680349040874639.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Rollaag",
+            "answer": "Geen rollaag zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 5.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "Nee",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image2938317034719353437.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "1 vaks lessenaar",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image2909734745402384964.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "2 vaks lessenaar",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image5658128547630901972.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "3 vaks lessenaar",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image5380796112279838970.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "4 vaks lessenaar",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image18174534569512734244.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "4 vaks zadeldak",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image15463614492266925056.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "6 vaks zadeldak",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image10652521697524319232.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Lessenaars dakramen",
+            "answer": "8 vaks zadeldak",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 6.0,
+    "variants": [
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1585279964067922606.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Daktrim",
+            "answer": "Daktrim aluminium",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3253806235963361191.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Daktrim",
+            "answer": "Daktrim aluminium antraciet",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 7.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buitenlicht",
+            "answer": "Geen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image709674375171441217.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buitenlicht",
+            "answer": "Links",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12405925526695732298.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buitenlicht",
+            "answer": "Rechts",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4425124714719095479.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buitenlicht",
+            "answer": "Beide kanten",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 8.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buiten stopcontact",
+            "answer": "Geen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4734538433395539682.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buiten stopcontact",
+            "answer": "Links",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1734701237884323295.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buiten stopcontact",
+            "answer": "Rechts",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 9.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buiten kraan",
+            "answer": "Geen ",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16966698126894926667.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buiten kraan",
+            "answer": "Links",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11448286357414257232.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Buiten kraan",
+            "answer": "Rechts",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Afmetingen",
+    "index": 10.0,
+    "variants": [
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image15654569919895662595.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Plaatsing",
+            "answer": "Links",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10293460967343442293.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Plaatsing",
+            "answer": "Rechts",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Vloerafwerking",
+    "index": 0.0,
+    "variants": [
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image16495438392095328059.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Wel of geen stucwerk",
+            "answer": "Geen stucwerk",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14066542220146562944.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Wel of geen stucwerk",
+            "answer": "Wel stucwerk",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Vloerafwerking",
+    "index": 1.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Geen deur",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image8783831880590545618.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14518804731056722126.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11408198045399207320.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur met roedes zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3639180187160434022.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Openslaande deur met roedes wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9451159411511267900.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image13405722004559655684.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9947569613760556450.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "2-delige schuifpui zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1139354937060081644.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "2-delige schuifpui wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image17113802843835029539.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "4-delige schuifpui zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9524720470134833536.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "4-delige schuifpui wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image8340333002548742204.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Harmonicapui zwart",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image2930524816948086125.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Kozijn",
+            "answer": "Harmonicapui wit",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Vloerafwerking",
+    "index": 2.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Plafond lamp",
+            "answer": "Geen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image6891095745770287302.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Plafond lamp",
+            "answer": "1 plafond lamp",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1784859150997379867.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Plafond lamp",
+            "answer": "2 plafond lampen",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Vloerafwerking",
+    "index": 3.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Schakelaar",
+            "answer": "Geen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9721210842782087795.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Schakelaar",
+            "answer": "1 schakelaar",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12603619356633449532.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Schakelaar",
+            "answer": "2 schakelaars",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Vloerafwerking",
+    "index": 4.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "Geen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1044318626210986396.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "1 spotje",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10053917388475838142.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "2 spotjes",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image475977453776650261.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "3 spotjes",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11659683769676074145.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "4 spotjes",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3303087930364337704.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "5 spotjes",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4285713282733913208.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "6 spotjes",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12244096950531088512.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "7 spotjes",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image5407643985087470444.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "8 spotjes",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12810119126427863842.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image5019988506593710816.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14090607031699306101.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10186224026676153237.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Aantal spotjes",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Vloerafwerking",
+    "index": 5.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Stopcontact",
+            "answer": "Geen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4821404312802176470.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Stopcontact",
+            "answer": "Links",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4627552324862542272.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Stopcontact",
+            "answer": "Rechts",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Stopcontact",
+            "answer": "STALE_ANSWER",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Vloerafwerking",
+    "index": 6.0,
+    "variants": [
+      {
+        "url": "",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Verwarming",
+            "answer": "Geen",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16544250952740521300.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Verwarming",
+            "answer": "Links",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image7774971470127252998.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Verwarming",
+            "answer": "Rechts",
+            "comparator": "EQUAL"
+          }
+        ]
+      },
+      {
+        "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image30817720738166129.png",
+        "type": "ALL_TRUE",
+        "conditions": [
+          {
+            "question": "Verwarming",
+            "answer": "Beide kanten",
+            "comparator": "EQUAL"
+          }
+        ]
+      }
+    ]
+  }
+]

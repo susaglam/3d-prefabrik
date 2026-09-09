@@ -1,0 +1,151 @@
+{
+  "pricebookVersion": "DEMO-2026-09-v1",
+  "currency": "EUR",
+  "priceMode": "demonstration",
+  "disclaimer": "Demonstratieprijzen, geen commercieel aanbod. Bedragen zijn indicatief inclusief 21% btw. Definitieve prijs na inmeting, constructieve beoordeling en controle van bereikbaarheid. Vergunningen, leges, aansluiting op bestaande installaties en aanvullend herstel zijn niet inbegrepen.",
+  "vatRate": 21,
+  "basePerM2": 135000,
+  "fixedSetup": 325000,
+  "optionPrices": {
+    "facade": {
+      "brick-red": 18000,
+      "brick-black": 19000,
+      "brick-white": 19500,
+      "brick-yellow": 18500,
+      "wood-horizontal": 0,
+      "wood-vertical": 2500,
+      "open-vertical": 6500,
+      "open-horizontal": 6000,
+      "pvc-black": 7000,
+      "pvc-green": 8000,
+      "pvc-cream": 7000,
+      "pvc-anthracite": 7500,
+      "render": 12000
+    },
+    "rollaag": {
+      "masonry": 65000,
+      "panel-white": 0,
+      "panel-black": 10000
+    },
+    "roofEdge": {
+      "aluminium": 0,
+      "anthracite": 25000
+    },
+    "frontOpening": {
+      "none": 0,
+      "french-black": 195000,
+      "french-white": 190000,
+      "french-bars-black": 235000,
+      "french-bars-white": 230000,
+      "sliding-2-black": 285000,
+      "sliding-2-white": 280000,
+      "sliding-4-black": 465000,
+      "sliding-4-white": 460000,
+      "folding-black": 525000,
+      "folding-white": 520000
+    },
+    "rooflight": {
+      "none": 0,
+      "lean-1": 175000,
+      "lean-2": 245000,
+      "lean-3": 315000,
+      "lean-4": 385000,
+      "gable-4": 450000,
+      "gable-6": 570000,
+      "gable-8": 690000
+    },
+    "outsideLight": {
+      "none": 0,
+      "left": 15000,
+      "right": 15000,
+      "both": 28000
+    },
+    "outsideSocket": {
+      "none": 0,
+      "left": 15000,
+      "right": 15000
+    },
+    "outsideTap": {
+      "none": 0,
+      "left": 45000,
+      "right": 45000
+    },
+    "drainMaterial": {
+      "pvc": 0,
+      "zinc": 45000
+    },
+    "drainSide": {
+      "left": 0,
+      "right": 0
+    },
+    "plaster": {
+      "false": 0,
+      "true": 17500
+    },
+    "screed": {
+      "false": 0,
+      "true": 6500
+    },
+    "underfloorHeating": {
+      "false": 0,
+      "true": 6500
+    },
+    "heating": {
+      "none": 0,
+      "left": 18000,
+      "right": 18000,
+      "both": 34000
+    },
+    "ceilingLights": {
+      "0": 0,
+      "1": 15000,
+      "2": 28000
+    },
+    "switches": {
+      "0": 0,
+      "1": 12000,
+      "2": 22000
+    },
+    "spotlights": {
+      "0": 0,
+      "1": 8500,
+      "2": 17000,
+      "3": 25500,
+      "4": 34000,
+      "5": 42500,
+      "6": 51000,
+      "7": 59500,
+      "8": 68000,
+      "9": 76500,
+      "10": 85000,
+      "11": 93500,
+      "12": 102000
+    },
+    "sockets": {
+      "none": 0,
+      "left": 15000,
+      "right": 15000,
+      "both": 28000
+    },
+    "demolition": {
+      "false": 0,
+      "true": 395000
+    },
+    "access": {
+      "restricted": 125000,
+      "normal": 0
+    },
+    "piles": {
+      "2": 190000,
+      "3": 270000,
+      "4": 350000,
+      "6": 510000
+    }
+  },
+  "perM2": [
+    "facade",
+    "plaster",
+    "screed",
+    "underfloorHeating"
+  ]
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="action_report_prefab_quote" model="ir.actions.report">
+    <field name="name">Prefab aanvraagoverzicht</field><field name="model">cs.prefab.quote</field>
+    <field name="report_type">qweb-pdf</field><field name="report_name">cs_prefab_configurator.report_prefab_quote</field>
+    <field name="report_file">cs_prefab_configurator.report_prefab_quote</field>
+    <field name="binding_model_id" ref="model_cs_prefab_quote"/><field name="binding_type">report</field>
+    <field name="print_report_name">'Prefab - %s' % object.name</field>
+  </record>
+  <template id="report_prefab_quote">
+    <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="web.external_layout">
+      <div class="page">
+        <h2>Prefab aanvraagoverzicht <span t-field="o.name"/></h2>
+        <p><strong>Demonstratieprijzen — geen bindende offerte</strong></p>
+        <p t-out="o.snapshot_json['price']['disclaimer']"/>
+        <p><span t-out="o.contact_json['name']"/> · <span t-out="o.contact_json['email']"/></p>
+        <p><span t-out="o.contact_json['address']"/> <span t-out="o.contact_json['houseNumber']"/>, <span t-out="o.contact_json['postcode']"/> <span t-out="o.contact_json['city']"/></p>
+        <table class="table table-sm"><tbody><tr t-foreach="o.snapshot_json['labels']" t-as="line"><td t-out="line['label']"/><td t-out="line['value']"/></tr></tbody></table>
+        <h3>Indicatieve kosten</h3>
+        <table class="table table-sm"><tbody><tr t-foreach="o.snapshot_json['price']['lines']" t-as="line"><td t-out="line['label']"/><td><span t-out="'%.2f' % (line['total'] / 100)"/> EUR excl. btw</td></tr></tbody></table>
+        <p>Subtotaal: <span t-out="'%.2f' % (o.snapshot_json['price']['subtotal'] / 100)"/> EUR</p>
+        <p>Btw <span t-out="o.snapshot_json['price']['vatRate']"/>%: <span t-out="'%.2f' % (o.snapshot_json['price']['vat'] / 100)"/> EUR</p>
+        <p><strong>Totaal incl. btw: <span t-out="'%.2f' % (o.total_cents / 100)"/> EUR</strong></p>
+        <p t-foreach="o.snapshot_json['price']['warnings']" t-as="warning" t-out="warning"/>
+        <p>Prijsboek: <span t-field="o.pricebook_version"/> · Toestemming contact: quote-contact-v1</p>
+      </div>
+    </t></t></t>
+  </template>
+</odoo>

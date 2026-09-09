@@ -1,0 +1,3362 @@
+{
+  "startedAt": "2026-09-09T01:33:02.161Z",
+  "url": "http://127.0.0.1:8078/prefab",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21aa"
+  ],
+  "scope": "Automated axe-core plus explicit SVG text contrast checks; no customer submission or external network access.",
+  "scans": [
+    {
+      "name": "desktop-step-1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "name": "desktop-step-2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "name": "desktop-step-3",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "name": "desktop-step-4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "name": "desktop-step-5",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt"
+      ]
+    },
+    {
+      "name": "desktop-interior-options",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "name": "desktop-step-6",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "name": "desktop-step-7",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "definition-list",
+        "dlitem",
+        "document-title",
+        "html-has-lang",
+        "html-lang-valid",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "name": "desktop-contact-modal",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "autocomplete-valid",
+        "button-name",
+        "color-contrast",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "label",
+        "meta-viewport",
+        "nested-interactive"
+      ]
+    },
+    {
+      "name": "desktop-contact-validation",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "autocomplete-valid",
+        "button-name",
+        "color-contrast",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "label",
+        "meta-viewport",
+        "nested-interactive"
+      ]
+    },
+    {
+      "name": "desktop-2d-plan",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"3d\"]"
+              ],
+              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"-.24\"]"
+              ],
+              "html": "<text x=\"0\" y=\"-.24\" text-anchor=\"middle\" font-size=\".16\" fill=\"#626d59\" font-family=\"system-ui,sans-serif\">BESTAANDE WONING</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[fill=\"#4d6153\"]"
+              ],
+              "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.2pt (0.32px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"2.18\"]"
+              ],
+              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[x=\"-3.08\"]"
+              ],
+              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "scrollable-region-focusable",
+        "svg-img-alt"
+      ]
+    },
+    {
+      "name": "mobile390-initial",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "5.3pt (7px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.8pt (9px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"3d\"]"
+              ],
+              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"-.24\"]"
+              ],
+              "html": "<text x=\"0\" y=\"-.24\" text-anchor=\"middle\" font-size=\".16\" fill=\"#626d59\" font-family=\"system-ui,sans-serif\">BESTAANDE WONING</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[fill=\"#4d6153\"]"
+              ],
+              "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.2pt (0.32px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"2.18\"]"
+              ],
+              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[x=\"-3.08\"]"
+              ],
+              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "svg-img-alt"
+      ]
+    },
+    {
+      "name": "mobile390-opening-options",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "5.3pt (7px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.8pt (9px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"3d\"]"
+              ],
+              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"-.24\"]"
+              ],
+              "html": "<text x=\"0\" y=\"-.24\" text-anchor=\"middle\" font-size=\".16\" fill=\"#626d59\" font-family=\"system-ui,sans-serif\">BESTAANDE WONING</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[fill=\"#4d6153\"]"
+              ],
+              "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.2pt (0.32px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"2.18\"]"
+              ],
+              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[x=\"-3.08\"]"
+              ],
+              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "svg-img-alt"
+      ]
+    },
+    {
+      "name": "mobile390-interior-options",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".live-label"
+              ],
+              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "5.3pt (7px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.8pt (9px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"3d\"]"
+              ],
+              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"-.24\"]"
+              ],
+              "html": "<text x=\"0\" y=\"-.24\" text-anchor=\"middle\" font-size=\".16\" fill=\"#626d59\" font-family=\"system-ui,sans-serif\">BESTAANDE WONING</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[fill=\"#4d6153\"]"
+              ],
+              "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.2pt (0.32px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[y=\"2.18\"]"
+              ],
+              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "text[x=\"-3.08\"]"
+              ],
+              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "0.1pt (0.18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".design-tag"
+              ],
+              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "6.0pt (8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "svg-img-alt"
+      ]
+    },
+    {
+      "name": "mobile390-contact-modal",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "autocomplete-valid",
+        "button-name",
+        "color-contrast",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "label",
+        "meta-viewport",
+        "nested-interactive",
+        "scrollable-region-focusable"
+      ]
+    }
+  ],
+  "explicitContrast": [
+    {
+      "text": "BESTAANDE WONING",
+      "foreground": "rgb(98, 109, 89)",
+      "background": "#f1f0e9",
+      "contrastRatio": 4.773,
+      "required": 4.5,
+      "passed": true,
+      "method": "Computed SVG text fill against its explicit scene background rectangle; WCAG relative luminance."
+    },
+    {
+      "text": "15 m²",
+      "foreground": "rgb(77, 97, 83)",
+      "background": "#e5e0d3",
+      "contrastRatio": 5.058,
+      "required": 4.5,
+      "passed": true,
+      "method": "Computed SVG text fill against its explicit scene background rectangle; WCAG relative luminance."
+    },
+    {
+      "text": "500 cm",
+      "foreground": "rgb(52, 75, 66)",
+      "background": "#f1f0e9",
+      "contrastRatio": 8.238,
+      "required": 4.5,
+      "passed": true,
+      "method": "Computed SVG text fill against its explicit scene background rectangle; WCAG relative luminance."
+    },
+    {
+      "text": "300 cm",
+      "foreground": "rgb(52, 75, 66)",
+      "background": "#f1f0e9",
+      "contrastRatio": 8.238,
+      "required": 4.5,
+      "passed": true,
+      "method": "Computed SVG text fill against its explicit scene background rectangle; WCAG relative luminance."
+    }
+  ],
+  "pageErrors": [],
+  "externalRequests": [],
+  "baseline": {
+    "startedAt": "2026-09-09T01:27:05.438Z",
+    "finishedAt": "2026-09-09T01:27:27.825Z",
+    "summary": {
+      "scanCount": 15,
+      "violationCount": 15,
+      "byRule": {
+        "color-contrast": {
+          "impact": "serious",
+          "scans": [
+            "desktop-step-1",
+            "desktop-step-2",
+            "desktop-step-3",
+            "desktop-step-4",
+            "desktop-step-5",
+            "desktop-interior-options",
+            "desktop-step-6",
+            "desktop-step-7",
+            "desktop-contact-modal",
+            "desktop-contact-validation",
+            "desktop-2d-plan",
+            "mobile390-initial",
+            "mobile390-opening-options",
+            "mobile390-interior-options",
+            "mobile390-contact-modal"
+          ],
+          "nodeCount": 310,
+          "examples": [
+            {
+              "key": "[[\"button[data-action=\\\"process\\\"]\"],\"#797e75\",\"#fbfaf7\"]",
+              "selector": [
+                "button[data-action=\"process\"]"
+              ],
+              "contrast": {
+                "fgColor": "#797e75",
+                "bgColor": "#fbfaf7",
+                "contrastRatio": 3.98,
+                "fontSize": "9.8pt (13px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.98 (foreground color: #797e75, background color: #fbfaf7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-action=\"process\">Hoe werkt het?</button>"
+            },
+            {
+              "key": "[[\".intro > div:nth-child(1) > p:nth-child(3)\"],\"#797e75\",\"#f6f5f1\"]",
+              "selector": [
+                ".intro > div:nth-child(1) > p:nth-child(3)"
+              ],
+              "contrast": {
+                "fgColor": "#797e75",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 3.8,
+                "fontSize": "9.8pt (13px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.8 (foreground color: #797e75, background color: #f6f5f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p>Ontwerp je prefab aanbouw en zie je ideeën tot leven komen.</p>"
+            },
+            {
+              "key": "[[\".intro-note > span\"],\"#797e75\",\"#f6f5f1\"]",
+              "selector": [
+                ".intro-note > span"
+              ],
+              "contrast": {
+                "fgColor": "#797e75",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 3.8,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.8 (foreground color: #797e75, background color: #f6f5f1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>Van eerste idee<br><strong>naar een goed plan.</strong></span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"1\\\"] > .step-label\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"1\"] > .step-label"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-label\">Gevel</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"2\\\"] > .step-label\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"2\"] > .step-label"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-label\">Kozijn &amp; dak</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"3\\\"] > .step-label\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"3\"] > .step-label"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-label\">Buiten</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"4\\\"] > .step-label\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"4\"] > .step-label"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-label\">Binnen</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"5\\\"] > .step-label\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"5\"] > .step-label"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-label\">Situatie</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"6\\\"] > .step-label\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"6\"] > .step-label"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-label\">Jouw voorstel</span>"
+            },
+            {
+              "key": "[[\".rotate-hint\"],\"#909184\",\"#efeee7\"]",
+              "selector": [
+                ".rotate-hint"
+              ],
+              "contrast": {
+                "fgColor": "#909184",
+                "bgColor": "#efeee7",
+                "contrastRatio": 2.74,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.74 (foreground color: #909184, background color: #efeee7, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"rotate-hint\">Sleep om rond te kijken</span>"
+            },
+            {
+              "key": "[[\".preview-bottom > span\"],\"#8a8d7d\",\"#f3f2eb\"]",
+              "selector": [
+                ".preview-bottom > span"
+              ],
+              "contrast": {
+                "fgColor": "#8a8d7d",
+                "bgColor": "#f3f2eb",
+                "contrastRatio": 3.02,
+                "fontSize": "6.0pt (8px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.02 (foreground color: #8a8d7d, background color: #f3f2eb, font size: 6.0pt (8px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>"
+            },
+            {
+              "key": "[[\".step-eyebrow\"],\"#8b907c\",\"#ffffff\"]",
+              "selector": [
+                ".step-eyebrow"
+              ],
+              "contrast": {
+                "fgColor": "#8b907c",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.29,
+                "fontSize": "6.0pt (8px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.29 (foreground color: #8b907c, background color: #ffffff, font size: 6.0pt (8px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<div class=\"step-eyebrow\">STAP 1 VAN 7<span><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 16 13-13 5 5L8 21ZM7 12l2 2m1-5 2 2m1-5 2 2\"></path></svg></span></div>"
+            },
+            {
+              "key": "[[\".panel-heading > p\"],\"#797e75\",\"#ffffff\"]",
+              "selector": [
+                ".panel-heading > p"
+              ],
+              "contrast": {
+                "fgColor": "#797e75",
+                "bgColor": "#ffffff",
+                "contrastRatio": 4.15,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 4.15 (foreground color: #797e75, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p>Een fijne woonkeuken, een grotere woonkamer of een plek voor jezelf. Hoeveel ruimte wil jij erbij?</p>"
+            },
+            {
+              "key": "[[\".dimension-field:nth-child(1) > .field-heading > span\"],\"#95998e\",\"#ffffff\"]",
+              "selector": [
+                ".dimension-field:nth-child(1) > .field-heading > span"
+              ],
+              "contrast": {
+                "fgColor": "#95998e",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.9,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.9 (foreground color: #95998e, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>1,50 – 7,50 m</span>"
+            },
+            {
+              "key": "[[\".dimension-field:nth-child(1) > .number-control > div > span\"],\"#979d8d\",\"#ffffff\"]",
+              "selector": [
+                ".dimension-field:nth-child(1) > .number-control > div > span"
+              ],
+              "contrast": {
+                "fgColor": "#979d8d",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.79,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.79 (foreground color: #979d8d, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>cm</span>"
+            },
+            {
+              "key": "[[\".dimension-field:nth-child(2) > .field-heading > span\"],\"#95998e\",\"#ffffff\"]",
+              "selector": [
+                ".dimension-field:nth-child(2) > .field-heading > span"
+              ],
+              "contrast": {
+                "fgColor": "#95998e",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.9,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.9 (foreground color: #95998e, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>1,00 – 3,40 m</span>"
+            },
+            {
+              "key": "[[\".dimension-field:nth-child(2) > .number-control > div > span\"],\"#979d8d\",\"#ffffff\"]",
+              "selector": [
+                ".dimension-field:nth-child(2) > .number-control > div > span"
+              ],
+              "contrast": {
+                "fgColor": "#979d8d",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.79,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.79 (foreground color: #979d8d, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>cm</span>"
+            },
+            {
+              "key": "[[\".area-card > span\"],\"#77896a\",\"#f0f3e9\"]",
+              "selector": [
+                ".area-card > span"
+              ],
+              "contrast": {
+                "fgColor": "#77896a",
+                "bgColor": "#f0f3e9",
+                "contrastRatio": 3.35,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.35 (foreground color: #77896a, background color: #f0f3e9, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg> Jouw extra leefruimte</span>"
+            },
+            {
+              "key": "[[\".tip > p\"],\"#8b8f81\",\"#ffffff\"]",
+              "selector": [
+                ".tip > p"
+              ],
+              "contrast": {
+                "fgColor": "#8b8f81",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.31,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.31 (foreground color: #8b8f81, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p>Meet de gewenste buitenmaten. De definitieve maten en de vaste voorbeeldhoogte van 2,80 m worden bij de opname gecontroleerd.</p>"
+            },
+            {
+              "key": "[[\"button[data-action=\\\"pricing\\\"]\"],\"#a2a597\",\"#fdfdfa\"]",
+              "selector": [
+                "button[data-action=\"pricing\"]"
+              ],
+              "contrast": {
+                "fgColor": "#a2a597",
+                "bgColor": "#fdfdfa",
+                "contrastRatio": 2.46,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.46 (foreground color: #a2a597, background color: #fdfdfa, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-action=\"pricing\">Bekijk de opbouw</button>"
+            },
+            {
+              "key": "[[\".footer-note\"],\"#9da292\",\"#fdfdfa\"]",
+              "selector": [
+                ".footer-note"
+              ],
+              "contrast": {
+                "fgColor": "#9da292",
+                "bgColor": "#fdfdfa",
+                "contrastRatio": 2.57,
+                "fontSize": "6.0pt (8px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.57 (foreground color: #9da292, background color: #fdfdfa, font size: 6.0pt (8px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"footer-note\">Je kunt je keuzes altijd nog aanpassen</p>"
+            },
+            {
+              "key": "[[\".confidence > span:nth-child(1)\"],\"#8d9484\",\"#f6f5f1\"]",
+              "selector": [
+                ".confidence > span:nth-child(1)"
+              ],
+              "contrast": {
+                "fgColor": "#8d9484",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.87,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.87 (foreground color: #8d9484, background color: #f6f5f1, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 16 13-13 5 5L8 21ZM7 12l2 2m1-5 2 2m1-5 2 2\"></path></svg> Maatwerk begint bij jouw wensen</span>"
+            },
+            {
+              "key": "[[\".confidence > span:nth-child(2)\"],\"#8d9484\",\"#f6f5f1\"]",
+              "selector": [
+                ".confidence > span:nth-child(2)"
+              ],
+              "contrast": {
+                "fgColor": "#8d9484",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.87,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.87 (foreground color: #8d9484, background color: #f6f5f1, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3 3 7v6c0 5 9 9 9 9s9-4 9-9V7Zm-5 9 3 3 6-6\"></path></svg> Alle keuzes helder op een rij</span>"
+            },
+            {
+              "key": "[[\".confidence > span:nth-child(3)\"],\"#8d9484\",\"#f6f5f1\"]",
+              "selector": [
+                ".confidence > span:nth-child(3)"
+              ],
+              "contrast": {
+                "fgColor": "#8d9484",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.87,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.87 (foreground color: #8d9484, background color: #f6f5f1, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>"
+            },
+            {
+              "key": "[[\"#save-status\"],\"#a0a294\",\"#f6f5f1\"]",
+              "selector": [
+                "#save-status"
+              ],
+              "contrast": {
+                "fgColor": "#a0a294",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.37,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.37 (foreground color: #a0a294, background color: #f6f5f1, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span id=\"save-status\">Je ontwerp wordt op dit apparaat bewaard</span>"
+            },
+            {
+              "key": "[[\"button[data-action=\\\"reset\\\"]\"],\"#919787\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-action=\"reset\"]"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.75,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.75 (foreground color: #919787, background color: #f6f5f1, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-action=\"reset\">Opnieuw beginnen <svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 10h10a7 7 0 0 1 7 7v3M8 5l-5 5 5 5\"></path></svg></button>"
+            },
+            {
+              "key": "[[\"footer > span:nth-child(1)\"],\"#a1a499\",\"#f6f5f1\"]",
+              "selector": [
+                "footer > span:nth-child(1)"
+              ],
+              "contrast": {
+                "fgColor": "#a1a499",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.32,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #a1a499, background color: #f6f5f1, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>© CS Prefab <span id=\"year\">2026</span></span>"
+            },
+            {
+              "key": "[[\"#year\"],\"#a1a499\",\"#f6f5f1\"]",
+              "selector": [
+                "#year"
+              ],
+              "contrast": {
+                "fgColor": "#a1a499",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.32,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #a1a499, background color: #f6f5f1, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span id=\"year\">2026</span>"
+            },
+            {
+              "key": "[[\"footer > span:nth-child(2)\"],\"#a1a499\",\"#f6f5f1\"]",
+              "selector": [
+                "footer > span:nth-child(2)"
+              ],
+              "contrast": {
+                "fgColor": "#a1a499",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.32,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #a1a499, background color: #f6f5f1, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>Een goed plan begint met jouw wensen.</span>"
+            },
+            {
+              "key": "[[\"button[data-action=\\\"privacy\\\"]\"],\"#a1a499\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-action=\"privacy\"]"
+              ],
+              "contrast": {
+                "fgColor": "#a1a499",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.32,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #a1a499, background color: #f6f5f1, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-action=\"privacy\">Privacy</button>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"facade\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"facade\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">De kleur en structuur zijn een eerste indruk. De exacte afwerking kiezen we samen.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"frontOpening\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"frontOpening\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">De indeling in de preview past zich aan je gekozen breedte aan.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"outsideLight\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"outsideLight\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Voorbereiding met een loze leiding; de armatuur is niet inbegrepen.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"outsideSocket\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"outsideSocket\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Voorbereiding met een loze leiding; geen aangesloten stopcontact.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"outsideTap\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"outsideTap\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Kies de gewenste kant voor de buitenkraan.</p>"
+            },
+            {
+              "key": "[[\".field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                ".field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Wil je ook de binnenafwerking en aansluitpunten samenstellen?</p>"
+            },
+            {
+              "key": "[[\"h3\"],\"#77896a\",\"#f7f9f2\"]",
+              "selector": [
+                "h3"
+              ],
+              "contrast": {
+                "fgColor": "#77896a",
+                "bgColor": "#f7f9f2",
+                "contrastRatio": 3.55,
+                "fontSize": "9.8pt (13px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.55 (foreground color: #77896a, background color: #f7f9f2, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<h3>Een basis voor jouw eigen afwerking.</h3>"
+            },
+            {
+              "key": "[[\".interior-placeholder > p\"],\"#97a28b\",\"#f7f9f2\"]",
+              "selector": [
+                ".interior-placeholder > p"
+              ],
+              "contrast": {
+                "fgColor": "#97a28b",
+                "bgColor": "#f7f9f2",
+                "contrastRatio": 2.51,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.51 (foreground color: #97a28b, background color: #f7f9f2, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p>Je kunt de binnenzijde zelf laten afwerken. Wil je alvast aansluitpunten en afwerking kiezen? Zet de binnenzijde hierboven aan.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"interior\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"interior\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Wil je ook de binnenafwerking en aansluitpunten samenstellen?</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"underfloorHeating\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"underfloorHeating\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Ruimte in de vloer voorbereiden; aansluiting op de bestaande verwarming is niet inbegrepen.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"demolition\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"demolition\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Moet de bestaande buitenmuur worden geopend om de aanbouw met je woning te verbinden?</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"access\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"access\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Is de tuin via een zijpad of achterom bereikbaar?</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"piles\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"piles\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Je voorlopige voorkeur. De constructeur bepaalt het definitieve aantal op basis van bodem en belasting.</p>"
+            },
+            {
+              "key": "[[\".summary-hero > span\"],\"#6d835d\",\"#eff3e7\"]",
+              "selector": [
+                ".summary-hero > span"
+              ],
+              "contrast": {
+                "fgColor": "#6d835d",
+                "bgColor": "#eff3e7",
+                "contrastRatio": 3.68,
+                "fontSize": "6.0pt (8px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.68 (foreground color: #6d835d, background color: #eff3e7, font size: 6.0pt (8px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>JOUW PREFAB AANBOUW</span>"
+            },
+            {
+              "key": "[[\".summary-hero > p\"],\"#6d835d\",\"#eff3e7\"]",
+              "selector": [
+                ".summary-hero > p"
+              ],
+              "contrast": {
+                "fgColor": "#6d835d",
+                "bgColor": "#eff3e7",
+                "contrastRatio": 3.68,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.68 (foreground color: #6d835d, background color: #eff3e7, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p>15 m² extra mogelijkheden</p>"
+            },
+            {
+              "key": "[[\"button[aria-label=\\\"Gevel aanpassen\\\"]\"],\"#8c9c7c\",\"#ffffff\"]",
+              "selector": [
+                "button[aria-label=\"Gevel aanpassen\"]"
+              ],
+              "contrast": {
+                "fgColor": "#8c9c7c",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.93,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.93 (foreground color: #8c9c7c, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-step=\"1\" aria-label=\"Gevel aanpassen\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m15 4 5 5M4 20l5-1L21 7l-5-5L4 14ZM12 21h9\"></path></svg> Wijzig</button>"
+            },
+            {
+              "key": "[[\".summary-section:nth-child(2) > dl > div:nth-child(1) > dt\"],\"#8b9383\",\"#ffffff\"]",
+              "selector": [
+                ".summary-section:nth-child(2) > dl > div:nth-child(1) > dt"
+              ],
+              "contrast": {
+                "fgColor": "#8b9383",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.18,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.18 (foreground color: #8b9383, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<dt>Baksteen steenstrips</dt>"
+            },
+            {
+              "key": "[[\".summary-section:nth-child(2) > dl > div:nth-child(2) > dt\"],\"#8b9383\",\"#ffffff\"]",
+              "selector": [
+                ".summary-section:nth-child(2) > dl > div:nth-child(2) > dt"
+              ],
+              "contrast": {
+                "fgColor": "#8b9383",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.18,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.18 (foreground color: #8b9383, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<dt>Rollaag</dt>"
+            },
+            {
+              "key": "[[\"button[aria-label=\\\"Kozijn & dak aanpassen\\\"]\"],\"#8c9c7c\",\"#ffffff\"]",
+              "selector": [
+                "button[aria-label=\"Kozijn & dak aanpassen\"]"
+              ],
+              "contrast": {
+                "fgColor": "#8c9c7c",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.93,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.93 (foreground color: #8c9c7c, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-step=\"2\" aria-label=\"Kozijn & dak aanpassen\">"
+            },
+            {
+              "key": "[[\".summary-section:nth-child(3) > dl > div:nth-child(1) > dt\"],\"#8b9383\",\"#ffffff\"]",
+              "selector": [
+                ".summary-section:nth-child(3) > dl > div:nth-child(1) > dt"
+              ],
+              "contrast": {
+                "fgColor": "#8b9383",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.18,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.18 (foreground color: #8b9383, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<dt>Kozijn</dt>"
+            },
+            {
+              "key": "[[\".summary-section:nth-child(3) > dl > div:nth-child(2) > dt\"],\"#8b9383\",\"#ffffff\"]",
+              "selector": [
+                ".summary-section:nth-child(3) > dl > div:nth-child(2) > dt"
+              ],
+              "contrast": {
+                "fgColor": "#8b9383",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.18,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.18 (foreground color: #8b9383, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<dt>Lessenaars dakramen</dt>"
+            },
+            {
+              "key": "[[\".summary-section:nth-child(3) > dl > div:nth-child(3) > dt\"],\"#8b9383\",\"#ffffff\"]",
+              "selector": [
+                ".summary-section:nth-child(3) > dl > div:nth-child(3) > dt"
+              ],
+              "contrast": {
+                "fgColor": "#8b9383",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.18,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.18 (foreground color: #8b9383, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<dt>Daktrim</dt>"
+            },
+            {
+              "key": "[[\"button[aria-label=\\\"Buiten aanpassen\\\"]\"],\"#8c9c7c\",\"#ffffff\"]",
+              "selector": [
+                "button[aria-label=\"Buiten aanpassen\"]"
+              ],
+              "contrast": {
+                "fgColor": "#8c9c7c",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.93,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.93 (foreground color: #8c9c7c, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-step=\"3\" aria-label=\"Buiten aanpassen\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m15 4 5 5M4 20l5-1L21 7l-5-5L4 14ZM12 21h9\"></path></svg> Wijzig</button>"
+            },
+            {
+              "key": "[[\".summary-section:nth-child(4) > dl > div:nth-child(1) > dt\"],\"#8b9383\",\"#ffffff\"]",
+              "selector": [
+                ".summary-section:nth-child(4) > dl > div:nth-child(1) > dt"
+              ],
+              "contrast": {
+                "fgColor": "#8b9383",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.18,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.18 (foreground color: #8b9383, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<dt>Buitenlicht</dt>"
+            },
+            {
+              "key": "[[\".modal-body > p\"],\"#7b8570\",\"#ffffff\"]",
+              "selector": [
+                ".modal-body > p"
+              ],
+              "contrast": {
+                "fgColor": "#7b8570",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.86,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.86 (foreground color: #7b8570, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p>Bewaar je ontwerp en voorbeeldberekening als persoonlijk PDF-voorstel. Je aanvraag wordt in deze omgeving geregistreerd.</p>"
+            },
+            {
+              "key": "[[\".optional\"],\"#9ba68e\",\"#ffffff\"]",
+              "selector": [
+                ".optional"
+              ],
+              "contrast": {
+                "fgColor": "#9ba68e",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.54,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.54 (foreground color: #9ba68e, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"optional\">optioneel</span>"
+            },
+            {
+              "key": "[[\".consent > span\"],\"#8a977b\",\"#ffffff\"]",
+              "selector": [
+                ".consent > span"
+              ],
+              "contrast": {
+                "fgColor": "#8a977b",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3.09,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3.09 (foreground color: #8a977b, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span>Ik geef toestemming om mijn gegevens voor dit voorstel te verwerken. <button type=\"button\" data-action=\"privacy-inline\">Privacygegevens</button></span>"
+            },
+            {
+              "key": "[[\"button[type=\\\"button\\\"]\"],\"#677f53\",\"#ffffff\"]",
+              "selector": [
+                "button[type=\"button\"]"
+              ],
+              "contrast": {
+                "fgColor": "#677f53",
+                "bgColor": "#ffffff",
+                "contrastRatio": 4.43,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 4.43 (foreground color: #677f53, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button type=\"button\" data-action=\"privacy-inline\">Privacygegevens</button>"
+            },
+            {
+              "key": "[[\".form-note\"],\"#9ca68f\",\"#ffffff\"]",
+              "selector": [
+                ".form-note"
+              ],
+              "contrast": {
+                "fgColor": "#9ca68f",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.54,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.54 (foreground color: #9ca68f, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"form-note\">Geen betaling. Er wordt vanuit de lokale demo geen e-mail verzonden.</p>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"1\\\"] > .step-short\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"1\"] > .step-short"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "5.3pt (7px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 5.3pt (7px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-short\">Gevel</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"2\\\"] > .step-short\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"2\"] > .step-short"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "5.3pt (7px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 5.3pt (7px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-short\">Licht</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"3\\\"] > .step-short\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"3\"] > .step-short"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "5.3pt (7px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 5.3pt (7px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-short\">Buiten</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"4\\\"] > .step-short\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"4\"] > .step-short"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "5.3pt (7px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 5.3pt (7px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-short\">Binnen</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"5\\\"] > .step-short\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"5\"] > .step-short"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "5.3pt (7px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 5.3pt (7px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-short\">Situatie</span>"
+            },
+            {
+              "key": "[[\"button[data-step=\\\"6\\\"] > .step-short\"],\"#92968d\",\"#f6f5f1\"]",
+              "selector": [
+                "button[data-step=\"6\"] > .step-short"
+              ],
+              "contrast": {
+                "fgColor": "#92968d",
+                "bgColor": "#f6f5f1",
+                "contrastRatio": 2.76,
+                "fontSize": "5.3pt (7px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #92968d, background color: #f6f5f1, font size: 5.3pt (7px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<span class=\"step-short\">Voorstel</span>"
+            },
+            {
+              "key": "[[\"button[data-action=\\\"pricing\\\"]\"],\"#a2a597\",\"#fdfefb\"]",
+              "selector": [
+                "button[data-action=\"pricing\"]"
+              ],
+              "contrast": {
+                "fgColor": "#a2a597",
+                "bgColor": "#fdfefb",
+                "contrastRatio": 2.48,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.48 (foreground color: #a2a597, background color: #fdfefb, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<button data-action=\"pricing\">Bekijk de opbouw</button>"
+            },
+            {
+              "key": "[[\".footer-note\"],\"#9da292\",\"#fdfefb\"]",
+              "selector": [
+                ".footer-note"
+              ],
+              "contrast": {
+                "fgColor": "#9da292",
+                "bgColor": "#fdfefb",
+                "contrastRatio": 2.58,
+                "fontSize": "6.8pt (9px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 2.58 (foreground color: #9da292, background color: #fdfefb, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"footer-note\">Je kunt je keuzes altijd nog aanpassen</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"rooflight\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"rooflight\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Meer licht van boven. Het aantal vakken bepaalt de indeling van het daklicht.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"heating\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"heating\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Positie van de loze leidingen voor verwarming.</p>"
+            },
+            {
+              "key": "[[\".count-field.field-block:nth-child(6) > div:nth-child(1) > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                ".count-field.field-block:nth-child(6) > div:nth-child(1) > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Voorbereide stroompunten; lampen zijn niet inbegrepen.</p>"
+            },
+            {
+              "key": "[[\".count-field.field-block:nth-child(7) > div:nth-child(1) > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                ".count-field.field-block:nth-child(7) > div:nth-child(1) > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Voorbereiding met loze leidingen.</p>"
+            },
+            {
+              "key": "[[\"fieldset[data-field=\\\"sockets\\\"] > .field-description\"],\"#919787\",\"#ffffff\"]",
+              "selector": [
+                "fieldset[data-field=\"sockets\"] > .field-description"
+              ],
+              "contrast": {
+                "fgColor": "#919787",
+                "bgColor": "#ffffff",
+                "contrastRatio": 3,
+                "fontSize": "7.5pt (10px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "failure": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #919787, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+              "html": "<p class=\"field-description\">Voorbereiding met loze leidingen.</p>"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "summary": {
+    "scanCount": 15,
+    "violationCount": 0,
+    "explicitContrastCount": 4,
+    "explicitContrastFailures": 0,
+    "byRule": {}
+  },
+  "finishedAt": "2026-09-09T01:33:18.332Z"
+}

@@ -1,0 +1,3 @@
+# Runtime and unittest suite use Python 3.10+ standard library only.
+# Optional independent PDF validation in development:
+pypdf>=5.0,<7

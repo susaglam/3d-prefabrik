@@ -1,0 +1,4047 @@
+{
+  "configurator": {
+    "id": "28befe23-1200-4d1c-8092-e48a83477820",
+    "name": "Aanbouw formulier [website]",
+    "advancedSettings": {
+      "automation": true,
+      "configuratorLanguage": "nl",
+      "showAnalytics": true,
+      "showCloseButton": false,
+      "showCookieBanner": "NONE"
+    },
+    "resultScore": [],
+    "steps": [
+      {
+        "id": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8",
+        "name": "Afmetingen",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": true,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [
+            {
+              "index": 0.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "ff1bda98-aac8-4f32-97fe-2e9046e5bf3c",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "b7a6ac3b-af87-40a4-9ff2-b1ac78304d09",
+                          "answerId": "19205192-01cd-4e60-b45a-a918d6675817"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image8971844643550057732.png"
+                  },
+                  {
+                    "id": "ab68dabb-6e95-48c3-bd11-8a5321748663",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "b7a6ac3b-af87-40a4-9ff2-b1ac78304d09",
+                          "answerId": "55187397-6f20-4151-b673-3be209c23d90"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1623267596743966906.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 1.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "186c646f-3461-40cf-aa75-2a3bc714ad07",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "536a2a6f-9808-4c1a-b679-6ef42d9038b7"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10026176501678124396.png"
+                  },
+                  {
+                    "id": "92b404c9-12ff-4087-8707-d0f9acddb8f7",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "be9bc3ed-4023-48ee-b24f-1a80c9ab9d87"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1224600682984028497.png"
+                  },
+                  {
+                    "id": "a22918ad-dea8-4a17-9f85-249e8b63095d",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "41ee57cd-fe1f-47f4-a136-2f84ee0b7197"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image15466197350725761656.png"
+                  },
+                  {
+                    "id": "8b430b6a-b79d-47e7-a5e8-9281882af7ce",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "5ab4ed42-d8a2-4892-8ae5-96ed4c7db432"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16539943821578243094.png"
+                  },
+                  {
+                    "id": "37736fe6-b747-4a16-af8f-4c0e081c0ac2",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "6a77d143-29a5-46ce-bc5f-1eb749f7a32d"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image5207703071815143427.png"
+                  },
+                  {
+                    "id": "d28213a0-3a82-4004-a657-62d70497abd0",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "8f9de5fa-85fb-4e73-91d6-e4b3b10a12fc"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3608926398554443358.png"
+                  },
+                  {
+                    "id": "daf2ba0c-70eb-49f3-8e0e-2a325163e354",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "97848788-fb06-4401-b8a9-b47a6a3f338e"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image2653025074535009209.png"
+                  },
+                  {
+                    "id": "a62277df-544f-4547-983e-6527224b2122",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "11e0c08e-308a-4108-8dec-0888327f1425"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14249029256234432767.png"
+                  },
+                  {
+                    "id": "6b4b507b-dd03-4c18-9eeb-02294129b2b0",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "cccf1e75-b86c-4141-b82a-42f84505dfc7"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14252444910864574821.png"
+                  },
+                  {
+                    "id": "79599e26-f527-4dcf-8507-1b9b8580fc91",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "b52275d7-6a8a-41b5-82c6-bfb081f79fba"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image2731276028436919554.png"
+                  },
+                  {
+                    "id": "b44002a2-1f92-4b28-94b1-d4633e0e79be",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "c6bbf04b-bef1-470e-9bf7-d776bd1d555b"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image3479184541272657749.png"
+                  },
+                  {
+                    "id": "87ba38f5-dfc8-4e22-87b1-6d87969c4c18",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "42e7dc46-3fa9-4223-bbf1-7e5398e2af74"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12321241846830361476.png"
+                  },
+                  {
+                    "id": "dc6e3fba-c074-4199-af13-8b8f5dfedb7c",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+                          "answerId": "e5d103de-2a87-44e5-adb0-8d90852eaa83"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12917163447046734356.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 2.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "e211da8c-0983-44f4-b605-3dda90c248de",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "235cd45d-d410-43e0-87ef-9f0afebc66ed"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "2f2febc9-c101-4f6e-93e5-7e6efe4b03d2",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "dc961e30-5b13-473f-ac44-8e80bd4d6cc4"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image18241182130675596059.png"
+                  },
+                  {
+                    "id": "9b7c21d8-f382-4964-863f-0d887367555c",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "50bce7d0-c74e-4c81-a924-a93c6c080041"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12122904189503234658.png"
+                  },
+                  {
+                    "id": "11443f07-3311-4af2-b1d1-fd2ed56125b5",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "0cbc2e92-9df1-44fd-b12a-2fe7705678ac"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16410570280330104459.png"
+                  },
+                  {
+                    "id": "0324abdc-0248-4704-92b8-e026b1fa07d3",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "12472db9-8b25-4b96-ad53-b8d87e7031ca"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image988074941304954784.png"
+                  },
+                  {
+                    "id": "5204b2f5-70b8-4268-b734-4f312922854e",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "4ee1ac89-1ace-4e90-bcfd-257b60099c4a"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "33d67677-0134-46e7-8e0b-247d2a359611",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "7381d7e6-5e5e-4d87-86dd-fe383830da08"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "a58f653c-b74a-41dd-a9fd-28aaed86ea87",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "ad1ef499-3456-406e-ae07-f2661d9e3a1a"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11574388192057941929.png"
+                  },
+                  {
+                    "id": "8c742040-ad01-4757-bf8d-8e40d88a5851",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "b9fc942f-c9a5-49b6-9392-6d6d9982bc4e"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image18159716632403854630.png"
+                  },
+                  {
+                    "id": "a67be09f-e223-4009-aba6-3dc8018b43f6",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "f040d7f9-f806-4514-9884-75a246ffc74a"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image996027695750941255.png"
+                  },
+                  {
+                    "id": "7c26dbbd-68bc-47c7-88d7-a88e627892a2",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "60dd0b46-c2d9-4911-8b00-930ef36a8727"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4140394911217142279.png"
+                  },
+                  {
+                    "id": "7d17f53b-25f7-4b5f-8739-abcbfce73d28",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "193e03f3-1151-4654-b218-93e7975de2cf"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9315344664584621600.png"
+                  },
+                  {
+                    "id": "54dfbc0b-21db-4c8d-8390-70dc8b689ed1",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "da2e87bb-5a7d-4850-951b-c9f199203599"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image6465311339607291544.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 3.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "fcb28bce-0a97-4b4f-a936-63cfb416f91c",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "2603162b-7cad-4737-ae37-e44982d92c8e",
+                          "answerId": "fc575240-0d56-442a-9867-e7d4f700c807"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image15184632544029465779.png"
+                  },
+                  {
+                    "id": "3db22510-dcd6-42fc-b24a-9b5cf67b0ce1",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "2603162b-7cad-4737-ae37-e44982d92c8e",
+                          "answerId": "d003f4a7-6416-4257-b488-370c18463a61"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1666699412097683082.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 4.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "b087c4cf-8b4f-4714-845f-41d2b55d552b",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "0f0309b2-0da2-4d72-9326-f8dbe8f33620",
+                          "answerId": "d0925dc2-9664-479d-bf87-00816b56375e"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "86666696-1706-411a-bc66-1e98f69c6c81",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "0f0309b2-0da2-4d72-9326-f8dbe8f33620",
+                          "answerId": "42561342-d839-474b-8d0d-1908b0848b03"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image8073008600497716360.png"
+                  },
+                  {
+                    "id": "c1a90f54-44b3-4b24-88ca-54a21951d3a6",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "0f0309b2-0da2-4d72-9326-f8dbe8f33620",
+                          "answerId": "b844f827-3fb1-4309-b206-44d85c386846"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image10682680349040874639.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 5.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "9e940615-499d-418d-aca6-98cb1efd6920",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "4d087b04-8559-4025-aae6-037058976ca4"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "4302be3a-1cc2-47d6-8b3c-bb907c6f6132",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "e2e801fc-febc-4779-85f1-27fe259084cf"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image2938317034719353437.png"
+                  },
+                  {
+                    "id": "4585adb0-327c-4a08-ae8c-d4b691d21e94",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "50ca268a-6155-4b02-9e48-4e871306923b"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image2909734745402384964.png"
+                  },
+                  {
+                    "id": "169d960a-1e48-4391-84b1-3ba2905ecfc3",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "f1e55eed-cda7-419a-9acf-5873130403da"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image5658128547630901972.png"
+                  },
+                  {
+                    "id": "77bb241b-dac4-482b-81b7-6da2acdf6d12",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "1a8a6ab2-7245-4e8d-a9a8-a0c4d749934e"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image5380796112279838970.png"
+                  },
+                  {
+                    "id": "3d6b1ac6-828a-4c59-ad82-8b5459ed3987",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "7f0103f3-1622-42d4-8dcf-129328da3fd6"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image18174534569512734244.png"
+                  },
+                  {
+                    "id": "f5f61f1d-ab37-4262-8003-8db84f201332",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "83381215-eb2b-4a83-84e1-354a954f4088"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image15463614492266925056.png"
+                  },
+                  {
+                    "id": "46b1a56a-482c-4468-b00b-070946c0812f",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+                          "answerId": "191e6a8e-6ffe-4329-be0f-56c899c7f646"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image10652521697524319232.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 6.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "4bfd3d85-7eab-42f8-b5fe-abc49ac7b79f",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "7af245a6-8c5b-4008-b972-6bd74d448613",
+                          "answerId": "72fd2251-363b-45aa-9bd2-328b61871f2c"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1585279964067922606.png"
+                  },
+                  {
+                    "id": "4f5270f0-7a62-430f-b27e-243634b3a6ba",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "7af245a6-8c5b-4008-b972-6bd74d448613",
+                          "answerId": "6ab11429-df1a-4dc3-8843-46eb921ead92"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3253806235963361191.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 7.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "33f9f80f-054a-4d86-83b9-e0c29a5c5e50",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f8f4a5c1-6b2e-461d-b9cd-e99dddd4816f",
+                          "answerId": "82bcda51-59e8-4477-bc03-3c0afb17ca15"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "81086d7b-7139-4c27-9c6c-2256ad60a9f2",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f8f4a5c1-6b2e-461d-b9cd-e99dddd4816f",
+                          "answerId": "a247adf4-dfae-4935-be01-1e867e49ecfb"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image709674375171441217.png"
+                  },
+                  {
+                    "id": "5583f90b-d37e-40e4-a9c9-08256b0fbcf5",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f8f4a5c1-6b2e-461d-b9cd-e99dddd4816f",
+                          "answerId": "600a0659-9dd6-430c-b8aa-23f340180df5"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12405925526695732298.png"
+                  },
+                  {
+                    "id": "868e73af-b21c-4b8a-b5d7-07328ab2fd82",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f8f4a5c1-6b2e-461d-b9cd-e99dddd4816f",
+                          "answerId": "65716817-da47-44b6-a948-0496723c57fc"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4425124714719095479.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 8.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "9ddc56f9-aa17-410d-96eb-679b2037ca77",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "efa35376-bcd3-4c19-8f7c-c4733bb4a7e5",
+                          "answerId": "0bed356f-43ce-4c5f-870e-86815d68f899"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "65dcfc7a-5345-4c3c-82bf-472a9d5ccf67",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "efa35376-bcd3-4c19-8f7c-c4733bb4a7e5",
+                          "answerId": "65084465-f199-411a-8c9f-75d97abb5002"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4734538433395539682.png"
+                  },
+                  {
+                    "id": "2c82a040-4887-4a13-b172-2a71200e3858",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "efa35376-bcd3-4c19-8f7c-c4733bb4a7e5",
+                          "answerId": "0ee35cb2-2b77-408f-bb9d-2dd27de6ecb3"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1734701237884323295.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 9.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "66f8b13a-cd57-4c62-82a7-41902121229d",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a655d29-64c2-4097-aa17-7ede2773a328",
+                          "answerId": "626cef0b-cef6-4baa-822f-f7ae51f3924d"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "a1e3d056-92a7-43a7-8aa9-0c4eca720eec",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a655d29-64c2-4097-aa17-7ede2773a328",
+                          "answerId": "95a35a5c-13ed-46b3-aa8c-04e9fcde2a3f"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16966698126894926667.png"
+                  },
+                  {
+                    "id": "ec1f8268-97d2-48d4-b18f-57fc10b45d13",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1a655d29-64c2-4097-aa17-7ede2773a328",
+                          "answerId": "cbf33461-bad8-4292-9fab-5134db9a714c"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11448286357414257232.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 10.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "17621d90-d2bc-490c-98ca-18de2b2a0153",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "b66512c2-09a1-4f5f-8be8-8c22ef15e24a",
+                          "answerId": "01ace83a-35bb-4366-8ee3-8eeb468553c0"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image15654569919895662595.png"
+                  },
+                  {
+                    "id": "032803ee-ee79-48d9-bbae-287ea91d7112",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "b66512c2-09a1-4f5f-8be8-8c22ef15e24a",
+                          "answerId": "b2cc89d8-c802-493c-aa65-720bf27b6221"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10293460967343442293.png"
+                  }
+                ]
+              },
+              "format": ""
+            }
+          ]
+        },
+        "position": 0,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "in centimeters",
+            "hide": false,
+            "id": "6d2033b9-523f-4856-ae69-6539d2284409",
+            "metaData": {
+              "max": "750",
+              "min": 150.0,
+              "step": 1.0,
+              "placeholder": "0",
+              "marginTop": "DEFAULT"
+            },
+            "name": "Breedte",
+            "position": 0,
+            "required": true,
+            "type": "NUMBER"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "in centimeters",
+            "hide": false,
+            "id": "822687e3-25fe-4714-a229-b312992535e4",
+            "metaData": {
+              "max": "340",
+              "min": 100.0,
+              "step": 1.0,
+              "placeholder": "0",
+              "marginTop": "DEFAULT"
+            },
+            "name": "Diepte",
+            "position": 1,
+            "required": true,
+            "type": "NUMBER"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "2216cd02-dcf9-4920-bc47-6114618d36db",
+        "name": "Gevelbekleding",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": true,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 1,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Dit zijn de hoofdkleuren. Zodra de offerte is uitgebracht, bespreken we de mogelijkheden.",
+            "hide": false,
+            "id": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "536a2a6f-9808-4c1a-b679-6ef42d9038b7",
+                  "text": "Baksteen rood",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "be9bc3ed-4023-48ee-b24f-1a80c9ab9d87",
+                  "text": "Baksteen zwart",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "41ee57cd-fe1f-47f4-a136-2f84ee0b7197",
+                  "text": "Baksteen wit",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "5ab4ed42-d8a2-4892-8ae5-96ed4c7db432",
+                  "text": "Baksteen geel",
+                  "position": 3.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Baksteen geel"
+                },
+                {
+                  "id": "6a77d143-29a5-46ce-bc5f-1eb749f7a32d",
+                  "text": "Hout horizontaal",
+                  "position": 4.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Hout horizontaal"
+                },
+                {
+                  "id": "8f9de5fa-85fb-4e73-91d6-e4b3b10a12fc",
+                  "text": "Hout verticaal",
+                  "position": 5.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Hout verticaal"
+                },
+                {
+                  "id": "97848788-fb06-4401-b8a9-b47a6a3f338e",
+                  "text": "Opengevel verticaal",
+                  "position": 6.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Opengevel verticaal"
+                },
+                {
+                  "id": "11e0c08e-308a-4108-8dec-0888327f1425",
+                  "text": "Opengevel horizontaal",
+                  "position": 7.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Opengevel horizontaal"
+                },
+                {
+                  "id": "cccf1e75-b86c-4141-b82a-42f84505dfc7",
+                  "text": "Kunststof zwart",
+                  "position": 8.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Kunststof zwart"
+                },
+                {
+                  "id": "b52275d7-6a8a-41b5-82c6-bfb081f79fba",
+                  "text": "Kunststof groen",
+                  "position": 9.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Kunststof groen"
+                },
+                {
+                  "id": "c6bbf04b-bef1-470e-9bf7-d776bd1d555b",
+                  "text": "Kunststof creme wit",
+                  "position": 10.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Kunststof creme wit"
+                },
+                {
+                  "id": "42e7dc46-3fa9-4223-bbf1-7e5398e2af74",
+                  "text": "Kunststof antraciet",
+                  "position": 11.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Kunststof antraciet"
+                },
+                {
+                  "id": "e5d103de-2a87-44e5-adb0-8d90852eaa83",
+                  "text": "Buitenstuc",
+                  "position": 12.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Buitenstuc"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Baksteen steenstrips",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "62b92df6-5cdf-4097-b382-0d563610a6ec",
+        "name": "Kozijn",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 2,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "235cd45d-d410-43e0-87ef-9f0afebc66ed",
+                  "text": "Geen deur",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "dc961e30-5b13-473f-ac44-8e80bd4d6cc4",
+                  "text": "Openslaande deur zwart",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "50bce7d0-c74e-4c81-a924-a93c6c080041",
+                  "text": "Openslaande deur wit",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "0cbc2e92-9df1-44fd-b12a-2fe7705678ac",
+                  "text": "Openslaande deur met roedes zwart",
+                  "position": 3.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Openslaande deur met roedes zwart"
+                },
+                {
+                  "id": "12472db9-8b25-4b96-ad53-b8d87e7031ca",
+                  "text": "Openslaande deur met roedes wit",
+                  "position": 4.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Openslaande deur met roedes wit"
+                },
+                {
+                  "id": "ad1ef499-3456-406e-ae07-f2661d9e3a1a",
+                  "text": "2-delige schuifpui zwart",
+                  "position": 7.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "2-delige schuifpui zwart"
+                },
+                {
+                  "id": "b9fc942f-c9a5-49b6-9392-6d6d9982bc4e",
+                  "text": "2-delige schuifpui wit",
+                  "position": 8.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "2-delige schuifpui wit"
+                },
+                {
+                  "id": "f040d7f9-f806-4514-9884-75a246ffc74a",
+                  "text": "4-delige schuifpui zwart",
+                  "position": 9.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "4-delige schuifpui zwart"
+                },
+                {
+                  "id": "60dd0b46-c2d9-4911-8b00-930ef36a8727",
+                  "text": "4-delige schuifpui wit",
+                  "position": 10.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "4-delige schuifpui wit"
+                },
+                {
+                  "id": "193e03f3-1151-4654-b218-93e7975de2cf",
+                  "text": "Harmonicapui zwart",
+                  "position": 11.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Harmonicapui zwart"
+                },
+                {
+                  "id": "da2e87bb-5a7d-4850-951b-c9f199203599",
+                  "text": "Harmonicapui wit",
+                  "position": 12.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Harmonicapui wit"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Kozijn",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "a4064dc4-042d-4014-bb85-be76d36336c9",
+        "name": "Daklicht",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 3,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "4d087b04-8559-4025-aae6-037058976ca4",
+                  "text": "Nee",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "e2e801fc-febc-4779-85f1-27fe259084cf",
+                  "text": "1 vaks lessenaar",
+                  "position": 1.0,
+                  "metaData": {
+                    "description": "vaste uitvoering helder"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "50ca268a-6155-4b02-9e48-4e871306923b",
+                  "text": "2 vaks lessenaar",
+                  "position": 2.0,
+                  "metaData": {
+                    "description": "vaste uitvoering helder"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "f1e55eed-cda7-419a-9acf-5873130403da",
+                  "text": "3 vaks lessenaar",
+                  "position": 3.0,
+                  "metaData": {
+                    "description": "vaste uitvoering helder"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "3 vaks lessenaar"
+                },
+                {
+                  "id": "1a8a6ab2-7245-4e8d-a9a8-a0c4d749934e",
+                  "text": "4 vaks lessenaar",
+                  "position": 4.0,
+                  "metaData": {
+                    "description": "vaste uitvoering helder"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "4 vaks lessenaar"
+                },
+                {
+                  "id": "7f0103f3-1622-42d4-8dcf-129328da3fd6",
+                  "text": "4 vaks zadeldak",
+                  "position": 5.0,
+                  "metaData": {
+                    "description": "vaste uitvoering helder"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "4 vaks zadeldak"
+                },
+                {
+                  "id": "83381215-eb2b-4a83-84e1-354a954f4088",
+                  "text": "6 vaks zadeldak",
+                  "position": 6.0,
+                  "metaData": {
+                    "description": "vaste uitvoering helder"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "6 vaks zadeldak"
+                },
+                {
+                  "id": "191e6a8e-6ffe-4329-be0f-56c899c7f646",
+                  "text": "8 vaks zadeldak",
+                  "position": 7.0,
+                  "metaData": {
+                    "description": "vaste uitvoering helder"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "8 vaks zadeldak"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Lessenaars dakramen",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "eea8db08-fdc0-41b2-a0e3-25dbbf8e73aa",
+        "name": "Daktrim",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 4,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "7af245a6-8c5b-4008-b972-6bd74d448613",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "72fd2251-363b-45aa-9bd2-328b61871f2c",
+                  "text": "Daktrim aluminium",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "6ab11429-df1a-4dc3-8843-46eb921ead92",
+                  "text": "Daktrim aluminium antraciet",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Daktrim",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "b97b6ec3-249c-4666-95ba-c126ab361ce4",
+        "name": "Buitenlicht",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 5,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Wordt als loze leiding aangelegd",
+            "hide": false,
+            "id": "f8f4a5c1-6b2e-461d-b9cd-e99dddd4816f",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "82bcda51-59e8-4477-bc03-3c0afb17ca15",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "a247adf4-dfae-4935-be01-1e867e49ecfb",
+                  "text": "Links",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "600a0659-9dd6-430c-b8aa-23f340180df5",
+                  "text": "Rechts",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "65716817-da47-44b6-a948-0496723c57fc",
+                  "text": "Beide kanten",
+                  "position": 3.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "B"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Buitenlicht",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "2b8b573f-f254-40d8-a0f0-261a1b7e435a",
+        "name": "Buiten stopcontact",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 6,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Wordt als loze leiding aangelegd",
+            "hide": false,
+            "id": "efa35376-bcd3-4c19-8f7c-c4733bb4a7e5",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "0bed356f-43ce-4c5f-870e-86815d68f899",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "65084465-f199-411a-8c9f-75d97abb5002",
+                  "text": "Links",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "0ee35cb2-2b77-408f-bb9d-2dd27de6ecb3",
+                  "text": "Rechts",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Buiten stopcontact",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "b2a28ec0-0a15-4c90-ab24-52a9f1d6f8ea",
+        "name": "Buiten kraan",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 7,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "1a655d29-64c2-4097-aa17-7ede2773a328",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "626cef0b-cef6-4baa-822f-f7ae51f3924d",
+                  "text": "Geen ",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "95a35a5c-13ed-46b3-aa8c-04e9fcde2a3f",
+                  "text": "Links",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "cbf33461-bad8-4292-9fab-5134db9a714c",
+                  "text": "Rechts",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Buiten kraan",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "28f0638d-0786-4ccc-b219-5b4246622be4",
+        "name": "Regenbuis",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 8,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "d0b4cdb6-8f8a-4abd-8300-db2605844a94",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "4d5721db-91f1-4b21-b457-d394f84fb326",
+                  "text": "PVC",
+                  "position": 0.0,
+                  "metaData": {
+                    "description": "(standaard)",
+                    "image": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image5826938878357232808.jpg"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "d45f4a87-ac66-440d-a790-b4966147d674",
+                  "text": "Zink",
+                  "position": 1.0,
+                  "metaData": {
+                    "image": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image15050811851535871280.jpg"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Regenbuis materiaal",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "b66512c2-09a1-4f5f-8be8-8c22ef15e24a",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "01ace83a-35bb-4366-8ee3-8eeb468553c0",
+                  "text": "Links",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "b2cc89d8-c802-493c-aa65-720bf27b6221",
+                  "text": "Rechts",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Plaatsing",
+            "position": 1,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "f72f1a19-16df-4eda-8ad1-c0d7c939a2b0",
+        "name": "Aanbouw binnen",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8",
+          "headingDescription": "Creëer meer ruimte en waarde met onze aan- en uitbouwprojecten.",
+          "headingTitle": "Aanbouw binnen"
+        },
+        "position": 9,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "0a385dba-66ab-4729-9b8d-1b4f478d6154",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "c59cda51-fddb-4bfc-b083-1344508e8e2c",
+                  "text": "Stel aanbouw binnenzijde samen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "2a892656-7063-40b8-b4ae-755d922c485a",
+                  "text": "Dit is niet nodig",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Aanbouw binnen",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb",
+        "name": "Vloerafwerking",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [
+            {
+              "index": 0.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "b29ea19e-b1d6-4d49-a30c-2442016d617b",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "3c2e35b1-2de0-4028-902b-8d4d8fff8638",
+                          "answerId": "39c9be0f-b993-4b16-8eb3-f21430abfbe7"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/28befe23-1200-4d1c-8092-e48a83477820/image16495438392095328059.png"
+                  },
+                  {
+                    "id": "b3df4277-4ba2-430d-a141-1b2aec5f3b74",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "3c2e35b1-2de0-4028-902b-8d4d8fff8638",
+                          "answerId": "8916e6d0-33a7-4098-b0d2-e064c94c73a9"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14066542220146562944.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 1.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "debbcc71-0f29-4d07-a3fd-3232c375fe19",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "235cd45d-d410-43e0-87ef-9f0afebc66ed"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "f020d078-20dd-450e-a297-4d9e88ac116d",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "dc961e30-5b13-473f-ac44-8e80bd4d6cc4"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image8783831880590545618.png"
+                  },
+                  {
+                    "id": "2f987488-ce63-4c49-a63d-91f7783694ee",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "50bce7d0-c74e-4c81-a924-a93c6c080041"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14518804731056722126.png"
+                  },
+                  {
+                    "id": "b64e7ae3-51d7-4533-82ce-e95c595a65a3",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "0cbc2e92-9df1-44fd-b12a-2fe7705678ac"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11408198045399207320.png"
+                  },
+                  {
+                    "id": "2e8c6e89-34e9-4035-93ef-62eec4a79b32",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "12472db9-8b25-4b96-ad53-b8d87e7031ca"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3639180187160434022.png"
+                  },
+                  {
+                    "id": "29c44e25-8f9d-4d68-9da7-a7a47e8f355e",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "4ee1ac89-1ace-4e90-bcfd-257b60099c4a"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9451159411511267900.png"
+                  },
+                  {
+                    "id": "bfc54e26-3f72-4815-814e-12a47f58ce18",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "7381d7e6-5e5e-4d87-86dd-fe383830da08"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image13405722004559655684.png"
+                  },
+                  {
+                    "id": "de1d44c7-3471-4fc1-81de-e1c4d7c6a2f0",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "ad1ef499-3456-406e-ae07-f2661d9e3a1a"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9947569613760556450.png"
+                  },
+                  {
+                    "id": "07e7af9d-cf0e-4f55-9bde-4947afd714a7",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "b9fc942f-c9a5-49b6-9392-6d6d9982bc4e"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1139354937060081644.png"
+                  },
+                  {
+                    "id": "c71e6ba9-741c-4e5c-b4ce-f3299ab544f1",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "f040d7f9-f806-4514-9884-75a246ffc74a"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image17113802843835029539.png"
+                  },
+                  {
+                    "id": "7edf9cc9-874f-4f5f-875b-c5775a682600",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "60dd0b46-c2d9-4911-8b00-930ef36a8727"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9524720470134833536.png"
+                  },
+                  {
+                    "id": "d036c039-7752-4706-bdec-1c3b2378c80d",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "193e03f3-1151-4654-b218-93e7975de2cf"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image8340333002548742204.png"
+                  },
+                  {
+                    "id": "269ccd45-634c-49a1-8c8d-acbcc37737fe",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+                          "answerId": "da2e87bb-5a7d-4850-951b-c9f199203599"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image2930524816948086125.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 2.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "9aecbfe0-d361-478a-8ac2-8560fa87449e",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "c830f0af-fe5d-4b20-b9a0-0790f4d57841",
+                          "answerId": "24283004-53a5-40db-b2bb-a244e723cf0d"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "a924a64b-e506-4f4f-9fcf-145a113ba91a",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "c830f0af-fe5d-4b20-b9a0-0790f4d57841",
+                          "answerId": "293adbbb-56da-479c-955f-c3e9682b6a06"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image6891095745770287302.png"
+                  },
+                  {
+                    "id": "553b3473-7e38-4f20-813f-e49169dea261",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "c830f0af-fe5d-4b20-b9a0-0790f4d57841",
+                          "answerId": "9fe10ccc-1071-41a2-8a1d-7c5b9b7e8f16"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1784859150997379867.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 3.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "e73efda0-b680-473b-9b33-3bbc2d11ded4",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1cc28716-57ac-4120-bd22-5fc5263c5d4e",
+                          "answerId": "b3d0da08-c27d-4401-a697-48ad889fb892"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "76815b29-23ed-4f90-a5ec-c9337294ed63",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1cc28716-57ac-4120-bd22-5fc5263c5d4e",
+                          "answerId": "97396076-a16d-45f5-b1d0-a8caaa9e5973"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image9721210842782087795.png"
+                  },
+                  {
+                    "id": "7acae57e-bd1e-4c66-abc2-60aae67e2c69",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "1cc28716-57ac-4120-bd22-5fc5263c5d4e",
+                          "answerId": "58c7a708-5a71-49bf-9a7a-ae545f718058"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12603619356633449532.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 4.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "fb465bdd-fc1a-4260-8305-f78b7e589804",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "c84b9156-f047-42eb-b84f-e2d6dfea70fb"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "dcf07525-87c0-4910-9499-314e28c57664",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "1cb83519-2153-47f2-acd5-871e0591697f"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image1044318626210986396.png"
+                  },
+                  {
+                    "id": "f1546f26-3b31-4d00-9b6b-5946d1634ada",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "a6bf6fb9-a10f-4254-8d60-020a260aeaca"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10053917388475838142.png"
+                  },
+                  {
+                    "id": "b56f2428-65ee-487c-b4ee-395e5c8a43de",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "a2ffd534-183d-4cbd-aa5e-0e66458a6e20"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image475977453776650261.png"
+                  },
+                  {
+                    "id": "3d3e6477-b7c8-4056-8c1f-e94ccbeab0c0",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "8fec71e6-df6a-4875-8260-57d2a877f7e8"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image11659683769676074145.png"
+                  },
+                  {
+                    "id": "d2452e60-7c1f-403d-9211-03fd7e688ba8",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "45a54059-a3be-427d-9e69-067f29064a3c"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image3303087930364337704.png"
+                  },
+                  {
+                    "id": "1edb7cca-f121-4f93-acd3-6b52446abd66",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "769689e7-76b0-40af-83de-767c7cd1b969"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4285713282733913208.png"
+                  },
+                  {
+                    "id": "7598b55b-3cdc-4421-abe7-a21be8348c04",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "4d322d0f-b634-45b1-8c05-3728a339d07e"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12244096950531088512.png"
+                  },
+                  {
+                    "id": "84b42001-3bfd-48ed-b43b-beaa00ec980a",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "97262ba1-0d6a-4836-883b-42e85bf6440b"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image5407643985087470444.png"
+                  },
+                  {
+                    "id": "8c395380-563e-4d0b-a4ac-ccfff1b2b05c",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "95a6c2f3-00ec-42d7-ab67-c9fd42b2f843"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image12810119126427863842.png"
+                  },
+                  {
+                    "id": "b4f8a110-6b68-44e1-ae1d-b88a83202443",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "c18f3d5e-9622-450f-829b-8fa3349adbd3"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image5019988506593710816.png"
+                  },
+                  {
+                    "id": "3f281efb-1271-48b1-9bfa-bd5bc7b52542",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "69ed4cb0-533a-4db3-b052-476eecc2f061"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image14090607031699306101.png"
+                  },
+                  {
+                    "id": "430b7e41-061e-4531-8bd1-48fe2bbd52f0",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+                          "answerId": "0eb2b2d7-549d-4ac3-bd5b-333617fea249"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image10186224026676153237.png"
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 5.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "3f8f0bca-dd8a-4331-a8e1-e8ef6c4f8de5",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f19118c8-f0cd-45bd-868b-181ef6c15202",
+                          "answerId": "f98b10d4-ab04-4086-8871-ae3a33dbf43a"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "3269d230-00e4-4d5a-9f35-3e9901aee7a8",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f19118c8-f0cd-45bd-868b-181ef6c15202",
+                          "answerId": "5af9fbc7-1977-4b1b-8503-260a485ce839"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4821404312802176470.png"
+                  },
+                  {
+                    "id": "5912f222-4c56-45aa-837b-e850583669a0",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f19118c8-f0cd-45bd-868b-181ef6c15202",
+                          "answerId": "96648658-b10d-41e5-87fb-294a7b874ef1"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image4627552324862542272.png"
+                  },
+                  {
+                    "id": "038c02a8-f9f6-4f3f-9ab4-204a37899ac0",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "f19118c8-f0cd-45bd-868b-181ef6c15202",
+                          "answerId": "589194f6-79b8-483d-8a6b-d9fa899137f8"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  }
+                ]
+              },
+              "format": ""
+            },
+            {
+              "index": 6.0,
+              "image": {
+                "data": [
+                  {
+                    "id": "673ad43a-0d8a-49d5-aa9f-7823e18f9881",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "614eacf0-5267-4267-82f3-8bf9deb65e78",
+                          "answerId": "9835c9e5-f46d-4d05-bab0-e26e0479dfe8"
+                        }
+                      }
+                    ],
+                    "url": ""
+                  },
+                  {
+                    "id": "2f4d9663-071e-4904-8279-4774e4009b5f",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "614eacf0-5267-4267-82f3-8bf9deb65e78",
+                          "answerId": "31a80ce1-5535-42ff-ac1d-cec5a463e6be"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image16544250952740521300.png"
+                  },
+                  {
+                    "id": "50e2ac4c-b7c6-45cd-9405-832e87834464",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "614eacf0-5267-4267-82f3-8bf9deb65e78",
+                          "answerId": "c479f68d-3b8d-4603-87a1-a3dfb4eb31b8"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image7774971470127252998.png"
+                  },
+                  {
+                    "id": "859d19b3-8132-4cba-95ae-89939a093a6c",
+                    "type": "ALL_TRUE",
+                    "conditions": [
+                      {
+                        "type": "QUESTION",
+                        "metaData": {
+                          "comparator": "EQUAL",
+                          "questionId": "614eacf0-5267-4267-82f3-8bf9deb65e78",
+                          "answerId": "d44e7ffa-ff2a-4dd2-97c8-8f3cb1d676d5"
+                        }
+                      }
+                    ],
+                    "url": "https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image30817720738166129.png"
+                  }
+                ]
+              },
+              "format": ""
+            }
+          ]
+        },
+        "position": 10,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Indien u vloerverwarming wenst, verlagen wij de vloer voor de vloerverwarming, maar sluiten deze niet aan de bestaande verwarming.",
+            "hide": false,
+            "id": "b7c13ea2-b757-432e-9d08-0c0bbaca9be3",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "9bad989f-d7c6-4efc-929e-558ed0c866d9",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "4ee4568d-bd14-48c4-b7a5-7ebb0a45fd06",
+                  "text": "Vloerverwarming",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "V"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Vloerverwarming",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Wordt als loze leiding aangelegd",
+            "hide": false,
+            "id": "614eacf0-5267-4267-82f3-8bf9deb65e78",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "9835c9e5-f46d-4d05-bab0-e26e0479dfe8",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "31a80ce1-5535-42ff-ac1d-cec5a463e6be",
+                  "text": "Links",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "c479f68d-3b8d-4603-87a1-a3dfb4eb31b8",
+                  "text": "Rechts",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "d44e7ffa-ff2a-4dd2-97c8-8f3cb1d676d5",
+                  "text": "Beide kanten",
+                  "position": 3.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "Beide kanten"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Verwarming",
+            "position": 1,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "37fd559e-afcf-4107-8684-3c302f157ee0",
+        "name": "Plafond lamp",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb"
+        },
+        "position": 11,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Wij plaatsen zelf geen plafond lampen, we zorgen ervoor dat de stroompunten op de juiste plaats geplaatst worden.",
+            "hide": false,
+            "id": "c830f0af-fe5d-4b20-b9a0-0790f4d57841",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "24283004-53a5-40db-b2bb-a244e723cf0d",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "293adbbb-56da-479c-955f-c3e9682b6a06",
+                  "text": "1 plafond lamp",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "9fe10ccc-1071-41a2-8a1d-7c5b9b7e8f16",
+                  "text": "2 plafond lampen",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Plafond lamp",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "f76a89e7-642c-4e12-8fba-cb073035b1bf",
+        "name": "Schakelaar",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb"
+        },
+        "position": 12,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Wordt als loze leiding aangelegd",
+            "hide": false,
+            "id": "1cc28716-57ac-4120-bd22-5fc5263c5d4e",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "b3d0da08-c27d-4401-a697-48ad889fb892",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "97396076-a16d-45f5-b1d0-a8caaa9e5973",
+                  "text": "1 schakelaar",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "58c7a708-5a71-49bf-9a7a-ae545f718058",
+                  "text": "2 schakelaars",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Schakelaar",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "884e092a-9b13-4b51-9247-a8033b8f65f9",
+        "name": "Aantal spotjes",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb"
+        },
+        "position": 13,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Het aantal spots uitbreiden tot maximaal 12 spots.",
+            "hide": false,
+            "id": "18b5b68f-d4e0-4843-8266-feb966184368",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "c84b9156-f047-42eb-b84f-e2d6dfea70fb",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "1cb83519-2153-47f2-acd5-871e0591697f",
+                  "text": "1 spotje",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "a6bf6fb9-a10f-4254-8d60-020a260aeaca",
+                  "text": "2 spotjes",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "a2ffd534-183d-4cbd-aa5e-0e66458a6e20",
+                  "text": "3 spotjes",
+                  "position": 3.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "3 spotjes"
+                },
+                {
+                  "id": "8fec71e6-df6a-4875-8260-57d2a877f7e8",
+                  "text": "4 spotjes",
+                  "position": 4.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "4 spotjes"
+                },
+                {
+                  "id": "45a54059-a3be-427d-9e69-067f29064a3c",
+                  "text": "5 spotjes",
+                  "position": 5.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "5 spotjes"
+                },
+                {
+                  "id": "769689e7-76b0-40af-83de-767c7cd1b969",
+                  "text": "6 spotjes",
+                  "position": 6.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "6 spotjes"
+                },
+                {
+                  "id": "4d322d0f-b634-45b1-8c05-3728a339d07e",
+                  "text": "7 spotjes",
+                  "position": 7.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "7 spotjes"
+                },
+                {
+                  "id": "97262ba1-0d6a-4836-883b-42e85bf6440b",
+                  "text": "8 spotjes",
+                  "position": 8.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "7 spotjes"
+                },
+                {
+                  "id": "0d44958d-b11f-4075-8c1a-ec1bb9a1266d",
+                  "text": "9 spotjes",
+                  "position": 9.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "M"
+                },
+                {
+                  "id": "223167e9-af86-4f18-8f44-62317bc6fa86",
+                  "text": "10 spotjes",
+                  "position": 10.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "1"
+                },
+                {
+                  "id": "b651f0da-aa91-4fc6-b3b7-e1a7cbbd3be4",
+                  "text": "11 spotjes",
+                  "position": 11.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "1"
+                },
+                {
+                  "id": "78facad7-8e7e-4b97-b9d8-73845651aed6",
+                  "text": "12 spotjes",
+                  "position": 12.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "1"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Aantal spotjes",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "7f48725a-caea-47d3-8e22-32436702a288",
+        "name": "Stroom",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb"
+        },
+        "position": 14,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Wordt als loze leiding aangelegd",
+            "hide": false,
+            "id": "f19118c8-f0cd-45bd-868b-181ef6c15202",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "f98b10d4-ab04-4086-8871-ae3a33dbf43a",
+                  "text": "Geen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "5af9fbc7-1977-4b1b-8503-260a485ce839",
+                  "text": "Links",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "96648658-b10d-41e5-87fb-294a7b874ef1",
+                  "text": "Rechts",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "1d3a6402-9dbf-478f-a4bc-c0253b5ace07",
+                  "text": "Beide Kanten",
+                  "position": 3.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "B"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Stopcontact",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "0ab018f3-9f8c-4ccc-ae64-10aa48be9fd6",
+        "name": "Doorbraak maken",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImage": [],
+          "headingImageLink": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb"
+        },
+        "position": 15,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Een gevel doorbraak is het openbreken van één van de buitenmuren van een woning.",
+            "hide": false,
+            "id": "c374c78e-11e4-4c9f-9585-01d1d88b9ca0",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "03795c84-99e6-4aa3-b1af-79dc185d33d0",
+                  "text": "Geen doorbraak",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "a7d341f2-bebf-42a0-9be2-2be636c32347",
+                  "text": "Met doorbraak",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Geveldoorbraak",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "fa7c2c65-019b-41bc-a692-1971a4445776",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "7e132a0e-bea8-4f14-9a72-5e7256030ceb",
+                  "text": "Nee",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "5d05637a-edd9-41f3-aa7a-43240d8b3042",
+                  "text": "Ja",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Is er een achterom aanwezig",
+            "position": 1,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "810ef66e-3c7a-41da-bffd-186980a2c817",
+        "name": "Heipalen",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": true,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingTitle": "Aantal heipalen",
+          "headingDescription": "Creëer meer ruimte en waarde met onze aan- en uitbouwprojecten.\n\nAantal heipalen bijhorende de m² van je aanbouw :\n\n2 = Onder de 10m²\n3 = Tussen 10m² en 15m² \n4 = Tussen 15m² en 25m²\n6 = Tussen 25m² en 40m²\n",
+          "headingImage": [],
+          "headingImageLink": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb"
+        },
+        "position": 16,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "Bekijk hierboven hoeveel heipalen je nodig hebt!",
+            "hide": false,
+            "id": "7da0e51f-8c7a-4134-9fb1-b90a451e0e27",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "cf4f8170-f70e-4012-b608-25acf0fff780",
+                  "text": "2 heipalen",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "cfcdaad9-dc9d-4b02-a6d3-ee8e71e55a4c",
+                  "text": "3 heipalen",
+                  "position": 1.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "d19fe513-4531-454e-927c-a5763a2130b6",
+                  "text": "4 heipalen",
+                  "position": 2.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "d9315c55-2e0c-4865-9c30-84abd68b08ef",
+                  "text": "6 heipalen",
+                  "position": 3.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "6"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Aantal heipalen",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "a5cd9757-af72-4320-a334-04f98b37b8ba",
+        "name": "Contactgegevens",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": false,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "check",
+          "footerNextButtonText": "Bevestig & vraag aan",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingTitle": "Waar mogen we de offerte naartoe sturen?",
+          "headingDescription": "De offerte zal binnen 24 uur per mail verzonden worden.\n\nContactgegevens",
+          "headingImage": [],
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 18,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "daf4be0d-b7b4-4369-8c39-6299b6edd0d5",
+            "metaData": {
+              "placeholder": "Voornaam",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "",
+            "position": 0,
+            "required": true,
+            "technicalType": "FIRST_NAME",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "7afd65f5-9008-4c03-9bbc-299d7d549719",
+            "metaData": {
+              "placeholder": "Achternaam",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "",
+            "position": 1,
+            "required": true,
+            "technicalType": "LAST_NAME",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "a65286cd-42b1-4111-9434-d54382677174",
+            "metaData": {
+              "placeholder": "E-mailadres",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "",
+            "position": 2,
+            "required": true,
+            "technicalType": "EMAIL",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "59f718b9-5d15-4877-8e6b-2cbcb35b91ff",
+            "metaData": {
+              "placeholder": "Vul hier jouw antwoord in",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "",
+            "position": 3,
+            "required": true,
+            "technicalType": "PHONE",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "32531b5f-3520-4ac4-aa48-5ad8617a452f",
+            "metaData": {
+              "placeholder": "Straatnaam",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "Adresgegevens",
+            "position": 4,
+            "required": true,
+            "technicalType": "STREET",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "09e01c01-9684-4a88-ba9c-34222d04cc8f",
+            "metaData": {
+              "placeholder": "Huisnummer",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "",
+            "position": 5,
+            "required": true,
+            "technicalType": "HOUSE_NUMBER",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "618ed65f-7879-42f7-8200-ab1656682e4c",
+            "metaData": {
+              "placeholder": "Postcode",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "",
+            "position": 6,
+            "required": true,
+            "technicalType": "POSTAL_CODE",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "7fa0afe3-f661-4cec-813e-187a9c5d2430",
+            "metaData": {
+              "placeholder": "Woonplaats",
+              "textType": "UNLIMITED",
+              "marginTop": "SMALL"
+            },
+            "name": "",
+            "position": 7,
+            "required": true,
+            "technicalType": "CITY",
+            "type": "TEXT"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "179e8181-2529-49a9-8b15-47b2b8958366",
+            "metaData": {
+              "placeholder": "Vul hier jouw antwoord in",
+              "textType": "UNLIMITED",
+              "marginTop": "DEFAULT"
+            },
+            "name": "Opmerking toevoegen",
+            "position": 8,
+            "required": false,
+            "type": "TEXT_AREA"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "a6f01a9a-8132-4c90-81e4-8389b6a10489",
+        "name": "Rollaag",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": false,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImageLink": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8"
+        },
+        "position": 19,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "0f0309b2-0da2-4d72-9326-f8dbe8f33620",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "d0925dc2-9664-479d-bf87-00816b56375e",
+                  "text": "Rollaag",
+                  "position": 0.0,
+                  "metaData": {
+                    "description": "Metselwerk loopt door boven het kozijn"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "G"
+                },
+                {
+                  "id": "42561342-d839-474b-8d0d-1908b0848b03",
+                  "text": "Geen rollaag wit",
+                  "position": 1.0,
+                  "metaData": {
+                    "description": "Het paneel boven het kozijn krijgt dezelfde kleur als het kozijn"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "b844f827-3fb1-4309-b206-44d85c386846",
+                  "text": "Geen rollaag zwart",
+                  "position": 2.0,
+                  "metaData": {
+                    "description": "Het paneel boven het kozijn krijgt dezelfde kleur als het kozijn"
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": "R"
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Rollaag",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      },
+      {
+        "id": "0613354f-d09b-4e16-a30d-e0cf78a472c7",
+        "name": "Bedankt pagina",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": false,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "FINAL_PAGE",
+        "subType": "THANK_YOU",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingTitle": "Dankjewel!"
+        },
+        "position": 20,
+        "theme": "BARCELONA",
+        "questions": [],
+        "hide": false
+      },
+      {
+        "id": "3511be42-5684-4eac-a42d-0e054fed3fd9",
+        "name": "Pagina 20",
+        "layout": {
+          "composition": "HORIZONTAL_RIGHT",
+          "fixedHeading": false,
+          "progressBar": false,
+          "mediaType": "SMALL"
+        },
+        "type": "PAGE",
+        "subType": "DEFAULT",
+        "metaData": {
+          "footerNextButtonIcon": "arrow_right",
+          "footerNextButtonText": "Volgende",
+          "footerPreviousButtonIcon": "arrow_left",
+          "headingImageLink": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb"
+        },
+        "position": 19,
+        "theme": "BARCELONA",
+        "questions": [
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "3c2e35b1-2de0-4028-902b-8d4d8fff8638",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "39c9be0f-b993-4b16-8eb3-f21430abfbe7",
+                  "text": "Geen stucwerk",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "8916e6d0-33a7-4098-b0d2-e064c94c73a9",
+                  "text": "Wel stucwerk",
+                  "position": 1.0,
+                  "metaData": {
+                    "description": ""
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Wel of geen stucwerk",
+            "position": 0,
+            "required": true,
+            "type": "RADIO"
+          },
+          {
+            "condition": {
+              "conditions": [],
+              "logicType": "AND",
+              "metaData": {},
+              "position": 0,
+              "type": "QUESTION"
+            },
+            "conditionType": "AND",
+            "conditions": [],
+            "description": "",
+            "hide": false,
+            "id": "7d3ce1b5-07e5-421f-b289-5eb0f3acb238",
+            "metaData": {
+              "answers": [
+                {
+                  "id": "62824e8f-38ee-4502-88ee-37f7b4a65b03",
+                  "text": "Geen afwerkvloer",
+                  "position": 0.0,
+                  "metaData": {},
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                },
+                {
+                  "id": "bf547cc9-c48e-4d05-af16-995eb1665ed8",
+                  "text": "Wel een afwerkvloer",
+                  "position": 1.0,
+                  "metaData": {
+                    "description": ""
+                  },
+                  "conditions": [],
+                  "conditionType": "AND",
+                  "name": ""
+                }
+              ],
+              "marginTop": "DEFAULT"
+            },
+            "name": "Wel of geen afwerkvloer",
+            "position": 1,
+            "required": true,
+            "type": "RADIO"
+          }
+        ],
+        "hide": false
+      }
+    ],
+    "relations": [
+      {
+        "id": "17ecd6cb-120e-41a8-9f60-15c41e218b07",
+        "from": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8",
+        "to": "2216cd02-dcf9-4920-bc47-6114618d36db",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 0
+      },
+      {
+        "id": "ced41186-b0a1-4b5e-af1a-aaff3a02e280",
+        "from": "810ef66e-3c7a-41da-bffd-186980a2c817",
+        "to": "a5cd9757-af72-4320-a334-04f98b37b8ba",
+        "conditionType": "NO_CONDITION",
+        "position": 5
+      },
+      {
+        "id": "b3a5ed50-6a3d-4a46-9218-16a081a7869c",
+        "from": "810ef66e-3c7a-41da-bffd-186980a2c817",
+        "to": "a5cd9757-af72-4320-a334-04f98b37b8ba",
+        "conditionType": "NO_CONDITION",
+        "position": 6
+      },
+      {
+        "id": "3b6ea839-15af-43b8-9c97-0bb50fab83e7",
+        "from": "a4064dc4-042d-4014-bb85-be76d36336c9",
+        "to": "eea8db08-fdc0-41b2-a0e3-25dbbf8e73aa",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 10
+      },
+      {
+        "id": "6f323387-4e71-47f2-90da-65152c8ed59e",
+        "from": "eea8db08-fdc0-41b2-a0e3-25dbbf8e73aa",
+        "to": "b97b6ec3-249c-4666-95ba-c126ab361ce4",
+        "conditions": [
+          {
+            "metaData": {
+              "questionId": "",
+              "condition": ""
+            },
+            "position": 0,
+            "type": "QUESTION"
+          }
+        ],
+        "conditionType": "NO_CONDITION",
+        "position": 11
+      },
+      {
+        "id": "04faba30-4e03-4650-869b-618382b4a18d",
+        "from": "b97b6ec3-249c-4666-95ba-c126ab361ce4",
+        "to": "2b8b573f-f254-40d8-a0f0-261a1b7e435a",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 12
+      },
+      {
+        "id": "087afb3f-ecef-4508-98a9-bfc7a0784fb7",
+        "from": "2b8b573f-f254-40d8-a0f0-261a1b7e435a",
+        "to": "b2a28ec0-0a15-4c90-ab24-52a9f1d6f8ea",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 13
+      },
+      {
+        "id": "c430fe47-3dbb-4141-96c0-d2195f71275a",
+        "from": "b2a28ec0-0a15-4c90-ab24-52a9f1d6f8ea",
+        "to": "28f0638d-0786-4ccc-b219-5b4246622be4",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 14
+      },
+      {
+        "id": "1d0f5d55-7a37-4917-917a-3da50641c461",
+        "from": "28f0638d-0786-4ccc-b219-5b4246622be4",
+        "to": "f72f1a19-16df-4eda-8ad1-c0d7c939a2b0",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 15
+      },
+      {
+        "id": "815b3c0c-2396-4d32-9cf0-bbc34499fe54",
+        "from": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb",
+        "to": "37fd559e-afcf-4107-8684-3c302f157ee0",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 16
+      },
+      {
+        "id": "4aa46314-f900-4d08-ae76-9e288776ec3e",
+        "from": "37fd559e-afcf-4107-8684-3c302f157ee0",
+        "to": "f76a89e7-642c-4e12-8fba-cb073035b1bf",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 17
+      },
+      {
+        "id": "50376435-fdc5-4cf8-98ec-8d37129f85ae",
+        "from": "f76a89e7-642c-4e12-8fba-cb073035b1bf",
+        "to": "884e092a-9b13-4b51-9247-a8033b8f65f9",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 18
+      },
+      {
+        "id": "76a567fe-22b4-4f5e-ba8e-3518457afad7",
+        "from": "884e092a-9b13-4b51-9247-a8033b8f65f9",
+        "to": "7f48725a-caea-47d3-8e22-32436702a288",
+        "conditions": [],
+        "conditionType": "NO_CONDITION",
+        "position": 19
+      },
+      {
+        "id": "88c293d7-940e-40b7-ac96-d506ce08e6cd",
+        "from": "0ab018f3-9f8c-4ccc-ae64-10aa48be9fd6",
+        "to": "810ef66e-3c7a-41da-bffd-186980a2c817",
+        "conditions": [
+          {
+            "metaData": {
+              "questionId": "",
+              "condition": ""
+            },
+            "position": 0,
+            "type": "QUESTION"
+          }
+        ],
+        "conditionType": "NO_CONDITION",
+        "position": 23
+      },
+      {
+        "id": "7224ae67-bbd9-48cf-ae51-5939f2138eb1",
+        "from": "f72f1a19-16df-4eda-8ad1-c0d7c939a2b0",
+        "to": "3511be42-5684-4eac-a42d-0e054fed3fd9",
+        "conditions": [
+          {
+            "metaData": {
+              "questionId": "0a385dba-66ab-4729-9b8d-1b4f478d6154",
+              "comparator": "EQUALS",
+              "value": "c59cda51-fddb-4bfc-b083-1344508e8e2c"
+            },
+            "position": 0,
+            "type": "QUESTION"
+          }
+        ],
+        "conditionType": "AND",
+        "position": 25
+      },
+      {
+        "id": "7e4658e7-e04a-4a1c-b4e0-4eb65ed5388e",
+        "from": "62b92df6-5cdf-4097-b382-0d563610a6ec",
+        "to": "a4064dc4-042d-4014-bb85-be76d36336c9",
+        "conditions": [
+          {
+            "metaData": {
+              "questionId": "",
+              "condition": ""
+            },
+            "position": 0,
+            "type": "QUESTION"
+          }
+        ],
+        "conditionType": "NO_CONDITION",
+        "position": 2
+      },
+      {
+        "id": "8ec162c7-fb47-4306-b102-3a51a5873ad6",
+        "from": "7f48725a-caea-47d3-8e22-32436702a288",
+        "to": "0ab018f3-9f8c-4ccc-ae64-10aa48be9fd6",
+        "conditions": [
+          {
+            "metaData": {
+              "questionId": "",
+              "condition": ""
+            },
+            "position": 0,
+            "type": "QUESTION"
+          }
+        ],
+        "conditionType": "NO_CONDITION",
+        "position": 14
+      },
+      {
+        "id": "b03953aa-d0b1-41f0-82bf-49b07a451a18",
+        "from": "f72f1a19-16df-4eda-8ad1-c0d7c939a2b0",
+        "to": "0ab018f3-9f8c-4ccc-ae64-10aa48be9fd6",
+        "conditionType": "NO_CONDITION",
+        "position": 0
+      },
+      {
+        "id": "14f669a7-f719-4d12-9d37-3135520ca433",
+        "from": "2216cd02-dcf9-4920-bc47-6114618d36db",
+        "to": "a6f01a9a-8132-4c90-81e4-8389b6a10489",
+        "conditionType": "NO_CONDITION",
+        "position": 0
+      },
+      {
+        "id": "f3d10bc5-37d2-494b-aeaa-5cbcdebded21",
+        "from": "a6f01a9a-8132-4c90-81e4-8389b6a10489",
+        "to": "62b92df6-5cdf-4097-b382-0d563610a6ec",
+        "conditionType": "NO_CONDITION",
+        "position": 0
+      },
+      {
+        "id": "ba43ee65-e7bd-46ff-b089-6700296ccd31",
+        "from": "810ef66e-3c7a-41da-bffd-186980a2c817",
+        "to": "a5cd9757-af72-4320-a334-04f98b37b8ba",
+        "conditions": [
+          {
+            "metaData": {
+              "questionId": "",
+              "condition": ""
+            },
+            "position": 0,
+            "type": "QUESTION"
+          }
+        ],
+        "conditionType": "NO_CONDITION",
+        "position": 16
+      },
+      {
+        "id": "9baf1c78-b7d3-4685-9e3e-ddf66416a905",
+        "from": "f72f1a19-16df-4eda-8ad1-c0d7c939a2b0",
+        "to": "0ab018f3-9f8c-4ccc-ae64-10aa48be9fd6",
+        "conditionType": "NO_CONDITION",
+        "position": 0
+      },
+      {
+        "id": "138e1cdc-9e3b-450b-b0e1-bb2aecd42153",
+        "from": "a5cd9757-af72-4320-a334-04f98b37b8ba",
+        "to": "0613354f-d09b-4e16-a30d-e0cf78a472c7",
+        "conditionType": "NO_CONDITION",
+        "position": 0
+      },
+      {
+        "id": "9bebe5e4-6e93-48a3-b5f7-b006528b17a9",
+        "from": "3511be42-5684-4eac-a42d-0e054fed3fd9",
+        "to": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb",
+        "conditionType": "NO_CONDITION",
+        "position": 0
+      }
+    ],
+    "companyProfile": {
+      "id": "eafd3f85-8c43-4848-b025-10448270c067"
+    },
+    "style": {
+      "fontFamily": "poppins",
+      "fontSize": "16px",
+      "borderRadius": "",
+      "border": "0px",
+      "borderColor": "#1a1a1a",
+      "questionColor": "#000000",
+      "answerColor": "#000000",
+      "priceIndicator": "none",
+      "buttonColor": "#e9521c",
+      "buttonTextColor": "#ffffff",
+      "backgroundColor": "#FFFFFF",
+      "logoUrl": "",
+      "customCss": "",
+      "wrapperBorderRadius": "0px",
+      "inputBorderRadius": "0px",
+      "buttonBorderRadius": "0px",
+      "widgetButtonBorderRadius": "0px"
+    },
+    "displaySettings": {
+      "showBranding": false,
+      "showActionButton": false,
+      "disableWidget": false
+    },
+    "analyticsSettings": {
+      "trackingPixels": []
+    },
+    "locale": "",
+    "domains": [
+      "prefabpartner.nl",
+      "www.prefabpartner.nl"
+    ],
+    "show": false,
+    "metaData": {},
+    "type": "EXTERNAL"
+  },
+  "country": "NL",
+  "message": "OK"
+}

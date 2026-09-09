@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://backend.reuzenpanda.nl/widget-service/api/v1/configurators/28befe23-1200-4d1c-8092-e48a83477820/new",
+    "status": 200,
+    "final": "https://backend.reuzenpanda.nl/widget-service/api/v1/configurators/28befe23-1200-4d1c-8092-e48a83477820/new",
+    "preview": "{\"configurator\":{\"id\":\"28befe23-1200-4d1c-8092-e48a83477820\",\"name\":\"Aanbouw formulier [website]\",\"advancedSettings\":{\"automation\":true,\"configuratorLanguage\":\"nl\",\"showAnalytics\":true,\"showCloseButton\":false,\"showCookieBanner\":\"NONE\"},\"resultScore\":[],\"steps\":[{\"id\":\"ed0fe2cb-4a8f-4593-b699-8b530bf369b8\",\"name\":\"Afmetingen\",\"layout\":{\"composition\":\"HORIZONTAL_RIGHT\",\"fixedHeading\":true,\"progressBar\":true,\"mediaType\":\"SMALL\"},\"type\":\"PAGE\",\"subType\":\"DEFAULT\",\"metaData\":{\"footerNextButtonIcon\":\"arrow_right\",\"footerNextButtonText\":\"Volgende\",\"footerPreviousButtonIcon\":\"arrow_left\",\"headingImage\":[{\"index\":0.0,\"image\":{\"data\":[{\"id\":\"ff1bda98-aac8-4f32-97fe-2e9046e5bf3c\",\"type\":\"ALL_TRUE\",\"conditions\":[{\"type\":\"QUESTION\",\"metaData\":{\"comparator\":\"EQUAL\",\"questionId\":\"b7a6ac3b-af87-40a4-9ff2-b1ac78304d09\",\"answerId\":\"19205192-01cd-4e60-b45a-a918d6675817\"}}],\"url\":\"https://user-info.reuzenpanda.nl/widget-service/product-templates/configurators/30df5bbc-76a7-43d7-a009-b7b4867e45d7/image8971844643550057732.png\"},{\"id\":\"ab68dabb-6e95-48c3-bd11-8a5321748663\",\"type\":\"ALL_TRUE\",\"conditions\":[{\"type\":\"QUESTION\",\"metaData\":{\"comparator\":\"EQUAL\",\"questionId\":\"b7a6ac3b-af87-40a4-9ff2-b1ac78304d0",
+    "file": "endpoint-0.txt"
+  },
+  {
+    "url": "https://directsamenstellen.nl/28befe23-1200-4d1c-8092-e48a83477820",
+    "status": 200,
+    "final": "https://directsamenstellen.nl/28befe23-1200-4d1c-8092-e48a83477820",
+    "preview": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no\"/><link rel=\"stylesheet\" href=\"/_next/static/css/eb8733d668de9443.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-338378fa01237a86.js\"/><script src=\"/_next/static/chunks/52774a7f-51ae206032da9c42.js\" async=\"\"></script><script src=\"/_next/static/chunks/fd9d1056-6f3dff9d1623e6ab.js\" async=\"\"></script><script src=\"/_next/static/chunks/6937-3168d79da0eea664.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-52a11fd76b3a6e9c.js\" async=\"\"></script><script src=\"/_next/static/chunks/145-785c617266a20b56.js\" async=\"\"></script><script src=\"/_next/static/chunks/3464-6652042483686ee8.js\" async=\"\"></script><script src=\"/_next/static/chunks/4053-dbad5ee0ceb67271.js\" async=\"\"></script><script src=\"/_next/static/chunks/2605-ea1b37410b2e7d55.js\" async=\"\"></script><script src=\"/_next/static/chunks/4667-b0f93c3e4103859b.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/(configurator)/%5BconfiguratorId%5D/page-db7e5e6cdc5d6d2a.js\" a",
+    "file": "endpoint-1.txt"
+  },
+  {
+    "url": "https://directsamenstellen.nl/configurator/28befe23-1200-4d1c-8092-e48a83477820",
+    "status": 200,
+    "final": "https://directsamenstellen.nl/configurator/28befe23-1200-4d1c-8092-e48a83477820",
+    "preview": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no\"/><link rel=\"stylesheet\" href=\"/_next/static/css/eb8733d668de9443.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-338378fa01237a86.js\"/><script src=\"/_next/static/chunks/52774a7f-51ae206032da9c42.js\" async=\"\"></script><script src=\"/_next/static/chunks/fd9d1056-6f3dff9d1623e6ab.js\" async=\"\"></script><script src=\"/_next/static/chunks/6937-3168d79da0eea664.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-52a11fd76b3a6e9c.js\" async=\"\"></script><script src=\"/_next/static/chunks/145-785c617266a20b56.js\" async=\"\"></script><script src=\"/_next/static/chunks/3464-6652042483686ee8.js\" async=\"\"></script><script src=\"/_next/static/chunks/4438-8bfb4e757f075d26.js\" async=\"\"></script><script src=\"/_next/static/chunks/6075-46685ae56c84c9cc.js\" async=\"\"></script><script src=\"/_next/static/chunks/4053-dbad5ee0ceb67271.js\" async=\"\"></script><script src=\"/_next/static/chunks/2605-ea1b37410b2e7d55.js\" async=\"\"></script><script src=\"/_next/sta",
+    "file": "endpoint-2.txt"
+  },
+  {
+    "url": "https://snippet.reuzenpanda.app/api/snippet/v1/js/eafd3f85-8c43-4848-b025-10448270c067/prefabpartner.nl",
+    "error": "HTTPSConnectionPool(host='snippet.reuzenpanda.app', port=443): Max retries exceeded with url: /api/snippet/v1/js/eafd3f85-8c43-4848-b025-10448270c067/prefabpartner.nl (Caused by NameResolutionError(\"HTTPSConnection(host='snippet.reuzenpanda.app', port=443): Failed to resolve 'snippet.reuzenpanda.app' ([Errno -2] Name or service not known)\"))"
+  }
+]

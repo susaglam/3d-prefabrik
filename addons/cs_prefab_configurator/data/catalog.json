@@ -1,0 +1,925 @@
+{
+  "schemaVersion": "1.0",
+  "reference": {
+    "url": "https://prefabpartner.nl/offerte/",
+    "observedAt": "2026-09-09",
+    "questionnaire": "Public 21-page configurator definition",
+    "pricesAvailable": false
+  },
+  "defaults": {
+    "width": 500,
+    "depth": 300,
+    "height": 280,
+    "facade": "brick-red",
+    "frontOpening": "sliding-2-black",
+    "rooflight": "none",
+    "roofEdge": "anthracite",
+    "rollaag": "masonry",
+    "outsideLight": "none",
+    "outsideSocket": "none",
+    "outsideTap": "none",
+    "drainMaterial": "pvc",
+    "drainSide": "right",
+    "interior": false,
+    "plaster": false,
+    "screed": false,
+    "underfloorHeating": false,
+    "heating": "none",
+    "ceilingLights": 0,
+    "switches": 0,
+    "spotlights": 0,
+    "sockets": "none",
+    "demolition": false,
+    "access": "normal",
+    "piles": 3,
+    "postcode": ""
+  },
+  "dimensions": {
+    "width": {
+      "label": "Breedte",
+      "min": 150,
+      "max": 750,
+      "step": 1,
+      "unit": "cm"
+    },
+    "depth": {
+      "label": "Diepte",
+      "min": 100,
+      "max": 340,
+      "step": 1,
+      "unit": "cm"
+    },
+    "height": {
+      "label": "Schematische hoogte",
+      "min": 280,
+      "max": 280,
+      "step": 1,
+      "unit": "cm",
+      "hidden": true
+    }
+  },
+  "groups": [
+    {
+      "id": "exterior",
+      "label": "Gevel en dakrand",
+      "fields": [
+        {
+          "key": "facade",
+          "label": "Baksteen steenstrips",
+          "description": "Dit zijn de hoofdkleuren. Zodra de offerte is uitgebracht, bespreken we de mogelijkheden.",
+          "type": "select",
+          "referenceQuestionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+          "options": [
+            {
+              "id": "brick-red",
+              "label": "Baksteen rood",
+              "description": "",
+              "referenceAnswerId": "536a2a6f-9808-4c1a-b679-6ef42d9038b7"
+            },
+            {
+              "id": "brick-black",
+              "label": "Baksteen zwart",
+              "description": "",
+              "referenceAnswerId": "be9bc3ed-4023-48ee-b24f-1a80c9ab9d87"
+            },
+            {
+              "id": "brick-white",
+              "label": "Baksteen wit",
+              "description": "",
+              "referenceAnswerId": "41ee57cd-fe1f-47f4-a136-2f84ee0b7197"
+            },
+            {
+              "id": "brick-yellow",
+              "label": "Baksteen geel",
+              "description": "",
+              "referenceAnswerId": "5ab4ed42-d8a2-4892-8ae5-96ed4c7db432"
+            },
+            {
+              "id": "wood-horizontal",
+              "label": "Hout horizontaal",
+              "description": "",
+              "referenceAnswerId": "6a77d143-29a5-46ce-bc5f-1eb749f7a32d"
+            },
+            {
+              "id": "wood-vertical",
+              "label": "Hout verticaal",
+              "description": "",
+              "referenceAnswerId": "8f9de5fa-85fb-4e73-91d6-e4b3b10a12fc"
+            },
+            {
+              "id": "open-vertical",
+              "label": "Opengevel verticaal",
+              "description": "",
+              "referenceAnswerId": "97848788-fb06-4401-b8a9-b47a6a3f338e"
+            },
+            {
+              "id": "open-horizontal",
+              "label": "Opengevel horizontaal",
+              "description": "",
+              "referenceAnswerId": "11e0c08e-308a-4108-8dec-0888327f1425"
+            },
+            {
+              "id": "pvc-black",
+              "label": "Kunststof zwart",
+              "description": "",
+              "referenceAnswerId": "cccf1e75-b86c-4141-b82a-42f84505dfc7"
+            },
+            {
+              "id": "pvc-green",
+              "label": "Kunststof groen",
+              "description": "",
+              "referenceAnswerId": "b52275d7-6a8a-41b5-82c6-bfb081f79fba"
+            },
+            {
+              "id": "pvc-cream",
+              "label": "Kunststof creme wit",
+              "description": "",
+              "referenceAnswerId": "c6bbf04b-bef1-470e-9bf7-d776bd1d555b"
+            },
+            {
+              "id": "pvc-anthracite",
+              "label": "Kunststof antraciet",
+              "description": "",
+              "referenceAnswerId": "42e7dc46-3fa9-4223-bbf1-7e5398e2af74"
+            },
+            {
+              "id": "render",
+              "label": "Buitenstuc",
+              "description": "",
+              "referenceAnswerId": "e5d103de-2a87-44e5-adb0-8d90852eaa83"
+            }
+          ]
+        },
+        {
+          "key": "rollaag",
+          "label": "Rollaag",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "0f0309b2-0da2-4d72-9326-f8dbe8f33620",
+          "options": [
+            {
+              "id": "masonry",
+              "label": "Rollaag",
+              "description": "Metselwerk loopt door boven het kozijn",
+              "referenceAnswerId": "d0925dc2-9664-479d-bf87-00816b56375e"
+            },
+            {
+              "id": "panel-white",
+              "label": "Geen rollaag wit",
+              "description": "Het paneel boven het kozijn krijgt dezelfde kleur als het kozijn",
+              "referenceAnswerId": "42561342-d839-474b-8d0d-1908b0848b03"
+            },
+            {
+              "id": "panel-black",
+              "label": "Geen rollaag zwart",
+              "description": "Het paneel boven het kozijn krijgt dezelfde kleur als het kozijn",
+              "referenceAnswerId": "b844f827-3fb1-4309-b206-44d85c386846"
+            }
+          ]
+        },
+        {
+          "key": "roofEdge",
+          "label": "Daktrim",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "7af245a6-8c5b-4008-b972-6bd74d448613",
+          "options": [
+            {
+              "id": "aluminium",
+              "label": "Daktrim aluminium",
+              "description": "",
+              "referenceAnswerId": "72fd2251-363b-45aa-9bd2-328b61871f2c"
+            },
+            {
+              "id": "anthracite",
+              "label": "Daktrim aluminium antraciet",
+              "description": "",
+              "referenceAnswerId": "6ab11429-df1a-4dc3-8843-46eb921ead92"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "openings",
+      "label": "Kozijn en daglicht",
+      "fields": [
+        {
+          "key": "frontOpening",
+          "label": "Kozijn",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+          "options": [
+            {
+              "id": "none",
+              "label": "Geen deur",
+              "description": "",
+              "referenceAnswerId": "235cd45d-d410-43e0-87ef-9f0afebc66ed"
+            },
+            {
+              "id": "french-black",
+              "label": "Openslaande deur zwart",
+              "description": "",
+              "referenceAnswerId": "dc961e30-5b13-473f-ac44-8e80bd4d6cc4"
+            },
+            {
+              "id": "french-white",
+              "label": "Openslaande deur wit",
+              "description": "",
+              "referenceAnswerId": "50bce7d0-c74e-4c81-a924-a93c6c080041"
+            },
+            {
+              "id": "french-bars-black",
+              "label": "Openslaande deur met roedes zwart",
+              "description": "",
+              "referenceAnswerId": "0cbc2e92-9df1-44fd-b12a-2fe7705678ac"
+            },
+            {
+              "id": "french-bars-white",
+              "label": "Openslaande deur met roedes wit",
+              "description": "",
+              "referenceAnswerId": "12472db9-8b25-4b96-ad53-b8d87e7031ca"
+            },
+            {
+              "id": "sliding-2-black",
+              "label": "2-delige schuifpui zwart",
+              "description": "",
+              "referenceAnswerId": "ad1ef499-3456-406e-ae07-f2661d9e3a1a"
+            },
+            {
+              "id": "sliding-2-white",
+              "label": "2-delige schuifpui wit",
+              "description": "",
+              "referenceAnswerId": "b9fc942f-c9a5-49b6-9392-6d6d9982bc4e"
+            },
+            {
+              "id": "sliding-4-black",
+              "label": "4-delige schuifpui zwart",
+              "description": "",
+              "referenceAnswerId": "f040d7f9-f806-4514-9884-75a246ffc74a"
+            },
+            {
+              "id": "sliding-4-white",
+              "label": "4-delige schuifpui wit",
+              "description": "",
+              "referenceAnswerId": "60dd0b46-c2d9-4911-8b00-930ef36a8727"
+            },
+            {
+              "id": "folding-black",
+              "label": "Harmonicapui zwart",
+              "description": "",
+              "referenceAnswerId": "193e03f3-1151-4654-b218-93e7975de2cf"
+            },
+            {
+              "id": "folding-white",
+              "label": "Harmonicapui wit",
+              "description": "",
+              "referenceAnswerId": "da2e87bb-5a7d-4850-951b-c9f199203599"
+            }
+          ]
+        },
+        {
+          "key": "rooflight",
+          "label": "Lessenaars dakramen",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+          "options": [
+            {
+              "id": "none",
+              "label": "Nee",
+              "description": "",
+              "referenceAnswerId": "4d087b04-8559-4025-aae6-037058976ca4"
+            },
+            {
+              "id": "lean-1",
+              "label": "1 vaks lessenaar",
+              "description": "vaste uitvoering helder",
+              "referenceAnswerId": "e2e801fc-febc-4779-85f1-27fe259084cf"
+            },
+            {
+              "id": "lean-2",
+              "label": "2 vaks lessenaar",
+              "description": "vaste uitvoering helder",
+              "referenceAnswerId": "50ca268a-6155-4b02-9e48-4e871306923b"
+            },
+            {
+              "id": "lean-3",
+              "label": "3 vaks lessenaar",
+              "description": "vaste uitvoering helder",
+              "referenceAnswerId": "f1e55eed-cda7-419a-9acf-5873130403da"
+            },
+            {
+              "id": "lean-4",
+              "label": "4 vaks lessenaar",
+              "description": "vaste uitvoering helder",
+              "referenceAnswerId": "1a8a6ab2-7245-4e8d-a9a8-a0c4d749934e"
+            },
+            {
+              "id": "gable-4",
+              "label": "4 vaks zadeldak",
+              "description": "vaste uitvoering helder",
+              "referenceAnswerId": "7f0103f3-1622-42d4-8dcf-129328da3fd6"
+            },
+            {
+              "id": "gable-6",
+              "label": "6 vaks zadeldak",
+              "description": "vaste uitvoering helder",
+              "referenceAnswerId": "83381215-eb2b-4a83-84e1-354a954f4088"
+            },
+            {
+              "id": "gable-8",
+              "label": "8 vaks zadeldak",
+              "description": "vaste uitvoering helder",
+              "referenceAnswerId": "191e6a8e-6ffe-4329-be0f-56c899c7f646"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outside",
+      "label": "Buitenvoorzieningen",
+      "fields": [
+        {
+          "key": "outsideLight",
+          "label": "Buitenlicht",
+          "description": "Wordt als loze leiding aangelegd",
+          "type": "select",
+          "referenceQuestionId": "f8f4a5c1-6b2e-461d-b9cd-e99dddd4816f",
+          "options": [
+            {
+              "id": "none",
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "82bcda51-59e8-4477-bc03-3c0afb17ca15"
+            },
+            {
+              "id": "left",
+              "label": "Links",
+              "description": "",
+              "referenceAnswerId": "a247adf4-dfae-4935-be01-1e867e49ecfb"
+            },
+            {
+              "id": "right",
+              "label": "Rechts",
+              "description": "",
+              "referenceAnswerId": "600a0659-9dd6-430c-b8aa-23f340180df5"
+            },
+            {
+              "id": "both",
+              "label": "Beide kanten",
+              "description": "",
+              "referenceAnswerId": "65716817-da47-44b6-a948-0496723c57fc"
+            }
+          ]
+        },
+        {
+          "key": "outsideSocket",
+          "label": "Buiten stopcontact",
+          "description": "Wordt als loze leiding aangelegd",
+          "type": "select",
+          "referenceQuestionId": "efa35376-bcd3-4c19-8f7c-c4733bb4a7e5",
+          "options": [
+            {
+              "id": "none",
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "0bed356f-43ce-4c5f-870e-86815d68f899"
+            },
+            {
+              "id": "left",
+              "label": "Links",
+              "description": "",
+              "referenceAnswerId": "65084465-f199-411a-8c9f-75d97abb5002"
+            },
+            {
+              "id": "right",
+              "label": "Rechts",
+              "description": "",
+              "referenceAnswerId": "0ee35cb2-2b77-408f-bb9d-2dd27de6ecb3"
+            }
+          ]
+        },
+        {
+          "key": "outsideTap",
+          "label": "Buiten kraan",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "1a655d29-64c2-4097-aa17-7ede2773a328",
+          "options": [
+            {
+              "id": "none",
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "626cef0b-cef6-4baa-822f-f7ae51f3924d"
+            },
+            {
+              "id": "left",
+              "label": "Links",
+              "description": "",
+              "referenceAnswerId": "95a35a5c-13ed-46b3-aa8c-04e9fcde2a3f"
+            },
+            {
+              "id": "right",
+              "label": "Rechts",
+              "description": "",
+              "referenceAnswerId": "cbf33461-bad8-4292-9fab-5134db9a714c"
+            }
+          ]
+        },
+        {
+          "key": "drainMaterial",
+          "label": "Regenbuis materiaal",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "d0b4cdb6-8f8a-4abd-8300-db2605844a94",
+          "options": [
+            {
+              "id": "pvc",
+              "label": "PVC",
+              "description": "(standaard)",
+              "referenceAnswerId": "4d5721db-91f1-4b21-b457-d394f84fb326"
+            },
+            {
+              "id": "zinc",
+              "label": "Zink",
+              "description": "",
+              "referenceAnswerId": "d45f4a87-ac66-440d-a790-b4966147d674"
+            }
+          ]
+        },
+        {
+          "key": "drainSide",
+          "label": "Plaatsing",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "b66512c2-09a1-4f5f-8be8-8c22ef15e24a",
+          "options": [
+            {
+              "id": "left",
+              "label": "Links",
+              "description": "",
+              "referenceAnswerId": "01ace83a-35bb-4366-8ee3-8eeb468553c0"
+            },
+            {
+              "id": "right",
+              "label": "Rechts",
+              "description": "",
+              "referenceAnswerId": "b2cc89d8-c802-493c-aa65-720bf27b6221"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "interior",
+      "label": "Binnenafwerking",
+      "fields": [
+        {
+          "key": "interior",
+          "label": "Aanbouw binnen",
+          "description": "",
+          "type": "boolean",
+          "referenceQuestionId": "0a385dba-66ab-4729-9b8d-1b4f478d6154",
+          "options": [
+            {
+              "id": true,
+              "label": "Stel aanbouw binnenzijde samen",
+              "description": "",
+              "referenceAnswerId": "c59cda51-fddb-4bfc-b083-1344508e8e2c"
+            },
+            {
+              "id": false,
+              "label": "Dit is niet nodig",
+              "description": "",
+              "referenceAnswerId": "2a892656-7063-40b8-b4ae-755d922c485a"
+            }
+          ]
+        },
+        {
+          "key": "plaster",
+          "label": "Wel of geen stucwerk",
+          "description": "",
+          "type": "boolean",
+          "referenceQuestionId": "3c2e35b1-2de0-4028-902b-8d4d8fff8638",
+          "options": [
+            {
+              "id": false,
+              "label": "Geen stucwerk",
+              "description": "",
+              "referenceAnswerId": "39c9be0f-b993-4b16-8eb3-f21430abfbe7"
+            },
+            {
+              "id": true,
+              "label": "Wel stucwerk",
+              "description": "",
+              "referenceAnswerId": "8916e6d0-33a7-4098-b0d2-e064c94c73a9"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "screed",
+          "label": "Wel of geen afwerkvloer",
+          "description": "",
+          "type": "boolean",
+          "referenceQuestionId": "7d3ce1b5-07e5-421f-b289-5eb0f3acb238",
+          "options": [
+            {
+              "id": false,
+              "label": "Geen afwerkvloer",
+              "description": "",
+              "referenceAnswerId": "62824e8f-38ee-4502-88ee-37f7b4a65b03"
+            },
+            {
+              "id": true,
+              "label": "Wel een afwerkvloer",
+              "description": "",
+              "referenceAnswerId": "bf547cc9-c48e-4d05-af16-995eb1665ed8"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "underfloorHeating",
+          "label": "Vloerverwarming",
+          "description": "Indien u vloerverwarming wenst, verlagen wij de vloer voor de vloerverwarming, maar sluiten deze niet aan de bestaande verwarming.",
+          "type": "boolean",
+          "referenceQuestionId": "b7c13ea2-b757-432e-9d08-0c0bbaca9be3",
+          "options": [
+            {
+              "id": false,
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "9bad989f-d7c6-4efc-929e-558ed0c866d9"
+            },
+            {
+              "id": true,
+              "label": "Vloerverwarming",
+              "description": "",
+              "referenceAnswerId": "4ee4568d-bd14-48c4-b7a5-7ebb0a45fd06"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "heating",
+          "label": "Verwarming",
+          "description": "Wordt als loze leiding aangelegd",
+          "type": "select",
+          "referenceQuestionId": "614eacf0-5267-4267-82f3-8bf9deb65e78",
+          "options": [
+            {
+              "id": "none",
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "9835c9e5-f46d-4d05-bab0-e26e0479dfe8"
+            },
+            {
+              "id": "left",
+              "label": "Links",
+              "description": "",
+              "referenceAnswerId": "31a80ce1-5535-42ff-ac1d-cec5a463e6be"
+            },
+            {
+              "id": "right",
+              "label": "Rechts",
+              "description": "",
+              "referenceAnswerId": "c479f68d-3b8d-4603-87a1-a3dfb4eb31b8"
+            },
+            {
+              "id": "both",
+              "label": "Beide kanten",
+              "description": "",
+              "referenceAnswerId": "d44e7ffa-ff2a-4dd2-97c8-8f3cb1d676d5"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "ceilingLights",
+          "label": "Plafond lamp",
+          "description": "Wij plaatsen zelf geen plafond lampen, we zorgen ervoor dat de stroompunten op de juiste plaats geplaatst worden.",
+          "type": "number",
+          "referenceQuestionId": "c830f0af-fe5d-4b20-b9a0-0790f4d57841",
+          "options": [
+            {
+              "id": 0,
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "24283004-53a5-40db-b2bb-a244e723cf0d"
+            },
+            {
+              "id": 1,
+              "label": "1 plafond lamp",
+              "description": "",
+              "referenceAnswerId": "293adbbb-56da-479c-955f-c3e9682b6a06"
+            },
+            {
+              "id": 2,
+              "label": "2 plafond lampen",
+              "description": "",
+              "referenceAnswerId": "9fe10ccc-1071-41a2-8a1d-7c5b9b7e8f16"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "switches",
+          "label": "Schakelaar",
+          "description": "Wordt als loze leiding aangelegd",
+          "type": "number",
+          "referenceQuestionId": "1cc28716-57ac-4120-bd22-5fc5263c5d4e",
+          "options": [
+            {
+              "id": 0,
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "b3d0da08-c27d-4401-a697-48ad889fb892"
+            },
+            {
+              "id": 1,
+              "label": "1 schakelaar",
+              "description": "",
+              "referenceAnswerId": "97396076-a16d-45f5-b1d0-a8caaa9e5973"
+            },
+            {
+              "id": 2,
+              "label": "2 schakelaars",
+              "description": "",
+              "referenceAnswerId": "58c7a708-5a71-49bf-9a7a-ae545f718058"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "spotlights",
+          "label": "Aantal spotjes",
+          "description": "Het aantal spots uitbreiden tot maximaal 12 spots.",
+          "type": "number",
+          "referenceQuestionId": "18b5b68f-d4e0-4843-8266-feb966184368",
+          "options": [
+            {
+              "id": 0,
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "c84b9156-f047-42eb-b84f-e2d6dfea70fb"
+            },
+            {
+              "id": 1,
+              "label": "1 spotje",
+              "description": "",
+              "referenceAnswerId": "1cb83519-2153-47f2-acd5-871e0591697f"
+            },
+            {
+              "id": 2,
+              "label": "2 spotjes",
+              "description": "",
+              "referenceAnswerId": "a6bf6fb9-a10f-4254-8d60-020a260aeaca"
+            },
+            {
+              "id": 3,
+              "label": "3 spotjes",
+              "description": "",
+              "referenceAnswerId": "a2ffd534-183d-4cbd-aa5e-0e66458a6e20"
+            },
+            {
+              "id": 4,
+              "label": "4 spotjes",
+              "description": "",
+              "referenceAnswerId": "8fec71e6-df6a-4875-8260-57d2a877f7e8"
+            },
+            {
+              "id": 5,
+              "label": "5 spotjes",
+              "description": "",
+              "referenceAnswerId": "45a54059-a3be-427d-9e69-067f29064a3c"
+            },
+            {
+              "id": 6,
+              "label": "6 spotjes",
+              "description": "",
+              "referenceAnswerId": "769689e7-76b0-40af-83de-767c7cd1b969"
+            },
+            {
+              "id": 7,
+              "label": "7 spotjes",
+              "description": "",
+              "referenceAnswerId": "4d322d0f-b634-45b1-8c05-3728a339d07e"
+            },
+            {
+              "id": 8,
+              "label": "8 spotjes",
+              "description": "",
+              "referenceAnswerId": "97262ba1-0d6a-4836-883b-42e85bf6440b"
+            },
+            {
+              "id": 9,
+              "label": "9 spotjes",
+              "description": "",
+              "referenceAnswerId": "0d44958d-b11f-4075-8c1a-ec1bb9a1266d"
+            },
+            {
+              "id": 10,
+              "label": "10 spotjes",
+              "description": "",
+              "referenceAnswerId": "223167e9-af86-4f18-8f44-62317bc6fa86"
+            },
+            {
+              "id": 11,
+              "label": "11 spotjes",
+              "description": "",
+              "referenceAnswerId": "b651f0da-aa91-4fc6-b3b7-e1a7cbbd3be4"
+            },
+            {
+              "id": 12,
+              "label": "12 spotjes",
+              "description": "",
+              "referenceAnswerId": "78facad7-8e7e-4b97-b9d8-73845651aed6"
+            }
+          ],
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "sockets",
+          "label": "Stopcontact",
+          "description": "Wordt als loze leiding aangelegd",
+          "type": "select",
+          "referenceQuestionId": "f19118c8-f0cd-45bd-868b-181ef6c15202",
+          "options": [
+            {
+              "id": "none",
+              "label": "Geen",
+              "description": "",
+              "referenceAnswerId": "f98b10d4-ab04-4086-8871-ae3a33dbf43a"
+            },
+            {
+              "id": "left",
+              "label": "Links",
+              "description": "",
+              "referenceAnswerId": "5af9fbc7-1977-4b1b-8503-260a485ce839"
+            },
+            {
+              "id": "right",
+              "label": "Rechts",
+              "description": "",
+              "referenceAnswerId": "96648658-b10d-41e5-87fb-294a7b874ef1"
+            },
+            {
+              "id": "both",
+              "label": "Beide Kanten",
+              "description": "",
+              "referenceAnswerId": "1d3a6402-9dbf-478f-a4bc-c0253b5ace07"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "site",
+      "label": "Voorbereiding en fundering",
+      "fields": [
+        {
+          "key": "demolition",
+          "label": "Geveldoorbraak",
+          "description": "Een gevel doorbraak is het openbreken van één van de buitenmuren van een woning.",
+          "type": "boolean",
+          "referenceQuestionId": "c374c78e-11e4-4c9f-9585-01d1d88b9ca0",
+          "options": [
+            {
+              "id": false,
+              "label": "Geen doorbraak",
+              "description": "",
+              "referenceAnswerId": "03795c84-99e6-4aa3-b1af-79dc185d33d0"
+            },
+            {
+              "id": true,
+              "label": "Met doorbraak",
+              "description": "",
+              "referenceAnswerId": "a7d341f2-bebf-42a0-9be2-2be636c32347"
+            }
+          ]
+        },
+        {
+          "key": "access",
+          "label": "Is er een achterom aanwezig",
+          "description": "",
+          "type": "select",
+          "referenceQuestionId": "fa7c2c65-019b-41bc-a692-1971a4445776",
+          "options": [
+            {
+              "id": "restricted",
+              "label": "Nee",
+              "description": "",
+              "referenceAnswerId": "7e132a0e-bea8-4f14-9a72-5e7256030ceb"
+            },
+            {
+              "id": "normal",
+              "label": "Ja",
+              "description": "",
+              "referenceAnswerId": "5d05637a-edd9-41f3-aa7a-43240d8b3042"
+            }
+          ]
+        },
+        {
+          "key": "piles",
+          "label": "Aantal heipalen",
+          "description": "Bekijk hierboven hoeveel heipalen je nodig hebt!",
+          "type": "number",
+          "referenceQuestionId": "7da0e51f-8c7a-4134-9fb1-b90a451e0e27",
+          "options": [
+            {
+              "id": 2,
+              "label": "2 heipalen",
+              "description": "",
+              "referenceAnswerId": "cf4f8170-f70e-4012-b608-25acf0fff780"
+            },
+            {
+              "id": 3,
+              "label": "3 heipalen",
+              "description": "",
+              "referenceAnswerId": "cfcdaad9-dc9d-4b02-a6d3-ee8e71e55a4c"
+            },
+            {
+              "id": 4,
+              "label": "4 heipalen",
+              "description": "",
+              "referenceAnswerId": "d19fe513-4531-454e-927c-a5763a2130b6"
+            },
+            {
+              "id": 6,
+              "label": "6 heipalen",
+              "description": "",
+              "referenceAnswerId": "d9315c55-2e0c-4865-9c30-84abd68b08ef"
+            }
+          ],
+          "min": 2,
+          "max": 6,
+          "step": 1
+        },
+        {
+          "key": "postcode",
+          "label": "Postcode plaatsing",
+          "type": "text",
+          "placeholder": "1234 AB",
+          "maxLength": 7
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "type": "resetWhen",
+      "field": "interior",
+      "equals": false,
+      "fields": [
+        "plaster",
+        "screed",
+        "underfloorHeating",
+        "heating",
+        "ceilingLights",
+        "switches",
+        "spotlights",
+        "sockets"
+      ],
+      "message": "Binnenopties worden gewist als de binnenzijde niet wordt samengesteld."
+    }
+  ],
+  "engineeringNotice": "Afmetingen en aantal heipalen zijn klantkeuzes, geen constructieve goedkeuring. Definitieve uitwerking na inmeting en berekening."
+}

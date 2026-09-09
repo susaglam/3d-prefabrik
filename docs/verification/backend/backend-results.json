@@ -1,0 +1,45 @@
+{
+  "observedAt": "2026-09-09T01:37:22Z",
+  "standalone": {
+    "command": "/tmp/cs-prefab-odoo-venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v",
+    "tests": 30,
+    "passed": 30,
+    "failed": 0,
+    "skipped": 0,
+    "optionalParser": "pypdf 6.18.0",
+    "standardLibraryOnly": {"tests": 30, "passed": 28, "skipped": 2, "reason": "Independent PDF parser dependency absent"}
+  },
+  "odoo": {
+    "version": "saas~19.3",
+    "source": "https://github.com/odoo/odoo/tree/saas-19.3",
+    "commit": "b01000720dc5bbbdc250eb92997f1815501dcfda",
+    "postgres": "16.15, private cluster on 127.0.0.1:55478",
+    "database": "cs_prefab_isolated",
+    "install": "success; 56 modules including dependencies loaded",
+    "tests": 3,
+    "failed": 0,
+    "errors": 0,
+    "testNames": [
+      "test_actual_http_crm_snapshot_idempotency_pdf_and_acl",
+      "test_actual_http_share_and_cross_website_isolation",
+      "test_actual_origin_validation_and_no_client_price"
+    ],
+    "coverage": ["actual HTTP CRM opportunity creation", "immutable quote and frozen pricing", "one lead for identical retry", "changed customer idempotency409", "private PDF200", "internal QWeb HTML render", "public/portal model ACL exclusion", "cross-company and website share404", "cross-company and website privatePDF404", "untrusted Origin403", "client total rejected422", "dimension validation422", "hidden interior reset"],
+    "sourceLog": "/tmp/cs-prefab-odoo-tests-final.log",
+    "cronThreads": 0,
+    "outgoingMailFromAdapter": false,
+    "targetProductionDatabaseUsed": false
+  },
+  "pdf": {
+    "runtimeDependencies": "Python standard library; bundled DejaVuSans.ttf",
+    "independentReaders": ["pypdf6.18.0", "PyMuPDF1.28.2"],
+    "unicodeRoundtrip": ["Şükrü Çağrı", "İstanbul, ığüşöç — €"],
+    "dimensionedPlan": "501 x 299 cm from frozen configuration",
+    "samplePages": 2,
+    "sampleBytes": 398996,
+    "sampleFile": "sample-quote.pdf",
+    "visualReview": "sample-quote-page-1.png inspected; no clipping; Turkish glyphs visible",
+    "limitations": ["Font coverage limited to DejaVu Sans", "Complex-script shaping is not implemented"]
+  },
+  "commercialStatus": "DEMONSTRATION price book only; source questionnaire exposes no customer prices"
+}

@@ -1,0 +1,159 @@
+
+> cs-prefab-configurator@1.0.0 test
+> node --test tests/frontend/*.test.mjs
+
+TAP version 13
+# Subtest: centimetres become metres once, with consistent garden-facing coordinates
+ok 1 - centimetres become metres once, with consistent garden-facing coordinates
+  ---
+  duration_ms: 4.362849
+  ...
+# Subtest: an opening removes front wall solids throughout its clear area
+ok 2 - an opening removes front wall solids throughout its clear area
+  ---
+  duration_ms: 1.518298
+  ...
+# Subtest: no front opening is an uninterrupted front wall and no door panels
+ok 3 - no front opening is an uninterrupted front wall and no door panels
+  ---
+  duration_ms: 0.435454
+  ...
+# Subtest: door panel families preserve counts, span and selected colour/grid
+ok 4 - door panel families preserve counts, span and selected colour/grid
+  ---
+  duration_ms: 1.620451
+  ...
+# Subtest: all rooflight variants retain exact panel counts and fit inside the roof
+ok 5 - all rooflight variants retain exact panel counts and fit inside the roof
+  ---
+  duration_ms: 3.780827
+  ...
+# Subtest: minimum valid 150 by 100 cm is neither enlarged nor priced as a different shape
+ok 6 - minimum valid 150 by 100 cm is neither enlarged nor priced as a different shape
+  ---
+  duration_ms: 27.463469
+  ...
+# Subtest: four roof slabs never cover the configured rooflight opening
+ok 7 - four roof slabs never cover the configured rooflight opening
+  ---
+  duration_ms: 0.782466
+  ...
+# Subtest: gable has two opposing slopes and a common ridge; lean has one slope
+ok 8 - gable has two opposing slopes and a common ridge; lean has one slope
+  ---
+  duration_ms: 0.567443
+  ...
+# Subtest: drain and exterior conduit positions reflect explicit garden-facing sides
+ok 9 - drain and exterior conduit positions reflect explicit garden-facing sides
+  ---
+  duration_ms: 0.798784
+  ...
+# Subtest: SVG uses the same dimensions, panel count and accessible room description
+ok 10 - SVG uses the same dimensions, panel count and accessible room description
+  ---
+  duration_ms: 2.193783
+  ...
+# Subtest: bad imported values produce finite safe preview geometry rather than NaN
+ok 11 - bad imported values produce finite safe preview geometry rather than NaN
+  ---
+  duration_ms: 0.435937
+  ...
+# Subtest: every source choice has exactly one canonical field and answer mapping
+ok 12 - every source choice has exactly one canonical field and answer mapping
+  ---
+  duration_ms: 5.374436
+  ...
+# Subtest: every canonical product choice appears in the guided UI
+ok 13 - every canonical product choice appears in the guided UI
+  ---
+  duration_ms: 0.520904
+  ...
+# Subtest: source centimeter boundaries are preserved, with a separate fixed schematic height
+ok 14 - source centimeter boundaries are preserved, with a separate fixed schematic height
+  ---
+  duration_ms: 0.556146
+  ...
+# Subtest: missing, corrupt and array drafts recover to fresh canonical defaults
+ok 15 - missing, corrupt and array drafts recover to fresh canonical defaults
+  ---
+  duration_ms: 1.153714
+  ...
+# Subtest: draft import discards untrusted fields, contact data and prototype-shaped keys
+ok 16 - draft import discards untrusted fields, contact data and prototype-shaped keys
+  ---
+  duration_ms: 0.464034
+  ...
+# Subtest: draft import accepts inclusive dimension bounds and rejects coercion/non-finite numbers
+ok 17 - draft import accepts inclusive dimension bounds and rejects coercion/non-finite numbers
+  ---
+  duration_ms: 2.406489
+  ...
+# Subtest: draft import preserves all canonical numeric and boolean option types
+ok 18 - draft import preserves all canonical numeric and boolean option types
+  ---
+  duration_ms: 1.302791
+  ...
+# Subtest: discrete pile catalogue never imports a nonexistent five-pile option
+ok 19 - discrete pile catalogue never imports a nonexistent five-pile option
+  ---
+  duration_ms: 0.415275
+  ...
+# Subtest: unknown and object option values cannot be rendered as product selections
+ok 20 - unknown and object option values cannot be rendered as product selections
+  ---
+  duration_ms: 2.042195
+  ...
+# Subtest: turning off interior clears all priced hidden choices without changing exterior choices or inputs
+ok 21 - turning off interior clears all priced hidden choices without changing exterior choices or inputs
+  ---
+  duration_ms: 2.731584
+  ...
+# Subtest: hidden interior payloads from stored drafts are cleared on restore
+ok 22 - hidden interior payloads from stored drafts are cleared on restore
+  ---
+  duration_ms: 0.303949
+  ...
+# Subtest: dimension validation rejects unsupported model states and accepts the full source interval
+ok 23 - dimension validation rejects unsupported model states and accepts the full source interval
+  ---
+  duration_ms: 2.13672
+  ...
+# Subtest: contact validation accepts ordinary Dutch addresses and international notation
+ok 24 - contact validation accepts ordinary Dutch addresses and international notation
+  ---
+  duration_ms: 2.081782
+  ...
+# Subtest: contact validation reports all missing required fields
+ok 25 - contact validation reports all missing required fields
+  ---
+  duration_ms: 1.10003
+  ...
+# Subtest: contact validation rejects syntactically invalid email, phone, postcode and house number
+ok 26 - contact validation rejects syntactically invalid email, phone, postcode and house number
+  ---
+  duration_ms: 0.722506
+  ...
+# Subtest: malformed contact field types produce field errors instead of throwing
+ok 27 - malformed contact field types produce field errors instead of throwing
+  ---
+  duration_ms: 1.930579
+  ...
+# Subtest: HTML escaping protects both attribute and text contexts without losing ordinary text
+ok 28 - HTML escaping protects both attribute and text contexts without losing ordinary text
+  ---
+  duration_ms: 0.825916
+  ...
+# Subtest: labels resolve typed numeric/boolean options without truthiness errors
+ok 29 - labels resolve typed numeric/boolean options without truthiness errors
+  ---
+  duration_ms: 1.249494
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 361.85054

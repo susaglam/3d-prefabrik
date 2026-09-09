@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+# Preserve upstream evidence and vendored libraries verbatim.
+research/reference/** -text -whitespace
+addons/cs_prefab_configurator/static/vendor/** -text -whitespace
+addons/cs_prefab_configurator/services/fonts/** -text -whitespace
+*.png binary
+*.pdf binary
+*.ttf binary
+*.woff2 binary

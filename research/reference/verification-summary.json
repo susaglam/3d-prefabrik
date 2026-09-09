@@ -1,0 +1,42 @@
+{
+  "date": "2026-09-09",
+  "configurator_id": "28befe23-1200-4d1c-8092-e48a83477820",
+  "source_definition": {
+    "pages": 21,
+    "questions": 33,
+    "answer_options": 94,
+    "image_layers": 18,
+    "image_variants": 97,
+    "unique_image_urls": 83
+  },
+  "browser": {
+    "engine": "Chromium 151 via Playwright",
+    "desktop_viewport": [
+      1500,
+      1000
+    ],
+    "desktop_input_pages": 20,
+    "choice_options_clicked": 94,
+    "options_with_checked_state": 94,
+    "desktop_horizontal_overflows": 0,
+    "mobile_viewport": [
+      390,
+      844
+    ],
+    "mobile_no_interior_input_pages": 14,
+    "mobile_horizontal_overflows": 0,
+    "previous_dimensions_retained": [
+      "500",
+      "300"
+    ],
+    "all_non_read_methods_blocked": true,
+    "submitted_leads": 0,
+    "contact_details_entered": false
+  },
+  "limitations": [
+    "Wrapper snippet did not load from audit environment; hosted configurator worked.",
+    "No quote or email sent; backend lead validation and delivery not exercised.",
+    "Image conditions inspected and every UI choice selected, but not every image combination screenshot-compared.",
+    "Commercial prices absent from fetched configuration."
+  ]
+}

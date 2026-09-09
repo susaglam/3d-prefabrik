@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f1">
+  <meta name="description" content="Ontwerp je prefab aanbouw. Kies je afmetingen, gevel, kozijnen en afwerking, bekijk je ontwerp in 3D en bewaar je persoonlijke voorstel.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Ontwerp je aanbouw · CS Prefab</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%232c4037'/%3E%3Cpath d='M10 28V15l10-6 10 6v13H10M20 9v19m-10-13 10 6 10-6' fill='none' stroke='%23f0c39a' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/cs_prefab_configurator/static/src/styles.css">
+</head>
+<body>
+  <a href="#step-panel" class="skip-link">Ga naar je keuzes</a>
+  <header class="site-header">
+    <a class="brand" href="/prefab" aria-label="CS Prefab, startpagina"><svg viewBox="0 0 36 40" fill="none" aria-hidden="true"><path d="M3 32V12L18 3l15 9v20L18 39 3 32Z M18 3v36M3 12l15 9 15-9M3 22l15 9 15-9" stroke="currentColor" stroke-width="1.6"/></svg><span>CS<span class="brand-light">prefab</span><small>RUIMTE OM TE LEVEN</small></span></a>
+    <nav class="header-nav" aria-label="Hoofdnavigatie"><span class="current">Ontwerp je aanbouw</span><button data-action="process">Hoe werkt het?</button></nav>
+    <button class="button ghost compact" data-action="save"><span data-icon="save"></span><span>Ontwerp bewaren</span></button>
+  </header>
+  <main id="app" aria-busy="true">
+    <div class="loading-screen"><div class="loading-mark"></div><p>Even ruimte maken voor jouw ideeën…</p></div>
+  </main>
+  <footer class="site-footer"><span>© CS Prefab <span id="year"></span></span><span>Een goed plan begint met jouw wensen.</span><button data-action="privacy">Privacy</button></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="modal" aria-labelledby="modal-title"><div id="modal-content"></div></dialog>
+  <script type="module" src="/cs_prefab_configurator/static/src/app.js"></script>
+</body>
+</html>

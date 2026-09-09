@@ -1,0 +1,828 @@
+[
+  {
+    "id": "ed0fe2cb-4a8f-4593-b699-8b530bf369b8",
+    "name": "Afmetingen",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": true,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "6d2033b9-523f-4856-ae69-6539d2284409",
+        "name": "Breedte",
+        "type": "NUMBER",
+        "required": true,
+        "technicalType": null,
+        "description": "in centimeters",
+        "min": 150.0,
+        "max": "750",
+        "step": 1.0,
+        "options": []
+      },
+      {
+        "id": "822687e3-25fe-4714-a229-b312992535e4",
+        "name": "Diepte",
+        "type": "NUMBER",
+        "required": true,
+        "technicalType": null,
+        "description": "in centimeters",
+        "min": 100.0,
+        "max": "340",
+        "step": 1.0,
+        "options": []
+      }
+    ]
+  },
+  {
+    "id": "2216cd02-dcf9-4920-bc47-6114618d36db",
+    "name": "Gevelbekleding",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": true,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
+        "name": "Baksteen steenstrips",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Dit zijn de hoofdkleuren. Zodra de offerte is uitgebracht, bespreken we de mogelijkheden.",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Baksteen rood",
+          "Baksteen zwart",
+          "Baksteen wit",
+          "Baksteen geel",
+          "Hout horizontaal",
+          "Hout verticaal",
+          "Opengevel verticaal",
+          "Opengevel horizontaal",
+          "Kunststof zwart",
+          "Kunststof groen",
+          "Kunststof creme wit",
+          "Kunststof antraciet",
+          "Buitenstuc"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "62b92df6-5cdf-4097-b382-0d563610a6ec",
+    "name": "Kozijn",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "18eb9d94-e359-4ed0-97e6-93d689e73ff1",
+        "name": "Kozijn",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen deur",
+          "Openslaande deur zwart",
+          "Openslaande deur wit",
+          "Openslaande deur met roedes zwart",
+          "Openslaande deur met roedes wit",
+          "2-delige schuifpui zwart",
+          "2-delige schuifpui wit",
+          "4-delige schuifpui zwart",
+          "4-delige schuifpui wit",
+          "Harmonicapui zwart",
+          "Harmonicapui wit"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a4064dc4-042d-4014-bb85-be76d36336c9",
+    "name": "Daklicht",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
+        "name": "Lessenaars dakramen",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Nee",
+          "1 vaks lessenaar",
+          "2 vaks lessenaar",
+          "3 vaks lessenaar",
+          "4 vaks lessenaar",
+          "4 vaks zadeldak",
+          "6 vaks zadeldak",
+          "8 vaks zadeldak"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eea8db08-fdc0-41b2-a0e3-25dbbf8e73aa",
+    "name": "Daktrim",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "7af245a6-8c5b-4008-b972-6bd74d448613",
+        "name": "Daktrim",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Daktrim aluminium",
+          "Daktrim aluminium antraciet"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b97b6ec3-249c-4666-95ba-c126ab361ce4",
+    "name": "Buitenlicht",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "f8f4a5c1-6b2e-461d-b9cd-e99dddd4816f",
+        "name": "Buitenlicht",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Wordt als loze leiding aangelegd",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "Links",
+          "Rechts",
+          "Beide kanten"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "2b8b573f-f254-40d8-a0f0-261a1b7e435a",
+    "name": "Buiten stopcontact",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "efa35376-bcd3-4c19-8f7c-c4733bb4a7e5",
+        "name": "Buiten stopcontact",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Wordt als loze leiding aangelegd",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "Links",
+          "Rechts"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b2a28ec0-0a15-4c90-ab24-52a9f1d6f8ea",
+    "name": "Buiten kraan",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "1a655d29-64c2-4097-aa17-7ede2773a328",
+        "name": "Buiten kraan",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen ",
+          "Links",
+          "Rechts"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "28f0638d-0786-4ccc-b219-5b4246622be4",
+    "name": "Regenbuis",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "d0b4cdb6-8f8a-4abd-8300-db2605844a94",
+        "name": "Regenbuis materiaal",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "PVC",
+          "Zink"
+        ]
+      },
+      {
+        "id": "b66512c2-09a1-4f5f-8be8-8c22ef15e24a",
+        "name": "Plaatsing",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Links",
+          "Rechts"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "f72f1a19-16df-4eda-8ad1-c0d7c939a2b0",
+    "name": "Aanbouw binnen",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "0a385dba-66ab-4729-9b8d-1b4f478d6154",
+        "name": "Aanbouw binnen",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Stel aanbouw binnenzijde samen",
+          "Dit is niet nodig"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dc37de81-c1d1-44f0-b536-8dcfc561c3bb",
+    "name": "Vloerafwerking",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "b7c13ea2-b757-432e-9d08-0c0bbaca9be3",
+        "name": "Vloerverwarming",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Indien u vloerverwarming wenst, verlagen wij de vloer voor de vloerverwarming, maar sluiten deze niet aan de bestaande verwarming.",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "Vloerverwarming"
+        ]
+      },
+      {
+        "id": "614eacf0-5267-4267-82f3-8bf9deb65e78",
+        "name": "Verwarming",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Wordt als loze leiding aangelegd",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "Links",
+          "Rechts",
+          "Beide kanten"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "37fd559e-afcf-4107-8684-3c302f157ee0",
+    "name": "Plafond lamp",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "c830f0af-fe5d-4b20-b9a0-0790f4d57841",
+        "name": "Plafond lamp",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Wij plaatsen zelf geen plafond lampen, we zorgen ervoor dat de stroompunten op de juiste plaats geplaatst worden.",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "1 plafond lamp",
+          "2 plafond lampen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "f76a89e7-642c-4e12-8fba-cb073035b1bf",
+    "name": "Schakelaar",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "1cc28716-57ac-4120-bd22-5fc5263c5d4e",
+        "name": "Schakelaar",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Wordt als loze leiding aangelegd",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "1 schakelaar",
+          "2 schakelaars"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "884e092a-9b13-4b51-9247-a8033b8f65f9",
+    "name": "Aantal spotjes",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "18b5b68f-d4e0-4843-8266-feb966184368",
+        "name": "Aantal spotjes",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Het aantal spots uitbreiden tot maximaal 12 spots.",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "1 spotje",
+          "2 spotjes",
+          "3 spotjes",
+          "4 spotjes",
+          "5 spotjes",
+          "6 spotjes",
+          "7 spotjes",
+          "8 spotjes",
+          "9 spotjes",
+          "10 spotjes",
+          "11 spotjes",
+          "12 spotjes"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7f48725a-caea-47d3-8e22-32436702a288",
+    "name": "Stroom",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "f19118c8-f0cd-45bd-868b-181ef6c15202",
+        "name": "Stopcontact",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Wordt als loze leiding aangelegd",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen",
+          "Links",
+          "Rechts",
+          "Beide Kanten"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "0ab018f3-9f8c-4ccc-ae64-10aa48be9fd6",
+    "name": "Doorbraak maken",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "c374c78e-11e4-4c9f-9585-01d1d88b9ca0",
+        "name": "Geveldoorbraak",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Een gevel doorbraak is het openbreken van één van de buitenmuren van een woning.",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen doorbraak",
+          "Met doorbraak"
+        ]
+      },
+      {
+        "id": "fa7c2c65-019b-41bc-a692-1971a4445776",
+        "name": "Is er een achterom aanwezig",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Nee",
+          "Ja"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "810ef66e-3c7a-41da-bffd-186980a2c817",
+    "name": "Heipalen",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": true,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "7da0e51f-8c7a-4134-9fb1-b90a451e0e27",
+        "name": "Aantal heipalen",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "Bekijk hierboven hoeveel heipalen je nodig hebt!",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "2 heipalen",
+          "3 heipalen",
+          "4 heipalen",
+          "6 heipalen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a5cd9757-af72-4320-a334-04f98b37b8ba",
+    "name": "Contactgegevens",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": false,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "daf4be0d-b7b4-4369-8c39-6299b6edd0d5",
+        "name": "",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "FIRST_NAME",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "7afd65f5-9008-4c03-9bbc-299d7d549719",
+        "name": "",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "LAST_NAME",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "a65286cd-42b1-4111-9434-d54382677174",
+        "name": "",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "EMAIL",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "59f718b9-5d15-4877-8e6b-2cbcb35b91ff",
+        "name": "",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "PHONE",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "32531b5f-3520-4ac4-aa48-5ad8617a452f",
+        "name": "Adresgegevens",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "STREET",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "09e01c01-9684-4a88-ba9c-34222d04cc8f",
+        "name": "",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "HOUSE_NUMBER",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "618ed65f-7879-42f7-8200-ab1656682e4c",
+        "name": "",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "POSTAL_CODE",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "7fa0afe3-f661-4cec-813e-187a9c5d2430",
+        "name": "",
+        "type": "TEXT",
+        "required": true,
+        "technicalType": "CITY",
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      },
+      {
+        "id": "179e8181-2529-49a9-8b15-47b2b8958366",
+        "name": "Opmerking toevoegen",
+        "type": "TEXT_AREA",
+        "required": false,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": []
+      }
+    ]
+  },
+  {
+    "id": "a6f01a9a-8132-4c90-81e4-8389b6a10489",
+    "name": "Rollaag",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": false,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "0f0309b2-0da2-4d72-9326-f8dbe8f33620",
+        "name": "Rollaag",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Rollaag",
+          "Geen rollaag wit",
+          "Geen rollaag zwart"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "0613354f-d09b-4e16-a30d-e0cf78a472c7",
+    "name": "Bedankt pagina",
+    "hide": false,
+    "type": "FINAL_PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": false,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": []
+  },
+  {
+    "id": "3511be42-5684-4eac-a42d-0e054fed3fd9",
+    "name": "Pagina 20",
+    "hide": false,
+    "type": "PAGE",
+    "heading": null,
+    "layout": {
+      "composition": "HORIZONTAL_RIGHT",
+      "fixedHeading": false,
+      "progressBar": false,
+      "mediaType": "SMALL"
+    },
+    "questions": [
+      {
+        "id": "3c2e35b1-2de0-4028-902b-8d4d8fff8638",
+        "name": "Wel of geen stucwerk",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen stucwerk",
+          "Wel stucwerk"
+        ]
+      },
+      {
+        "id": "7d3ce1b5-07e5-421f-b289-5eb0f3acb238",
+        "name": "Wel of geen afwerkvloer",
+        "type": "RADIO",
+        "required": true,
+        "technicalType": null,
+        "description": "",
+        "min": null,
+        "max": null,
+        "step": null,
+        "options": [
+          "Geen afwerkvloer",
+          "Wel een afwerkvloer"
+        ]
+      }
+    ]
+  }
+]

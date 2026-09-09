@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="rule_prefab_quote_company" model="ir.rule">
+    <field name="name">Prefab requests: allowed companies</field>
+    <field name="model_id" ref="model_cs_prefab_quote"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+  <record id="rule_prefab_share_company" model="ir.rule">
+    <field name="name">Prefab shares: allowed companies</field>
+    <field name="model_id" ref="model_cs_prefab_share"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+</odoo>

@@ -1,0 +1,35 @@
+test_all_catalog_options_are_valid_and_priceable (test_backend.DomainTests.test_all_catalog_options_are_valid_and_priceable) ... ok
+test_catalog_exact_option_counts_and_pricebook_coverage (test_backend.DomainTests.test_catalog_exact_option_counts_and_pricebook_coverage) ... ok
+test_contact_rejects_bad_lengths_control_chars_and_unknown_fields (test_backend.DomainTests.test_contact_rejects_bad_lengths_control_chars_and_unknown_fields) ... ok
+test_demo_and_scope_disclaimers_preserved (test_backend.DomainTests.test_demo_and_scope_disclaimers_preserved) ... ok
+test_hidden_interior_values_reset_and_not_charged (test_backend.DomainTests.test_hidden_interior_values_reset_and_not_charged) ... ok
+test_independent_default_price_and_decimal_rounding (test_backend.DomainTests.test_independent_default_price_and_decimal_rounding) ... ok
+test_invalid_hidden_values_still_rejected (test_backend.DomainTests.test_invalid_hidden_values_still_rejected) ... ok
+test_json_rejects_duplicates_nonfinite_oversize_and_deep_nesting (test_backend.DomainTests.test_json_rejects_duplicates_nonfinite_oversize_and_deep_nesting) ... ok
+test_postcode_and_contact_normalization (test_backend.DomainTests.test_postcode_and_contact_normalization) ... ok
+test_quote_payload_consent_key_and_postcode_binding (test_backend.DomainTests.test_quote_payload_consent_key_and_postcode_binding) ... ok
+test_rate_limit_is_ip_scoped_and_window_expires (test_backend.DomainTests.test_rate_limit_is_ip_scoped_and_window_expires) ... ok
+test_source_dimension_boundaries_and_integer_precision (test_backend.DomainTests.test_source_dimension_boundaries_and_integer_precision) ... ok
+test_unknown_fields_options_and_wrong_types_rejected (test_backend.DomainTests.test_unknown_fields_options_and_wrong_types_rejected) ... ok
+test_complete_share_quote_pdf_funnel (test_backend.HttpTests.test_complete_share_quote_pdf_funnel) ... ok
+test_cross_origin_and_wrong_content_type_rejected (test_backend.HttpTests.test_cross_origin_and_wrong_content_type_rejected) ... ok
+test_head_preserves_content_length_without_body (test_backend.HttpTests.test_head_preserves_content_length_without_body) ... ok
+test_health_catalog_and_static_assets (test_backend.HttpTests.test_health_catalog_and_static_assets) ... ok
+test_invalid_payload_unknown_route_and_traversal (test_backend.HttpTests.test_invalid_payload_unknown_route_and_traversal) ... ok
+test_all_xml_parses_and_manifest_files_exist (test_backend.OdooStaticTests.test_all_xml_parses_and_manifest_files_exist) ... ok
+test_no_public_or_portal_model_acl (test_backend.OdooStaticTests.test_no_public_or_portal_model_acl) ... ok
+test_concurrent_duplicate_submissions_create_one_record (test_backend.StorageTests.test_concurrent_duplicate_submissions_create_one_record) ... ok
+test_expired_links_unavailable_and_purge_removes_personal_data (test_backend.StorageTests.test_expired_links_unavailable_and_purge_removes_personal_data) ... ok
+test_idempotent_retry_and_restart_preserve_original_snapshot (test_backend.StorageTests.test_idempotent_retry_and_restart_preserve_original_snapshot) ... ok
+test_pdf_independent_parser_validates_pages_and_saved_text (test_backend.StorageTests.test_pdf_independent_parser_validates_pages_and_saved_text) ... ok
+test_pdf_is_real_paginated_snapshot_and_html_escapes_contact (test_backend.StorageTests.test_pdf_is_real_paginated_snapshot_and_html_escapes_contact) ... ok
+test_pdf_preserves_turkish_names_and_dimensioned_plan (test_backend.StorageTests.test_pdf_preserves_turkish_names_and_dimensioned_plan) ... ok
+test_reused_key_cannot_return_different_customers_private_token (test_backend.StorageTests.test_reused_key_cannot_return_different_customers_private_token) ... ok
+test_saved_snapshot_cannot_be_updated (test_backend.StorageTests.test_saved_snapshot_cannot_be_updated) ... ok
+test_share_strips_location_and_has_no_contact (test_backend.StorageTests.test_share_strips_location_and_has_no_contact) ... ok
+test_tokens_are_scoped_and_unpredictable (test_backend.StorageTests.test_tokens_are_scoped_and_unpredictable) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 3.390s
+
+OK

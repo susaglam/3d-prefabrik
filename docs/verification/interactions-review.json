@@ -1,0 +1,80 @@
+{
+  "ok": true,
+  "origin": "http://127.0.0.1:8078",
+  "sourceHashesBefore": {
+    "app.js": "aac58d3d6f62c970b4bb49f1b806802be9086c8e6826e69f694a7d5720ffe192",
+    "model.js": "35a02cf71128e4fc1d6d5db65a8deb7b508d249455aebd035f17eb3e2820a8a4",
+    "geometry.js": "876e7c2c53151f777db0c0f7f8e8c79747fc33af183b70c81af96f1766481604"
+  },
+  "sourceHashesAfter": {
+    "app.js": "aac58d3d6f62c970b4bb49f1b806802be9086c8e6826e69f694a7d5720ffe192",
+    "model.js": "35a02cf71128e4fc1d6d5db65a8deb7b508d249455aebd035f17eb3e2820a8a4",
+    "geometry.js": "876e7c2c53151f777db0c0f7f8e8c79747fc33af183b70c81af96f1766481604"
+  },
+  "sourceStable": true,
+  "checks": [
+    {
+      "name": "native radio arrows and counters keep focus after rerender",
+      "ok": true,
+      "details": {
+        "radio": {
+          "name": "facade",
+          "value": "brick-white"
+        },
+        "counter": {
+          "key": "spotlights",
+          "delta": "1"
+        },
+        "spotlights": 2
+      }
+    },
+    {
+      "name": "edited shared design survives reload as a private local draft",
+      "ok": true,
+      "details": {
+        "sharedWidth": 430,
+        "editedWidth": 610,
+        "restoredWidth": 610,
+        "queryDetached": true
+      }
+    },
+    {
+      "name": "closed or replaced quote dialog tolerates an asynchronous API failure",
+      "ok": true,
+      "details": {
+        "quoteRequestIntercepted": true,
+        "privacyDialogPreserved": true,
+        "contactAbsentFromLocalDraft": true
+      }
+    },
+    {
+      "name": "a failed price connection recovers on the next edit",
+      "ok": true,
+      "details": {
+        "failedStateVisible": true,
+        "recoveredWidth": 620,
+        "priceRestored": true
+      }
+    },
+    {
+      "name": "review summary edit links return to the selected section",
+      "ok": true,
+      "details": {
+        "targetStep": 1,
+        "facadeChoicesVisible": true
+      }
+    },
+    {
+      "name": "malformed draft is sanitized and smallest valid geometry matches the price dimensions",
+      "ok": true,
+      "details": {
+        "width": 1.5,
+        "depth": 1,
+        "area": 1.5,
+        "invalidPilesRestoredToDefault": 3
+      }
+    }
+  ],
+  "realQuoteRequests": 0,
+  "realShareRecordsCreated": 1
+}

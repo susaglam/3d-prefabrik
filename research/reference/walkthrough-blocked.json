@@ -1,0 +1,150 @@
+[
+  {
+    "method": "POST",
+    "url": "https://eu.i.posthog.com/decide/"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://www.google.com/ccm/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://ad.doubleclick.net/ccm/s/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  },
+  {
+    "method": "POST",
+    "url": "https://region1.google-analytics.com/g/collect"
+  }
+]
