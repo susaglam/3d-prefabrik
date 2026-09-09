@@ -10,6 +10,11 @@ from .errors import DomainError
 from .pricing import price_config
 
 MAX_BODY_BYTES = 32768
+MAX_QUOTE_BODY_BYTES = 6 * 1024 * 1024
+
+
+def body_limit(path):
+    return MAX_QUOTE_BODY_BYTES if path == "/prefab/api/quote" else MAX_BODY_BYTES
 
 
 class RateLimiter:
@@ -46,8 +51,8 @@ def enforce_origin(headers, expected_origin):
         raise DomainError("Gebruik application/json.", code="unsupported_media_type", status=415)
 
 
-def parse_json_body(raw):
-    if len(raw) > MAX_BODY_BYTES:
+def parse_json_body(raw, *, max_bytes=MAX_BODY_BYTES):
+    if len(raw) > max_bytes:
         raise DomainError("De aanvraag is te groot.", code="payload_too_large", status=413)
     def unique_object(pairs):
         result = {}

@@ -1,0 +1,186 @@
+{
+  "legacy": {
+    "pages": [
+      {
+        "page": 1,
+        "words": 120,
+        "images": 0,
+        "lastBodyTextY": 375.2,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 2,
+        "words": 132,
+        "images": 0,
+        "lastBodyTextY": 682.7,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 3,
+        "words": 174,
+        "images": 0,
+        "lastBodyTextY": 440.5,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 4,
+        "words": 136,
+        "images": 0,
+        "lastBodyTextY": 363.0,
+        "size": [
+          595.0,
+          842.0
+        ]
+      }
+    ],
+    "characters": 4179,
+    "turkishName": true,
+    "containsTotal": true,
+    "layoutIssues": []
+  },
+  "long-note": {
+    "pages": [
+      {
+        "page": 1,
+        "words": 113,
+        "images": 1,
+        "lastBodyTextY": 599.8,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 2,
+        "words": 69,
+        "images": 2,
+        "lastBodyTextY": 608.7,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 3,
+        "words": 66,
+        "images": 3,
+        "lastBodyTextY": 658.0,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 4,
+        "words": 132,
+        "images": 0,
+        "lastBodyTextY": 682.7,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 5,
+        "words": 174,
+        "images": 0,
+        "lastBodyTextY": 440.5,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 6,
+        "words": 517,
+        "images": 0,
+        "lastBodyTextY": 503.6,
+        "size": [
+          595.0,
+          842.0
+        ]
+      }
+    ],
+    "characters": 7971,
+    "turkishName": true,
+    "containsTotal": true,
+    "layoutIssues": []
+  },
+  "visual": {
+    "pages": [
+      {
+        "page": 1,
+        "words": 113,
+        "images": 1,
+        "lastBodyTextY": 599.8,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 2,
+        "words": 69,
+        "images": 2,
+        "lastBodyTextY": 608.7,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 3,
+        "words": 66,
+        "images": 3,
+        "lastBodyTextY": 658.0,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 4,
+        "words": 132,
+        "images": 0,
+        "lastBodyTextY": 682.7,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 5,
+        "words": 174,
+        "images": 0,
+        "lastBodyTextY": 440.5,
+        "size": [
+          595.0,
+          842.0
+        ]
+      },
+      {
+        "page": 6,
+        "words": 113,
+        "images": 0,
+        "lastBodyTextY": 323.4,
+        "size": [
+          595.0,
+          842.0
+        ]
+      }
+    ],
+    "characters": 5022,
+    "turkishName": true,
+    "containsTotal": true,
+    "layoutIssues": []
+  }
+}

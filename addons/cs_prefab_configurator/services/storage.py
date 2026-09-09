@@ -1,5 +1,6 @@
 """Durable local repository; the Odoo adapter uses ORM records instead."""
 import json
+import copy
 import os
 from pathlib import Path
 import re
@@ -27,8 +28,11 @@ def utc_now():
 
 def new_snapshot(canonical):
     price = price_config(canonical["config"])
-    return {"config": price["config"], "labels": config_labels(price["config"]), "price": price,
+    snapshot = {"config": price["config"], "labels": config_labels(price["config"]), "price": price,
             "createdAt": utc_now(), "consent": {"accepted": True, "textVersion": "quote-contact-v1"}}
+    if "visuals" in canonical:
+        snapshot["visuals"] = copy.deepcopy(canonical["visuals"])
+    return snapshot
 
 
 class SQLiteRepository:

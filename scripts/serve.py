@@ -14,7 +14,7 @@ ADDON = ROOT / "addons" / "cs_prefab_configurator"
 sys.path.insert(0, str(ADDON))
 
 from services.errors import DomainError
-from services.http_api import MAX_BODY_BYTES, RateLimiter, dispatch, enforce_origin, parse_json_body
+from services.http_api import RateLimiter, body_limit, dispatch, enforce_origin, parse_json_body
 from services.storage import SQLiteRepository
 
 STATIC = ADDON / "static"
@@ -80,9 +80,10 @@ class Handler(BaseHTTPRequestHandler):
                         length = int(self.headers.get("Content-Length", "0"))
                     except ValueError:
                         length = -1
-                    if not 0 < length <= MAX_BODY_BYTES:
+                    maximum = body_limit(path)
+                    if not 0 < length <= maximum:
                         raise DomainError("Ongeldige of te grote aanvraag.", code="payload_too_large", status=413)
-                    payload = parse_json_body(self.rfile.read(length))
+                    payload = parse_json_body(self.rfile.read(length), max_bytes=maximum)
                 status, content_type, response = dispatch(self.server.repository, method, path, payload)
                 self._send(status, content_type, response, head=head)
                 return

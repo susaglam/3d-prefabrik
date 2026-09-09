@@ -1,137 +1,330 @@
-"""Dependency-free, paginated PDF and printable HTML from saved snapshots."""
+"""Designed proposal documents made exclusively from a saved quote snapshot."""
 import html
+from datetime import datetime
 
-from .pdf_font import bundled_font, font_objects
+from .pdf_layout import PdfDocument, PAGE_W, INK, MUTED, PAPER, LINE, ACCENT, WHITE
+
+DOCUMENT_VERSION = "proposal-v2"
+MARGIN, WIDTH = 38, PAGE_W - 76
+GROUPS = (
+    ("Buitenzijde", ("facade", "rollaag", "frontOpening", "rooflight", "roofEdge")),
+    ("Voorzieningen buiten", ("outsideLight", "outsideSocket", "outsideTap", "drainMaterial", "drainSide")),
+    ("Binnenafwerking", ("interior", "plaster", "screed", "underfloorHeating", "heating")),
+    ("Elektra binnen", ("ceilingLights", "switches", "spotlights", "sockets")),
+    ("Bestaande situatie & uitvoering", ("demolition", "access", "piles")),
+)
+LABELS = {"facade": "Gevelbekleding", "rollaag": "Afwerking boven kozijn", "frontOpening": "Kozijn voorzijde",
+          "rooflight": "Daglicht in het dak", "roofEdge": "Dakrand", "outsideLight": "Buitenverlichting",
+          "outsideSocket": "Buitenstopcontact", "outsideTap": "Buitenkraan", "drainMaterial": "Materiaal hemelwaterafvoer",
+          "drainSide": "Positie hemelwaterafvoer", "interior": "Binnenafwerking", "plaster": "Stucwerk",
+          "screed": "Dekvloer", "underfloorHeating": "Vloerverwarming", "heating": "Radiator",
+          "ceilingLights": "Lichtpunten plafond", "switches": "Lichtschakelaars", "spotlights": "Inbouwspots",
+          "sockets": "Wandcontactdozen", "demolition": "Bestaande aanbouw slopen", "access": "Bereikbaarheid", "piles": "Heipalen"}
+
+
+def number(value, places=2):
+    return f"{value:,.{places}f}".rstrip("0").rstrip(".").replace(",", "~").replace(".", ",").replace("~", ".") if places else str(value)
 
 
 def money(cents):
-    formatted = f"{cents / 100:,.2f}"
-    return "EUR " + formatted.replace(",", "~").replace(".", ",").replace("~", ".")
+    return "€ " + f"{cents / 100:,.2f}".replace(",", "~").replace(".", ",").replace("~", ".")
+
+
+def date_label(value):
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).strftime("%d.%m.%Y")
+    except (ValueError, TypeError):
+        return str(value)
+
+
+def choice_rows(snapshot):
+    labels = {row["key"]: row for row in snapshot["labels"]}
+    for title, keys in GROUPS:
+        rows = [(LABELS.get(key, labels[key]["label"]), str(labels[key]["value"])) for key in keys if key in labels]
+        if rows:
+            yield title, rows
 
 
 def document_lines(quote):
+    """Semantic content also used by integrations that need a text summary."""
     snapshot, contact = quote["snapshot"], quote["contact"]
     price = snapshot["price"]
-    lines = [("CS PREFAB / AANVRAAGOVERZICHT", "title"), (quote["reference"], "subtitle"),
-             ("DEMONSTRATIE - GEEN BINDENDE OFFERTE", "warning"),
-             (f"Opgeslagen op {snapshot['createdAt']} | Prijsboek {price['pricebookVersion']}", "body"),
-             ("Contactgegevens", "heading"), (contact["name"], "body"),
-             (f"{contact['email']} | {contact['phone']}", "body"),
-             (f"{contact['address']} {contact['houseNumber']}, {contact['postcode']} {contact['city']}", "body"),
-             ("Uw samenstelling", "heading")]
+    lines = [("CS PREFAB / ONTWERPVOORSTEL", "title"), (quote["reference"], "subtitle"),
+             ("DEMONSTRATIE — GEEN BINDENDE OFFERTE", "warning"), (contact["name"], "body")]
     for label in snapshot["labels"]:
         lines.append((f"{label['label']}: {label['value']}", "body"))
-    lines.append(("Indicatieve kostenopbouw", "heading"))
     for line in price["lines"]:
-        quantity = f"{line['quantity']:g} {line['unit']}"
-        lines.append((f"{line['label']} ({quantity})  {money(line['total'])}", "body"))
-    lines.extend([(f"Subtotaal exclusief btw: {money(price['subtotal'])}", "body"),
-                  (f"Btw {price['vatRate']}%: {money(price['vat'])}", "body"),
-                  (f"Totaal inclusief btw: {money(price['total'])}", "heading"),
-                  ("Uitgangspunten en voorbehouden", "heading"), (price["disclaimer"], "body")])
-    for warning in price["warnings"]:
-        lines.append((warning, "body"))
+        lines.append((f"{line['label']} ({number(line['quantity'])} {line['unit']}) {money(line['total'])}", "body"))
+    lines.extend([(f"Totaal inclusief btw: {money(price['total'])}", "heading"), (price["disclaimer"], "body")])
+    lines.extend((warning, "body") for warning in price["warnings"])
     if contact.get("message"):
-        lines.extend([("Uw opmerking", "heading"), (contact["message"], "body")])
-    lines.extend([("Dit overzicht is automatisch opgeslagen. Een adviseur moet de technische haalbaarheid, scope en definitieve prijs nog beoordelen.", "body"),
-                  ("Toestemming voor contact vastgelegd bij aanvraag (quote-contact-v1).", "body")])
+        lines.append((contact["message"], "body"))
     return lines
 
 
-def quote_html(quote):
-    elements = []
-    tags = {"title": "h1", "subtitle": "h2", "heading": "h3", "warning": "strong", "body": "p"}
-    for value, kind in document_lines(quote):
-        tag = tags[kind]
-        elements.append(f"<{tag}>{html.escape(value)}</{tag}>")
-    return ("<!doctype html><html lang='nl'><meta charset='utf-8'><title>Aanvraagoverzicht</title>"
-            "<style>body{font:14px/1.5 system-ui;max-width:820px;margin:40px auto;color:#163d35;padding:20px}"
-            "h1{font-size:25px}h3{border-bottom:1px solid #ccd6d0;padding-top:18px}p{margin:5px 0}"
-            "strong{display:block;background:#fff0cd;padding:12px}@media print{body{margin:0}h3{break-after:avoid}}</style><body>"
-            + "".join(elements) + "</body></html>").encode("utf-8")
+def _fallback_diagram(doc, config, x, y, width, height, *, elevation=False, side=False):
+    """Legible native vector fallback for historical records without saved views."""
+    doc.rect(x, y, width, height, fill=PAPER, stroke=LINE)
+    horizontal = config["depth"] if side else config["width"]
+    vertical = config["height"] if elevation else config["depth"]
+    scale = min((width - 100) / horizontal, (height - 90) / vertical)
+    w, h = horizontal * scale, vertical * scale
+    bx, by = x + (width - w) / 2, y + (height - h) / 2 - 5
+    doc.rect(bx, by, w, h, fill=WHITE, stroke=INK, weight=2)
+    if not elevation:
+        doc.line(bx, by, bx + w, by, color=INK, weight=5)
+        doc.text(bx + w / 2, by - 12, "Bestaande woning", size=7, color=MUTED, align="center")
+    doc.line(bx, by + h + 19, bx + w, by + h + 19, color=MUTED)
+    for dx in (bx, bx + w):
+        doc.line(dx, by + h + 13, dx, by + h + 24, color=MUTED)
+    doc.text(bx + w / 2, by + h + 34, f"{horizontal} cm", size=8, align="center")
+    doc.line(bx + w + 17, by, bx + w + 17, by + h, color=MUTED)
+    for dy in (by, by + h):
+        doc.line(bx + w + 12, dy, bx + w + 22, dy, color=MUTED)
+    doc.text(bx + w + 24, by + h / 2 + 3, f"{vertical}", size=7)
+
+
+def _cover(doc, quote, views):
+    snap, contact = quote["snapshot"], quote["contact"]
+    config, price = snap["config"], snap["price"]
+    doc.new_page("Jouw ontwerp", cover=True)
+    doc.text(PAGE_W - 38, 40, quote["reference"], size=7.4, color=MUTED, align="right")
+    doc.text(PAGE_W - 38, 55, date_label(snap["createdAt"]), size=8, color=MUTED, align="right")
+    doc.text(38, 107, "PERSOONLIJK ONTWERPVOORSTEL", size=8, color=ACCENT, tracking=1.5, bold=True)
+    doc.text(38, 151, "Jouw aanbouw,", size=34, bold=True)
+    doc.text(38, 193, "tot in detail.", size=34, bold=True)
+    hero = views.get("perspective-left") or views.get("perspective-right") or views.get("plan")
+    doc.rect(38, 218, WIDTH, 307, fill=PAPER)
+    if hero:
+        doc.image(hero, 39, 219, WIDTH - 2, 286)
+    else:
+        _fallback_diagram(doc, config, 38, 218, WIDTH, 287)
+    doc.text(50, 513, "Jouw opgeslagen ontwerp · schematische weergave", size=7, color=MUTED)
+    metrics = [("BREEDTE", f"{number(config['width'] / 100)} m"),
+               ("DIEPTE", f"{number(config['depth'] / 100)} m"),
+               ("EXTRA OPPERVLAKTE", f"{number(config['width'] * config['depth'] / 10000)} m²")]
+    cell = (WIDTH - 18) / 3
+    for i, (label, value) in enumerate(metrics):
+        x = 38 + i * (cell + 9)
+        doc.rect(x, 542, cell, 65, fill=PAPER)
+        doc.text(x + 13, 563, label, size=6.7, color=MUTED, tracking=.7)
+        doc.text(x + 13, 591, value, size=20, bold=True)
+    doc.text(38, 638, "SAMENGESTELD VOOR", size=7, color=MUTED, tracking=.8)
+    # Long customer details continue in full on the final page, without truncation.
+    names = doc.wrapped(contact["name"], 11, 280)
+    if len(names) <= 2:
+        for i, line in enumerate(names):
+            doc.text(38, 659 + i * 15, line, size=11, bold=True)
+        address = f"{contact['address']} {contact['houseNumber']}\n{contact['postcode']} {contact['city']}"
+        address_lines = doc.wrapped(address, 8.5, 280)
+        if len(address_lines) <= 3:
+            doc.paragraph(38, 681 + (len(names) - 1) * 15, address, width=280, size=8.5, leading=12.5, color=MUTED)
+        else:
+            doc.text(38, 695, "Volledige projectgegevens achterin dit voorstel.", size=8, color=MUTED)
+    else:
+        doc.text(38, 659, "Volledige projectgegevens achterin dit voorstel.", size=8, color=MUTED)
+    doc.rect(350, 628, PAGE_W - 388, 107, fill=INK)
+    doc.text(365, 650, "INDICATIE INCLUSIEF BTW", size=6.4, color=WHITE, tracking=.6)
+    doc.text(365, 683, money(price["total"]), size=21, color=WHITE, bold=True)
+    doc.paragraph(365, 704, "Demoprijzen. Definitieve offerte na technische beoordeling.", width=176, size=7.1, leading=11, color=WHITE)
+    doc.text(38, 763, "DEMONSTRATIE — GEEN BINDENDE OFFERTE", size=7, color=ACCENT, bold=True, tracking=.4)
+
+
+def _gallery(doc, views):
+    chosen = [(key, label, note) for key, label, note in (
+        ("perspective-right", "Perspectief vanaf rechts", "Gevel, dakrand en kozijn vanuit de andere hoek."),
+        ("interior", "Een blik naar binnen", "Dak tijdelijk verborgen om de gekozen indeling zichtbaar te maken.")) if key in views]
+    if not chosen:
+        return
+    doc.new_page("Ruimtelijke impressies")
+    doc.section_title("01 / RUIMTELIJKE IMPRESSIES", "Bekijk het van alle kanten.",
+                      "Dezelfde samenstelling, vanuit aanvullende standpunten. Materialen en kleuren zijn indicatief.")
+    for i, (key, label, note) in enumerate(chosen):
+        doc.image_card(views[key], 38, 190 + i * 287, WIDTH, 230, number=f"0{i+2}", label=label, note=note)
+    doc.text(38, 771, "Impressies tonen het gekozen concept. Aansluitingen en constructie worden bij de opname vastgesteld.", size=7, color=MUTED)
+
+
+def _technical(doc, config, views):
+    doc.new_page("Maatvoering & aanzichten")
+    doc.section_title("02 / MAATVOERING & AANZICHTEN", "Het ontwerp op papier.",
+                      "Schematische tekeningen van de gekozen buitenmaten. Alle getoonde maten zijn in centimeters.")
+    if "plan" in views:
+        doc.image_card(views["plan"], 38, 190, WIDTH, 268, number="A", label="Schematische plattegrond")
+    else:
+        _fallback_diagram(doc, config, 38, 190, WIDTH, 268)
+        doc.text(38, 475, "A   Schematische plattegrond", size=9.5, bold=True)
+    cell = (WIDTH - 15) / 2
+    for i, (key, title) in enumerate((("front", "Voorgevel"), ("side", "Rechter zijgevel"))):
+        x = 38 + i * (cell + 15)
+        if key in views:
+            doc.image_card(views[key], x, 501, cell, 171, number="B" if i == 0 else "C", label=title)
+        else:
+            _fallback_diagram(doc, config, x, 501, cell, 171, elevation=True, side=bool(i))
+            doc.text(x, 689, f"{'B' if i == 0 else 'C'}   {title}", size=9.5, bold=True)
+    doc.rect(38, 708, WIDTH, 29, fill=PAPER)
+    for i, (name, key) in enumerate((("Breedte", "width"), ("Diepte", "depth"), ("Modelhoogte", "height"))):
+        doc.text(50 + i * 174, 727, f"{name}: {config[key]} cm", size=8.5, bold=True)
+    doc.paragraph(38, 754, "Buitenmaten en openingen volgen het configuratiemodel; wanddiktes en vaste modelhoogte zijn aannames. "
+                  "Geen constructie-, vergunning- of productietekening. Niet op schaal afdrukken.", width=WIDTH, size=7.5, leading=11, color=MUTED)
+
+
+def _specifications(doc, snapshot):
+    def page(continued=False):
+        doc.new_page("Materialen & voorzieningen")
+        return doc.section_title("03 / MATERIALEN & VOORZIENINGEN", "Alles wat je hebt gekozen.",
+                                 "Vervolg van je opgeslagen samenstelling." if continued else "Je materiaalkeuzes en voorzieningen, gegroepeerd per onderdeel van de aanbouw.")
+    y = page()
+    for title, rows in choice_rows(snapshot):
+        heights = [max(19, doc.height(value, width=WIDTH - 221, size=8.5, leading=11) + 8,
+                       doc.height(label, width=189, size=8.3, leading=11) + 8) for label, value in rows]
+        if y + 22 + sum(heights) > 775:
+            y = page(True)
+        doc.rect(38, y, WIDTH, 22, fill=INK)
+        doc.text(50, y + 15, title.upper(), size=7.4, color=WHITE, bold=True, tracking=.5)
+        y += 22
+        for index, ((label, value), h) in enumerate(zip(rows, heights)):
+            doc.rect(38, y, WIDTH, h, fill=PAPER if index % 2 == 0 else WHITE)
+            doc.paragraph(50, y + 13, label, width=189, size=8.3, leading=11, color=MUTED)
+            doc.paragraph(248, y + 13, value, width=WIDTH - 221, size=8.5, leading=11)
+            y += h
+        y += 10
+
+
+def _price(doc, price):
+    def page(continued=False):
+        doc.new_page("Indicatieve kostenopbouw")
+        y = doc.section_title("04 / INDICATIEVE KOSTENOPBOUW", "Helder opgebouwd.",
+                              "Vervolg van de kostenopbouw." if continued else "De bedragen hieronder horen bij je opgeslagen samenstelling. Prijzen zijn demonstratiebedragen.")
+        doc.rect(38, y, WIDTH, 26, fill=INK)
+        for x, label, align in ((49, "ONDERDEEL", "left"), (344, "AANTAL", "right"),
+                                 (382, "EENH.", "right"), (463, "PRIJS / EENH.", "right"), (547, "EXCL. BTW", "right")):
+            doc.text(x, y + 17, label, size=6.5, color=WHITE, align=align, bold=True)
+        return y + 26
+    y = page()
+    for index, row in enumerate(price["lines"]):
+        h = max(22, doc.height(row["label"], width=258, size=8.1, leading=10.5) + 9)
+        if y + h > 752:
+            y = page(True)
+        doc.rect(38, y, WIDTH, h, fill=PAPER if index % 2 == 0 else WHITE)
+        doc.paragraph(49, y + 14, row["label"], width=258, size=8.1, leading=10.5)
+        for x, value in ((344, number(row["quantity"], 4)), (382, row["unit"]),
+                         (463, money(row["unitPrice"])), (547, money(row["total"]))):
+            doc.text(x, y + 14, value, size=8, align="right")
+        y += h
+    if y + 169 > 776:
+        doc.new_page("Indicatieve kostenopbouw")
+        y = doc.section_title("04 / INDICATIEVE KOSTENOPBOUW", "Je totale investering.", "Samenvatting van de kosten op de voorgaande pagina.")
+    y += 17
+    doc.line(38, y, PAGE_W - 38, y, color=INK)
+    doc.text(293, y + 25, "Subtotaal excl. btw", size=9, color=MUTED)
+    doc.text(547, y + 25, money(price["subtotal"]), size=9, align="right")
+    doc.text(293, y + 45, f"Btw {price['vatRate']}%", size=9, color=MUTED)
+    doc.text(547, y + 45, money(price["vat"]), size=9, align="right")
+    doc.rect(281, y + 59, WIDTH - 243, 63, fill=INK)
+    doc.text(293, y + 78, "TOTAAL INCLUSIEF BTW", size=7, color=WHITE, tracking=.4)
+    doc.text(547, y + 107, money(price["total"]), size=21, color=WHITE, align="right", bold=True)
+    doc.text(38, y + 26, "Een transparant vertrekpunt", size=11, bold=True)
+    doc.paragraph(38, y + 47, "Dit overzicht geeft inzicht in de gekozen onderdelen. De definitieve scope en prijs volgen na opname en technische beoordeling.",
+                  width=212, size=8.5, leading=13, color=MUTED)
+    doc.text(38, y + 147, f"Prijsboek: {price['pricebookVersion']} · Bedragen in euro · Afronding per regel", size=7.2, color=MUTED)
+
+
+def _scope(doc, quote, views):
+    snapshot, contact = quote["snapshot"], quote["contact"]
+    price = snapshot["price"]
+
+    def page(continued=False):
+        doc.new_page("Uitgangspunten & vervolg")
+        return doc.section_title("05 / UITGANGSPUNTEN & VERVOLG", "De volgende stap naar jouw aanbouw.",
+                                 "Vervolg van de aanvraaggegevens." if continued else "Deze aanvraag is het vertrekpunt voor een gesprek en een uitgewerkte offerte.", size=23)
+
+    y = page()
+
+    def block(title, value):
+        nonlocal y
+        lines = doc.wrapped(value, 8.5, WIDTH - 27)
+        if y + 49 > 774:
+            y = page(True)
+        doc.text(51, y + 11, title, size=10, bold=True)
+        y += 29
+        for line in lines:
+            if y + 14 > 774:
+                y = page(True)
+                doc.text(51, y + 11, title + " (vervolg)", size=10, bold=True)
+                y += 29
+            doc.line(38, y - 9, 38, y + 4, color=ACCENT, weight=1.7)
+            doc.text(51, y, line, size=8.5, color=MUTED)
+            y += 13
+        y += 16
+
+    block("Prijsstatus", price["disclaimer"])
+    if price["warnings"]:
+        block("Aandachtspunten bij je keuzes", "\n".join("• " + value for value in price["warnings"]))
+    block("Technische beoordeling", "Een adviseur moet de technische haalbaarheid, fundering, aansluitingen, bereikbaarheid en definitieve scope nog beoordelen. De beelden en maatvoering zijn schematisch; kleuren kunnen afwijken van echte materialen.")
+    if not all(key in views for key in ("perspective-left", "perspective-right", "interior")):
+        block("Beschikbare tekeningen", "Bij deze aanvraag zijn niet alle 3D-aanzichten opgeslagen. De beschikbare beelden en de schematische maatvoering zijn in dit document opgenomen.")
+    if contact.get("message"):
+        block("Jouw toelichting", contact["message"])
+    details = (f"{contact['name']}\n{contact['address']} {contact['houseNumber']}\n"
+               f"{contact['postcode']} {contact['city']}\n{contact['email']}\n{contact['phone']}")
+    block("Project- en contactgegevens", details)
+    if y + 75 > 771:
+        y = page(True)
+    cell = (WIDTH - 20) / 3
+    for i, (title, note) in enumerate((("01  Ontwerp bespreken", "Wensen, keuzes en situatie doornemen."),
+                                       ("02  Technisch beoordelen", "Maten, aansluitingen en uitvoering bepalen."),
+                                       ("03  Offerte uitwerken", "Scope en definitieve prijs vastleggen."))):
+        x = 38 + i * (cell + 10)
+        doc.rect(x, y, cell, 67, fill=PAPER)
+        doc.text(x + 10, y + 19, title, size=7.5, bold=True)
+        doc.paragraph(x + 10, y + 36, note, width=cell - 20, size=7.5, leading=11, color=MUTED)
+    doc.text(38, 780, "Toestemming voor contact vastgelegd bij aanvraag (quote-contact-v1).", size=6.5, color=MUTED)
+
+
+def build_proposal(quote):
+    doc = PdfDocument(quote["reference"])
+    views = {view["id"]: view for view in quote["snapshot"].get("visuals", {}).get("views", [])}
+    _cover(doc, quote, views)
+    _gallery(doc, views)
+    _technical(doc, quote["snapshot"]["config"], views)
+    _specifications(doc, quote["snapshot"])
+    _price(doc, quote["snapshot"]["price"])
+    _scope(doc, quote, views)
+    return doc
 
 
 def quote_pdf(quote):
-    """A4 PDF 1.4 with an embedded Unicode TrueType font and frozen footprint."""
-    source_lines = document_lines(quote)
-    config = quote["snapshot"]["config"]
-    plan_strings = ["Schematische plattegrond", "Bestaande woning", "Voorzijde",
-                    f"Breedte: {config['width']} cm", f"Diepte: {config['depth']} cm"]
-    font = bundled_font()
-    fonts, codes = font_objects("".join(value for value, _ in source_lines) + "".join(plan_strings) + "0123456789 |")
+    return build_proposal(quote).render()
 
-    def encoded(value):
-        return "<" + "".join(f"{codes[char]:04X}" for char in value) + ">"
 
-    pages = []
-    commands = []
-    y = 794
-
-    def finish_page():
-        nonlocal commands, y
-        commands.append(f"BT /F1 8 Tf 0 Tr 45 28 Td {encoded(quote['reference'] + ' | ' + str(len(pages) + 1))} Tj ET")
-        pages.append("\n".join(commands).encode("ascii"))
-        commands = []
-        y = 794
-
-    def draw_plan():
-        nonlocal y
-        if y < 265:
-            finish_page()
-        commands.append(f"BT /F1 10 Tf 0 Tr 0.08 0.20 0.17 rg 45 {y - 8} Td {encoded(plan_strings[0])} Tj ET")
-        scale = min(280 / config["width"], 115 / config["depth"])
-        width, depth = round(config["width"] * scale, 2), round(config["depth"] * scale, 2)
-        x, top = 60, y - 39
-        bottom = top - depth
-        commands.append(f"q 0.94 0.96 0.94 rg 0.12 0.26 0.22 RG 2 w {x} {bottom} {width} {depth} re B Q")
-        commands.append(f"q 0.32 0.33 0.32 RG 5 w {x} {top} m {x + width} {top} l S Q")
-        if config["frontOpening"] != "none":
-            commands.append(f"q 0.24 0.57 0.60 RG 4 w {x + width * .2:.2f} {bottom} m {x + width * .8:.2f} {bottom} l S Q")
-        if config["rooflight"] != "none":
-            commands.append(f"q 0.77 0.88 0.91 rg 0.24 0.57 0.60 RG 1 w {x + width * .35:.2f} {bottom + depth * .25:.2f} {width * .30:.2f} {depth * .5:.2f} re B Q")
-        for label, tx, ty in [(plan_strings[1], x, top + 10), (plan_strings[2], x, bottom - 14),
-                              (plan_strings[3], x, bottom - 29), (plan_strings[4], x + width + 12, bottom + depth / 2)]:
-            commands.append(f"BT /F1 8 Tf 0 Tr 0.08 0.20 0.17 rg {tx} {ty} Td {encoded(label)} Tj ET")
-        y = bottom - 49
-
-    for value, kind in source_lines:
-        size = {"title": 19, "subtitle": 13, "heading": 12, "warning": 10, "body": 9}[kind]
-        if kind in ("title", "heading", "warning"):
-            y -= 10
-        wrapped = []
-        for paragraph in value.splitlines() or [""]:
-            wrapped.extend(font.wrap(paragraph, size))
-        required = len(wrapped) * (size + 5) + 6
-        if y - required < 55:
-            finish_page()
-        for line in wrapped:
-            if y < 55:
-                finish_page()
-            color = "0.58 0.28 0.03" if kind == "warning" else "0.08 0.20 0.17"
-            render = "0 Tr" if kind == "body" else "2 Tr 0.2 w"
-            commands.append(f"BT /F1 {size} Tf {render} {color} rg {color} RG 45 {y} Td {encoded(line)} Tj ET")
-            y -= size + 5
-        y -= 3
-        if value == "Uw samenstelling" and kind == "heading":
-            draw_plan()
-    if commands:
-        finish_page()
-    objects = [b"<< /Type /Catalog /Pages 2 0 R >>", b""] + fonts
-    kids = []
-    for stream in pages:
-        page_id = len(objects) + 1
-        kids.append(f"{page_id} 0 R")
-        objects.append(f"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents {page_id + 1} 0 R >>".encode("ascii"))
-        objects.append(f"<< /Length {len(stream)} >>\nstream\n".encode("ascii") + stream + b"\nendstream")
-    objects[1] = f"<< /Type /Pages /Kids [{' '.join(kids)}] /Count {len(kids)} >>".encode("ascii")
-    output = bytearray(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n")
-    offsets = [0]
-    for index, obj in enumerate(objects, 1):
-        offsets.append(len(output))
-        output.extend(f"{index} 0 obj\n".encode("ascii") + obj + b"\nendobj\n")
-    xref = len(output)
-    output.extend(f"xref\n0 {len(objects) + 1}\n0000000000 65535 f \n".encode("ascii"))
-    for offset in offsets[1:]:
-        output.extend(f"{offset:010d} 00000 n \n".encode("ascii"))
-    output.extend(f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref}\n%%EOF\n".encode("ascii"))
-    return bytes(output)
+def quote_html(quote):
+    """Accessible printable companion, using the same frozen labels and images."""
+    esc = lambda value: html.escape(str(value), quote=True)
+    snapshot, contact = quote["snapshot"], quote["contact"]
+    config, price = snapshot["config"], snapshot["price"]
+    figures = "".join(f"<figure><img src='{esc(v['dataUrl'])}' alt='{esc(v['label'])}'><figcaption>{esc(v['label'])}</figcaption></figure>"
+                      for v in snapshot.get("visuals", {}).get("views", []))
+    groups = "".join("<h3>" + esc(title) + "</h3><table class='choices'><tbody>" +
+                     "".join(f"<tr><th scope='row'>{esc(label)}</th><td>{esc(value)}</td></tr>" for label, value in rows) + "</tbody></table>"
+                     for title, rows in choice_rows(snapshot))
+    rows = "".join(f"<tr><th scope='row'>{esc(line['label'])}</th><td>{esc(number(line['quantity'], 4))} {esc(line['unit'])}</td>"
+                   f"<td>{esc(money(line['unitPrice']))}</td><td>{esc(money(line['total']))}</td></tr>" for line in price["lines"])
+    warnings = "".join(f"<li>{esc(value)}</li>" for value in price["warnings"])
+    content = (f"<header><strong>CS prefab</strong><span>{esc(quote['reference'])} · {esc(date_label(snapshot['createdAt']))}</span></header>"
+               "<p class='eyebrow'>PERSOONLIJK ONTWERPVOORSTEL</p><h1>Jouw aanbouw,<br>tot in detail.</h1>"
+               f"<p>Samengesteld voor <strong>{esc(contact['name'])}</strong></p><p class='status'>DEMONSTRATIE — GEEN BINDENDE OFFERTE</p>"
+               f"<div class='metrics'><span>Breedte <b>{config['width']} cm</b></span><span>Diepte <b>{config['depth']} cm</b></span>"
+               f"<span>Oppervlakte <b>{number(config['width'] * config['depth'] / 10000)} m²</b></span></div>"
+               f"<section><h2>Je ontwerp in beeld</h2><div class='gallery'>{figures}</div></section>"
+               f"<section><h2>Materialen & voorzieningen</h2>{groups}</section><section><h2>Indicatieve kostenopbouw</h2>"
+               f"<table><thead><tr><th>Onderdeel</th><th>Aantal</th><th>Prijs / eenh.</th><th>Excl. btw</th></tr></thead><tbody>{rows}</tbody></table>"
+               f"<div class='totals'><p>Subtotaal excl. btw <b>{money(price['subtotal'])}</b></p><p>Btw {price['vatRate']}% <b>{money(price['vat'])}</b></p>"
+               f"<p class='grand'>Totaal inclusief btw <b>{money(price['total'])}</b></p></div><p>Prijsboek: {esc(price['pricebookVersion'])}</p></section>"
+               f"<section><h2>Uitgangspunten & vervolg</h2><p>{esc(price['disclaimer'])}</p><ul>{warnings}</ul>"
+               "<p>Impressies en tekeningen zijn schematisch. Een adviseur moet de technische haalbaarheid, scope en definitieve prijs nog beoordelen.</p>"
+               f"<h3>Jouw toelichting</h3><p class='pre'>{esc(contact.get('message', ''))}</p><h3>Project- en contactgegevens</h3>"
+               f"<p>{esc(contact['name'])}<br>{esc(contact['address'])} {esc(contact['houseNumber'])}<br>{esc(contact['postcode'])} {esc(contact['city'])}<br>"
+               f"{esc(contact['email'])}<br>{esc(contact['phone'])}</p></section><footer>Toestemming voor contact vastgelegd bij aanvraag (quote-contact-v1).</footer>")
+    css = """@page{size:A4;margin:18mm}*{box-sizing:border-box}body{font:14px/1.55 system-ui,sans-serif;color:#263d34;max-width:920px;margin:40px auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dfe3d8;padding-bottom:18px}header strong{font-size:25px}header span,footer{font-size:11px;color:#626d59}.eyebrow{letter-spacing:2px;font-size:11px;color:#b7754a;margin-top:40px}h1{font-size:48px;line-height:1.12}h2{font-size:25px;margin-top:36px}h3{font-size:15px;margin-bottom:8px}h2,h3{break-after:avoid}.status{font-size:11px;color:#b7754a;font-weight:700}.metrics{display:flex;gap:12px;margin:25px 0}.metrics span{flex:1;background:#f6f5f1;padding:15px}.metrics b{display:block;font-size:24px}.gallery{display:grid;grid-template-columns:1fr 1fr;gap:20px}.gallery figure{margin:0;break-inside:avoid}.gallery figure:first-child{grid-column:1/-1}.gallery img{width:100%;display:block;background:#f6f5f1;border:1px solid #dfe3d8}figcaption{font-size:12px;padding-top:7px}table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:9px 10px;border-bottom:1px solid #dfe3d8}tbody th{font-weight:400}thead{background:#263d34;color:white;display:table-header-group}tbody tr:nth-child(odd){background:#f6f5f1}tr{break-inside:avoid}.choices th{width:40%;color:#626d59}.totals{margin:20px 0 20px auto;max-width:400px;break-inside:avoid}.totals p{display:flex;justify-content:space-between;padding:5px 10px}.grand{background:#263d34;color:white;padding:16px!important}.pre{white-space:pre-wrap;overflow-wrap:anywhere}p,td,th{overflow-wrap:anywhere}footer{margin-top:40px;border-top:1px solid #dfe3d8;padding-top:15px}@media print{body{margin:0;padding:0;font-size:11px}section{break-before:page}h1{font-size:40px}h2{margin-top:0}.gallery img{max-height:100mm;object-fit:contain}.gallery figure:first-child img{max-height:115mm}}"""
+    return ("<!doctype html><html lang='nl'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>"
+            f"<title>{esc(quote['reference'])} — CS prefab ontwerpvoorstel</title><style>{css}</style></head><body>{content}</body></html>").encode("utf-8")

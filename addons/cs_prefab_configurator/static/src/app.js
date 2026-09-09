@@ -9,8 +9,8 @@ const modal=$('#modal');
 let lastFocus=null;
 document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon));
 $('#year').textContent=new Date().getFullYear();
-async function api(path, body) {
- const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),15000);
+async function api(path, body, {timeoutMs=15000}={}) {
+ const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),timeoutMs);
  try {
    const response=await fetch(`${API}${path}`,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined,signal:controller.signal});
    const data=await response.json();
@@ -164,15 +164,40 @@ async function submitQuote(e){
  const validation=validateContact(contact);if(!contact.consent)validation.consent='Geef toestemming om je voorstel te kunnen bewaren.';
  form.querySelectorAll('.field-error').forEach(el=>el.textContent='');form.querySelectorAll('[aria-invalid]').forEach(el=>el.removeAttribute('aria-invalid'));
  if(Object.keys(validation).length){for(const [key,message] of Object.entries(validation)){const el=$(`#contact-error-${key}`);if(el)el.textContent=message;form.elements[key]?.setAttribute('aria-invalid','true');}form.elements[Object.keys(validation)[0]]?.focus();return;}
- submitting=true;const button=form.querySelector('[type="submit"]');button.disabled=true;button.textContent='Je voorstel wordt bewaard…';$('#quote-error').textContent='';
+ submitting=true;const button=form.querySelector('[type="submit"]');button.disabled=true;form.querySelector('#quote-error').textContent='';
+ let progress=form.querySelector('#quote-progress');
+ if(!progress){progress=document.createElement('p');progress.id='quote-progress';progress.className='form-note';progress.setAttribute('role','status');button.insertAdjacentElement('afterend',progress);}
+ const updateProgress=(label,detail='')=>{if(form.isConnected){button.textContent=label;progress.textContent=detail;}};
+ updateProgress('Je ontwerp wordt gecontroleerd…');
  const payloadContact={firstName:contact.firstName,lastName:contact.lastName,name:`${contact.firstName} ${contact.lastName}`,email:contact.email,phone:contact.phone,postcode:contact.postcode,houseNumber:contact.houseNumber,address:contact.address,city:contact.city,message:contact.message||''};
- const fingerprint=JSON.stringify([config,payloadContact]);if(!requestKey||requestKey.fingerprint!==fingerprint)requestKey={fingerprint,key:crypto.randomUUID()};
- const submittedConfig=JSON.stringify(config);
- try{const received=await api('/quote',{config,contact:payloadContact,consent:true,idempotencyKey:requestKey.key});if(JSON.stringify(config)===submittedConfig)result=received;showResult(received);}
- catch(error){const errorBox=form.querySelector('#quote-error');if(form.isConnected&&modal.open){errorBox.textContent=error.message;for(const[key,message]of Object.entries(error.fields||{})){const normalized=key.replace(/^contact\./,'');const el=form.querySelector(`#contact-error-${CSS.escape(normalized)}`);if(el)el.textContent=message;}}else toast(`Voorstel niet opgeslagen: ${error.message}`);button.disabled=false;button.innerHTML=`Opnieuw proberen ${icon('arrow')}`;}
+ // Freeze the submitted design before any network or rendering work; the live design stays editable.
+ const submittedConfig=JSON.stringify(config),snapshotConfig=JSON.parse(submittedConfig);
+ const fingerprint=JSON.stringify([snapshotConfig,payloadContact]);if(!requestKey||requestKey.fingerprint!==fingerprint)requestKey={fingerprint,key:crypto.randomUUID()};
+ const attempt=requestKey;
+ try{
+  if(!attempt.config){const checked=await api('/price',{config:snapshotConfig});attempt.config=checked.config;}
+  if(!attempt.visuals){
+   updateProgress('Je ontwerpbeelden worden gemaakt…','We leggen drie ruimtelijke aanzichten, de plattegrond en twee gevelaanzichten vast.');
+   const {captureDocumentViews}=await import('./document_capture.js');
+   const captured=await captureDocumentViews(attempt.config);
+   if(!['plan','front','side'].every(id=>captured.views.some(view=>view.id===id)))throw new Error('De technische tekeningen konden niet volledig worden gemaakt. Probeer het opnieuw.');
+   attempt.visuals=captured;
+  }
+  const missing3D=attempt.visuals.missingViews.some(id=>['perspective-left','perspective-right','interior'].includes(id));
+  updateProgress('Je voorstel wordt bewaard…',missing3D?'3D is hier niet beschikbaar. De beschikbare technische tekeningen worden toegevoegd.':`${attempt.visuals.views.length} ontwerpbeelden en je keuzes worden aan je voorstel toegevoegd.`);
+  const received=await api('/quote',{config:attempt.config,contact:payloadContact,consent:true,idempotencyKey:attempt.key,visuals:attempt.visuals},{timeoutMs:45000});
+  const record={...received,documentViewCount:attempt.visuals.views.length,documentMissingViews:attempt.visuals.missingViews};
+  if(JSON.stringify(config)===submittedConfig)result=record;
+  showResult(record);
+ }
+ catch(error){const errorBox=form.querySelector('#quote-error');if(form.isConnected&&modal.open){errorBox.textContent=error.message;progress.textContent='Je ingevulde gegevens zijn behouden.';for(const[key,message]of Object.entries(error.fields||{})){const normalized=key.replace(/^contact\./,'');const el=form.querySelector(`#contact-error-${CSS.escape(normalized)}`);if(el)el.textContent=message;}}else toast(`Voorstel niet opgeslagen: ${error.message}`);button.disabled=false;button.innerHTML=`Opnieuw proberen ${icon('arrow')}`;}
  finally{submitting=false;}
 }
-function showResult(record=result){openModal('Je ontwerp is bewaard.',`<div class="success-state"><div class="success-icon">${icon('check')}</div><p class="eyebrow">EEN MOOI BEGIN</p><h3>Jouw extra ruimte begint hier.</h3><p>Je voorstel <strong>${esc(record.reference)}</strong> is geregistreerd. Download de PDF met je keuzes en voorbeeldberekening.</p><a class="button primary" href="${esc(record.pdfUrl)}" download>Download mijn voorstel ${icon('download')}</a><p class="notice">Er is geen e-mail verzonden vanuit deze lokale omgeving. Bewaar de PDF; de commerciële prijs en technische uitvoering vragen nog bevestiging.</p><button class="text-button" data-action="close-modal">Terug naar mijn ontwerp</button></div>`);}
+function showResult(record=result){
+ const missing3D=record.documentMissingViews?.some(id=>['perspective-left','perspective-right','interior'].includes(id));
+ const documentNote=missing3D?'De beschikbare technische tekeningen zijn toegevoegd. Deze browser kon de 3D-aanzichten niet vastleggen.':record.documentViewCount?'Inclusief 3D-aanzichten, een plattegrond met maatvoering en gevelaanzichten.':'';
+ openModal('Je ontwerp is bewaard.',`<div class="success-state"><div class="success-icon">${icon('check')}</div><p class="eyebrow">EEN MOOI BEGIN</p><h3>Jouw extra ruimte begint hier.</h3><p>Je voorstel <strong>${esc(record.reference)}</strong> is geregistreerd. Download de PDF met je keuzes en voorbeeldberekening.</p>${documentNote?`<p class="document-status">${esc(documentNote)}</p>`:''}<a class="button primary" href="${esc(record.pdfUrl)}" download>Download mijn voorstel ${icon('download')}</a><p class="notice">Er is geen e-mail verzonden vanuit deze lokale omgeving. Bewaar de PDF; de commerciële prijs en technische uitvoering vragen nog bevestiging.</p><button class="text-button" data-action="close-modal">Terug naar mijn ontwerp</button></div>`);
+}
 async function share(){
  if(!validDimensions(config,catalog)){toast('Controleer eerst de afmetingen.');return;}
  try{const data=await api('/share',{config});const link=new URL(data.url||`/prefab?share=${encodeURIComponent(data.token)}`,location.origin).href;

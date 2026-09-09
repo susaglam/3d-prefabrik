@@ -357,7 +357,7 @@ class OdooStaticTests(unittest.TestCase):
     def test_all_xml_parses_and_manifest_files_exist(self):
         import ast
         manifest = ast.literal_eval((ADDON / "__manifest__.py").read_text())
-        self.assertEqual(manifest["version"], "saas~19.3.1.0.0")
+        self.assertEqual(manifest["version"], "saas~19.3.1.1.0")
         for relative in manifest["data"]:
             path = ADDON / relative
             self.assertTrue(path.exists(), relative)

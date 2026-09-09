@@ -25,7 +25,7 @@ Yerel teklifler `.data/prefab.sqlite3` içinde kalır. E-posta gönderilmez. Pay
 - Gerçek ölçülere bağlı 3D, malzeme dokuları, kozijn panelleri, çatı ışıklığı açıklıkları, çatı gizleme, kamera açıları ve ölçekli 2D plan. WebGL yoksa 2D'ye dönüş.
 - Cihazda otomatik tasarım kaydı; kişisel bilgi taşımayan süreli paylaşım.
 - Sekiz zorunlu iletişim alanı, açık onay, sunucuda doğrulama, tekrarlı isteği birleştiren başvuru anahtarı.
-- Sürüm ve etiketleri dondurulmuş teklif, kalıcı SQLite kayıtları ve gerçek PDF indirme.
+- Seçimleri, fiyatları ve altı görünümü dondurulmuş teklif; kalıcı SQLite kayıtları ve tasarlanmış A4 PDF. Sağ/sol 3D, açık çatı iç görünümü, ölçülü plan, ön ve yan cephe; gruplanmış malzeme ve miktar/birim fiyat/tutar tabloları.
 - Aynı Python servislerini kullanan Odoo modülü: website rotası, şirket/site kapsamlı kayıtlar, CRM fırsatı, yönetim görünümü, PDF ve süre dolumu temizliği.
 
 ## Fiyatların anlamı
@@ -43,6 +43,7 @@ python3 -m unittest discover -s tests -p 'test_*.py' -v
 npm ci
 npm test
 npm run test:browser
+npm run test:documents
 ```
 
 Tarayıcı testi geçici veritabanı ve ayrı port açar; gerçek müşteri veya dış siteye talep göndermez. Chromium kurulumu gerekirse `npx playwright install chromium`; Linux sistem kitaplıkları eksikse Playwright'ın kurulum talimatlarını izleyin. Var olan Chromium için `CHROMIUM_PATH` kullanılabilir.
@@ -55,7 +56,9 @@ Ek etkileşim ve erişilebilirlik testleri `scripts/verify-interactions.mjs` ve 
 
 Kurulum, API, veri saklama ve üretim ayarları için [backend dokümanı](docs/BACKEND.md) ve [dağıtım notları](docs/deployment.md).
 
-`python3 scripts/package-addon.py` yalnızca Odoo eklentisini, lisansları ve çalışması için gereken varlıkları `dist/cs_prefab_configurator-1.0.0.zip` içine paketler; yerel müşteri kayıtları ve araştırma ekran görüntüleri pakete girmez.
+`python3 scripts/package-addon.py` yalnızca Odoo eklentisini, lisansları ve çalışması için gereken varlıkları `dist/cs_prefab_configurator-1.1.0.zip` içine paketler; yerel müşteri kayıtları ve araştırma ekran görüntüleri pakete girmez.
+
+PDF'nin [anonim örneği](docs/verification/pdf-redesign/proposal.pdf), [tasarım ve doğrulama notları](docs/pdf-design.md) ve [gerçek Odoo rapor testi](docs/pdf-odoo-verification.md) incelenebilir. Yeni teklif kaydında görseller ekrandaki kamerayı değiştirmeden üretilir. WebGL kullanılamıyorsa üç teknik çizim eklenir; eski görselsiz kayıtlar ölçülü şema ile açılır. Önceden saklanmamış 3D görüntüler varmış gibi gösterilmez.
 
 ## Dosyalar
 

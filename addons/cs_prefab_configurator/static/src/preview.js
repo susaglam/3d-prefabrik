@@ -53,7 +53,7 @@ function lineBetween(a,b,material,thickness=.025) {
 }
 
 export class Preview {
-    constructor(container,{onReady,onError}={}) {
+    constructor(container,{onReady,onError,pixelRatio,observeResize=true,initialConfig={}}={}) {
         this.container=container;this.onReady=onReady;this.onError=onError;
         this.mode='3d';this.view='perspective';this.dimensionsVisible=true;this.roofVisible=true;
         this.materials=new Map();this.textures=new Set();this.disposed=false;this.config={};
@@ -64,7 +64,7 @@ export class Preview {
         if(getComputedStyle(container).position==='static') container.style.position='relative';
         try {
             this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,preserveDrawingBuffer:true,powerPreference:'low-power'});
-            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));
+            this.renderer.setPixelRatio(pixelRatio ?? Math.min(window.devicePixelRatio||1,1.75));
             this.renderer.setClearColor('#ecebe3');this.renderer.outputColorSpace=THREE.SRGBColorSpace;
             this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.12;
             this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -91,9 +91,9 @@ export class Preview {
             this._contextRestored=()=>{this.failed=false;this.setMode(this.mode);this.render();};
             this.renderer.domElement.addEventListener('webglcontextrestored',this._contextRestored);
         } catch(error) {this.failed=true;queueMicrotask(()=>{if(!this.disposed)this.onError?.(error);});}
-        this.resizeObserver=typeof ResizeObserver!=='undefined'?new ResizeObserver(()=>this.resize()):null;
+        this.resizeObserver=observeResize&&typeof ResizeObserver!=='undefined'?new ResizeObserver(()=>this.resize()):null;
         this.resizeObserver?.observe(container);
-        this.update({});
+        this.update(initialConfig);
         queueMicrotask(()=>{if(!this.disposed)this.onReady?.({mode:this.failed?'2d':'3d'});});
     }
 
@@ -310,6 +310,41 @@ export class Preview {
         this.camera.up.set(0,1,0);this.controls.target.copy(target);this.controls.maxDistance=Math.max(27,distance*2);this.controls.update();this.render();
     }
 
+    /** Fixed export cameras use world coordinates: left is -x, right is +x, garden is +z. */
+    setDocumentView(view) {
+        if(!this.camera||!this.model||this.failed)return false;
+        const directions={
+            'perspective-left':[-1.1,.74,1.55],
+            'perspective-right':[1.1,.74,1.55],
+            interior:[.55,1.9,1.2],
+        };
+        if(!directions[view])throw new Error(`Unknown document view: ${view}`);
+        this.mode='3d';this.applyMode();this.view=view;
+        this.dimensionsVisible=false;this.roofVisible=view!=='interior';
+        this.dimensionGroup.visible=false;this.roofGroup.visible=this.roofVisible;
+        const m=this.model;
+        const target=new THREE.Vector3(0,(m.height+1.25)/2,-.25);
+        const direction=new THREE.Vector3(...directions[view]).normalize();
+        this.camera.position.copy(target).add(direction);
+        this.camera.up.set(0,1,0);this.camera.lookAt(target);this.camera.updateMatrixWorld(true);
+        const right=new THREE.Vector3(1,0,0).applyQuaternion(this.camera.quaternion);
+        const up=new THREE.Vector3(0,1,0).applyQuaternion(this.camera.quaternion);
+        const tanY=Math.tan(THREE.MathUtils.degToRad(this.camera.fov)/2),tanX=tanY*this.camera.aspect;
+        const houseHalfWidth=Math.max(m.width+1.1,6.5)/2;
+        const xExtent=Math.max(houseHalfWidth,m.width/2+.38);
+        let distance=3;
+        // Fit the structure and its immediate terrace, without letting the 90 m ground plane affect framing.
+        for(const x of [-xExtent,xExtent])for(const y of [-.2,m.height+1.34])for(const z of [m.bounds.back-.94,m.bounds.front+.85]) {
+            const point=new THREE.Vector3(x,y,z).sub(target),towardsCamera=point.dot(direction);
+            distance=Math.max(distance,towardsCamera+Math.abs(point.dot(right))/tanX*1.09,
+                towardsCamera+Math.abs(point.dot(up))/tanY*1.09);
+        }
+        this.camera.position.copy(target).addScaledVector(direction,distance);
+        this.controls.target.copy(target);this.controls.maxDistance=Math.max(27,distance*2);
+        this.controls.update();this.renderer.shadowMap.needsUpdate=true;this.render();
+        return true;
+    }
+
     setMode(mode) {this.mode=mode==='2d'?'2d':'3d';this.applyMode();this.resize();}
     applyMode() {const flat=this.mode==='2d'||this.failed||!this.renderer;this.plan.style.display=flat?'block':'none';if(this.renderer)this.renderer.domElement.style.display=flat?'none':'block';if(this.controls)this.controls.enabled=!flat;}
     setView(view) {this.view=['perspective','front','top'].includes(view)?view:'perspective';this.fitCamera();}
@@ -330,6 +365,7 @@ export class Preview {
     destroy() {
         if(this.disposed)return;this.disposed=true;this.resizeObserver?.disconnect();this.controls?.removeEventListener('change',this._render);this.controls?.dispose();
         this.release(this.root);this.materials.forEach(material=>material.dispose());this.textures.forEach(texture=>texture.dispose());
+        this.scene?.traverse(object=>object.shadow?.dispose());
         if(this.renderer){this.renderer.domElement.removeEventListener('webglcontextlost',this._contextLost);this.renderer.domElement.removeEventListener('webglcontextrestored',this._contextRestored);this.renderer.dispose();this.renderer.forceContextLoss();}
         this.host.remove();
     }

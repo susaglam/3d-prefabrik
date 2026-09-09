@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "Missing plan, front or side drawing blocks submission; retry recaptures successfully without losing contact data",
+      "passed": true
+    },
+    {
+      "name": "SQLite proves immutable snapshots and no duplicate row after retry",
+      "passed": true,
+      "saved": [
+        {
+          "width": 620,
+          "views": 6
+        }
+      ]
+    }
+  ],
+  "runtimeErrors": [],
+  "productionWrites": false
+}

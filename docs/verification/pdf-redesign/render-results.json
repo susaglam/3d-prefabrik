@@ -1,0 +1,55 @@
+{
+  "ok": true,
+  "pages": [
+    {
+      "page": 1,
+      "section": "Jouw ontwerp",
+      "images": 1,
+      "textCharacters": 499
+    },
+    {
+      "page": 2,
+      "section": "Ruimtelijke impressies",
+      "images": 2,
+      "textCharacters": 542
+    },
+    {
+      "page": 3,
+      "section": "Maatvoering & aanzichten",
+      "images": 3,
+      "textCharacters": 561
+    },
+    {
+      "page": 4,
+      "section": "Materialen & voorzieningen",
+      "images": 0,
+      "textCharacters": 958
+    },
+    {
+      "page": 5,
+      "section": "Indicatieve kostenopbouw",
+      "images": 0,
+      "textCharacters": 1259
+    },
+    {
+      "page": 6,
+      "section": "Uitgangspunten & vervolg",
+      "images": 0,
+      "textCharacters": 1451
+    }
+  ],
+  "pageCount": 6,
+  "embeddedImages": 6,
+  "pdfBytes": 708489,
+  "layoutIssues": [],
+  "syntheticContactOnly": true,
+  "personalExample": {
+    "pages": 6,
+    "images": 6,
+    "configurationPreserved": true,
+    "pricesPreserved": true,
+    "contactPreserved": true,
+    "originalFileUnchanged": true
+  },
+  "desktopFile": "CS-Prefab-aanvraag-v2.pdf"
+}

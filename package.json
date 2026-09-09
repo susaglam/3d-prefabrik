@@ -1,6 +1,6 @@
 {
   "name": "cs-prefab-configurator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "CS Prefab: guided extension configurator with shared Python/Odoo quote engine",
@@ -10,7 +10,8 @@
     "test": "node --test tests/frontend/*.test.mjs",
     "test:browser": "node scripts/verify-browser.mjs",
     "test:interactions": "node scripts/verify-interactions.mjs",
-    "test:accessibility": "node scripts/verify-accessibility.mjs"
+    "test:accessibility": "node scripts/verify-accessibility.mjs",
+    "test:documents": "node scripts/verify-document-capture.mjs"
   },
   "dependencies": {
     "three": "0.180.0"

@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "Six actual JPEG views persist; lost-response retry reuses one capture and one quote; live preview unchanged",
+      "passed": true,
+      "captureCount": 1,
+      "views": [
+        {
+          "id": "perspective-left",
+          "width": 1440,
+          "height": 960
+        },
+        {
+          "id": "perspective-right",
+          "width": 1440,
+          "height": 960
+        },
+        {
+          "id": "interior",
+          "width": 1440,
+          "height": 960
+        },
+        {
+          "id": "plan",
+          "width": 1440,
+          "height": 960
+        },
+        {
+          "id": "front",
+          "width": 1440,
+          "height": 960
+        },
+        {
+          "id": "side",
+          "width": 1440,
+          "height": 960
+        }
+      ]
+    },
+    {
+      "name": "Editing during validation preserves submitted 620 cm snapshot and current 630 cm draft independently",
+      "passed": true
+    },
+    {
+      "name": "Actual WebGL failure still saves three technical drawings with explicit fallback notice",
+      "passed": true
+    },
+    {
+      "name": "SQLite proves three immutable snapshots and no duplicate row after retry",
+      "passed": true,
+      "saved": [
+        {
+          "width": 620,
+          "views": 6
+        },
+        {
+          "width": 620,
+          "views": 6
+        },
+        {
+          "width": 620,
+          "views": 3
+        }
+      ]
+    }
+  ],
+  "runtimeErrors": [],
+  "productionWrites": false
+}

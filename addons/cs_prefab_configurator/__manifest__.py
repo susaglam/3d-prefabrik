@@ -1,7 +1,7 @@
 {
     "name": "CS Prefab Configurator",
     "summary": "Prefab aanbouw configurator met servervalidatie, CRM-aanvraag en PDF",
-    "version": "saas~19.3.1.0.0",
+    "version": "saas~19.3.1.1.0",
     "category": "Website",
     "license": "LGPL-3",
     "author": "Codesnap",

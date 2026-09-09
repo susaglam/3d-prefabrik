@@ -15,11 +15,11 @@ python3 -m unittest discover -s tests -p 'test_*.py' -v
 python3 scripts/serve.py --purge-expired
 ```
 
-`requirements-dev.txt` contains only the optional independent `pypdf` parser for PDF verification. The renderer itself does not require it. Without that parser, the two independent PDF extraction tests are explicitly marked skipped. SQLite expiry cleanup runs at startup or on the explicit purge command; schedule the latter daily if the local server stays running.
+`requirements-dev.txt` contains the optional independent `pypdf` and `PyMuPDF` readers for PDF extraction, image and raster-layout verification. The renderer itself does not require them. Without these packages, reader-specific tests are explicitly marked skipped. SQLite expiry cleanup runs at startup or on the explicit purge command; schedule the latter daily if the local server stays running.
 
 ## API
 
-Requests and responses are JSON except document downloads. POST requests require `Content-Type: application/json` and an exact same-origin `Origin` header. There is no CORS grant. Payloads are limited to 32 KiB; duplicate JSON keys, nonfinite values and excessive nesting are rejected.
+Requests and responses are JSON except document downloads. POST requests require `Content-Type: application/json` and an exact same-origin `Origin` header. There is no CORS grant. Price and share payloads are limited to 32 KiB; quote payloads allow 6 MiB to carry the saved JPEG views. Duplicate JSON keys, nonfinite values and excessive nesting are rejected.
 
 | Method and route | Input | Result |
 | --- | --- | --- |
@@ -27,7 +27,7 @@ Requests and responses are JSON except document downloads. POST requests require
 | `POST /prefab/api/price` | `{config}` | Canonical config, labels, line items, area, integer cent totals and warnings |
 | `POST /prefab/api/share` | `{config}` | Random token and `/prefab?share=...` link; 30-day lifetime |
 | `GET /prefab/api/share/{token}` | — | Configuration only; postcode blank; no contact record |
-| `POST /prefab/api/quote` | `{config, contact, consent: true, idempotencyKey: UUIDv4}` | Reference, private token, PDF URL, frozen price and timestamp |
+| `POST /prefab/api/quote` | `{config, contact, consent: true, idempotencyKey: UUIDv4, visuals?: {version, configKey, views, missingViews}}` | Reference, private token, PDF URL, frozen price and timestamp |
 | `GET /prefab/api/quote/{token}/pdf` | — | Actual paginated A4 PDF generated from the saved snapshot |
 | `GET /prefab/api/quote/{token}/html` | — | Escaped printable HTML from the saved snapshot |
 | `GET /prefab/api/health` | — | Storage mode and readiness; `emailDelivery: false` |
@@ -50,6 +50,10 @@ When `interior` is false, all eight hidden interior values reset to defaults on 
 
 Each quote freezes the canonical configuration, Dutch selection labels, the full price result, pricebook/schema versions, the timestamp and contact consent. Documents read this snapshot and do not reprice against a newer book. The local database prevents updates through an immutable-row trigger. Odoo blocks updates to frozen quote fields through the ORM; workflow state remains editable.
 
+New browser quotes also freeze six document captures: `perspective-left`, `perspective-right`, `interior`, `plan`, `front`, `side`. Their `configKey` is sorted compact JSON of the canonical configuration without postcode. The API accepts only RGB JPEGs, checks dimensions (256–2000 pixels per side, at most 2.5 million pixels), removes metadata and fixes labels server-side. Limits are 768 KiB per image and 4 MiB combined before metadata removal. This validates image framing and configuration identity, not the semantic authenticity of client pixels. Images never set prices. Capture version participates in retry identity; variable JPEG bytes and missing-view flags do not. The first saved image bundle is returned on retries and is never replaced.
+
+The browser validates a cloned configuration before capture, uses an isolated renderer and caches the bundle for retries. Unsupported WebGL produces three technical drawings. Failed technical capture asks the user to retry. Legacy requests without a capture bundle remain valid. Details and render evidence: [PDF design](pdf-design.md).
+
 The UUID is unique within company/website scope. A retry with identical normalized customer/configuration data returns the existing result. A collision with different customer or configuration data returns 409 and never reveals the original private token. SQLite serializes lookup/create in one write transaction; Odoo uses a PostgreSQL transaction advisory lock plus a database unique constraint. No browser-supplied company, website or CRM identifiers are accepted.
 
 Share tokens contain 256 bits of randomness and expire in 30 days. They expose only the configuration with postcode removed. Private PDF tokens also contain 256 bits of randomness and expire in 90 days. The PDF includes contact information: treat its URL as confidential. API responses use `Cache-Control: no-store` and `Referrer-Policy: no-referrer`; local logs omit bearer tokens and body data. Reverse-proxy logs must likewise redact quote/share token paths. Odoo's default Werkzeug access logger includes paths; configure `--log-handler=werkzeug:WARNING` or equivalent access-log redaction before deployment. Public/portal Odoo users have no model ACLs.
@@ -64,9 +68,11 @@ The selected website determines company and website scope on every lookup/create
 
 An internal QWeb report is available from the request's Print menu; the public PDF route uses the dependency-free renderer, so it does not depend on wkhtmltopdf. A daily cron removes expired quote/share records. CRM leads have a separate retention lifecycle and are not removed by this cron; configure retention for those customer records in the target organisation.
 
-The public PDF embeds the bundled, licensed DejaVu Sans TrueType font with explicit Unicode character maps. Turkish names such as `Şükrü Çağrı` survive both rendering and extraction, verified with two independent PDF readers. Its dimensioned footprint is generated from the frozen configuration. Font coverage is finite; complex-script shaping and characters outside DejaVu Sans coverage are not supported by this compact renderer. The sample PDF and visually reviewed first page are in `docs/verification/backend/` and contain synthetic contact details.
+The public PDF embeds the bundled, licensed DejaVu Sans TrueType font with explicit Unicode character maps and saved JPEGs as native PDF image objects. Turkish names such as `Şükrü Çağrı` survive rendering and extraction. The A4 proposal has a cover, gallery, technical sheet, grouped selections, itemized prices and project notes, with deliberate page breaks and repeated footers. Long text continues without truncation; legacy requests receive native vector dimension diagrams. Font coverage is finite; complex-script shaping and characters outside DejaVu Sans coverage are not supported by this compact renderer. Current synthetic examples are in `docs/verification/pdf-redesign/`; the original baseline remains in `docs/verification/backend/`.
 
-## Verification performed on 2026-09-09
+## Original verification performed on 2026-09-09
+
+The PDF redesign adds capture, persistence and document-layout tests beyond this original baseline. Current results are in [PDF design](pdf-design.md) and [Odoo PDF verification](pdf-odoo-verification.md); the latter also documents the new isolated Odoo revision and ports used for this update.
 
 The standalone suite has 30 tests; all 30 passed in the isolated Python environment with `pypdf 6.18.0`. A standard-library-only run passes 28 tests and explicitly skips the two optional parser tests. A new PostgreSQL 16 cluster on port 55478 and a clean upstream Odoo `saas-19.3` checkout at `b01000720dc5bbbdc250eb92997f1815501dcfda` were used to install this module and its dependencies successfully. The separate Odoo HttpCase suite passed all three actual HTTP/ORM tests, including CRM creation, idempotency, frozen records, public ACL denial, cross-company/website share and PDF isolation, origin checks, input rejection and internal QWeb HTML rendering.
 

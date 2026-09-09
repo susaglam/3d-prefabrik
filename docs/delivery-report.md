@@ -2,6 +2,8 @@
 
 **9 Eylül 2026.** Çalışan bağımsız uygulama ve gerçekten kurulup test edilmiş Odoo modülü tamamlandı. Uygulama adresi: **http://localhost:8078/prefab**. Çalışma klasörü: `E:\Projeler\cs_prefab_configurator`.
 
+**PDF güncellemesi — 1.1.0:** Teklif çıktısı yeniden tasarlandı. Altı sayfalık örnekte sağ/sol 3D, çatısız iç görünüm, ölçülü plan, ön ve yan cephe bulunuyor; toplam **6 görsel**. Kapak, gruplu seçim tabloları, miktar/birim fiyat/KDV dökümü ve kapsam sayfası eklendi. [Yeni PDF örneği](verification/pdf-redesign/proposal.pdf), [sayfaların genel görünümü](verification/pdf-redesign/contact-sheet.png) ve [uygulama/doğrulama ayrıntıları](pdf-design.md). Kullanıcının mevcut teklifi aynı ölçü, seçim ve fiyatlarla `CS-Prefab-aanvraag-v2.pdf` olarak masaüstüne ayrıca yazıldı. Yerel sunucu yedek alındıktan sonra yeniden başlatıldı; mevcut kayıtlar korundu.
+
 ## Ortaya çıkan ürün
 
 [PrefabPartner teklif akışındaki](https://prefabpartner.nl/offerte/) **33 soru ve 94 seçenek**, kaynak soru/cevap kimlikleriyle eşlendi. Konfigüratörün [standalone sürümü](https://directsamenstellen.nl/28befe23-1200-4d1c-8092-e48a83477820) tarayıcıda gezildi: uzun dalda 20 giriş sayfası, iç mekân atlanınca 14 sayfa; 94 seçeneğin her biri tıklandı. İletişim formu gönderilmedi.
@@ -15,7 +17,7 @@ Bizim arayüz aynı soru kapsamını yedi bölümde sunuyor: **Afmetingen → Ge
 - 3D döndürme, kamera açıları, çatı gizleme, ölçü çizgileri, 2D plan ve WebGL yoksa anlaşılır 2D dönüşü.
 - Otomatik cihaz kaydı, kişisel bilgi içermeyen paylaşım, tasarımı geri yükleme, özetten düzenleme.
 - Sunucuda fiyat doğrulama, kalıcı teklif, aynı isteğin güvenli tekrarı, sürümlü ve dondurulmuş belge verisi.
-- Türkçe karakterleri koruyan gerçek PDF, ölçülü plan ve ayrıntılı hesap dökümü.
+- Türkçe karakterleri koruyan tasarlanmış A4 PDF, üç 3D görünüm, ölçülü plan/cepheler ve ayrıntılı hesap tabloları. Görseller teklif kaydıyla dondurulur; kamera açısı değişmez, ağ hatasında tekrar gönderim aynı kaydı kullanır.
 - Odoo içinde CRM fırsatı, şirket/site kapsamlı özel kayıt, yönetim görünümü ve PDF.
 
 ## Doğrulama sonuçları
@@ -23,18 +25,22 @@ Bizim arayüz aynı soru kapsamını yedi bölümde sunuyor: **Afmetingen → Ge
 | Kontrol | Sonuç | Kanıt |
 | --- | --- | --- |
 | Referansın seçenekleri | 94/94; uzun ve kısa dal gezildi | [Kaynak incelemesi](reference-audit.md), [makine sonucu](../research/reference/verification-summary.json) |
-| Python servis/HTTP/veri/PDF testleri | **30/30 geçti**; bağımsız PDF okuyucu dahil | [Backend sonucu](verification/backend/backend-results.json), [test çıktısı](verification/backend-tests.txt) |
-| JavaScript durum ve geometri | **29/29 geçti** | [Test çıktısı](verification/frontend-tests.tap) |
+| Python servis/HTTP/veri/PDF testleri | **49/49 geçti**; iki bağımsız PDF okuyucu ve raster kontrolü dahil | [Güncel test çıktısı](verification/pdf-redesign/backend-tests.txt) |
+| JavaScript durum ve geometri | **35/35 geçti** | [Güncel test çıktısı](verification/pdf-redesign/frontend-tests.tap) |
 | Yerel uçtan uca tarayıcı | **18/18 geçti** | [Sonuç](verification/browser-results.json) |
-| Gerçek Odoo ORM/HTTP testleri | **3/3 geçti** | [Odoo kanıtı](verification/backend/backend-results.json) |
-| Gerçek Odoo üzerinde aynı tarayıcı akışı | **18/18 geçti** | [Sonuç](verification/odoo-browser/browser-results.json) |
+| Gerçek Odoo ORM/HTTP testleri | **4/4 geçti**; altı görselli QWeb dahil | [Güncel Odoo kanıtı](pdf-odoo-verification.md) |
+| Gerçek Odoo üzerinde ilk sürümün tarayıcı akışı | **18/18 geçti** | [İlk sürüm sonucu](verification/odoo-browser/browser-results.json) |
 | Bağımsız etkileşim regresyonu | **6/6 geçti** | [Sonuç](verification/interactions-review.json) |
+| PDF görsel kaydı ve hata dönüşleri | 6 JPEG, aynı istekte tek kayıt, 3 teknik çizim hatasının ayrı ayrı reddi | [Akış](verification/pdf-redesign/browser-document-checks.json), [hata senaryoları](verification/pdf-redesign/browser-document-failure-checks.json) |
+| PDF görsel incelemesi | 6 sayfa/6 görsel, sınır ihlali yok; uzun metinler korunuyor | [Render sonucu](verification/pdf-redesign/render-results.json), [PDF testi](../tests/test_documents.py) |
 | Erişilebilirlik | **15/15 axe durumu: 0 ihlal**; **4/4 SVG kontrast kontrolü** | [Sonuç](verification/accessibility-results.json), [kapsam](accessibility.md) |
 | Ekran genişlikleri | **360 / 390 / 768 / 1440 px: yatay taşma yok** | Tarayıcı sonuçlarındaki viewport ölçümleri |
 
-Python standart kitaplığıyla çalıştırılan testlerde yalnızca bağımsız PDF ayrıştırıcısını gerektiren iki kontrol açıkça atlanır; yukarıdaki 30/30 sonucu `pypdf 6.18.0` bulunan izole ortamdan alınmıştır. PDF ayrıca PyMuPDF ile okunup ilk sayfası görsel olarak incelendi. Erişilebilirlik sonucu otomatik tarama ve ek kontrast ölçümünün sonucudur; tam ekran okuyucu uygunluk sertifikası değildir.
+Python standart kitaplığıyla çalıştırılan testlerde bağımsız PDF okuyucularını gerektiren kontroller açıkça atlanır; yukarıdaki 49/49 sonucu `pypdf` ve `PyMuPDF` bulunan izole ortamdan alınmıştır. İki yeni PDF örneğinin altı sayfası raster olarak incelendi. Erişilebilirlik satırı ilk sürümün otomatik tarama ve ek kontrast ölçümüdür; tam ekran okuyucu uygunluk sertifikası değildir.
 
 Odoo `saas~19.3` kaynak revizyonu `b01000720dc5bbbdc250eb92997f1815501dcfda`, ayrı PostgreSQL 16 kümesi ve ayrı veritabanıyla test edildi. Kurulum 56 bağımlı modülle başarıyla tamamlandı. CRM oluşturma, idempotency, PDF, public ACL, farklı şirket/site token ayrımı, yabancı Origin reddi, istemci fiyatını reddetme ve gizli seçenek temizliği gerçek runtime üzerinde doğrulandı. Geçici Odoo/PostgreSQL süreçleri testten sonra kapatılır; yeniden çalıştırma komutları [backend dokümanında](BACKEND.md). Mevcut CS Product Configurator ve canlı işletme veritabanları değiştirilmedi.
+
+PDF güncellemesi için ayrıca temiz `saas-19.3` revizyonu `1ffbee37bf50a01f2f5a7409ba687cbe26681f92` kuruldu. Dört HttpCase, gerçek QWeb PDF, altı görsel, eski kayıt ve uzun not kontrolleri geçti. Bu yeni ortamın kanıtı ve portları [PDF Odoo raporunda](pdf-odoo-verification.md); önceki paragraf ilk teslimin tarihsel kurulum bilgisidir.
 
 ## Özellikle düzeltilen kullanım sorunları
 
@@ -46,10 +52,10 @@ En küçük ölçünün 3D'de yanlış büyümesi, katalog dışı eski kayıtla
 
 ## Paket ve kullanım
 
-- [Odoo eklenti ZIP'i](../dist/cs_prefab_configurator-1.0.0.zip): **42 dosya**, yalnızca eklenti ve gerekli varlıklar. Arşiv bütünlüğü kontrol edildi; veritabanı, araştırma fotoğrafları veya node_modules içermez.
-- [SHA256 dosyası](../dist/cs_prefab_configurator-1.0.0.zip.sha256) arşivin doğrulama değerini içerir.
+- [Odoo eklenti ZIP'i](../dist/cs_prefab_configurator-1.1.0.zip): **45 dosya**, yalnızca eklenti ve gerekli varlıklar. Arşiv bütünlüğü kontrol edildi; veritabanı, araştırma fotoğrafları veya node_modules içermez.
+- [SHA256 dosyası](../dist/cs_prefab_configurator-1.1.0.zip.sha256) arşivin doğrulama değerini içerir.
 - Windows için [start-configurator.bat](../start-configurator.bat); terminal için `python3 scripts/serve.py --port 8078`.
-- [Masaüstü ekranı](verification/browser-desktop.png), [390 px mobil ekran](verification/browser-390px.png), [ölçekli plan](verification/browser-plan.png), [örnek PDF](verification/backend/sample-quote.pdf).
+- [Masaüstü ekranı](verification/browser-desktop.png), [390 px mobil ekran](verification/browser-390px.png), [ölçekli plan](verification/browser-plan.png), [yeni örnek PDF](verification/pdf-redesign/proposal.pdf).
 - [Kurulum kılavuzu](../README.md), [dağıtım notları](deployment.md), [uygulanan plan](implementation-plan.md).
 
 Yerel uygulama dış servise bağımlı değildir; Python 3.10+ ile çalışır. Paylaşımın başka cihazlarda açılması için o cihazın uygulama sunucusuna ulaşabilmesi gerekir. `localhost` bir internet yayın adresi değildir.

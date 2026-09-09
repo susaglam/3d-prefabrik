@@ -10,7 +10,7 @@ from odoo.http import request
 
 from ..services.configuration import canonical_config, canonical_quote_payload
 from ..services.errors import DomainError
-from ..services.http_api import MAX_BODY_BYTES, RateLimiter, dispatch, enforce_origin, parse_json_body
+from ..services.http_api import RateLimiter, body_limit, dispatch, enforce_origin, parse_json_body
 from ..services.storage import QUOTE_TTL, SHARE_TTL, new_snapshot, valid_token
 
 LIMITER = RateLimiter()
@@ -119,9 +119,10 @@ class PrefabController(http.Controller):
                 origin = f"{parsed.scheme}://{parsed.netloc}"
                 enforce_origin(request.httprequest.headers, origin)
                 length = request.httprequest.content_length
-                if length is None or not 0 < length <= MAX_BODY_BYTES:
+                maximum = body_limit("/prefab/api/" + endpoint)
+                if length is None or not 0 < length <= maximum:
                     raise DomainError("Ongeldige of te grote aanvraag.", code="payload_too_large", status=413)
-                payload = parse_json_body(request.httprequest.get_data(cache=False))
+                payload = parse_json_body(request.httprequest.get_data(cache=False), max_bytes=maximum)
             status, content_type, response = dispatch(OdooRepository(), method, "/prefab/api/" + endpoint, payload)
             headers = [("Cache-Control", "no-store"), ("Referrer-Policy", "no-referrer"), ("X-Content-Type-Options", "nosniff")]
             if content_type == "application/json":

@@ -1,0 +1,189 @@
+
+> cs-prefab-configurator@1.1.0 test
+> node --test tests/frontend/*.test.mjs
+
+TAP version 13
+# Subtest: document identity is deterministic and excludes contact postcode without mutating configuration
+ok 1 - document identity is deterministic and excludes contact postcode without mutating configuration
+  ---
+  duration_ms: 5.720365
+  ...
+# Subtest: print floor plan keeps actual dimensions, area, opening and all rooflight panels
+ok 2 - print floor plan keeps actual dimensions, area, opening and all rooflight panels
+  ---
+  duration_ms: 44.50718
+  ...
+# Subtest: front elevation follows chosen frame divisions, aperture size, drain and exterior connections
+ok 3 - front elevation follows chosen frame divisions, aperture size, drain and exterior connections
+  ---
+  duration_ms: 3.976316
+  ...
+# Subtest: sliding and folding plans retain closed panels without inventing an opening direction
+ok 4 - sliding and folding plans retain closed panels without inventing an opening direction
+  ---
+  duration_ms: 3.552999
+  ...
+# Subtest: right side elevation dimensions the depth and preserves the real lean or gable profile
+ok 5 - right side elevation dimensions the depth and preserves the real lean or gable profile
+  ---
+  duration_ms: 4.082924
+  ...
+# Subtest: technical exports remain finite at minimum and maximum accepted dimensions
+ok 6 - technical exports remain finite at minimum and maximum accepted dimensions
+  ---
+  duration_ms: 11.048214
+  ...
+# Subtest: centimetres become metres once, with consistent garden-facing coordinates
+ok 7 - centimetres become metres once, with consistent garden-facing coordinates
+  ---
+  duration_ms: 9.621422
+  ...
+# Subtest: an opening removes front wall solids throughout its clear area
+ok 8 - an opening removes front wall solids throughout its clear area
+  ---
+  duration_ms: 2.221907
+  ...
+# Subtest: no front opening is an uninterrupted front wall and no door panels
+ok 9 - no front opening is an uninterrupted front wall and no door panels
+  ---
+  duration_ms: 0.70345
+  ...
+# Subtest: door panel families preserve counts, span and selected colour/grid
+ok 10 - door panel families preserve counts, span and selected colour/grid
+  ---
+  duration_ms: 1.230166
+  ...
+# Subtest: all rooflight variants retain exact panel counts and fit inside the roof
+ok 11 - all rooflight variants retain exact panel counts and fit inside the roof
+  ---
+  duration_ms: 5.24324
+  ...
+# Subtest: minimum valid 150 by 100 cm is neither enlarged nor priced as a different shape
+ok 12 - minimum valid 150 by 100 cm is neither enlarged nor priced as a different shape
+  ---
+  duration_ms: 53.996968
+  ...
+# Subtest: four roof slabs never cover the configured rooflight opening
+ok 13 - four roof slabs never cover the configured rooflight opening
+  ---
+  duration_ms: 1.310467
+  ...
+# Subtest: gable has two opposing slopes and a common ridge; lean has one slope
+ok 14 - gable has two opposing slopes and a common ridge; lean has one slope
+  ---
+  duration_ms: 0.861208
+  ...
+# Subtest: drain and exterior conduit positions reflect explicit garden-facing sides
+ok 15 - drain and exterior conduit positions reflect explicit garden-facing sides
+  ---
+  duration_ms: 3.316499
+  ...
+# Subtest: SVG uses the same dimensions, panel count and accessible room description
+ok 16 - SVG uses the same dimensions, panel count and accessible room description
+  ---
+  duration_ms: 1.218892
+  ...
+# Subtest: bad imported values produce finite safe preview geometry rather than NaN
+ok 17 - bad imported values produce finite safe preview geometry rather than NaN
+  ---
+  duration_ms: 1.057374
+  ...
+# Subtest: every source choice has exactly one canonical field and answer mapping
+ok 18 - every source choice has exactly one canonical field and answer mapping
+  ---
+  duration_ms: 14.579579
+  ...
+# Subtest: every canonical product choice appears in the guided UI
+ok 19 - every canonical product choice appears in the guided UI
+  ---
+  duration_ms: 0.944808
+  ...
+# Subtest: source centimeter boundaries are preserved, with a separate fixed schematic height
+ok 20 - source centimeter boundaries are preserved, with a separate fixed schematic height
+  ---
+  duration_ms: 0.937566
+  ...
+# Subtest: missing, corrupt and array drafts recover to fresh canonical defaults
+ok 21 - missing, corrupt and array drafts recover to fresh canonical defaults
+  ---
+  duration_ms: 2.175616
+  ...
+# Subtest: draft import discards untrusted fields, contact data and prototype-shaped keys
+ok 22 - draft import discards untrusted fields, contact data and prototype-shaped keys
+  ---
+  duration_ms: 0.519933
+  ...
+# Subtest: draft import accepts inclusive dimension bounds and rejects coercion/non-finite numbers
+ok 23 - draft import accepts inclusive dimension bounds and rejects coercion/non-finite numbers
+  ---
+  duration_ms: 3.258383
+  ...
+# Subtest: draft import preserves all canonical numeric and boolean option types
+ok 24 - draft import preserves all canonical numeric and boolean option types
+  ---
+  duration_ms: 4.139849
+  ...
+# Subtest: discrete pile catalogue never imports a nonexistent five-pile option
+ok 25 - discrete pile catalogue never imports a nonexistent five-pile option
+  ---
+  duration_ms: 1.147849
+  ...
+# Subtest: unknown and object option values cannot be rendered as product selections
+ok 26 - unknown and object option values cannot be rendered as product selections
+  ---
+  duration_ms: 1.854783
+  ...
+# Subtest: turning off interior clears all priced hidden choices without changing exterior choices or inputs
+ok 27 - turning off interior clears all priced hidden choices without changing exterior choices or inputs
+  ---
+  duration_ms: 4.586082
+  ...
+# Subtest: hidden interior payloads from stored drafts are cleared on restore
+ok 28 - hidden interior payloads from stored drafts are cleared on restore
+  ---
+  duration_ms: 0.437342
+  ...
+# Subtest: dimension validation rejects unsupported model states and accepts the full source interval
+ok 29 - dimension validation rejects unsupported model states and accepts the full source interval
+  ---
+  duration_ms: 6.38889
+  ...
+# Subtest: contact validation accepts ordinary Dutch addresses and international notation
+ok 30 - contact validation accepts ordinary Dutch addresses and international notation
+  ---
+  duration_ms: 2.391582
+  ...
+# Subtest: contact validation reports all missing required fields
+ok 31 - contact validation reports all missing required fields
+  ---
+  duration_ms: 1.770541
+  ...
+# Subtest: contact validation rejects syntactically invalid email, phone, postcode and house number
+ok 32 - contact validation rejects syntactically invalid email, phone, postcode and house number
+  ---
+  duration_ms: 0.86075
+  ...
+# Subtest: malformed contact field types produce field errors instead of throwing
+ok 33 - malformed contact field types produce field errors instead of throwing
+  ---
+  duration_ms: 2.625974
+  ...
+# Subtest: HTML escaping protects both attribute and text contexts without losing ordinary text
+ok 34 - HTML escaping protects both attribute and text contexts without losing ordinary text
+  ---
+  duration_ms: 2.731299
+  ...
+# Subtest: labels resolve typed numeric/boolean options without truthiness errors
+ok 35 - labels resolve typed numeric/boolean options without truthiness errors
+  ---
+  duration_ms: 1.347408
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 637.06895

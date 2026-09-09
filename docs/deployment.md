@@ -18,6 +18,8 @@ Paylaşım 30 gün, özel teklif bağlantısı 90 gün geçerlidir. Yerel servis
 
 Genel HTTP arayüzü aynı olduğu için bağımsız uygulamanın frontend'i Odoo içinde de kullanılır. ORM adaptörü site ve şirket bağlamıyla kayıt arar. Paylaşım anahtarı, özel teklif erişim anahtarı ve tekrar gönderme anahtarı birbirinden ayrıdır.
 
+PDF güncellemesi için modülü `saas~19.3.1.1.0` sürümüne güncelleyin ve uygulama sürecini yeniden başlatın. Veritabanı şeması değişmez; yeni tekliflerin anlık görüntüsüne altı JPEG eklenir. Reverse proxy'de yalnız `/prefab/api/quote` için en az 6 MiB gövdeye izin verin; fiyat ve paylaşım uçlarının uygulama sınırı 32 KiB olarak kalır. Eklenti güncellemesi sonrası tarayıcıyı yenileyip yeni bir anonim teklif oluşturun; PDF'deki üç 3D ve üç teknik görünümü kontrol edin. Eski görselsiz kayıtlar geriye dönük üretilmiş 3D içermez.
+
 ## Kamuya açmadan önce gerçek işletme verileri
 
 - Onaylı fiyat kitabı, KDV politikası, kapsam, montaj/transport/craning ve bölgesel koşullar. Mevcut kitap demonstrasyondur; rakip fiyatı değildir.

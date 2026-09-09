@@ -1,8 +1,16 @@
 """Actual Odoo/PostgreSQL integration tests, not exercised by standalone unittest."""
+import base64
+import io
 import uuid
+
+from lxml import html
+from PIL import Image
 
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import HttpCase, tagged
+
+from ..services.configuration import canonical_config, document_config_key
+from ..services.document_visuals import VIEW_LABELS
 
 
 @tagged("post_install", "-at_install")
@@ -40,6 +48,10 @@ class TestPrefabOdooAdapter(HttpCase):
         report_html, _ = self.env["ir.actions.report"]._render_qweb_html("cs_prefab_configurator.action_report_prefab_quote", [record.id])
         self.assertIn(result["reference"].encode(), report_html)
         self.assertIn(b"Demonstratieprijzen", report_html)
+        self.assertIn(b"geen ontwerpbeelden opgeslagen", report_html)
+        self.assertNotIn(b"Jouw ontwerp in 3D", report_html)
+        self.assertIn(b"Eenheidsprijs", report_html)
+        self.assertIn(b"Gevel en dakrand", report_html)
         repeated = self._post("quote", payload)
         self.assertEqual(repeated.status_code, 201, repeated.text[:500])
         self.assertEqual(repeated.json()["token"], result["token"])
@@ -58,6 +70,43 @@ class TestPrefabOdooAdapter(HttpCase):
         # Neither private PDFs nor share records become public through model ACLs.
         with self.assertRaises(AccessError):
             self.env["cs.prefab.share"].with_user(self.env.ref("base.public_user")).search([])
+
+    def test_actual_visual_snapshot_and_qweb_dossier(self):
+        payload = self._payload()
+        image = io.BytesIO()
+        Image.new("RGB", (640, 400), "#f6f5f1").save(image, format="JPEG")
+        data_url = "data:image/jpeg;base64," + base64.b64encode(image.getvalue()).decode("ascii")
+        payload["visuals"] = {
+            "version": 1,
+            "configKey": document_config_key(canonical_config(payload["config"])),
+            "views": [{"id": key, "label": "Ignored browser label", "width": 640, "height": 400,
+                       "dataUrl": data_url} for key in VIEW_LABELS],
+            "missingViews": [],
+        }
+        response = self._post("quote", payload)
+        self.assertEqual(response.status_code, 201, response.text[:500])
+        result = response.json()
+        record = self.env["cs.prefab.quote"].search([("name", "=", result["reference"])])
+        stored_views = record.snapshot_json["visuals"]["views"]
+        self.assertEqual(len(stored_views), 6)
+        report_html, _ = self.env["ir.actions.report"]._render_qweb_html(
+            "cs_prefab_configurator.action_report_prefab_quote", [record.id])
+        document = html.fromstring(report_html)
+        pictures = document.xpath('//img[starts-with(@src,"data:image/jpeg;base64,")]')
+        self.assertEqual(len(pictures), 6)
+        self.assertEqual({pic.get("alt") for pic in pictures}, set(VIEW_LABELS.values()))
+        self.assertEqual({pic.get("src") for pic in pictures}, {view["dataUrl"] for view in stored_views})
+        self.assertNotIn(b"Ignored browser label", report_html)
+        self.assertIn(b"Technisch ontwerpoverzicht", report_html)
+        self.assertIn(b"Jouw ontwerp in 3D", report_html)
+        self.assertIn(b"geen vaste afdrukschaal", report_html)
+        self.assertIn(b"&lt;script&gt;test&lt;/script&gt;", report_html)
+        price = record.snapshot_json["price"]
+        total = "{:,.2f}".format(price["total"] / 100).replace(",", "~").replace(".", ",").replace("~", ".")
+        self.assertIn(total, document.text_content())
+        self.assertEqual(len(document.xpath('//div[@class="page"]')), 6)
+        report = self.env.ref("cs_prefab_configurator.action_report_prefab_quote")
+        self.assertEqual(report.paperformat_id.format, "A4")
 
     def test_actual_http_share_and_cross_website_isolation(self):
         response = self._post("share", {"config": {"postcode": "1234 AB", "facade": "wood-vertical"}})

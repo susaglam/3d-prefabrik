@@ -7,6 +7,7 @@ import unicodedata
 import uuid
 
 from .catalog import get_catalog
+from .document_visuals import canonical_document_visuals
 from .errors import DomainError
 
 POSTCODE = re.compile(r"^[1-9][0-9]{3}\s?[A-Z]{2}$")
@@ -19,6 +20,12 @@ def canonical_json(value):
 
 def digest(value):
     return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+
+
+def document_config_key(config):
+    # Placement postcode does not change geometry and is supplied by the contact
+    # step when omitted from the configurator. Keep it outside capture identity.
+    return canonical_json({key: value for key, value in config.items() if key != "postcode"})
 
 
 def normalize_postcode(value, *, required=False):
@@ -132,7 +139,7 @@ def canonical_contact(value):
 
 
 def canonical_quote_payload(payload):
-    if not isinstance(payload, dict) or set(payload) - {"config", "contact", "consent", "idempotencyKey"}:
+    if not isinstance(payload, dict) or set(payload) - {"config", "contact", "consent", "idempotencyKey", "visuals"}:
         raise DomainError("Ongeldige offerteaanvraag.")
     if payload.get("consent") is not True:
         raise DomainError("Geef toestemming om contact op te nemen over deze aanvraag.", fields={"consent": "Toestemming is verplicht."})
@@ -144,9 +151,16 @@ def canonical_quote_payload(payload):
     except (ValueError, AttributeError):
         raise DomainError("Ongeldige aanvraagcode. Vernieuw de pagina.", fields={"idempotencyKey": "Een UUID v4 is vereist."}) from None
     config = canonical_config(payload.get("config"))
+    visuals = canonical_document_visuals(payload["visuals"], document_config_key(config)) if "visuals" in payload else None
     contact = canonical_contact(payload.get("contact"))
     if config["postcode"] and config["postcode"] != contact["postcode"]:
         raise DomainError("De postcodes van configuratie en contactgegevens verschillen.", fields={"postcode": "Gebruik dezelfde postcode voor de plaatsing."})
     config["postcode"] = contact["postcode"]
     canonical = {"config": config, "contact": contact, "consent": True}
-    return canonical, str(parsed_key), digest(canonical)
+    # Captures may change JPEG bytes across devices or repeated renders. A retry
+    # must return the original immutable quote, not create a new commercial item.
+    identity = dict(canonical)
+    if visuals is not None:
+        canonical["visuals"] = visuals
+        identity["documentVisualsVersion"] = visuals["version"]
+    return canonical, str(parsed_key), digest(identity)
