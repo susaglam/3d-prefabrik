@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Miniatuur voor de blokkenlade: vier kaarten, drie oranje en één donker. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 135" width="240" height="135" role="img" aria-label="Dienstenrij">
+  <rect width="240" height="135" fill="#f6f6f6"/>
+  <g fill="#dedede">
+    <rect x="16" y="18" width="130" height="7" rx="3.5"/>
+    <rect x="190" y="17" width="34" height="11" rx="3"/>
+  </g>
+  <g>
+    <rect x="16" y="42" width="47" height="72" rx="4" fill="#C43F12"/>
+    <rect x="69" y="42" width="47" height="72" rx="4" fill="#C43F12"/>
+    <rect x="122" y="42" width="47" height="72" rx="4" fill="#C43F12"/>
+    <rect x="175" y="42" width="49" height="72" rx="4" fill="#1A1A1A"/>
+  </g>
+  <g fill="#ffffff" opacity="0.9">
+    <rect x="25" y="52" width="16" height="16" rx="3"/>
+    <rect x="25" y="76" width="28" height="5" rx="2.5"/>
+    <rect x="25" y="86" width="32" height="4" rx="2"/>
+    <rect x="78" y="52" width="16" height="16" rx="3"/>
+    <rect x="78" y="76" width="28" height="5" rx="2.5"/>
+    <rect x="78" y="86" width="32" height="4" rx="2"/>
+    <rect x="131" y="52" width="16" height="16" rx="3"/>
+    <rect x="131" y="76" width="28" height="5" rx="2.5"/>
+    <rect x="131" y="86" width="32" height="4" rx="2"/>
+    <rect x="184" y="52" width="16" height="16" rx="3"/>
+    <rect x="184" y="76" width="28" height="5" rx="2.5"/>
+    <rect x="184" y="86" width="32" height="4" rx="2"/>
+  </g>
+</svg>

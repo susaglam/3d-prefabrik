@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <!-- Homepage refinement: original orange/ink identity and prefab story, native editable sections. The stable oe_structure and native cards, process connectors and FAQ DOM remain intact. -->
+  <template id="page_home" name="Home">
+    <t t-call="website.layout">
+      <div id="wrap" class="oe_page_wrap" tabindex="-1">
+        <div class="oe_structure" id="oe_structure_prefab_home">
+          <section class="s_cover oe_img_bg o_bg_img_center o_prefab_home_video_hero o_cc o_cc5 pt96 pb32" data-snippet="s_cover" data-name="Prefab in beweging" data-prefab-home-video="/cs_prefab_website/static/src/video/prefab-partner.mp4" style="background-image: url('/cs_prefab_website/static/src/video/prefab-partner-poster.jpg'); background-position: 50% 50%;">
+            <div class="o_prefab_home_video_layer" aria-hidden="true"/>
+            <div class="o_we_bg_filter" style="background-color: rgba(0, 0, 0, 0.3); background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.64) 0%, rgba(0, 0, 0, 0.12) 100%);"/>
+            <div class="container s_allow_columns">
+              <div class="row">
+                <div class="col-lg-7 col-xl-6 o_prefab_home_hero_copy pt32 pb64">
+                  <h1 class="display-2 fw-bold mb-0">Meer ruimte.<br/>Slim gebouwd.</h1>
+                  <p class="lead mt24 mb-0">Jouw aanbouw, dakkapel of opbouw. Slim voorbereid in de fabriek. Op zijn plek bij jou.</p>
+                  <div class="d-flex flex-wrap align-items-center gap-3 mt32">
+                    <a href="/offerte" class="btn btn-primary btn-lg">Ontwerp je aanbouw</a>
+                    <a href="/projecten" class="btn btn-outline-secondary btn-lg">Bekijk projecten</a>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt24 o_prefab_home_hero_footer">
+                <a href="#prefab-oplossingen" class="text-reset text-decoration-none">Ontdek jouw mogelijkheden <i class="fa fa-arrow-down ms-2" aria-hidden="true"/></a>
+                <div class="o_prefab_home_video_controls"/>
+              </div>
+            </div>
+          </section>
+          <section class="s_text_block o_prefab_home_method o_cc o_cc4 pt24 pb24" data-snippet="s_text_block" data-name="De kracht van prefab">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-md-4 pt8 pb8">
+                  <p class="mb-0">
+                    <i class="fa fa-check me-2" aria-hidden="true"/>
+                    <strong>Op maat voor jouw woning</strong>
+                  </p>
+                </div>
+                <div class="col-md-4 pt8 pb8">
+                  <p class="mb-0">
+                    <i class="fa fa-check me-2" aria-hidden="true"/>
+                    <strong>Voorbereid in de fabriek</strong>
+                  </p>
+                </div>
+                <div class="col-md-4 pt8 pb8">
+                  <p class="mb-0">
+                    <i class="fa fa-check me-2" aria-hidden="true"/>
+                    <strong>Op locatie geplaatst</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section id="prefab-oplossingen" class="s_three_columns s_prefab_diensten o_prefab_product_grid o_prefab_home_products o_cc o_cc1 o_colored_level pt80 pb64" data-vxml="001" data-vcss="001" data-snippet="s_three_columns" data-name="Oplossingen in beeld">
+            <div class="container">
+              <div class="row align-items-end pb24">
+                <div class="col-lg-7 pt16 pb16">
+                  <h2>Meer plek om te leven.</h2>
+                </div>
+                <div class="col-lg-5 pt16 pb16">
+                  <p class="mb-0">Aan je huis, onder je dak of een verdieping hoger. Ontdek welke prefab oplossing bij jouw plannen past.</p>
+                </div>
+              </div>
+              <div class="row d-flex align-items-stretch">
+                <div data-name="Aanbouw" class="col-lg-4 pt16 pb16">
+                  <div class="s_card o_card_img_top card h-100 o_cc o_cc2 my-0 border-0" data-vxml="001" data-snippet="s_card" data-name="Aanbouw">
+                    <figure class="o_card_img_wrapper ratio ratio-4x3 mb-0">
+                      <img class="o_card_img card-img-top" src="/cs_prefab_website/static/src/media/Project-aanbouw-denhaag-01.webp" alt="Binnenzijde van een prefab aanbouw met lichtstraat in Den Haag" loading="lazy" decoding="async"/>
+                    </figure>
+                    <div class="card-body p-4">
+                      <h3 class="card-title h4-fs">Aanbouw</h3>
+                      <p class="card-text">Een grotere woonkamer, leefkeuken of werkplek aan huis.</p>
+                      <a href="/oplossingen/prefab-aanbouw" class="stretched-link d-flex align-items-center justify-content-between gap-2">Ontdek aanbouwen <i class="fa fa-arrow-right" aria-hidden="true"/></a>
+                    </div>
+                  </div>
+                </div>
+                <div data-name="Dakkapel" class="col-lg-4 pt16 pb16">
+                  <div class="s_card o_card_img_top card h-100 o_cc o_cc2 my-0 border-0" data-vxml="001" data-snippet="s_card" data-name="Dakkapel">
+                    <figure class="o_card_img_wrapper ratio ratio-4x3 mb-0">
+                      <img class="o_card_img card-img-top" src="/cs_prefab_website/static/src/media/project-4.jpg" alt="Geplaatste dakkapel met drie ramen op een donker pannendak" loading="lazy" decoding="async"/>
+                    </figure>
+                    <div class="card-body p-4">
+                      <h3 class="card-title h4-fs">Dakkapel</h3>
+                      <p class="card-text">Maak van je zolder een lichte, bruikbare ruimte.</p>
+                      <a href="/oplossingen/prefab-dakkapel" class="stretched-link d-flex align-items-center justify-content-between gap-2">Ontdek dakkapellen <i class="fa fa-arrow-right" aria-hidden="true"/></a>
+                    </div>
+                  </div>
+                </div>
+                <div data-name="Opbouw" class="col-lg-4 pt16 pb16">
+                  <div class="s_card o_card_img_top card h-100 o_cc o_cc2 my-0 border-0" data-vxml="001" data-snippet="s_card" data-name="Opbouw">
+                    <figure class="o_card_img_wrapper ratio ratio-4x3 mb-0">
+                      <img class="o_card_img card-img-top" src="/cs_prefab_website/static/src/media/project-1.jpg" alt="Woning met een opbouw en gemetselde gevel" loading="lazy" decoding="async"/>
+                    </figure>
+                    <div class="card-body p-4">
+                      <h3 class="card-title h4-fs">Opbouw</h3>
+                      <p class="card-text">Een extra verdieping voor de volgende stap in je woonplannen.</p>
+                      <a href="/oplossingen/prefab-opbouw" class="stretched-link d-flex align-items-center justify-content-between gap-2">Ontdek opbouwen <i class="fa fa-arrow-right" aria-hidden="true"/></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="mt24 mb-0">
+                <a href="/oplossingen">Bekijk alle oplossingen</a>
+              </p>
+            </div>
+          </section>
+          <section class="s_text_block o_prefab_home_partners o_cc o_cc1 pt16 pb32" data-snippet="s_text_block" data-name="Bestaande merken en partners">
+            <div class="container">
+              <div class="row align-items-center justify-content-center">
+                <div class="col-6 col-lg-3 py-3 text-center">
+                  <img src="/cs_prefab_website/static/src/media/Logo-terwoldebeton.jpg" class="img img-fluid" style="width: 180px; height: auto;" loading="lazy" decoding="async" alt="Terwolde Beton"/>
+                </div>
+                <div class="col-6 col-lg-3 py-3 text-center">
+                  <img src="/cs_prefab_website/static/src/media/logotarion.jpg" class="img img-fluid" style="width: 180px; height: auto;" loading="lazy" decoding="async" alt="Tarion"/>
+                </div>
+                <div class="col-6 col-lg-3 py-3 text-center">
+                  <img src="/cs_prefab_website/static/src/media/Logo-kozijntoelevering.jpg" class="img img-fluid" style="width: 180px; height: auto;" loading="lazy" decoding="async" alt="Kozijn Toelevering"/>
+                </div>
+                <div class="col-6 col-lg-3 py-3 text-center">
+                  <img src="/cs_prefab_website/static/src/media/logo-bouwendnl.jpg" class="img img-fluid" style="width: 180px; height: auto;" loading="lazy" decoding="async" alt="Bouwend Nederland"/>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_text_image o_prefab_home_project o_cc o_cc2 pt64 pb64" data-snippet="s_image_text" data-name="Van prefab naar een plek om te leven">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-6 pt16 pb16">
+                  <img src="/cs_prefab_website/static/src/media/Prefab-aanbouw-01.webp" class="img img-fluid" loading="lazy" decoding="async" alt="Houten prefab aanbouw met glazen schuifpui in Zoetermeer" style="width: 100%; height: auto;"/>
+                </div>
+                <div class="col-lg-5 offset-lg-1 pt16 pb16 o_prefab_reading">
+                  <h2>Meer ruimte.<br/>Een eigen karakter.</h2>
+                  <p class="lead mt24">Een houten gevel, een brede schuifpui en ruimte om naar buiten te leven. Deze aanbouw in Zoetermeer laat zien wat prefab kan toevoegen.</p>
+                  <p class="mt24">Bekijk de foto’s van onze projecten: van de montage tot het resultaat.</p>
+                  <p class="mt24 mb-0">
+                    <a href="/projecten" class="btn btn-outline-primary">Bekijk onze projecten</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_process_steps s_process_steps_connector_line o_prefab_home_process o_cc o_cc5 pt64 pb64" data-vcss="002" data-vxml="002" data-snippet="s_process_steps" data-name="Van ontwerp tot plaatsing">
+            <svg class="s_process_step_svg_defs position-absolute" aria-hidden="true">
+              <defs>
+                <marker class="s_process_steps_arrow_head" markerWidth="15" markerHeight="10" refX="6" refY="6" orient="auto">
+                  <path d="M 2,2 L10,6 L2,10 L6,6 L2,2" vector-effect="non-scaling-size"/>
+                </marker>
+              </defs>
+            </svg>
+            <div class="container">
+              <h2 class="mb-4 text-center">Van eerste idee tot op zijn plek.</h2>
+              <div class="row g-0">
+                <div class="col-lg-4 s_process_step position-relative pt24 pb24">
+                  <svg class="s_process_step_connector position-absolute z-index-1" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M 0 10 L 100 10" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle o_cc o_cc4" data-name="Stapnummer">
+                    <h3 class="mb-0 text-center">1</h3>
+                  </div>
+                  <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Jouw ontwerp</h3>
+                    <p>Ontwerp je aanbouw in 3D of bespreek je wensen voor een dakkapel of opbouw. Zo begint het met jouw woning en jouw plannen.</p>
+                  </div>
+                </div>
+                <div class="col-lg-4 s_process_step position-relative pt24 pb24">
+                  <svg class="s_process_step_connector position-absolute z-index-1" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M 0 10 L 100 10" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle o_cc o_cc4" data-name="Stapnummer">
+                    <h3 class="mb-0 text-center">2</h3>
+                  </div>
+                  <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Inmeten en voorbereiden</h3>
+                    <p>We bekijken de situatie op locatie en bespreken de uitvoering. De prefab onderdelen worden voorbereid voor de plaatsing.</p>
+                  </div>
+                </div>
+                <div class="col-lg-4 s_process_step position-relative pt24 pb24">
+                  <svg class="s_process_step_connector position-absolute z-index-1" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M 0 10 L 100 10" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle o_cc o_cc4" data-name="Stapnummer">
+                    <h3 class="mb-0 text-center">3</h3>
+                  </div>
+                  <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Plaatsing op locatie</h3>
+                    <p>De voorbereide onderdelen komen naar jouw woning. Daar krijgt je nieuwe ruimte vorm: van het hijswerk tot de montage.</p>
+                  </div>
+                </div>
+              </div>
+              <p class="text-center mt24 mb-0">
+                <a href="/offerte" class="btn btn-primary btn-lg">Ontwerp je aanbouw</a>
+              </p>
+            </div>
+          </section>
+          <section class="s_text_image o_prefab_home_professional o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Voor aannemers en bouwbedrijven">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-5 pt16 pb16 o_prefab_reading">
+                  <h2>Jouw project. Onze samenwerking.</h2>
+                  <p class="lead mt24">PrefabPartner werkt samen met aannemers en bouwbedrijven die hun klanten prefab oplossingen willen bieden.</p>
+                  <p>Bekijk de mogelijkheden voor samenwerking en vertel ons over je projecten.</p>
+                  <p class="mt24">
+                    <a href="/partner-worden" class="btn btn-outline-primary">Bekijk de samenwerking</a>
+                  </p>
+                  <p class="mb-0">
+                    <a href="/web/content/cs_prefab_website.media_folder_prefabpartner_zakelijk_pdf_5c59d169/Folder-PrefabPartner-zakelijk.pdf" target="_blank" rel="noopener">Download de zakelijke folder</a>
+                  </p>
+                </div>
+                <div class="col-lg-6 offset-lg-1 pt16 pb16">
+                  <img src="/cs_prefab_website/static/src/media/project-zoetermeer-03.webp" class="img img-fluid" loading="lazy" decoding="async" alt="Aanbouw in Zoetermeer tijdens de montage" style="width: 100%; height: auto;"/>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_text_image o_prefab_home_brochures o_cc o_cc4 pt48 pb48" data-snippet="s_text_image" data-name="Folders voor thuis en voor de bouw">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-7 pt16 pb16">
+                  <h2>Neem je plannen<br/>er nog eens bij.</h2>
+                  <p class="lead mt24">Rustig verder kijken? In onze folders vind je meer informatie voor jouw woning of bouwproject.</p>
+                  <div class="d-flex flex-wrap gap-3 mt24">
+                    <a class="btn btn-primary" href="/web/content/cs_prefab_website.media_folder_prefabpartner_particulier_pdf_6d0cc79b/Folder-PrefabPartner-particulier.pdf" target="_blank" rel="noopener">Folder voor particulieren <i class="fa fa-download ms-2" aria-hidden="true"/></a>
+                    <a class="btn btn-outline-primary" href="/web/content/cs_prefab_website.media_folder_prefabpartner_zakelijk_pdf_5c59d169/Folder-PrefabPartner-zakelijk.pdf" target="_blank" rel="noopener">Zakelijke folder <i class="fa fa-download ms-2" aria-hidden="true"/></a>
+                  </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1 pt16 pb16 text-center">
+                  <img src="/web/image/cs_prefab_website.media_a4_folder_prefab_partner_webp_28e5406d/480x505/a4-folder-prefab_partner.webp" class="img img-fluid" style="width: 100%; height: auto;" loading="lazy" decoding="async" alt="De particuliere en zakelijke folders van Prefab Partner"/>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_faq_collapse o_prefab_home_faq o_cc o_cc1 pt64 pb48" data-vcss="001" data-snippet="s_faq_collapse" data-name="Vragen voor je begint">
+            <div class="container">
+              <div class="row align-items-start s_nb_column_fixed">
+                <div class="col-lg-4 pt16 o_prefab_reading">
+                  <h2>Vragen voor je begint.</h2>
+                  <p class="lead mt24">Verken eerst de mogelijkheden. We helpen je graag met de volgende stap.</p>
+                </div>
+                <div class="col-lg-7 offset-lg-1 s_col_no_bgcolor" data-name="Vragen">
+                  <div class="s_accordion" data-name="Vragen en antwoorden">
+                    <div id="prefab_home_faq" class="accordion accordion-flush">
+                      <div class="accordion-item position-relative z-1" data-name="De configurator">
+                        <button type="button" id="prefab_home_faq_button_1" class="accordion-header accordion-button justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_home_faq_answer_1" aria-controls="prefab_home_faq_answer_1" data-bs-toggle="collapse" aria-expanded="true">
+                          <span class="flex-grow-1">Wat kan ik in de configurator ontwerpen?</span>
+                        </button>
+                        <div id="prefab_home_faq_answer_1" class="accordion-collapse collapse show" data-bs-parent="#prefab_home_faq" role="region" aria-labelledby="prefab_home_faq_button_1">
+                          <div class="accordion-body">
+                            <p>De configurator is er voor je aanbouw. Je kiest onder andere de afmetingen, gevel, kozijnen en afwerking en bekijkt het resultaat in 3D.</p>
+                            <p class="mb-0">
+                              <a href="/offerte">Ontwerp je aanbouw</a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Een persoonlijk voorstel">
+                        <button type="button" id="prefab_home_faq_button_2" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_home_faq_answer_2" aria-controls="prefab_home_faq_answer_2" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Is een voorstel meteen een bestelling?</span>
+                        </button>
+                        <div id="prefab_home_faq_answer_2" class="accordion-collapse collapse" data-bs-parent="#prefab_home_faq" role="region" aria-labelledby="prefab_home_faq_button_2">
+                          <div class="accordion-body">
+                            <p class="mb-0">Nee. Je kunt je ontwerp bewaren of een persoonlijk voorstel aanvragen. Een voorstel is geen bestelling en geen betaling.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Dakkapel of opbouw">
+                        <button type="button" id="prefab_home_faq_button_3" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_home_faq_answer_3" aria-controls="prefab_home_faq_answer_3" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Ik zoek een dakkapel of opbouw. Waar begin ik?</span>
+                        </button>
+                        <div id="prefab_home_faq_answer_3" class="accordion-collapse collapse" data-bs-parent="#prefab_home_faq" role="region" aria-labelledby="prefab_home_faq_button_3">
+                          <div class="accordion-body">
+                            <p class="mb-0">Bekijk onze <a href="/oplossingen/prefab-dakkapel">dakkapellen</a> en <a href="/oplossingen/prefab-opbouw">opbouwen</a> en neem <a href="/contact">contact</a> met ons op. We bespreken graag de mogelijkheden voor jouw woning.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <t t-call="cs_prefab_website.prefab_news_teaser"/>
+        <div class="oe_structure" id="oe_structure_prefab_home_bottom">
+          <section class="s_text_block o_prefab_home_contact o_cc o_cc5 pt48 pb48" data-snippet="s_text_block" data-name="Jouw volgende stap">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-8 pt16 pb16">
+                  <h2>Wat wil jij mogelijk maken?</h2>
+                  <p class="lead mt16 mb-0">Vertel ons over je woning en je wensen. We denken graag met je mee.</p>
+                </div>
+                <div class="col-lg-4 pt16 pb16 text-lg-end">
+                  <a href="/contact" class="btn btn-primary btn-lg">Bespreek je plannen</a>
+                </div>
+              </div>
+              <p class="mt24 mb-0">Meer zien van Prefab Partner? <a href="/nieuws">Lees ons nieuws</a> of <a href="/over-ons">leer ons kennen</a>.</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </t>
+  </template>
+  <!-- Bestaand folderblok voor Over ons en eerder opgeslagen pagina's behouden. -->
+  <template id="prefab_folder_block" name="Prefab Partner — informatiefolder">
+    <section class="s_features o_prefab_folder o_cc o_cc3 pt56 pb56" data-snippet="s_features" data-name="Informatiefolder">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-7 pb24">
+            <h2 class="h3-fs">Informatie folder</h2>
+            <p class="lead mt16">Download de folder voor zakelijke klanten of particulieren en ontdek de informatie die je zoekt.</p>
+            <div class="row mt24">
+              <div class="col-md-6 pb16">
+                <h3 class="h5-fs">
+                  <i class="fa fa-file-pdf-o me-2" aria-hidden="true"/>
+                  <a href="/web/content/cs_prefab_website.media_folder_prefabpartner_zakelijk_pdf_5c59d169/Folder-PrefabPartner-zakelijk.pdf" target="_blank" rel="noopener">Zakelijke folder</a>
+                </h3>
+                <p class="mb-0">Bekijk de zakelijke folder.</p>
+              </div>
+              <div class="col-md-6 pb16">
+                <h3 class="h5-fs">
+                  <i class="fa fa-file-pdf-o me-2" aria-hidden="true"/>
+                  <a href="/web/content/cs_prefab_website.media_folder_prefabpartner_particulier_pdf_6d0cc79b/Folder-PrefabPartner-particulier.pdf" target="_blank" rel="noopener">Particuliere folder</a>
+                </h3>
+                <p class="mb-0">Bekijk de particuliere folder.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 pb24 text-center">
+            <img src="/web/image/cs_prefab_website.media_a4_folder_prefab_partner_webp_28e5406d/480x505/a4-folder-prefab_partner.webp" class="img img-fluid" loading="lazy" decoding="async" alt="De twee gedrukte folders van Prefab Partner naast elkaar"/>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

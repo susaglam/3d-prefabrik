@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <!--
+            One public ir.attachment per shipped image and document, from
+            data/media_index.json.
+
+            Not written as <record> elements with <field name="datas" file="..."/>: on this
+            target ir.attachment.datas no longer exists and is dropped SILENTLY on write
+            (odoo/addons/base/models/ir_attachment.py::_check_contents does
+            `warnings.warn(...); values.pop('datas')`). That form would create 91 attachments
+            with no content, no error, and 91 broken images.
+
+            Runs on every upgrade and rewrites a file only when its sha1 differs from the
+            attachment's stored checksum, so an unchanged release touches nothing.
+        -->
+        <function model="cs.prefab.website.media" name="_sync_media"/>
+    </data>
+
+</odoo>

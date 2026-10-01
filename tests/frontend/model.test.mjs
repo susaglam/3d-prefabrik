@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {STEPS, INTERIOR_FIELDS, fieldsOf, normalizedDraft, normalizeInterior, validDimensions, validateContact, escapeHTML, labelFor} from '../../addons/cs_prefab_configurator/static/src/model.js';
+import {STEPS, INTERIOR_FIELDS, fieldsOf, normalizedDraft, normalizeInterior, validDimensions, validateContact, escapeHTML, labelFor, fieldIsVisible} from '../../addons/cs_prefab_configurator/static/src/model.js';
 
 const catalog = JSON.parse(readFileSync(new URL('../../addons/cs_prefab_configurator/data/catalog.json', import.meta.url)));
 const reference = JSON.parse(readFileSync(new URL('../../research/reference/configurator-definition.json', import.meta.url))).configurator;
@@ -16,9 +16,9 @@ test('every source choice has exactly one canonical field and answer mapping', (
     const matches=Object.values(fields).filter(field=>field.referenceQuestionId===question.id);
     assert.equal(matches.length,1,`Question ${question.name} must have one canonical mapping`);
     const field=matches[0];
-    assert.deepEqual(new Set(field.options.map(option=>option.referenceAnswerId)),new Set(question.metaData.answers.map(answer=>answer.id)),question.name);
+    assert.deepEqual(new Set(field.options.filter(option=>option.referenceAnswerId).map(option=>option.referenceAnswerId)),new Set(question.metaData.answers.map(answer=>answer.id)),question.name);
     assert.equal(new Set(field.options.map(option=>`${typeof option.id}:${option.id}`)).size,field.options.length,`Duplicate canonical ids in ${field.key}`);
-    answers+=field.options.length;
+    answers+=field.options.filter(option=>option.referenceAnswerId).length;
   }
   assert.equal(answers,94);
 });
@@ -92,14 +92,14 @@ test('unknown and object option values cannot be rendered as product selections'
 });
 
 test('turning off interior clears all priced hidden choices without changing exterior choices or inputs', () => {
-  const selected={...catalog.defaults,interior:false,facade:'wood-vertical',outsideLight:'both',plaster:true,screed:true,underfloorHeating:true,heating:'both',ceilingLights:2,switches:2,spotlights:12,sockets:'both'};
+  const selected={...catalog.defaults,interior:false,facade:'wood-vertical',outsideLight:'both',plaster:true,screed:true,underfloorHeating:true,heating:'both',ceilingLights:2,switches:2,spotlights:2,sockets:'both',ceilingPositions:['left','center'],spotPositions:['r1c1','r1c2'],socketPositions:['L2','R2']};
   const before=structuredClone(selected);
   const normalized=normalizeInterior(selected,catalog.defaults);
-  for(const key of INTERIOR_FIELDS) assert.equal(normalized[key],catalog.defaults[key],key);
+  for(const key of INTERIOR_FIELDS) assert.deepEqual(normalized[key],catalog.defaults[key],key);
   assert.equal(normalized.facade,'wood-vertical');assert.equal(normalized.outsideLight,'both');
   assert.deepEqual(selected,before);assert.notEqual(normalized,selected);
   const enabled=normalizeInterior({...selected,interior:true},catalog.defaults);
-  assert.equal(enabled.spotlights,12);assert.equal(enabled.heating,'both');
+  assert.equal(enabled.spotlights,2);assert.equal(enabled.heating,'both');
 });
 
 test('hidden interior payloads from stored drafts are cleared on restore', () => {
@@ -148,4 +148,38 @@ test('labels resolve typed numeric/boolean options without truthiness errors', (
   assert.equal(labelFor(fields,'piles',6),'6 heipalen');
   assert.equal(labelFor(fields,'interior',false),'Dit is niet nodig');
   assert.equal(labelFor(fields,'interior',true),'Stel aanbouw binnenzijde samen');
+});
+
+
+test('multiselect imports reject invalid or duplicate placements and derive commercial counts', () => {
+ const selected=normalizedDraft({interior:true,ceilingPositions:['right','left'],spotPositions:['r1c1','r3c5'],socketPositions:['L1','R2'],ceilingLights:999,spotlights:999},catalog);
+ assert.deepEqual(selected.ceilingPositions,['left','right']);
+ assert.equal(selected.ceilingLights,2);assert.equal(selected.spotlights,2);assert.equal(selected.sockets,'both');
+ for(const value of [['L1','L1'],['unknown'],[null],{L1:true},'L1'])assert.deepEqual(normalizedDraft({interior:true,socketPositions:value},catalog).socketPositions,[]);
+ selected.socketPositions.push('R3');assert.deepEqual(catalog.defaults.socketPositions,[]);
+});
+
+test('legacy counts migrate to placements only when the new placement array is absent', () => {
+ assert.equal(normalizedDraft({interior:true,spotlights:12},catalog).spotPositions.length,12);
+ const explicit=normalizedDraft({interior:true,spotlights:12,spotPositions:[]},catalog);
+ assert.deepEqual(explicit.spotPositions,[]);assert.equal(explicit.spotlights,0);
+ assert.deepEqual(normalizedDraft({interior:true,sockets:'both'},catalog).socketPositions,['L2','R2']);
+});
+
+test('dependent product choices clear while view preferences cannot enter a commercial draft', () => {
+ const restored=normalizedDraft({interior:true,plaster:false,painting:true,overhang:'none',overhangSpots:5,rooflight:'none',roofShade:true,examplesVisible:false,scope:[{productIncluded:true}]},catalog);
+ assert.equal(restored.painting,false);assert.equal(restored.overhangSpots,0);assert.equal(restored.roofShade,false);
+ assert.equal(Object.hasOwn(restored,'examplesVisible'),false);assert.equal(Object.hasOwn(restored,'scope'),false);
+ assert.equal(fieldIsVisible('painting',restored,fields),false);assert.equal(fieldIsVisible('ceilingLights',restored,fields),false);
+ assert.equal(fieldIsVisible('socketPositions',restored,fields),true);
+ assert.equal(labelFor(fields,'socketPositions',['L1','R2']),fields.socketPositions.options.find(o=>o.id==='L1').label+', '+fields.socketPositions.options.find(o=>o.id==='R2').label);
+});
+
+test('the rollaag toggle is retired: old drafts drop it, keep their finish, and the field is always shown', () => {
+ const legacy=normalizedDraft({rollaagEnabled:false,rollaag:'panel-black'},catalog);
+ assert.equal(Object.hasOwn(legacy,'rollaagEnabled'),false,'the retired key never reaches the server');assert.equal(legacy.rollaag,'panel-black');
+ assert.equal(fieldIsVisible('rollaag',legacy,fields),true);
+ assert.equal(Object.hasOwn(catalog.defaults,'rollaagEnabled'),false);assert.equal(fields.rollaagEnabled,undefined);
+ assert.equal(fields.rollaag.visibleWhen,undefined,'the finish no longer depends on a toggle');
+ assert.ok(!STEPS[0].fields.includes('rollaagEnabled')&&STEPS[0].fields.includes('rollaag'));
 });

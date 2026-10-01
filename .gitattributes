@@ -8,3 +8,12 @@ addons/cs_prefab_configurator/services/fonts/** -text -whitespace
 *.pdf binary
 *.ttf binary
 *.woff2 binary
+# Site media. Git's own detection would almost certainly classify these as binary anyway,
+# but the packager records a sha256 per file and the deploy compares it against the
+# installed copy, so a single mis-detected file that got line-ending normalisation would
+# be a corrupt image the pipeline reports as a mismatch rather than as a bad picture.
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.mp4 binary

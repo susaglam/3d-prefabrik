@@ -1,103 +1,212 @@
 # Backend and Odoo integration
 
-The same Python services validate and price configurations in the local server and the Odoo adapter. The public catalogue reproduces the observed questionnaire choices. The price book is independently invented demonstration data: the reference configurator exposes no customer price calculation. The current module must not be presented as an approved commercial quotation system.
+The addon targets **Odoo saas~19.4**. The confirmed live release is **2.4** (`saas~19.4.2.4.0`), with the existing asset revision `2026-09-13.4`. [Deployment evidence](verification/2.4/deployment.json) records 26 passing Odoo tests, HTTP 200, 364 matching files and unchanged existing catalog/business fingerprints. [Live browser acceptance](verification/2.4/live/usability.json) passed 10/10. [Appearance settings](appearance-2.4.md) are website-scoped and independent of pricing/snapshots. The earlier [native Odoo workflow](native-odoo-workflow-2.2.md) remains applicable.
 
-## Run locally
+The local server and Odoo adapter share Python validation, pricing, delivery scope, persistence and document services. Reference research informs available choices and constraints. Bundled prices remain invented demonstration data, not supplier or competitor rates. Odoo also supports a separately approved commercial release based on the administrator's own prices and conditions; no real business rates are invented by the application.
 
-```bash
-python3 scripts/serve.py --port 8069
-```
-
-Open `http://127.0.0.1:8069/prefab`. Python 3.10 or later is sufficient; the runtime uses the standard library, including a real PDF writer. The default database is `.data/prefab.sqlite3`; it survives process restarts. The process binds to localhost by default. `--db /path/to/file.sqlite3` chooses a separate database. A trusted reverse proxy can use `--public-origin https://your-domain.example`; the browser Origin must match exactly. This development HTTP server is not a production application server.
+## Local runtime and checks
 
 ```bash
+python3 scripts/serve.py --port 8078
 python3 -m unittest discover -s tests -p 'test_*.py' -v
-python3 scripts/serve.py --purge-expired
 ```
 
-`requirements-dev.txt` contains the optional independent `pypdf` and `PyMuPDF` readers for PDF extraction, image and raster-layout verification. The renderer itself does not require them. Without these packages, reader-specific tests are explicitly marked skipped. SQLite expiry cleanup runs at startup or on the explicit purge command; schedule the latter daily if the local server stays running.
+Open `http://127.0.0.1:8078/prefab`. Python 3.10+ and its standard library are sufficient for the local runtime and PDF writer. The default database is `.data/prefab.sqlite3`; `--db` selects another file. SQLite connections commit or roll back and close when their context ends. Expiry cleanup runs at startup or with `--purge-expired`.
+
+`requirements-dev.txt` adds optional independent PDF readers for extraction and raster-layout verification. Reader-specific checks are skipped when those tools are unavailable. These local tests do not run Odoo/PostgreSQL HttpCase or TransactionCase tests. The JavaScript placement tests also invoke Python to compare the scene coordinates directly with the server's coordinates.
 
 ## API
 
-Requests and responses are JSON except document downloads. POST requests require `Content-Type: application/json` and an exact same-origin `Origin` header. There is no CORS grant. Price and share payloads are limited to 32 KiB; quote payloads allow 6 MiB to carry the saved JPEG views. Duplicate JSON keys, nonfinite values and excessive nesting are rejected.
+Requests and responses are JSON except document downloads. POST requires `Content-Type: application/json` and an exact same-origin `Origin`; no CORS grant is provided. Price/share bodies are limited to 32 KiB and quote bodies to 6 MiB. Duplicate keys, nonfinite numbers and excessive nesting are rejected.
 
 | Method and route | Input | Result |
 | --- | --- | --- |
-| `GET /prefab/api/catalog` | — | Version, defaults, dimensions, grouped option labels, visibility/reset rule, demo disclaimer |
-| `POST /prefab/api/price` | `{config}` | Canonical config, labels, line items, area, integer cent totals and warnings |
-| `POST /prefab/api/share` | `{config}` | Random token and `/prefab?share=...` link; 30-day lifetime |
-| `GET /prefab/api/share/{token}` | — | Configuration only; postcode blank; no contact record |
-| `POST /prefab/api/quote` | `{config, contact, consent: true, idempotencyKey: UUIDv4, visuals?: {version, configKey, views, missingViews}}` | Reference, private token, PDF URL, frozen price and timestamp |
-| `GET /prefab/api/quote/{token}/pdf` | — | Actual paginated A4 PDF generated from the saved snapshot |
+| `GET /prefab/api/catalog` | — | Schema, asset/catalog revisions, defaults, choices, geometry rules, scope policy hints, price mode/status/terms and placement for the default design |
+| `POST /prefab/api/price` | `{config, catalogRevision?}` | Canonical config, labels, priced lines, delivery scope, integer cent totals, allowed positions, placement coordinates and warnings |
+| `POST /prefab/api/share` | `{config, catalogRevision?}` | Token and 30-day `/prefab?share=...` link |
+| `GET /prefab/api/share/{token}` | — | Config with blank postcode, source catalog/schema revision; no contact or images |
+| `POST /prefab/api/quote` | `{config, contact, consent: true, idempotencyKey, catalogRevision?, visuals?}` | Reference, private token, PDF URL, frozen price and timestamp |
+| `GET /prefab/api/quote/{token}/pdf` | — | Paginated PDF from the saved snapshot |
 | `GET /prefab/api/quote/{token}/html` | — | Escaped printable HTML from the saved snapshot |
-| `GET /prefab/api/health` | — | Storage mode and readiness; `emailDelivery: false` |
+| `GET /prefab/api/health` | — | Storage mode and `emailDelivery: false` |
 
-The canonical contact object requires `firstName`, `lastName`, `email`, `phone`, `address`, `houseNumber`, `postcode` and `city`; `message` is optional. `name` is accepted for frontend compatibility and recomputed from the two required name fields. The configuration postcode may be blank before submission; if supplied it must equal the contact postcode. Email addresses and Dutch postcodes are normalized. Contact consent is required and stored with wording version `quote-contact-v1`; no marketing consent is inferred.
+New clients submit the catalog revision returned by the server. A stale revision on a new price/share/quote operation returns HTTP 409 `catalog_changed`; the UI reloads the offer for review. Revision is optional for older callers. A saved idempotent retry is validated with its original catalog definition and returns its original result, including after a newer publication.
 
-All monetary fields (`subtotal`, `vat`, `total`, `unitPrice`, line `total`) are **integer euro cents**. Every line is rounded half-up in Decimal arithmetic, then VAT is calculated on the summed rounded net lines. Client totals, line prices, scope IDs and arbitrary extra fields are rejected. Only the server price book controls calculation. The demonstration book uses a flat 21% example rate; production tax treatment must be established for the actual goods and services before replacing it.
+Contact requires `firstName`, `lastName`, `email`, `phone`, `address`, `houseNumber`, `postcode` and `city`; `message` is optional. Compatibility field `name` is recomputed from the two name fields. A configuration postcode, when present, must match the contact postcode. Consent is required and saved as `quote-contact-v1`.
 
-Errors use `{error: {code, message, fields}}`. Validation uses HTTP 422, malformed JSON 400, origin mismatch 403, unknown/expired tokens 404, a reused UUID with different data 409, oversized input 413, incorrect content type 415 and rate limits 429.
+Every monetary result is integer euro cents. Decimal half-up rounding is applied per line, then the selected release's VAT percentage is applied to the rounded subtotal.
 
-## Catalogue and branch behavior
+The casco line is linear (`floor m² × basePerM2`, unit m²) unless the pricebook carries the optional `baseCurve` (2.10.4): `{"fixed": cents, "factor": cents, "exponent": "decimal string", "roundTo": cents}` gives `casco = fixed + factor × m²^exponent`, computed in Decimal at 40 digits and rounded half-up to a multiple of `roundTo`. That line is one `post` whose unit price equals its total, because the sale order and the request's price rows rebuild every line as quantity × unit price. The production release uses the customer's price list `Aanbouw blanco prijslijst concept HSB 1-12-2025` (`fixed` 29,750 + the separate 3,250 setup line = the list's 33,000; `factor` 650; `exponent` 1.1860002, which reproduces all 169 table cells to the euro; `roundTo` 1 euro). A pricebook without the key prices exactly as before; `tests/test_pricing_curve.py` pins both against a golden fixture captured from the linear engine and against the 169-cell table.
 
-`addons/cs_prefab_configurator/data/catalog.json` preserves the source question and answer UUIDs as provenance and the Dutch labels/descriptions. The source permits width 150–750 cm and depth 100–340 cm, in whole centimeters. Height is a fixed 280 cm schematic rendering assumption, hidden from the dimensional inputs. This is not a measured construction drawing.
+A package price may be negative only as a price reduction (*minderprijs*): a `product` component priced per `option` of a non-device field, such as buitenstuc lowering the contract sum by 2,000. Device, per-m², per-piece and fixed-post prices, and every `unitPrice`, stay non-negative in validation, in the ORM constraint and in the editor. A reduction shows as *Minderprijs* in the scope list, the A/B comparison, the documents and the request's price rows; on the Odoo quotation it is a line with a negative unit price. Client prices, delivery policies, model choices outside the supported catalog, company/website/CRM IDs and arbitrary extra fields are rejected. The server resolves them. HTTP errors distinguish validation 422, malformed JSON 400, origin 403, missing/expired token 404, revision or idempotency conflict 409, body size 413, media type 415 and rate limit 429.
 
-There are 13 facade choices, 11 combined frame/door/color choices, eight rooflights, the original roof trims, rollaag choices, exterior service positions, drain choices, interior finish/electrical choices, wall opening, rear access and 2/3/4/6 pile choices. No unobserved side-window/material/glazing options are silently added. Pile count is a customer selection and is not inferred from dimensions without an engineering rule.
+### Authenticated draft preview
 
-When `interior` is false, all eight hidden interior values reset to defaults on the server. Invalid supplied options are rejected first, even in the hidden branch. This prevents stale selections being charged after a user skips the interior. The preserved wording distinguishes empty conduits, prepared lamp points and floor-heating preparation from final installation/connection.
+`/prefab?catalog_preview=RELEASE_ID` uses `GET /prefab/admin-preview/RELEASE_ID/catalog` and `POST /prefab/admin-preview/RELEASE_ID/price`. A logged-in sales manager, the current website and normal allowed-company ACLs are required. These endpoints use no bearer token or `sudo()` bypass. They return a content-specific draft revision plus `preview` metadata (`enabled`, `releaseId`, `state`, `canSubmit: false`, approval status and missing commercial data).
 
-## Saved requests and privacy
+Preview cannot share or submit a quote and does not replace the public catalog. A changed draft returns `catalog_changed`; a version that is no longer a draft returns `preview_unavailable`. The browser keeps preview state separate from public saved designs and comparisons.
 
-Each quote freezes the canonical configuration, Dutch selection labels, the full price result, pricebook/schema versions, the timestamp and contact consent. Documents read this snapshot and do not reprice against a newer book. The local database prevents updates through an immutable-row trigger. Odoo blocks updates to frozen quote fields through the ORM; workflow state remains editable.
+### Embedding the configurator in a page
 
-New browser quotes also freeze six document captures: `perspective-left`, `perspective-right`, `interior`, `plan`, `front`, `side`. Their `configKey` is sorted compact JSON of the canonical configuration without postcode. The API accepts only RGB JPEGs, checks dimensions (256–2000 pixels per side, at most 2.5 million pixels), removes metadata and fixes labels server-side. Limits are 768 KiB per image and 4 MiB combined before metadata removal. This validates image framing and configuration identity, not the semantic authenticity of client pixels. Images never set prices. Capture version participates in retry identity; variable JPEG bytes and missing-view flags do not. The first saved image bundle is returned on retries and is never replaced.
+`GET /prefab/embed` serves the same bytes as `/prefab` with `sitemap=False`. The page reads its own path (`static/src/embed.js::isEmbedded`) and, when the address matches, hides the configurator's own brand and navigation so the surrounding page's header is not duplicated; the action row and the help button stay. A path rather than `?embed=1`, because the app calls `history.replaceState` three times to strip a share token and a query parameter would have to survive all three.
 
-The browser validates a cloned configuration before capture, uses an isolated renderer and caches the bundle for retries. Unsupported WebGL produces three technical drawings. Failed technical capture asks the user to retry. Legacy requests without a capture bundle remain valid. Details and render evidence: [PDF design](pdf-design.md).
+Both `/prefab` and `/prefab/embed` now send `X-Frame-Options: SAMEORIGIN` and `Content-Security-Policy: frame-ancestors 'self'`. Before this, neither address sent any frame header, so the page that creates CRM leads could be framed by any origin. `'self'` is sufficient because the host page and the frame are the same origin: the frame's `src` is root-relative and `/prefab` is a `website=True` route served on whatever host the request arrives at. Adding a third-party origin means adding it to `frame-ancestors` **and** dropping `X-Frame-Options` in the same edit — that header has no multi-origin form, and a browser honouring both applies the stricter one.
 
-The UUID is unique within company/website scope. A retry with identical normalized customer/configuration data returns the existing result. A collision with different customer or configuration data returns 409 and never reveals the original private token. SQLite serializes lookup/create in one write transaction; Odoo uses a PostgreSQL transaction advisory lock plus a database unique constraint. No browser-supplied company, website or CRM identifiers are accepted.
+Height is owned by the host page (`static/src/embed_host.css`, a `clamp()` against the viewport) because the configurator is a viewport application with no content height to report. The frame advises a minimum through `postMessage` — `{source: 'cs-prefab', type: 'ready' | 'size' | 'step' | 'submitted', minHeight}` — addressed to its own origin only. The receiver (`static/src/embed_host.js`) checks origin and source window, drops unknown types, and clamps the number to 400–1200 px before applying it as `min-height`. If the script never runs, the stylesheet's height stands. The iframe needs `allow="fullscreen"` and `allowfullscreen`, without which `requestFullscreen()` rejects and the fallback overlay is clipped by the frame's own box.
 
-Share tokens contain 256 bits of randomness and expire in 30 days. They expose only the configuration with postcode removed. Private PDF tokens also contain 256 bits of randomness and expire in 90 days. The PDF includes contact information: treat its URL as confidential. API responses use `Cache-Control: no-store` and `Referrer-Policy: no-referrer`; local logs omit bearer tokens and body data. Reverse-proxy logs must likewise redact quote/share token paths. Odoo's default Werkzeug access logger includes paths; configure `--log-handler=werkzeug:WARNING` or equivalent access-log redaction before deployment. Public/portal Odoo users have no model ACLs.
+`node scripts/verify-embed.mjs` is the acceptance gate: headers on both addresses, the frame rendering WebGL inside a page, a different advised minimum at 1440 px and at 375 px, a quote submitted from inside the frame producing the same proposal document as one submitted standalone, and a matched pair proving the same frame address renders for a same-origin parent and is refused to a third party.
 
-Per-IP limits are 10 quote submissions/hour, 30 shares/hour, 240 prices/minute and 300 API reads/minute. The limiter is bounded and process-local; Odoo deployments with multiple workers need corresponding shared limits at the reverse proxy. It does not send email or call external services. The UI must not claim that an email was sent.
+## The second website (`cs_prefab_website`)
 
-## Odoo adapter
+prefabpartner.nl is rebuilt as a **second `website` record** on the same Odoo. The existing site
+and `/prefab` keep working untouched until DNS moves. Everything the module renders is gated on
+one field, `website.cs_prefab_site`, because `ir.ui.view` records are global and asset bundles
+are per instance — isolation is not a property of where the files live.
 
-The addon targets the same `saas~19.3` series as the sibling product configurator, with dependencies `website` and `crm`. Add this repository's `addons` directory to `addons_path`, install `cs_prefab_configurator`, and open `/prefab`. Static assets are served through Odoo's normal `/cs_prefab_configurator/static/` route.
+Routes, and why each is what it is:
 
-The selected website determines company and website scope on every lookup/create. The public controller builds only validated values and uses `sudo()` solely inside that scope. An accepted request creates one CRM opportunity and one linked immutable request in the same database transaction. The CRM description contains the saved choices and demo qualification; expected revenue remains zero while prices are demonstrations. No automated mail is triggered. Sales staff can read requests and update workflow state; sales managers can remove records. Company rules apply to backoffice reads.
+| Address | Served by | Why |
+|---|---|---|
+| `/`, `/over-ons`, `/oplossingen` (+3), `/partner-worden`, `/contact`, `/offerte`, `/offerte-prefab-opbouw` | `website.page` records | fully editable in the builder; the page templates are the starting point and copy-on-write hands each page to the customer on its first edit |
+| `/projecten`, `/projecten/<slug>` | controller (`controllers/main.py`) | a list of records needs a query, and a query inside `arch_db` is invisible to every static check. Odoo's native Model Pages were rejected because they hard-code `/model/<slug>` and `/projecten` is in the URL contract |
+| `/nieuws` | controller | the posts stay `blog.post` records on Odoo Blog's own addresses; only the index moves, because `/nieuws` is in the URL contract and `/blog` is not |
 
-An internal QWeb report is available from the request's Print menu; the public PDF route uses the dependency-free renderer, so it does not depend on wkhtmltopdf. A daily cron removes expired quote/share records. CRM leads have a separate retention lifecycle and are not removed by this cron; configure retention for those customer records in the target organisation.
+Both controller routes 404 on any other website of the instance, and both pass their own
+`<title>`, description and `og:image` through the render context (`prefab_meta_description`,
+`prefab_og_image`, picked up by `views/seo_templates.xml`) because a controller-rendered page has
+no record to hang `website.seo.metadata` on.
 
-The public PDF embeds the bundled, licensed DejaVu Sans TrueType font with explicit Unicode character maps and saved JPEGs as native PDF image objects. Turkish names such as `Şükrü Çağrı` survive rendering and extraction. The A4 proposal has a cover, gallery, technical sheet, grouped selections, itemized prices and project notes, with deliberate page breaks and repeated footers. Long text continues without truncation; legacy requests receive native vector dimension diagrams. Font coverage is finite; complex-script shaping and characters outside DejaVu Sans coverage are not supported by this compact renderer. Current synthetic examples are in `docs/verification/pdf-redesign/`; the original baseline remains in `docs/verification/backend/`.
+Two models are added: `cs.prefab.project` (title, slug, type, place, year, summary, body, photos,
+published) and `cs.prefab.project.image`, whose `alt` field is **required** — four of the 36
+photographs on the live site have no alt at all, and a required field is the only version of that
+fix that cannot rot. Both carry `base.group_public` read rules with a published-only domain.
 
-## Original verification performed on 2026-09-09
+Two website forms create a `crm.lead`: the contact form and a new partner form. The structural
+invariants they depend on fail silently when broken — without `s_website_form` on the root
+`<form>` the widget never binds and Send produces zero network requests, and without
+`#s_website_form_result` inside the form the widget throws on the first response — so both are
+asserted in `tests/test_website_pages.py::FormTests`.
 
-The PDF redesign adds capture, persistence and document-layout tests beyond this original baseline. Current results are in [PDF design](pdf-design.md) and [Odoo PDF verification](pdf-odoo-verification.md); the latter also documents the new isolated Odoo revision and ports used for this update.
+### Checking the pages without an Odoo runtime
 
-The standalone suite has 30 tests; all 30 passed in the isolated Python environment with `pypdf 6.18.0`. A standard-library-only run passes 28 tests and explicitly skips the two optional parser tests. A new PostgreSQL 16 cluster on port 55478 and a clean upstream Odoo `saas-19.3` checkout at `b01000720dc5bbbdc250eb92997f1815501dcfda` were used to install this module and its dependencies successfully. The separate Odoo HttpCase suite passed all three actual HTTP/ORM tests, including CRM creation, idempotency, frozen records, public ACL denial, cross-company/website share and PDF isolation, origin checks, input rejection and internal QWeb HTML rendering.
+```bash
+python scripts/preview_website.py       # renders the module's templates to static HTML
+node scripts/verify-website.mjs         # Chromium at 1440 and 390 px, axe, weight, screenshots
+```
 
-The command for the addon suite in any prepared disposable Odoo environment is:
+The preview compiles the module's own SCSS with dart-sass (`npm install` brings it) and loads the
+LIVE `web.assets_frontend` bundle downloaded from the target next to it, so the measurement is of
+the real markup and the real stylesheet. The header, the colour-combination rules and the records
+are preview scaffolding and are marked as such in the script's docstring. It does not verify
+Odoo's theme or Odoo's editor; the Odoo-side tests do that, and they run for the first time in the
+clone test.
+
+The gate checks, per page and per width: HTTP status, transferred bytes at first paint and after
+scrolling, axe (wcag2a/2aa/21a/21aa/best-practice), exactly one `<h1>` with no skipped level, an
+`alt` on every `<img>`, every internal link resolving to an address the site serves, no
+`<a href="#">`, one `main` landmark, no horizontal overflow at 390 px, and no image delivered more
+than 2.2× the size it is displayed at. Evidence lands in `docs/verification/website/`.
+
+## Catalog, scope and positions
+
+Schema 2 retains existing configuration identifiers and adds explicit fields. It supports 13 facades, 11 existing combined opening/type/color choices, a separate `openingMaterial`, 11 rooflight choices, `greenRoof`, `overhang`, `roofShade`, `painting`, exterior service variants, and positioned interior fittings. Existing `*-black` identifiers remain black; unspecified legacy frame material stays `unspecified`.
+
+Dimensions remain 150–750 cm wide, 100–340 cm deep and a schematic fixed height of 280 cm. Opening minima are provisional geometry checks, not manufacturer approvals: none 150, French 210, two-panel sliding 230, four-panel sliding/folding 370 cm. Admin publications may narrow supported geometry; new model types require implementation.
+
+The four UI steps are structure/exterior, interior, site/scope, and summary/quote. Interior off resets its dependent values after validating supplied types. Painting requires plaster; shade is restricted to `lean-1/2/3`; overhang spots require an overhang. `rollaagEnabled` defaults to true for older inputs; false removes its charge/scope while preserving the `rollaag` finish for later restoration.
+
+| Selection array | Values | Legacy compatibility field |
+| --- | --- | --- |
+| `ceilingPositions` | `left`, `center`, `right` | `ceilingLights` count |
+| `spotPositions` | `r1c1` through `r3c5` | `spotlights` count |
+| `socketPositions` | `L1`, `L2`, `L3`, `R1`, `R2`, `R3` | `sockets` side selection |
+| `wallLights` | Same six wall slots | New field |
+
+Arrays, when supplied, are authoritative. Older counts/sides derive initial positions. Duplicates, unknown positions and wrong types produce 422. Valid but conflicting selections are removed in the successful response config. `allowedPositions`, `positionIssues` and `clearedSelections` explain availability and any removed choices; the UI adopts that config. Socket preparation is charged per selected position, not merely per selected wall.
+
+In the 2.3 source, numeric model envelopes check roof openings, wall/ceiling edges, selected pendants, spots and radiator clearance. A pendant row uses the clear front ceiling strip when it fits; a rooflight does not automatically remove the middle pendant when there is room for it. Accepted pendants take precedence over nearby spots. A very narrow room can fit the outer pendants while rejecting an additional middle pendant. Radiator checks use the selected column or panel model: an electrical socket can fit below a short panel while the same location overlaps a tall radiator. The radiator's own mechanical preparation connections are separate from electrical sockets.
+
+The exterior lamp and socket share a vertical axis at their own heights. The tap sits at least 35 cm sideways toward the corner, with separate checks for the rain pipe and opening edges. If the front wall pier cannot fit the group, all fittings on that side use the adjacent exterior sidewall. The tap is nearer the front corner; the electrical axis is farther back. If the sidewall also lacks room, the selection is disabled with an explanation. These distances describe the indicative model and are not electrical or construction approval.
+
+### Shared fixture layout
+
+For the new asset revision, pricing includes `fixtureLayout` with `version: 2` and `units: 'cm'`. Coordinates are fixed by dimensions, roof, opening, rain-pipe side and geometry rules; selecting a different lamp or spot does not move the other positions.
+
+| Layout field | Contents |
+| --- | --- |
+| `basis` | Width, depth, height, `frontOpening`, `rooflight`, `drainSide`; identifies the configuration the packet belongs to |
+| `ceilingPositions` | `left`, `center`, `right` mapped to `[x, y, z]` |
+| `spotPositions` | Fifteen `r1c1`–`r3c5` coordinates |
+| `wallPositions` | Each `L1`–`R3` slot has separate `socket` and `light` coordinates |
+| `heating` | Left and right radiator coordinates |
+| `exterior` | Left/right groups with `surface`, radian `rotation`, `available`, `light`, `socket`, `tap` |
+| `roofBounds` | Roof opening bounds `[left, right, back, front]`, or null |
+
+`buildGeometry(config, {fixtureLayout, scope, geometryRules})` converts the packet to metres once. It accepts a server packet only when its basis matches the current dimensions and selections; integer-centimetre comparison avoids binary floating-point drift. Without a matching packet, the same numeric formulas generate a local preview. The scene and plan use the resulting fixture positions. The shared `underfloorLoops` route is a representative floor illustration; hiding examples also hides preparation-only floor loops, while an explicitly supplied product depiction can remain visible.
+
+Each selected scope item has `key`, `label`, `value`, `quantity`, `catalogRevision`, `visualMode`, `modelFidelity`, `assetKey`, `productIncluded`, `components` and `summary`. Component roles are `preparation`, `product`, `installation` and `connection`.
+
+| Component status | Commercial meaning | Additional amount |
+| --- | --- | --- |
+| `excluded` | Not supplied in this selection | Zero |
+| `included` | Bundled in the casco price | Zero; remains visible in scope |
+| `extra` | Supplied as a separately priced component | Server rate, using option/count/area/fixed basis |
+
+Radiators, taps, lights, sockets and switches default to excluded products. Their preparation can be charged independently. Floor-heating preparation means preparing/lowering the floor, not promising installed pipes or connection. Warnings consult the saved component statuses; excluded preparation must not be described as installed.
+
+`visualMode` is separate from commercial scope: representative device, product depiction, preparation point or none. Hiding examples does not change the order. Current model fidelity is `representative`. Supported alternatives are `heating`/`heating-panel` and `ceilingLights`/`ceiling-dome`; other components use their supported generic key. Catalog `assetRevision` identifies the renderer library and participates in the release hash.
+
+## Odoo catalog administration
+
+`cs.prefab.catalog.release` is scoped to company and website. Sales managers use **Prefab → Catalogus en levering** to create drafts. The normal interface uses native EUR fields, named choices/defaults, descriptions, numeric geometry limits and component statuses. A published catalog opens read-only; **Bewerken via nieuw concept** copies it into an editable draft. Raw JSON appears only in the read-only developer diagnosis tab.
+
+The native editor uses temporary records and an explicit **Wijzigingen toepassen** action. It patches only edited fields into the existing catalog/pricebook and component price tables, preserving reference metadata, existing overrides and untouched values. Opening or applying an unchanged editor does not regenerate a release. A source hash and parent row lock reject stale workbooks instead of overwriting another session. Sub-cent price inputs are rejected, and negative ones everywhere except a product package line marked *Minderprijs toegestaan*. The **Basisprijzen** page edits the optional casco price curve (switch, fixed base, factor per m², growth exponent, rounding); switching it off removes the key, and an unchanged apply never adds one.
+
+**Leveringsprijzen** contains the actual component rates used for customer pricing. **Referentieprijzen** edits the underlying base option tables; these do not automatically replace existing component overrides. Status and pricing basis remain separate: an included component adds zero even when a rate is retained for a future separately priced state. Named choices can create a full per-choice delivery rule by copying the standard rule. Internally, `value_key='*'` is the common rule; a specific value such as `left` or `both` replaces its whole policy. Multi-position fields share a policy and quantity.
+
+Publishing validates schema/geometry, device roles, integer prices (non-negative outside product-package reductions), a complete `baseCurve` when present, and explicit option rates. EUR demonstration releases remain the default. A commercial draft additionally requires a non-demo pricebook version, source/decision reference, conditions and explicit confirmations of rates, scope and VAT. **Concept controleren** validates the draft; **Commercieel goedkeuren** attests its exact content; publication is a separate action. The approval hash includes company/website context. Content, component, company or website changes invalidate approval; a no-op editor save does not.
+
+One frozen release supplies validation, pricing, scope and quote creation within a request. Publication retires the previous release for that website; record locks and a transaction advisory lock serialize mutations/publication. Published release data and children cannot be edited, deleted or moved to another release. See the [native administration workflow](native-odoo-workflow-2.2.md).
+
+The local server uses the same bundled JSON and policy resolver but has no Odoo admin interface. With no published Odoo catalog for a website, the adapter uses that bundled demonstration release.
+
+## Snapshots, retries and privacy
+
+New quotes store `snapshotVersion: 2`, `catalogRevision`, `assetRevision`, the catalog definition for original-schema retry validation, canonical config, frozen labels, full price, independent scope, timestamp and consent. In 2.3, the full `price.fixtureLayout` packet and the complete `modelPolicies` asset resolver, including per-choice overrides, are included in that immutable snapshot. PDF/HTML, native request projections and CRM descriptions use the saved scope, including zero-extra-cost included items. They do not consult current prices when reopening a request.
+
+Legacy snapshots without the new schema remain unchanged. The original v1 catalog is kept in `catalog.legacy-v1.json` for retry validation. Schema-2 snapshots with known asset revisions `2026-09-13.1`, `.2` or `.3` retain their previous mounting normalization; `.4` uses the new layout. This distinction is forwarded through catalog/default placement, configuration normalization and pricing. It prevents a retry of an old quote from silently adopting new ceiling rules. Old label semantics and saved images remain intact. A share opens a design for current review/pricing and is not a frozen commercial quote. Historical shares without metadata return a null catalog revision and schema `1.0`.
+
+Retry normalization uses the frozen model resolver. For historical snapshots it restores selected assets from saved scope and can identify a rejected radiator model from uniquely matching saved availability evidence. It never searches candidate payload hashes or changes the historical snapshot. If both the original model policy and sufficient geometry evidence are missing, an old retry can conservatively fail with a conflict; the original quote remains intact.
+
+The UUIDv4 submission key is unique within company/website. SQLite serializes lookup/create in one transaction and rejects snapshot updates with a trigger. Odoo uses a PostgreSQL advisory lock and unique constraint; snapshot fields are immutable while workflow state remains editable. A changed request with a reused UUID returns `idempotency_conflict` without exposing the old private token.
+
+Six document views can be saved: `perspective-left`, `perspective-right`, `interior`, `plan`, `front`, `side`. `configKey` is sorted compact canonical JSON without postcode. JPEG framing, size and metadata are checked; labels are fixed by the server. This cannot authenticate the meaning of client pixels. Image limits are 768 KiB each, 4 MiB combined, 256–2000 pixels per side and at most 2.5 million pixels. Capture version participates in retry identity; changing JPEG bytes does not replace the original bundle. WebGL fallback supplies technical diagrams; absent old 3D captures are not invented.
+
+Share and PDF tokens contain 256 bits of randomness and expire after 30 and 90 days respectively. PDF URLs expose private contact data and must stay confidential. Private/API responses use `no-store` and `no-referrer`; proxy/Odoo access logs must redact token paths. Public and portal users have no model grants. Limits are 10 quotes/hour, 30 shares/hour, 240 prices/minute and 300 reads/minute per process/IP; multi-worker deployments need corresponding proxy limits. The configurator does not automatically send or confirm a sales quotation; users can perform those actions in native Odoo.
+
+## Odoo adapter and verification
+
+Dependencies are `website`, `crm`, `sale_management`, `sale_crm` and `sale_project`. The adapter resolves the website with `get_current_website()`; this exact target uses `fallback=None`. Odoo 19.4 security uses `ir.access.csv`, with group grants and company restrictions, rather than removed `ir.rule`/`ir.model.access` models. Public lookups and writes are bound to the resolved company/website. Privileged adapter and native synchronization operations derive records and prices from validated requests; the catalog editor/preview applies ordinary manager and company access checks.
+
+A submission creates an immutable request and CRM opportunity, then links a customer and a filled native draft sales quotation. CRM receives the saved selections, scope and price status; initial expected revenue is zero for demonstration pricing, or the approved commercial subtotal. Included items become zero-priced sales lines, extra items carry saved quantities/rates and excluded scope appears as a note. Native Odoo handles company taxes, fiscal positions and units (`m²`, unit and `Post`). Product Unit precision is at least four decimals so, for example, 501 × 299 cm retains 14.9799 m².
+
+Missing business settings, such as a matching company sales tax, leave the submitted request available with a visible synchronization error and a responsible-user activity. They do not cause a guessed tax to be used. Synchronization can be retried from Odoo. Existing linked documents and user-edited sales lines are retained; only an untouched empty CRM draft is eligible for automatic filling.
+
+When a user confirms the native sales quotation, the base service's native `sale_project` tracking creates or reuses the project. The CRM stage is preserved. A follow-up activity asks the responsible user to review that stage; reconfirming does not duplicate the project or recreate a completed follow-up. Native customer/order changes do not rewrite the submitted snapshot. The request form exposes readable contact, selection, price and image rows plus links to customer, CRM, sale and project. See [the confirmed 2.2 workflow and acceptance](native-odoo-workflow-2.2.md).
+
+The daily cron removes expired private requests/shares, not CRM leads, customer cards or sales documents. Native quotation images are separate Odoo attachments and can remain with the commercial document after the private configurator link expires.
+
+The public PDF uses the bundled standard-library writer and DejaVu Sans font. The internal Print menu uses QWeb and the target's wkhtmltopdf stack. Both document paths need separate acceptance. Images and labels come from the snapshot; long scope/specification tables paginate. Source and earlier PDF evidence is retained in [PDF design](pdf-design.md) and [historical Odoo PDF verification](pdf-odoo-verification.md).
+
+On a prepared disposable clone, run the actual adapter suite:
 
 ```bash
 odoo-bin --database=YOUR_DISPOSABLE_DB --update=cs_prefab_configurator \
-  --test-tags=/cs_prefab_configurator --stop-after-init --max-cron-threads=0
+  --test-enable --test-tags=/cs_prefab_configurator --stop-after-init --workers=0 --max-cron-threads=0
 ```
 
-The evidence file is `docs/verification/backend/backend-results.json`. The separate browser evidence covers the standalone server and the actual Odoo storefront. No existing database, running project or production service was modified for this rehearsal.
+The source suite contains eight HttpCase tests, eight catalog-editor TransactionCase tests and nine native-sales TransactionCase tests. They cover HTTP/CRM/PDF, actual QWeb PDF rendering, immutable visual snapshots, website isolation, input controls, approval and draft preview, lossless native catalog editing, populated quotations, project/activity behavior and role access. Fixtures select or create a website for the test company; no demo website XML ID is required.
 
-The isolated source, Python environment, PostgreSQL data and logs were retained under `/tmp/cs-prefab-*` for inspection. They are disposable rehearsal resources, not a durable deployment. To restart that same prepared environment on this workstation:
+The published 2.4 source passed 109 standalone Python tests, 86 JavaScript tests, 26 Odoo tests on the exact-image clone, five document-capture scenarios, five reset regressions and ten live browser checks. Native appearance editing and actual website CSS/fonts were checked in the isolated clone. [Current evidence](verification/2.4/README.md) records scope and results; earlier native workflow and deployment reports remain historical evidence.
 
-```bash
-/usr/lib/postgresql/16/bin/pg_ctl -D /tmp/cs-prefab-pgdata \
-  -l /tmp/cs-prefab-postgres.log -o '-p 55478 -h 127.0.0.1 -k /tmp' start
-/tmp/cs-prefab-odoo-venv/bin/python /tmp/cs-prefab-odoo-19.3/odoo-bin \
-  --addons-path=/tmp/cs-prefab-odoo-19.3/addons,/mnt/e/Projeler/cs_prefab_configurator/addons \
-  --db_host=127.0.0.1 --db_port=55478 --db_user=sukru --database=cs_prefab_isolated \
-  --data-dir=/tmp/cs-prefab-odoo-data --http-interface=127.0.0.1 --http-port=8079 \
-  --max-cron-threads=0 --log-handler=werkzeug:WARNING \
-  --logfile=/tmp/cs-prefab-odoo-browser-final.log
-```
-
-Open `http://127.0.0.1:8079/prefab`. To rerun the three Odoo integration tests, append `--update=cs_prefab_configurator --test-tags=/cs_prefab_configurator --stop-after-init` to that server command. To repeat every standalone test including independent PDF parsing, run `/tmp/cs-prefab-odoo-venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v` from this repository. Stop only this isolated PostgreSQL cluster with `/usr/lib/postgresql/16/bin/pg_ctl -D /tmp/cs-prefab-pgdata stop -m fast` after stopping its Odoo process.
-
-Before a production deployment, replace and approve the demo price book, confirm the precise scope of every install/connection item, set the website domain, configure TLS and proxy rate limits/log redaction, establish CRM ownership/retention and perform the deployment on an isolated clone of the actual target database first. No live site deployment or contact submission to the reference vendor is part of this implementation.
+For the supplied Coolify startup, deploy the root `addons/requirements.txt` as `/mnt/extra-addons/requirements.txt`. It includes `cs_prefab_configurator/requirements.txt`; module-level files are not discovered automatically. The module currently needs no additional pip packages. Mount, backup and rollout details are in [deployment notes](deployment.md).

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Structured data en twee toegankelijkheidshaken die op élke pagina van deze website
+        horen te staan en dus niet in een paginasjabloon thuishoren.
+
+        Alles is afgesloten op website.cs_prefab_site. De views van dit module zijn globaal —
+        Odoo kent geen website-scoped ir.ui.view voor een module — dus de scheiding met de
+        andere website van deze Odoo zit in die ene voorwaarde en nergens anders.
+    -->
+
+    <!--
+        Het bedrijf, als HomeAndConstructionBusiness.
+
+        De live site publiceert alleen name, url, email, logo en description onder het type
+        Organization: geen adres, geen telefoonnummer, geen werkgebied, geen sameAs, en het
+        logo wijst naar een favicon van 9,5 kB. Een prefab-bouwer wordt lokaal gezocht, en
+        zonder adres en werkgebied komt het bedrijf niet in aanmerking voor het lokale
+        zoekblok — precies de plek waar een huiseigenaar in Rijswijk, Den Haag of Zoetermeer
+        kijkt.
+
+        Dit blok staat in de <head> en daarmee BUITEN elke oe_structure. Dat is geen
+        netheidskwestie: alles binnen een bouwerregio gaat bij het opslaan door de sanitizer, en
+        een <script> overleeft dat niet. De structured data zou dan verdwijnen op het moment dat
+        iemand voor het eerst een zin op een pagina wijzigt, zonder dat er iets zichtbaar
+        verandert.
+
+        Het werkgebied is niet verzonnen: Den Haag en Zoetermeer staan in de alt-teksten van de
+        projectfoto's, Rijswijk is het vestigingsadres. Facebook ontbreekt bewust in sameAs —
+        het adres uit de voettekst van de live site antwoordt met HTTP 400.
+    -->
+    <template id="prefab_structured_data" inherit_id="website.layout"
+              name="Prefab Partner — structured data">
+        <xpath expr="//head" position="inside">
+            <t t-if="website and website.cs_prefab_site">
+                <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "@id": "https://prefabpartner.nl/#organisatie",
+    "name": "Prefab Partner BV",
+    "alternateName": "PrefabPartner.nl",
+    "url": "https://prefabpartner.nl/",
+    "description": "Prefab Partner levert prefab aanbouwen, dakkapellen en opbouwen op maat voor particulieren en aannemers.",
+    "logo": {
+        "@type": "ImageObject",
+        "url": "https://prefabpartner.nl/web/image/cs_prefab_website.media_cropped_favicon_png_a192b36a/512x512/cropped-favicon.png",
+        "width": 512,
+        "height": 512
+    },
+    "image": "https://prefabpartner.nl/web/image/cs_prefab_website.media_cropped_favicon_png_a192b36a/512x512/cropped-favicon.png",
+    "telephone": "+31624845453",
+    "email": "info@prefabpartner.nl",
+    "vatID": "NL867664022B01",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Lange Kleiweg 62b",
+        "postalCode": "2288 GK",
+        "addressLocality": "Rijswijk",
+        "addressCountry": "NL"
+    },
+    "areaServed": [
+        {"@type": "City", "name": "Rijswijk"},
+        {"@type": "City", "name": "Den Haag"},
+        {"@type": "City", "name": "Zoetermeer"}
+    ],
+    "sameAs": [
+        "https://www.linkedin.com/company/prefabpartner-nl",
+        "https://www.instagram.com/prefabpartner.nl"
+    ]
+}</script>
+            </t>
+        </xpath>
+    </template>
+
+    <!--
+        Omschrijving en deelafbeelding voor de twee pagina's die geen website.page zijn.
+
+        /projecten en /nieuws worden door een controller gerenderd, dus er is geen record dat
+        website_meta_description kan dragen en Odoo's layout zet er dan niets neer. Zonder
+        omschrijving verzint Google zelf een fragment, en zonder og:image toont WhatsApp een
+        leeg grijs kaartje — precies de twee defecten die op de live site respectievelijk negen
+        en acht pagina's raken.
+
+        De controller geeft de waarden mee in de rendercontext. Een niet-gezette naam is in
+        QWeb gewoon vals, dus op elke andere pagina van deze website rendert dit blok niets.
+    -->
+    <template id="prefab_controller_meta" inherit_id="website.layout"
+              name="Prefab Partner — omschrijving voor de overzichtspagina's">
+        <xpath expr="//head" position="inside">
+            <t t-if="website and website.cs_prefab_site">
+                <meta t-if="prefab_meta_description" name="description" t-att-content="prefab_meta_description"/>
+                <meta t-if="prefab_meta_description" property="og:description" t-att-content="prefab_meta_description"/>
+                <meta t-if="prefab_og_image" property="og:image" t-att-content="prefab_og_image"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!--
+        THERE IS NO SKIP LINK HERE ANY MORE, AND THAT IS THE FIX.
+
+        This module used to add one, on the reasoning that Odoo's frontend layout has none.
+        That reasoning was true once and is not true in 19.4: core ships
+        <a class="o_skip_to_content ... visually-hidden-focusable" href="#wrap">, already
+        translated into Dutch as "Overslaan naar inhoud", and it points at the same element
+        ours did.
+
+        So the site was serving TWO skip links, back to back, as tab stops 1 and 2 on all 21
+        pages, in two visual languages and with two different Dutch labels. For the keyboard
+        user this is measurably worse than having one: the second link appears to do nothing,
+        because the first one already moved the focus.
+
+        #wrap keeps its tabindex="-1" so core's link has something focusable to land on. What
+        it no longer keeps is role="main": Odoo's own layout already wraps the page in a
+        <main> element, and ours made a second main landmark on every page.
+    -->
+
+</odoo>

@@ -6,11 +6,17 @@ No browser, network, external renderer or optional Python packages are required.
 """
 import base64
 
+from .appearance import LOGO_BOX, PROPOSAL_COLORS
 from .pdf_font import bundled_font, font_objects, stream_object
+from .pdf_image import pdf_image
 
 PAGE_W, PAGE_H = 595.28, 841.89
-INK, MUTED, PAPER, LINE, ACCENT, WHITE = (
-    "#263d34", "#626d59", "#f6f5f1", "#dfe3d8", "#b7754a", "#ffffff")
+# Palette SLOTS, not colours. Until 2.9.7 these were five hex constants, so every proposal printed the same
+# green and copper whatever the website's own colours were. Every drawing op now stores the slot NAME and
+# render() resolves it through this document's palette (services.appearance.proposal_palette), so one PdfDocument
+# prints in the administrator's colours or in Odoo's and the sixty-odd call sites did not have to change.
+# A literal "#rrggbb" still passes straight through, for the few colours that are not brand colours.
+INK, MUTED, PAPER, LINE, ACCENT, WHITE = "ink", "muted", "paper", "line", "accent", "white"
 
 
 def rgb(color):
@@ -18,8 +24,19 @@ def rgb(color):
 
 
 class PdfDocument:
-    def __init__(self, reference):
+    def __init__(self, reference, *, logo=None, palette=None, brand_name=None):
         self.reference = reference
+        # A brand mark from services.appearance.proposal_logo, or None for the
+        # built-in wordmark. The standalone server has no appearance record and
+        # therefore always keeps the wordmark.
+        self.logo = logo
+        # The company's own name, printed as the wordmark when there is no usable logo. The built-in
+        # "CS prefab" mark with its tagline is only for the standalone server, which has no company at all:
+        # a website that sells as Prefab Partner must never print somebody else's name on its proposals.
+        self.brand_name = (brand_name or "").strip() or None
+        # {slot: "#rrggbb"} from proposal_palette()["colors"]; absent slots keep the pre-2.9.7 colours.
+        self.colors = {**PROPOSAL_COLORS, WHITE: "#ffffff",
+                       **{slot: value for slot, value in (palette or {}).items() if slot in PROPOSAL_COLORS}}
         self.pages, self.images = [], {}
         self.font = bundled_font()
         self.page = None
@@ -35,12 +52,28 @@ class PdfDocument:
             self.line(38, 71, PAGE_W - 38, 71, color=LINE)
 
     def brand(self, x, y):
+        if self.logo:
+            return self.brand_image(x, y, *LOGO_BOX)
+        if self.brand_name:
+            # Shrunk to fit the same box a logo gets, so a long company name never runs into the page label.
+            size = 19
+            while size > 10 and self.text_width(self.brand_name, size) > LOGO_BOX[0] + 60:
+                size -= .5
+            return self.text(x, y + 22, self.brand_name, size=size, bold=True)
         self.poly([(x, y + 7), (x + 11, y), (x + 22, y + 7), (x + 22, y + 23),
                    (x + 11, y + 30), (x, y + 23), (x, y + 7), (x + 11, y + 14),
                    (x + 22, y + 7)], color=INK, weight=1.2)
         self.line(x + 11, y + 14, x + 11, y + 30, color=INK, weight=1.2)
         self.text(x + 33, y + 20, "CS prefab", size=19, bold=True)
         self.text(x + 34, y + 32, "RUIMTE OM TE LEVEN", size=5.6, color=MUTED, tracking=1.25)
+
+    def brand_image(self, x, y, width, height):
+        """Fit the mark inside the header box: never stretched, left-aligned on the margin."""
+        logo = self.logo
+        self.images.setdefault(logo["id"], logo)
+        scale = min(width / logo["width"], height / logo["height"])
+        w, h = logo["width"] * scale, logo["height"] * scale
+        self.page["ops"].append(("image", logo["id"], x, y + (height - h) / 2, w, h))
 
     def text_width(self, value, size, tracking=0):
         return sum(self.font.width(c) for c in str(value)) * size / 1000 + max(0, len(str(value)) - 1) * tracking
@@ -110,15 +143,26 @@ class PdfDocument:
 
     def render(self):
         self.footer()
+        # A slot name resolves through this document's palette; a literal hex passes straight through.
+        def paint_rgb(color):
+            return rgb(self.colors.get(color, color))
+
         chars = "".join(op[3] for page in self.pages for op in page["ops"] if op[0] == "text")
         fonts, codes = font_objects(chars)
         objects = [b"<< /Type /Catalog /Pages 2 0 R >>", b""] + fonts
         image_objects = {}
         for index, (key, view) in enumerate(self.images.items(), 1):
-            data = base64.b64decode(view["dataUrl"].split(",", 1)[1])
+            if view.get("kind") == "brand":
+                # An administrator's mark: PNG is unpacked onto white here, JPEG passes through.
+                mark = pdf_image(view["data"], filename=view["filename"])
+                width, height = mark["width"], mark["height"]
+                colorspace, image_filter, data = mark["colorspace"], mark["filter"], mark["stream"]
+            else:
+                width, height, colorspace, image_filter = view["width"], view["height"], "DeviceRGB", "DCTDecode"
+                data = base64.b64decode(view["dataUrl"].split(",", 1)[1])
             image_objects[key] = (f"Im{index}", len(objects) + 1)
-            header = (f"<< /Type /XObject /Subtype /Image /Width {view['width']} /Height {view['height']} "
-                      f"/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length {len(data)} >>\nstream\n")
+            header = (f"<< /Type /XObject /Subtype /Image /Width {width} /Height {height} "
+                      f"/ColorSpace /{colorspace} /BitsPerComponent 8 /Filter /{image_filter} /Length {len(data)} >>\nstream\n")
             objects.append(header.encode("ascii") + data + b"\nendstream")
 
         def encoded(value):
@@ -131,17 +175,17 @@ class PdfDocument:
                 if op[0] == "text":
                     _, x, y, value, size, color, bold, tracking = op
                     render = "2 Tr 0.17 w" if bold else "0 Tr"
-                    commands.append(f"BT /F1 {size} Tf {render} {tracking} Tc {rgb(color)} rg {rgb(color)} RG {x:.3f} {PAGE_H - y:.3f} Td {encoded(value)} Tj ET")
+                    commands.append(f"BT /F1 {size} Tf {render} {tracking} Tc {paint_rgb(color)} rg {paint_rgb(color)} RG {x:.3f} {PAGE_H - y:.3f} Td {encoded(value)} Tj ET")
                 elif op[0] == "rect":
                     _, x, y, w, h, fill, stroke, weight = op
                     paint = "B" if fill and stroke else "f" if fill else "S"
-                    colors = (rgb(fill) + " rg " if fill else "") + (rgb(stroke) + " RG " if stroke else "")
+                    colors = (paint_rgb(fill) + " rg " if fill else "") + (paint_rgb(stroke) + " RG " if stroke else "")
                     commands.append(f"q {colors}{weight} w {x:.3f} {PAGE_H-y-h:.3f} {w:.3f} {h:.3f} re {paint} Q")
                 elif op[0] == "poly":
                     _, points, color, weight, fill, dash = op
                     path = " ".join(f"{x:.3f} {PAGE_H-y:.3f} {'m' if i == 0 else 'l'}" for i, (x, y) in enumerate(points))
                     paint = "h B" if fill else "S"
-                    colors = rgb(color) + " RG " + (rgb(fill) + " rg " if fill else "")
+                    colors = paint_rgb(color) + " RG " + (paint_rgb(fill) + " rg " if fill else "")
                     pattern = f"[{' '.join(map(str, dash))}] 0 d " if dash else ""
                     commands.append(f"q {colors}{weight} w {pattern}{path} {paint} Q")
                 else:

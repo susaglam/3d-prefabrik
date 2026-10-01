@@ -1,0 +1,67 @@
+// Optional decoration. The setting, editor state and reduced-motion preference each disable it.
+@media (prefers-reduced-motion: no-preference) {
+    html:not([data-editable]):not([data-edit_translations]) .o_prefab_site.o_prefab_motion_enabled:not(.editor_enable) {
+        .o_prefab_warm_hero_copy { animation: prefab-warm-enter 450ms cubic-bezier(.16, 1, .3, 1); }
+        .o_prefab_home_hero_copy > h1 { animation: prefab-home-title 700ms cubic-bezier(.16, 1, .3, 1); }
+        .o_prefab_home_background_video { transition: opacity 450ms ease-out; }
+        .o_prefab_home_products .s_card {
+            transition: transform 280ms cubic-bezier(.16, 1, .3, 1), box-shadow 280ms ease-out;
+            .o_card_img_wrapper img { transition: transform 600ms cubic-bezier(.16, 1, .3, 1); }
+            .stretched-link .fa { transition: transform 220ms ease-out; }
+            &.o_prefab_home_in_view { animation: prefab-home-card 600ms cubic-bezier(.16, 1, .3, 1); }
+            &:focus-within {
+                transform: translateY(-10px);
+                box-shadow: var(--box-shadow);
+                .o_card_img_wrapper img { transform: scale(1.07); }
+                .stretched-link .fa { transform: translateX(4px); }
+            }
+        }
+        .o_prefab_home_process .s_process_step.o_prefab_home_in_view .s_process_step_number {
+            animation: prefab-home-step 550ms cubic-bezier(.16, 1, .3, 1);
+        }
+        @include media-breakpoint-up(lg) {
+            .o_prefab_home_products .row > :nth-child(2) .o_prefab_home_in_view,
+            .o_prefab_home_process .s_process_step:nth-child(2).o_prefab_home_in_view .s_process_step_number { animation-delay: 90ms; }
+            .o_prefab_home_products .row > :nth-child(3) .o_prefab_home_in_view,
+            .o_prefab_home_process .s_process_step:nth-child(3).o_prefab_home_in_view .s_process_step_number { animation-delay: 180ms; }
+        }
+        @media (hover: hover) {
+            .o_prefab_product_grid:not(.o_prefab_home_products) .o_card_img_wrapper { overflow: hidden; }
+            .o_prefab_product_grid:not(.o_prefab_home_products) .o_card_img_wrapper img { transition: transform 220ms ease-out; }
+            .o_prefab_product_grid:not(.o_prefab_home_products) .s_card:hover .o_card_img_wrapper img { transform: scale(1.025); }
+            .o_prefab_home_products .s_card:hover {
+                transform: translateY(-10px);
+                box-shadow: var(--box-shadow);
+                .o_card_img_wrapper img { transform: scale(1.07); }
+                .stretched-link .fa { transform: translateX(4px); }
+            }
+        }
+    }
+}
+@keyframes prefab-warm-enter {
+    from { transform: translateY(10px); }
+    to { transform: translateY(0); }
+}
+// Every element remains visible if JS, motion or the observer is unavailable.
+@keyframes prefab-home-title {
+    from { transform: translateY(22px); }
+    to { transform: translateY(0); }
+}
+@keyframes prefab-home-card {
+    from { transform: translateY(30px); clip-path: inset(0 0 6% 0); }
+    to { transform: translateY(0); clip-path: inset(0 0 0 0); }
+}
+@keyframes prefab-home-step {
+    from { transform: scale(.82) translateY(12px); }
+    to { transform: scale(1) translateY(0); }
+}
+.o_prefab_site:not(.o_prefab_motion_enabled) {
+    .btn, .btn::after, .o_prefab_shot, .o_prefab_shot img { transition: none; animation: none; }
+    .btn:active, .o_prefab_shot:hover img, .o_prefab_shot:focus-visible img { transform: none; }
+}
+html[data-editable] .o_prefab_site,
+html[data-edit_translations] .o_prefab_site,
+.o_prefab_site.editor_enable {
+    .btn, .btn::after, .o_prefab_shot, .o_prefab_shot img { transition: none; animation: none; }
+    .btn:active, .o_prefab_shot:hover img, .o_prefab_shot:focus-visible img { transform: none; }
+}

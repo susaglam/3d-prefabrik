@@ -46,7 +46,7 @@ def payload():
 class DomainTests(unittest.TestCase):
     def test_source_dimension_boundaries_and_integer_precision(self):
         for width, depth in [(150, 100), (750, 340), (151, 101), (501, 299)]:
-            result = canonical_config({"width": width, "depth": depth})
+            result = canonical_config({"width": width, "depth": depth, "frontOpening": "none"})
             self.assertEqual((result["width"], result["depth"]), (width, depth))
         for value in [149, 751, 150.5, True, "500", None, float("nan")]:
             with self.subTest(value=value), self.assertRaises(DomainError):
@@ -62,7 +62,7 @@ class DomainTests(unittest.TestCase):
         fields = {f["key"]: f for g in catalog["groups"] for f in g["fields"]}
         self.assertEqual(len(fields["facade"]["options"]), 13)
         self.assertEqual(len(fields["frontOpening"]["options"]), 11)
-        self.assertEqual(len(fields["rooflight"]["options"]), 8)
+        self.assertEqual(len(fields["rooflight"]["options"]), 11)
         for key, prices in get_pricebook()["optionPrices"].items():
             expected = {str(o["id"]).lower() if isinstance(o["id"], bool) else str(o["id"]) for o in fields[key]["options"]}
             self.assertEqual(set(prices), expected, key)
@@ -72,13 +72,14 @@ class DomainTests(unittest.TestCase):
             for field in group["fields"]:
                 for option in field.get("options", []):
                     with self.subTest(key=field["key"], option=option["id"]):
-                        result = price_config({"interior": True, field["key"]: option["id"]})
+                        value = [option["id"]] if field["type"] == "multiselect" else option["id"]
+                        result = price_config({"interior": True, field["key"]: value})
                         self.assertGreater(result["total"], 0)
                         self.assertIs(type(result["total"]), int)
 
     def test_unknown_fields_options_and_wrong_types_rejected(self):
         for config in [{"total": 1}, {"facade": "free"}, {"piles": 5}, {"piles": "3"},
-                       {"interior": 1}, {"spotlights": True}, {"outsideSocket": "both"}, {"postcode": []}]:
+                       {"interior": 1}, {"spotlights": True}, {"outsideSocket": "invalid"}, {"postcode": []}]:
             with self.subTest(config=config), self.assertRaises(DomainError):
                 canonical_config(config)
 
@@ -102,7 +103,7 @@ class DomainTests(unittest.TestCase):
         expected_net = 15 * 135000 + 325000 + 15 * 18000 + 285000 + 25000 + 65000 + 270000
         self.assertEqual(result["subtotal"], expected_net)
         self.assertEqual(result["total"], expected_net + 685650)
-        fractional = price_config({"width": 151, "depth": 101})
+        fractional = price_config({"width": 151, "depth": 101, "frontOpening": "none"})
         base = next(line for line in fractional["lines"] if line["id"] == "base")
         self.assertEqual(base["total"], 205889)  # 1.5251 m2 * EUR 1350, half-up cents
         self.assertEqual(fractional["vat"], int((Decimal(fractional["subtotal"]) * Decimal("0.21")).quantize(Decimal("1"), rounding=ROUND_HALF_UP)))
@@ -177,7 +178,8 @@ class StorageTests(unittest.TestCase):
         shared = self.repo.get_share(result["token"])
         self.assertEqual(shared["config"]["postcode"], "")
         self.assertEqual(shared["config"]["facade"], "wood-vertical")
-        self.assertEqual(set(shared), {"config"})
+        self.assertEqual(set(shared), {"config", "catalogRevision", "schemaVersion"})
+        self.assertEqual(shared["catalogRevision"], public_catalog()["catalogRevision"])
         self.assertEqual(len(result["token"]), 43)
 
     def test_tokens_are_scoped_and_unpredictable(self):
@@ -255,7 +257,7 @@ class StorageTests(unittest.TestCase):
         parsed = PdfReader(io.BytesIO(pdf))
         self.assertGreater(len(parsed.pages), 1)
         text = " ".join(page.extract_text() for page in parsed.pages)
-        self.assertIn("DEMONSTRATIE", text)
+        self.assertIn("demonstratie", text.lower())
         self.assertIn("Ada Tester", text)
         self.assertIn(result["reference"], text)
         self.assertIn("Schematische plattegrond", text)
@@ -310,6 +312,30 @@ class HttpTests(unittest.TestCase):
             self.assertEqual(status, 200, (path, body))
             self.assertEqual(headers["X-Content-Type-Options"], "nosniff")
 
+    def test_entrypoint_csp_allows_importmap_without_allowing_inline_scripts(self):
+        status, headers, body = self.send("GET", "/prefab")
+        self.assertEqual(status, 200)
+        script_policy = next(part.strip() for part in headers["Content-Security-Policy"].split(";") if part.strip().startswith("script-src "))
+        # Golden hash for the 23-entry import map (embed.js added for the /prefab/embed frame contract;
+        # house_type_icons.js in 2.9.3; finishes.js and scene_content.js in 2.9.6; denoise.js gone with the path
+        # tracer; view_icons.js and scene_icons.js in 2.10.7 for the Weergave dialog and the drawn camera tools;
+        # garden_fence.js in 2.12.0 for the garden boundary styles). Browser acceptance also verifies that the real module graph executes — a module missing from the
+        # map would load unversioned and verify-workspace fails, and a hash that did not match the script it
+        # authorises would make Chromium block the map outright, so every browser gate would go red at once.
+        self.assertEqual(script_policy, "script-src 'self' 'sha256-Q8wFnVa2O04cTIVDccRyca+q+NrMGyh9Dozu30OrBlk='")
+        self.assertNotIn("unsafe-inline", script_policy)
+        self.assertEqual(server_module.importmap_csp_sources(body.replace(b"\r\n", b"\n")),
+                         server_module.importmap_csp_sources(body.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")))
+        _, api_headers, _ = self.send("GET", "/prefab/api/catalog")
+        self.assertNotIn("sha256-", api_headers["Content-Security-Policy"])
+
+    def test_importmap_hash_does_not_authorize_other_inline_scripts(self):
+        trusted_map = b'<script type="importmap">{"imports":{}}</script>'
+        extra_scripts = b'<script>alert(1)</script><script type="module">alert(2)</script>'
+        self.assertEqual(server_module.importmap_csp_sources(trusted_map + extra_scripts),
+                         server_module.importmap_csp_sources(trusted_map))
+        self.assertEqual(server_module.importmap_csp_sources(extra_scripts), "")
+
     def test_complete_share_quote_pdf_funnel(self):
         status, headers, body = self.send("POST", "/prefab/api/price", {"config": {"width": 600}})
         self.assertEqual(status, 200)
@@ -346,6 +372,23 @@ class HttpTests(unittest.TestCase):
             status, _, _ = self.send("GET", path)
             self.assertEqual(status, 404)
 
+    def test_embed_address_serves_the_same_page_under_a_frame_policy(self):
+        """The dev server and the Odoo route answer /prefab/embed identically.
+
+        This matters beyond tidiness: scripts/serve.py was already STRICTER than production
+        (frame-ancestors 'self' since it was written, while /prefab in Odoo had no frame policy at
+        all), so a developer testing the embed locally was measuring behaviour the live site did
+        not have. The two are the same now, and this is the assertion that keeps them so.
+        """
+        standalone_status, standalone_headers, standalone_body = self.send("GET", "/prefab")
+        status, headers, body = self.send("GET", "/prefab/embed")
+        self.assertEqual((standalone_status, status), (200, 200))
+        self.assertEqual(body, standalone_body)
+        for response_headers in (standalone_headers, headers):
+            self.assertEqual(response_headers["X-Frame-Options"], "SAMEORIGIN")
+            self.assertIn("frame-ancestors 'self'", response_headers["Content-Security-Policy"])
+            self.assertNotIn("frame-ancestors *", response_headers["Content-Security-Policy"])
+
     def test_head_preserves_content_length_without_body(self):
         status, headers, body = self.send("HEAD", "/prefab/api/catalog")
         self.assertEqual(status, 200)
@@ -357,20 +400,102 @@ class OdooStaticTests(unittest.TestCase):
     def test_all_xml_parses_and_manifest_files_exist(self):
         import ast
         manifest = ast.literal_eval((ADDON / "__manifest__.py").read_text())
-        self.assertEqual(manifest["version"], "saas~19.3.1.1.0")
+        self.assertEqual(manifest["version"], "saas~19.4.2.15.2")
         for relative in manifest["data"]:
             path = ADDON / relative
             self.assertTrue(path.exists(), relative)
             if path.suffix == ".xml":
                 ET.parse(path)
 
+    def test_the_embed_route_is_declared_the_way_the_frame_policy_assumes(self):
+        """Two things a response cannot show you, read from the source instead.
+
+        `sitemap=False` keeps the embed address out of /sitemap.xml -- a routing flag, invisible
+        from outside. And the two header values are pinned here as literals as well as in the
+        module's own Odoo test, because those two checks fail for different reasons: this one
+        fails when somebody edits the constant, the Odoo one fails when the constant stops being
+        applied to the response.
+        """
+        source = (ADDON / "controllers" / "main.py").read_text(encoding="utf-8")
+        embed = source.split('@http.route("/prefab/embed"', 1)
+        self.assertEqual(len(embed), 2, "the embed route is gone")
+        declaration = embed[1].split(")", 1)[0]
+        self.assertIn("sitemap=False", declaration)
+        self.assertIn('methods=["GET"]', declaration)
+        self.assertIn('auth="public"', declaration)
+        self.assertIn('("X-Frame-Options", "SAMEORIGIN")', source)
+        self.assertIn("""("Content-Security-Policy", "frame-ancestors 'self'")""", source)
+
     def test_no_public_or_portal_model_acl(self):
         import csv
-        with (ADDON / "security" / "ir.model.access.csv").open() as handle:
+        with (ADDON / "security" / "ir.access.csv").open() as handle:
             for row in csv.DictReader(handle):
-                self.assertTrue(row["group_id:id"])
-                self.assertNotIn(row["group_id:id"], {"base.group_public", "base.group_portal"})
-                self.assertEqual(row["perm_create"], "0")
+                self.assertNotIn(row["group_id/id"], {"base.group_public", "base.group_portal"})
+                self.assertTrue(row["model_id"].startswith("cs.prefab."))
+                if row["group_id/id"] and row["model_id"] in {"cs.prefab.quote", "cs.prefab.share"}:
+                    self.assertNotIn("c", row["operation"])
+                if not row["group_id/id"]:
+                    self.assertIn("company_ids", row["domain"])
+
+
+class RemovedOdooApiTests(unittest.TestCase):
+    """APIs saas~19.4 dropped, checked across every module this repository ships.
+
+    Each of these raises at load time, not at call time in some rare branch, so a single occurrence takes the
+    whole deploy down: the module installs, the registry fails and the database is left uninitialised. That is
+    exactly what happened on 2026-09-17 with `ir.config_parameter.get_param`, which cost a full clone-test cycle
+    to discover. The entry was already in the global compatibility matrix; nothing read it.
+
+    Keep this list to removals that are FATAL and STATIC. Something merely deprecated does not belong here: a
+    gate that cries wolf is switched off, and the real protection goes with it.
+    """
+
+    # (fragment, what to use instead). Matched as plain text against the source of every shipped .py file.
+    REMOVED = (
+        (".get_param(", "ir.config_parameter typed getters: get_str / get_int / get_bool / get_float"),
+        (".set_param(", "ir.config_parameter typed setters: set_str / set_int / set_bool / set_float"),
+        (".check_access_rights(", "has_access()"),
+        ("registry.clear_cache(", "env.transaction.invalidate_ormcache()"),
+        ("from odoo import SUPERUSER_ID", "from odoo.api import SUPERUSER_ID"),
+    )
+
+    def _shipped_sources(self):
+        for module in sorted((ROOT / "addons").iterdir()):
+            if not module.is_dir() or not (module / "__manifest__.py").is_file():
+                continue
+            for path in sorted(module.rglob("*.py")):
+                if "__pycache__" in path.parts:
+                    continue
+                yield path
+
+    def test_no_module_calls_an_api_saas_19_4_removed(self):
+        found = []
+        for path in self._shipped_sources():
+            source = path.read_text(encoding="utf-8")
+            for fragment, replacement in self.REMOVED:
+                if fragment in source:
+                    found.append(f"{path.relative_to(ROOT)} uses {fragment} -- use {replacement}")
+        self.assertEqual(found, [], "\n".join(found))
+
+    def test_the_guard_can_actually_fail(self):
+        """A control only ever seen passing is not evidence. Prove the matcher fires on a known-bad line."""
+        sample = 'value = self.env["ir.config_parameter"].sudo().get_param("x", "y")'
+        self.assertTrue(any(fragment in sample for fragment, _ in self.REMOVED))
+
+    def test_security_files_use_the_saas_19_4_model(self):
+        """ir.model.access.csv and ir.rule records were replaced by ir.access in saas~19.4."""
+        for module in sorted((ROOT / "addons").iterdir()):
+            if not module.is_dir() or not (module / "__manifest__.py").is_file():
+                continue
+            security = module / "security"
+            if not security.is_dir():
+                continue
+            self.assertFalse((security / "ir.model.access.csv").is_file(),
+                             f"{module.name}: ir.model.access.csv was replaced by ir.access.csv")
+            for path in sorted(security.rglob("*.xml")):
+                body = path.read_text(encoding="utf-8")
+                self.assertNotIn('model="ir.rule"', body, str(path.relative_to(ROOT)))
+                self.assertNotIn('model="ir.model.access"', body, str(path.relative_to(ROOT)))
 
 
 if __name__ == "__main__":

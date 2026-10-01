@@ -2,6 +2,7 @@
 import html
 from datetime import datetime
 
+from .appearance import PROPOSAL_COLORS
 from .pdf_layout import PdfDocument, PAGE_W, INK, MUTED, PAPER, LINE, ACCENT, WHITE
 
 DOCUMENT_VERSION = "proposal-v2"
@@ -19,7 +20,19 @@ LABELS = {"facade": "Gevelbekleding", "rollaag": "Afwerking boven kozijn", "fron
           "drainSide": "Positie hemelwaterafvoer", "interior": "Binnenafwerking", "plaster": "Stucwerk",
           "screed": "Dekvloer", "underfloorHeating": "Vloerverwarming", "heating": "Radiator",
           "ceilingLights": "Lichtpunten plafond", "switches": "Lichtschakelaars", "spotlights": "Inbouwspots",
-          "sockets": "Wandcontactdozen", "demolition": "Bestaande aanbouw slopen", "access": "Bereikbaarheid", "piles": "Heipalen"}
+          "sockets": "Wandcontactdozen", "demolition": "Geveldoorbraak", "access": "Bereikbaarheid", "piles": "Heipalen"}
+
+
+def price_status(price):
+    """Read the saved status; old snapshots keep their original demonstration copy."""
+    return price.get("priceStatusLabel") or (
+        "Prijsindicatie op goedgekeurde tarieven" if price.get("priceMode") == "commercial"
+        else "DEMONSTRATIE — GEEN BINDENDE OFFERTE"
+    )
+
+
+def commercial_price(price):
+    return price.get("priceMode") == "commercial"
 
 
 def number(value, places=2):
@@ -39,10 +52,16 @@ def date_label(value):
 
 def choice_rows(snapshot):
     labels = {row["key"]: row for row in snapshot["labels"]}
+    used = set()
     for title, keys in GROUPS:
-        rows = [(LABELS.get(key, labels[key]["label"]), str(labels[key]["value"])) for key in keys if key in labels]
+        rows = [(labels[key]["label"] if snapshot.get("snapshotVersion", 1) >= 2 else LABELS.get(key, labels[key]["label"]), str(labels[key]["value"])) for key in keys if key in labels]
+        used.update(key for key in keys if key in labels)
         if rows:
             yield title, rows
+    if snapshot.get("snapshotVersion", 1) >= 2:
+        additional = [(row["label"], str(row["value"])) for key, row in labels.items() if key not in used and key not in {"width", "depth", "height", "postcode"}]
+        if additional:
+            yield "Aanvullende uitvoering en posities", additional
 
 
 def document_lines(quote):
@@ -50,13 +69,16 @@ def document_lines(quote):
     snapshot, contact = quote["snapshot"], quote["contact"]
     price = snapshot["price"]
     lines = [("CS PREFAB / ONTWERPVOORSTEL", "title"), (quote["reference"], "subtitle"),
-             ("DEMONSTRATIE — GEEN BINDENDE OFFERTE", "warning"), (contact["name"], "body")]
+             (price_status(price), "warning"), (contact["name"], "body")]
     for label in snapshot["labels"]:
         lines.append((f"{label['label']}: {label['value']}", "body"))
     for line in price["lines"]:
         lines.append((f"{line['label']} ({number(line['quantity'])} {line['unit']}) {money(line['total'])}", "body"))
     lines.extend([(f"Totaal inclusief btw: {money(price['total'])}", "heading"), (price["disclaimer"], "body")])
+    if commercial_price(price):
+        lines.append(("Dit voorstel is een prijsindicatie, geen bindende offerte. De definitieve offerte volgt na opname en technische beoordeling.", "body"))
     lines.extend((warning, "body") for warning in price["warnings"])
+    lines.extend((f"{item['label']}: {item['summary']}", "body") for item in snapshot.get("scope", []))
     if contact.get("message"):
         lines.append((contact["message"], "body"))
     return lines
@@ -126,11 +148,12 @@ def _cover(doc, quote, views):
     doc.rect(350, 628, PAGE_W - 388, 107, fill=INK)
     doc.text(365, 650, "INDICATIE INCLUSIEF BTW", size=6.4, color=WHITE, tracking=.6)
     doc.text(365, 683, money(price["total"]), size=21, color=WHITE, bold=True)
-    doc.paragraph(365, 704, "Demoprijzen. Definitieve offerte na technische beoordeling.", width=176, size=7.1, leading=11, color=WHITE)
-    doc.text(38, 763, "DEMONSTRATIE — GEEN BINDENDE OFFERTE", size=7, color=ACCENT, bold=True, tracking=.4)
+    cover_note = "Prijsindicatie. Definitieve offerte na technische beoordeling." if commercial_price(price) else "Demoprijzen. Definitieve offerte na technische beoordeling."
+    doc.paragraph(365, 704, cover_note, width=176, size=7.1, leading=11, color=WHITE)
+    doc.text(38, 763, price_status(price), size=7, color=ACCENT, bold=True, tracking=.4)
 
 
-def _gallery(doc, views):
+def _gallery(doc, views, snapshot=None):
     chosen = [(key, label, note) for key, label, note in (
         ("perspective-right", "Perspectief vanaf rechts", "Gevel, dakrand en kozijn vanuit de andere hoek."),
         ("interior", "Een blik naar binnen", "Dak tijdelijk verborgen om de gekozen indeling zichtbaar te maken.")) if key in views]
@@ -141,7 +164,8 @@ def _gallery(doc, views):
                       "Dezelfde samenstelling, vanuit aanvullende standpunten. Materialen en kleuren zijn indicatief.")
     for i, (key, label, note) in enumerate(chosen):
         doc.image_card(views[key], 38, 190 + i * 287, WIDTH, 230, number=f"0{i+2}", label=label, note=note)
-    doc.text(38, 771, "Impressies tonen het gekozen concept. Aansluitingen en constructie worden bij de opname vastgesteld.", size=7, color=MUTED)
+    caption = "Contouren: voorbeeldapparaten, niet inbegrepen. Inbegrepen producten kunnen als indicatief model zijn getoond." if (snapshot or {}).get("snapshotVersion", 1) >= 2 else "Impressies tonen het gekozen concept. Aansluitingen en constructie worden bij de opname vastgesteld."
+    doc.text(38, 771, caption, size=7, color=MUTED)
 
 
 def _technical(doc, config, views):
@@ -183,6 +207,11 @@ def _specifications(doc, snapshot):
         doc.text(50, y + 15, title.upper(), size=7.4, color=WHITE, bold=True, tracking=.5)
         y += 22
         for index, ((label, value), h) in enumerate(zip(rows, heights)):
+            if y + h > 775:
+                y = page(True)
+                doc.rect(38, y, WIDTH, 22, fill=INK)
+                doc.text(50, y + 15, title.upper() + " (VERVOLG)", size=7.4, color=WHITE, bold=True)
+                y += 22
             doc.rect(38, y, WIDTH, h, fill=PAPER if index % 2 == 0 else WHITE)
             doc.paragraph(50, y + 13, label, width=189, size=8.3, leading=11, color=MUTED)
             doc.paragraph(248, y + 13, value, width=WIDTH - 221, size=8.5, leading=11)
@@ -193,8 +222,12 @@ def _specifications(doc, snapshot):
 def _price(doc, price):
     def page(continued=False):
         doc.new_page("Indicatieve kostenopbouw")
+        intro = "De bedragen hieronder horen bij je opgeslagen samenstelling. " + (
+            price_status(price) + "." if commercial_price(price) or price.get("priceStatusLabel")
+            else "Prijzen zijn demonstratiebedragen."
+        )
         y = doc.section_title("04 / INDICATIEVE KOSTENOPBOUW", "Helder opgebouwd.",
-                              "Vervolg van de kostenopbouw." if continued else "De bedragen hieronder horen bij je opgeslagen samenstelling. Prijzen zijn demonstratiebedragen.")
+                              "Vervolg van de kostenopbouw." if continued else intro)
         doc.rect(38, y, WIDTH, 26, fill=INK)
         for x, label, align in ((49, "ONDERDEEL", "left"), (344, "AANTAL", "right"),
                                  (382, "EENH.", "right"), (463, "PRIJS / EENH.", "right"), (547, "EXCL. BTW", "right")):
@@ -258,6 +291,10 @@ def _scope(doc, quote, views):
         y += 16
 
     block("Prijsstatus", price["disclaimer"])
+    if commercial_price(price):
+        block("Status van dit voorstel", "Dit voorstel is een prijsindicatie, geen bindende offerte. De definitieve offerte volgt na opname en technische beoordeling.")
+    for item in snapshot.get("scope", []):
+        block(item["label"] + " · leveringsomvang", item["summary"])
     if price["warnings"]:
         block("Aandachtspunten bij je keuzes", "\n".join("• " + value for value in price["warnings"]))
     block("Technische beoordeling", "Een adviseur moet de technische haalbaarheid, fundering, aansluitingen, bereikbaarheid en definitieve scope nog beoordelen. De beelden en maatvoering zijn schematisch; kleuren kunnen afwijken van echte materialen.")
@@ -282,10 +319,14 @@ def _scope(doc, quote, views):
 
 
 def build_proposal(quote):
-    doc = PdfDocument(quote["reference"])
+    # "brand" is absent on the standalone server, which has no appearance record
+    # and therefore keeps the built-in wordmark. "palette" and "brandName" come from the
+    # same place (models/quote.py): the website's vormgeving, or Odoo's document colours.
+    doc = PdfDocument(quote["reference"], logo=quote.get("brand"),
+                      palette=(quote.get("palette") or {}).get("colors"), brand_name=quote.get("brandName"))
     views = {view["id"]: view for view in quote["snapshot"].get("visuals", {}).get("views", [])}
     _cover(doc, quote, views)
-    _gallery(doc, views)
+    _gallery(doc, views, quote["snapshot"])
     _technical(doc, quote["snapshot"]["config"], views)
     _specifications(doc, quote["snapshot"])
     _price(doc, quote["snapshot"]["price"])
@@ -310,9 +351,14 @@ def quote_html(quote):
     rows = "".join(f"<tr><th scope='row'>{esc(line['label'])}</th><td>{esc(number(line['quantity'], 4))} {esc(line['unit'])}</td>"
                    f"<td>{esc(money(line['unitPrice']))}</td><td>{esc(money(line['total']))}</td></tr>" for line in price["lines"])
     warnings = "".join(f"<li>{esc(value)}</li>" for value in price["warnings"])
-    content = (f"<header><strong>CS prefab</strong><span>{esc(quote['reference'])} · {esc(date_label(snapshot['createdAt']))}</span></header>"
+    scope_rows = "".join(f"<tr><th scope='row'>{esc(item['label'])}</th><td>{esc(item['summary'])}</td></tr>" for item in snapshot.get("scope", []))
+    scope_section = f"<section><h2>Leveringsomvang</h2><p>Contouren zijn voorbeeldapparaten, niet inbegrepen. Product, voorbereiding, montage en aansluiting staan apart vermeld.</p><table>{scope_rows}</table></section>" if scope_rows else ""
+    brand = quote.get("brand")
+    mark = (f"<img class='logo' src='{esc(brand['dataUrl'])}' alt='{esc(brand['alt'])}'>" if brand
+            else f"<strong>{esc(quote.get('brandName') or 'CS prefab')}</strong>")
+    content = (f"<header>{mark}<span>{esc(quote['reference'])} · {esc(date_label(snapshot['createdAt']))}</span></header>"
                "<p class='eyebrow'>PERSOONLIJK ONTWERPVOORSTEL</p><h1>Jouw aanbouw,<br>tot in detail.</h1>"
-               f"<p>Samengesteld voor <strong>{esc(contact['name'])}</strong></p><p class='status'>DEMONSTRATIE — GEEN BINDENDE OFFERTE</p>"
+               f"<p>Samengesteld voor <strong>{esc(contact['name'])}</strong></p><p class='status'>{esc(price_status(price))}</p>"
                f"<div class='metrics'><span>Breedte <b>{config['width']} cm</b></span><span>Diepte <b>{config['depth']} cm</b></span>"
                f"<span>Oppervlakte <b>{number(config['width'] * config['depth'] / 10000)} m²</b></span></div>"
                f"<section><h2>Je ontwerp in beeld</h2><div class='gallery'>{figures}</div></section>"
@@ -320,11 +366,17 @@ def quote_html(quote):
                f"<table><thead><tr><th>Onderdeel</th><th>Aantal</th><th>Prijs / eenh.</th><th>Excl. btw</th></tr></thead><tbody>{rows}</tbody></table>"
                f"<div class='totals'><p>Subtotaal excl. btw <b>{money(price['subtotal'])}</b></p><p>Btw {price['vatRate']}% <b>{money(price['vat'])}</b></p>"
                f"<p class='grand'>Totaal inclusief btw <b>{money(price['total'])}</b></p></div><p>Prijsboek: {esc(price['pricebookVersion'])}</p></section>"
-               f"<section><h2>Uitgangspunten & vervolg</h2><p>{esc(price['disclaimer'])}</p><ul>{warnings}</ul>"
+               f"{scope_section}<section><h2>Uitgangspunten & vervolg</h2><p>{esc(price['disclaimer'])}</p>"
+               + ("<p>Dit voorstel is een prijsindicatie, geen bindende offerte. De definitieve offerte volgt na opname en technische beoordeling.</p>" if commercial_price(price) else "") + f"<ul>{warnings}</ul>"
                "<p>Impressies en tekeningen zijn schematisch. Een adviseur moet de technische haalbaarheid, scope en definitieve prijs nog beoordelen.</p>"
                f"<h3>Jouw toelichting</h3><p class='pre'>{esc(contact.get('message', ''))}</p><h3>Project- en contactgegevens</h3>"
                f"<p>{esc(contact['name'])}<br>{esc(contact['address'])} {esc(contact['houseNumber'])}<br>{esc(contact['postcode'])} {esc(contact['city'])}<br>"
                f"{esc(contact['email'])}<br>{esc(contact['phone'])}</p></section><footer>Toestemming voor contact vastgelegd bij aanvraag (quote-contact-v1).</footer>")
-    css = """@page{size:A4;margin:18mm}*{box-sizing:border-box}body{font:14px/1.55 system-ui,sans-serif;color:#263d34;max-width:920px;margin:40px auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dfe3d8;padding-bottom:18px}header strong{font-size:25px}header span,footer{font-size:11px;color:#626d59}.eyebrow{letter-spacing:2px;font-size:11px;color:#b7754a;margin-top:40px}h1{font-size:48px;line-height:1.12}h2{font-size:25px;margin-top:36px}h3{font-size:15px;margin-bottom:8px}h2,h3{break-after:avoid}.status{font-size:11px;color:#b7754a;font-weight:700}.metrics{display:flex;gap:12px;margin:25px 0}.metrics span{flex:1;background:#f6f5f1;padding:15px}.metrics b{display:block;font-size:24px}.gallery{display:grid;grid-template-columns:1fr 1fr;gap:20px}.gallery figure{margin:0;break-inside:avoid}.gallery figure:first-child{grid-column:1/-1}.gallery img{width:100%;display:block;background:#f6f5f1;border:1px solid #dfe3d8}figcaption{font-size:12px;padding-top:7px}table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:9px 10px;border-bottom:1px solid #dfe3d8}tbody th{font-weight:400}thead{background:#263d34;color:white;display:table-header-group}tbody tr:nth-child(odd){background:#f6f5f1}tr{break-inside:avoid}.choices th{width:40%;color:#626d59}.totals{margin:20px 0 20px auto;max-width:400px;break-inside:avoid}.totals p{display:flex;justify-content:space-between;padding:5px 10px}.grand{background:#263d34;color:white;padding:16px!important}.pre{white-space:pre-wrap;overflow-wrap:anywhere}p,td,th{overflow-wrap:anywhere}footer{margin-top:40px;border-top:1px solid #dfe3d8;padding-top:15px}@media print{body{margin:0;padding:0;font-size:11px}section{break-before:page}h1{font-size:40px}h2{margin-top:0}.gallery img{max-height:100mm;object-fit:contain}.gallery figure:first-child img{max-height:115mm}}"""
+    css = """@page{size:A4;margin:18mm}*{box-sizing:border-box}body{font:14px/1.55 system-ui,sans-serif;color:#263d34;max-width:920px;margin:40px auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dfe3d8;padding-bottom:18px}header strong{font-size:25px}header .logo{max-height:46px;max-width:230px;width:auto;height:auto}header span,footer{font-size:11px;color:#626d59}.eyebrow{letter-spacing:2px;font-size:11px;color:#9c633e;margin-top:40px}h1{font-size:48px;line-height:1.12}h2{font-size:25px;margin-top:36px}h3{font-size:15px;margin-bottom:8px}h2,h3{break-after:avoid}.status{font-size:11px;color:#9c633e;font-weight:700}.metrics{display:flex;gap:12px;margin:25px 0}.metrics span{flex:1;background:#f6f5f1;padding:15px}.metrics b{display:block;font-size:24px}.gallery{display:grid;grid-template-columns:1fr 1fr;gap:20px}.gallery figure{margin:0;break-inside:avoid}.gallery figure:first-child{grid-column:1/-1}.gallery img{width:100%;display:block;background:#f6f5f1;border:1px solid #dfe3d8}figcaption{font-size:12px;padding-top:7px}table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:9px 10px;border-bottom:1px solid #dfe3d8}tbody th{font-weight:400}thead{background:#263d34;color:white;display:table-header-group}tbody tr:nth-child(odd){background:#f6f5f1}tr{break-inside:avoid}.choices th{width:40%;color:#626d59}.totals{margin:20px 0 20px auto;max-width:400px;break-inside:avoid}.totals p{display:flex;justify-content:space-between;padding:5px 10px}.grand{background:#263d34;color:white;padding:16px!important}.pre{white-space:pre-wrap;overflow-wrap:anywhere}p,td,th{overflow-wrap:anywhere}footer{margin-top:40px;border-top:1px solid #dfe3d8;padding-top:15px}@media print{body{margin:0;padding:0;font-size:11px}section{break-before:page}h1{font-size:40px}h2{margin-top:0}.gallery img{max-height:100mm;object-fit:contain}.gallery figure:first-child img{max-height:115mm}}"""
+    # The css above is written in the pre-2.9.7 colours, which are exactly PROPOSAL_COLORS; each is swapped for
+    # the slot this proposal resolved (services.appearance.proposal_palette), so the HTML and the PDF agree.
+    colors = (quote.get("palette") or {}).get("colors") or {}
+    for slot, default in PROPOSAL_COLORS.items():
+        css = css.replace(default, colors.get(slot, default))
     return ("<!doctype html><html lang='nl'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>"
-            f"<title>{esc(quote['reference'])} — CS prefab ontwerpvoorstel</title><style>{css}</style></head><body>{content}</body></html>").encode("utf-8")
+            f"<title>{esc(quote['reference'])} — {esc(quote.get('brandName') or 'CS prefab')} ontwerpvoorstel</title><style>{css}</style></head><body>{content}</body></html>").encode("utf-8")

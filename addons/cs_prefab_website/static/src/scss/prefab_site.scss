@@ -1,0 +1,730 @@
+// Site-wide rules for the Prefab Partner website.
+//
+// Wave 1 emptied this file. The five hex values, the clamp() type scale, the twenty button
+// numbers, the radii, three ad-hoc shadows, the link colours, the input padding -- all of it
+// now lives in the website's own Theme values, seeded per website by
+// models/website.py::_cs_prefab_apply_theme. A module stylesheet downstream of the Theme tab
+// wins every argument silently, and a Theme tab that loses silently is one the owner stops
+// opening.
+//
+// One rule over every line below, and over every line anyone adds later:
+//
+//   NOTHING here sets a colour, a font size, a font weight, a radius, a shadow or a control
+//   padding. Where a colour is genuinely needed it is READ, from one of two published sets,
+//   or mixed out of them with color-mix(), which lands correctly on a light and on a dark
+//   combination alike:
+//
+//     var(--o-cc-bg) / var(--color) / var(--link-color)  -- the CURRENT combination. Odoo
+//         sets these on every element carrying `.o_cc` (its own `.s_social_media` reads them,
+//         website.scss:3554-3561), so a rule written this way follows whatever combination the
+//         owner puts the block in, and cannot invert into a contrast failure.
+//     var(--o-color-1) .. var(--o-color-5)  -- the five palette colours, published on :root.
+//         Used only where a rule must name a SPECIFIC brand colour regardless of where it sits
+//         (the gable's neighbour, the plate under a photo caption). Note the spelling: the
+//         `o-ccN-bg` keys models/website.py seeds are SASS website values, not CSS custom
+//         properties -- `var(--o-cc1-bg)` resolves to nothing, and a color-mix() around
+//         nothing drops the whole declaration. `--o-color-4` is Paper, `--o-color-5` is Ink.
+//
+//   Surface radius comes from Bootstrap's $border-radius, control radius from
+//   $btn-border-radius, elevation from --box-shadow-sm / --box-shadow.
+//
+//   A test reads that claim back instead of believing it: zero bare hex, zero bare rgba(),
+//   zero bare ms outside the token block. The old header made the same claim and it was false
+//   in 35 places, twenty-odd of them re-typing the ink colour.
+//
+// Everything is scoped to `.o_prefab_site`, a class this module puts on <body> only when the
+// current website carries the cs_prefab_site flag. Asset bundles are per INSTANCE, so the
+// customer's other website downloads this file and matches nothing in it. That scoping is the
+// entire isolation guarantee and a test asserts it.
+
+// The one top-level exception. An in-page anchor otherwise scrolls its target underneath the
+// fixed header (website.header_visibility_fixed, activated in wave 1). scroll-padding-top has
+// to sit on the scrolling box, which is the root element -- which is why the old rule, on
+// <body>, never once did anything. One custom property, so the day someone measures the real
+// header they change one value in one place.
+html:has(body.o_prefab_site) {
+    scroll-padding-top: var(--prefab-header-offset, 80px);
+}
+
+.o_prefab_site {
+    // ------------------------------------------------------------------
+    // Motion -- the two registers
+    // ------------------------------------------------------------------
+    // Not taste, a frequency question: how often does one person see this?
+    //
+    //   REPEATED  (hover, press, a hotspot pin, a gallery tile) -> UNDER 300 ms, transform and
+    //             opacity only, ease-out. A 600 ms entrance on something that opens forty times
+    //             a day is a tax, not craft.
+    //   ONCE PER VISIT  (the hero at first paint) -> 500-800 ms is allowed and paint-stage
+    //             properties may join in, because the moment does not repeat. The live site
+    //             takes 1000 ms and does it seventeen times a page -- over budget even for
+    //             "once".
+    //
+    //   --prefab-ease-ui     up to speed at once, soft to a stop: what a pointer hint has to do.
+    //                        Measured on the live site's own WhatsApp button.
+    //   --prefab-ease-enter  the live site's own curve, measured in the Divi bundle. Starts
+    //                        slowly, so it reads as "something is arriving". Right for an
+    //                        entrance; far too slow on a hover, where the first 80 ms decide
+    //                        whether the answer feels immediate.
+    //
+    // They sit here and not on `:root`, because `:root` is the other website too. This block is
+    // the ONLY place in the file where a duration or a curve is written out: a second
+    // definition of one cubic-bezier drifts, and nothing ever looks wrong enough to investigate.
+    --prefab-ease-ui: cubic-bezier(.25, 1, .5, 1);
+    --prefab-dur-press: 120ms;   // press: the fastest answer the page gives
+    --prefab-dur-hover: 300ms;   // button, pin, tile -- the live site's own measure
+
+    --prefab-ease-enter: cubic-bezier(.77, 0, .175, 1);
+    --prefab-dur-hero: 720ms;    // the hero, once, at first paint
+    --prefab-stagger: 90ms;      // the gap between two lines of that same hero
+
+    // ------------------------------------------------------------------
+    // Buttons -- the two things about them that are motion, not theme
+    // ------------------------------------------------------------------
+    // The press. One pixel, 120 ms, transform only: the shortest movement on the site and
+    // therefore the most repeated. It answers "did it arrive?" before the page starts loading.
+    .btn {
+        transition: transform var(--prefab-dur-press) var(--prefab-ease-ui);
+
+        &:active { transform: translateY(1px); }
+    }
+
+    // The live site's signature: on hover an arrow slides out from under the label. The
+    // original animates `padding` -- layout, on every hover, dozens of times a visit.
+    //
+    // It ADDS to the theme's own horizontal padding instead of replacing it, so the label is
+    // optically centred at rest. Replacing it produced the measured `6px 41.6px 6px 16px`
+    // lopsidedness that every touch visitor saw and no hover ever explained.
+    .btn-primary,
+    .btn-secondary {
+        position: relative;
+        padding-inline: calc(var(--btn-padding-x, 1.5rem) + .55em);
+
+        &::after {
+            content: "\2192";
+            position: absolute;
+            top: 50%;
+            inset-inline-end: 1.1em;
+            opacity: 0;
+            transform: translate(-.5em, -50%);
+            transition: opacity var(--prefab-dur-hover) var(--prefab-ease-ui),
+                        transform var(--prefab-dur-hover) var(--prefab-ease-ui);
+        }
+
+        &:hover::after,
+        &:focus-visible::after {
+            opacity: 1;
+            transform: translate(0, -50%);
+        }
+    }
+
+    // On a phone the page is one column and a call to action is a bar, not a chip.
+    @include media-breakpoint-down(md) {
+        .btn-lg, .btn-primary.btn-lg { display: block; width: 100%; }
+    }
+
+    // ------------------------------------------------------------------
+    // The one justified !important in this file
+    // ------------------------------------------------------------------
+    // MEASURED, NOT GUESSED. Odoo paints every .card-body a surface of its own:
+    //
+    //   :where(.card:not([data-vxml])) .card-body:not(.card[data-vxml] .card-body) {
+    //       background-color: rgba(255, 255, 255, .9); color: #212529;
+    //   }
+    //
+    // On a white card you cannot see it. On the orange service cards and the tinted news cards
+    // you can: the card keeps its combination background but the CONTENT gets a milky panel and
+    // the white icons on it go invisible. In the first screenshot round four cards that should
+    // have been orange stood there pale pink with an empty box where the icon belongs.
+    //
+    // !important here is arithmetic, not laziness: Odoo's selector counts (0,4,0), because the
+    // :not() carries the specificity of `.card[data-vxml] .card-body`. An ordinary rule cannot
+    // reach that without a selector chain nobody can read afterwards.
+    .s_prefab_diensten .s_card:not([data-vxml]) > .card-body,
+    .o_prefab_news_card > .card-body {
+        background-color: transparent !important;
+        color: inherit !important;
+    }
+
+    // ------------------------------------------------------------------
+    // The gable
+    // ------------------------------------------------------------------
+    // The only geometry this brand owns: a shallow roof point you enter a section through. Once
+    // a page, at the transition that matters. clip-path rather than an SVG background, so the
+    // colour is just background-color. The section must be its own positioning context, or the
+    // wedge hangs off the nearest positioned ancestor above it and lands elsewhere entirely.
+    .o_prefab_has_gable {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .o_prefab_gable {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        // The fill is the colour of the section ABOVE -- the wedge is that section's bottom edge
+        // biting down into this one. The default reads the combination it is placed in; the two
+        // modifiers name the neighbour where the markup has no wrapper of its own yet. No hex
+        // either way, so it follows any recolour and can never again be one orange on another.
+        background-color: var(--prefab-gable-fill, var(--o-cc-bg));
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 0, 0 100%);
+        pointer-events: none;
+
+        @include media-breakpoint-down(lg) { height: 40px; }
+        @include media-breakpoint-down(md) { height: 30px; }
+    }
+
+    .o_prefab_gable_light { --prefab-gable-fill: var(--o-color-4); }
+    .o_prefab_gable_action { --prefab-gable-fill: var(--o-color-1); }
+
+    // ------------------------------------------------------------------
+    // The photo band under the hero
+    // ------------------------------------------------------------------
+    // On a phone this was three 390x390 squares stacked: 1,170 px of scrolling through
+    // photographs before another word arrives. A landscape crop shows the same three in 780 px,
+    // and `cover` centred loses no subject. The ratio is also layout-shift discipline.
+    .s_prefab_photo_band img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+
+        @include media-breakpoint-down(md) { aspect-ratio: 3 / 2; }
+    }
+
+    // ------------------------------------------------------------------
+    // The interactive drawing
+    // ------------------------------------------------------------------
+    // No equivalent exists among the 193 native snippet files, so this one stays. No JavaScript
+    // either: every plus is a real button and the explanation appears on hover AND on focus. On
+    // a phone a 260 px tooltip does not fit beside a plus, so the same three texts stand under
+    // the drawing and the pluses become decorative.
+    .s_prefab_hotspots_stage {
+        position: relative;
+        display: block;
+        // Delivered 720 px wide; stretched over a full 1440 it is half the screen and visibly
+        // soft. It lies on a coloured band, so it needs a plane of its own not to sink into it.
+        max-width: 720px;
+        margin-inline: auto;
+
+        img { background: var(--o-color-4); }
+    }
+
+    .s_prefab_hotspot {
+        position: absolute;
+        transform: translate(-50%, -50%);
+    }
+
+    .s_prefab_hotspot_pin {
+        width: 44px;
+        height: 44px;
+        border: 0;
+        border-radius: 50%;
+        background: var(--o-color-4);
+        color: var(--o-color-1);
+        line-height: 1;
+        box-shadow: var(--box-shadow-sm);
+        cursor: pointer;
+        transition: transform var(--prefab-dur-hover) var(--prefab-ease-ui),
+                    background-color var(--prefab-dur-hover) var(--prefab-ease-ui),
+                    color var(--prefab-dur-hover) var(--prefab-ease-ui);
+
+        &:hover, &:focus-visible {
+            background: var(--o-color-1);
+            color: var(--o-color-4);
+            transform: scale(1.08);
+        }
+    }
+
+    .s_prefab_hotspot_card {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + .6rem);
+        width: 260px;
+        transform: translateX(-50%);
+        padding: .85rem 1rem;
+        border-radius: $border-radius;
+        background: var(--o-color-4);
+        color: var(--o-color-5);
+        box-shadow: var(--box-shadow);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--prefab-dur-hover) var(--prefab-ease-ui),
+                    visibility var(--prefab-dur-hover) var(--prefab-ease-ui);
+
+        strong { display: block; margin-bottom: .25rem; }
+    }
+
+    .s_prefab_hotspot:hover .s_prefab_hotspot_card,
+    .s_prefab_hotspot_pin:focus-visible + .s_prefab_hotspot_card {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    // The mobile fallback. Its separators are mixed from the section's own text colour, so they
+    // are visible on a light band and on a dark one alike -- the old rgba(26,26,26,.12) was
+    // invisible on exactly the dark section this block stands on.
+    .s_prefab_hotspots_plain {
+        display: none;
+
+        li {
+            padding: .6rem 0;
+            border-bottom: 1px solid color-mix(in srgb, var(--color) 18%, transparent);
+        }
+    }
+
+    @include media-breakpoint-down(lg) {
+        .s_prefab_hotspot { display: none; }
+        .s_prefab_hotspots_plain { display: block; }
+    }
+
+    // ------------------------------------------------------------------
+    // A visible focus ring
+    // ------------------------------------------------------------------
+    // Measured on the live site: 26 of 26 tab stops on the homepage have outline-style none,
+    // outline-width 0 and box-shadow none, at 1440 px and at 390 px alike. Someone navigating by
+    // keyboard cannot see where they are -- WCAG 2.4.7 -- and axe does not flag it, which is why
+    // it survived. On a dark combination the action colour is not the strongest ring available;
+    // that combination's own text colour is, by construction, the thing with contrast there.
+    :focus-visible {
+        outline: 2px solid var(--o-color-1);
+        outline-offset: 2px;
+    }
+
+    .o_cc5 :focus-visible,
+    footer :focus-visible { outline-color: var(--color); }
+
+    // ------------------------------------------------------------------
+    // Footer structure
+    // ------------------------------------------------------------------
+    // Structure only -- the heading size, the link colour and the figure reflow are Theme values
+    // and native presets now. In the colophon the separator stands BEFORE every link except the
+    // first, so it can never be stranded at the end of a wrapped line; `aria-hidden` is not
+    // needed, because a ::before glyph does not enter the accessibility tree.
+    .o_prefab_footer {
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li + li { margin-top: .35rem; }
+
+        .o_prefab_footer_legal {
+            border-top: 1px solid color-mix(in srgb, var(--color) 18%, transparent);
+        }
+
+        .o_prefab_footer_links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .25rem 1rem;
+
+            @include media-breakpoint-up(lg) { justify-content: flex-end; }
+
+            a + a::before {
+                content: "|";
+                margin-right: 1rem;
+                color: color-mix(in srgb, var(--color) 35%, transparent);
+            }
+        }
+
+        .o_prefab_footer_mark img:not(.o_prefab_footer_figure) {
+            max-width: 190px;
+            height: auto;
+        }
+    }
+
+    // ==================================================================
+    // DEFERRED -- markup a later wave replaces
+    // ==================================================================
+    // Six blocks. Each styles markup that is LIVE today and whose native replacement is a markup
+    // change in a named later wave. Deleting the styling now would not simplify the file, it
+    // would ship a broken page on a running site -- an unreadable hero, an overlay that covers
+    // nothing, a floating button that does not float. Each names the wave that removes it and
+    // goes out WITH that wave's markup, not a release later. They set no colour, size, weight,
+    // radius, shadow or control padding either: they read the combination, like everything above.
+
+    // -- WAVE 2 -- native website.s_whatsapp ---------------------------
+    // The live site's widget is a <div> with no tabindex, no role and no aria-label, and
+    // document.activeElement never becomes it. This is a plain link: focusable, announced and
+    // operable by construction. WhatsApp green on a white page is 2,13:1, so the boundary
+    // carries the contrast a non-text control owes its surroundings.
+    .o_prefab_whatsapp {
+        position: fixed;
+        right: 15px;
+        bottom: 15px;
+        z-index: $zindex-fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 1px solid color-mix(in srgb, var(--color) 25%, transparent);
+        box-shadow: var(--box-shadow-sm);
+        text-decoration: none;
+        transition: transform var(--prefab-dur-hover) var(--prefab-ease-ui);
+
+        &:hover,
+        &:focus { transform: scale(1.04); }
+
+        svg {
+            width: 30px;
+            height: 30px;
+            fill: currentColor;
+        }
+    }
+
+    // -- WAVE 4 -- the hero becomes s_banner/s_cover with a real Color Filter --
+    // The only image every visitor sees, and the only text on the site that has to stay legible
+    // over an unpredictable moving background.
+    //
+    // 0.90 IS MEASURED AND BINDING, and not by the white label. Composited over the lightest
+    // conceivable frame (white), against the orange tick of the promise line, which owes 3:1
+    // under WCAG 1.4.11:
+    //
+    //     opacity   white label   orange tick
+    //       0,80        9,15         2,48   x
+    //       0,84       10,53         2,85   x
+    //       0,90       13,01         3,52   OK
+    //
+    // The white label already passes at 0,72. It is the tick that forces 0,90 -- exactly the
+    // kind of number a later round calls "too dark" and turns down without reading the second
+    // column. An evenly falling gradient is NOT safe: the <h1> runs to ~35% of the width and the
+    // promise line to 40%, so the scrim is FLAT past where the text ends (42%). Below lg the
+    // text runs full width and the free space is ABOVE the heading, so the top 22% stays light
+    // (the crane remains visible) and the same 90% starts where the <h1> begins.
+    .o_prefab_hero {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: clamp(520px, 78vh, 760px);
+        overflow: hidden;
+    }
+
+    .o_prefab_hero_media {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+
+    .o_prefab_hero_video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .o_prefab_hero_scrim {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg,
+                color-mix(in srgb, var(--o-cc-bg) 90%, transparent) 0%,
+                color-mix(in srgb, var(--o-cc-bg) 90%, transparent) 42%,
+                color-mix(in srgb, var(--o-cc-bg) 34%, transparent) 74%,
+                color-mix(in srgb, var(--o-cc-bg) 24%, transparent) 100%),
+            linear-gradient(to top,
+                color-mix(in srgb, var(--o-cc-bg) 45%, transparent) 0%,
+                color-mix(in srgb, var(--o-cc-bg) 0%, transparent) 34%);
+
+        @include media-breakpoint-down(lg) {
+            background:
+                linear-gradient(to bottom,
+                    color-mix(in srgb, var(--o-cc-bg) 38%, transparent) 0%,
+                    color-mix(in srgb, var(--o-cc-bg) 90%, transparent) 22%,
+                    color-mix(in srgb, var(--o-cc-bg) 92%, transparent) 100%);
+        }
+    }
+
+    .o_prefab_hero > .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    // The WCAG 2.2.2 pause control, created by the script. Without these rules it lands at the
+    // top of the hero, over the heading.
+    .o_prefab_hero_pause {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        border: 1px solid color-mix(in srgb, var(--color) 55%, transparent);
+        border-radius: $btn-border-radius;
+        background: color-mix(in srgb, var(--o-cc-bg) 55%, transparent);
+        cursor: pointer;
+    }
+
+    // The entrance -- ONCE PER VISIT, so 720 ms is allowed and the lines may follow one another.
+    // The stylesheet hides nothing until the script has set `o_prefab_hero_ready`, and the
+    // script only sets it once it knows it can finish. Without JavaScript, or with reduced
+    // motion, the hero is simply there.
+    &.o_prefab_hero_ready .o_prefab_hero_copy > *,
+    &.o_prefab_hero_ready .o_prefab_hero_badge_col {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity var(--prefab-dur-hero) var(--prefab-ease-enter),
+                    transform var(--prefab-dur-hero) var(--prefab-ease-enter);
+    }
+
+    &.o_prefab_hero_ready .o_prefab_hero_entered {
+        .o_prefab_hero_copy > *,
+        .o_prefab_hero_badge_col {
+            opacity: 1;
+            transform: none;
+        }
+
+        .o_prefab_hero_copy > *:nth-child(2) { transition-delay: var(--prefab-stagger); }
+        .o_prefab_hero_copy > *:nth-child(3) { transition-delay: calc(2 * var(--prefab-stagger)); }
+        .o_prefab_hero_copy > *:nth-child(4) { transition-delay: calc(3 * var(--prefab-stagger)); }
+        .o_prefab_hero_badge_col { transition-delay: calc(2 * var(--prefab-stagger)); }
+    }
+
+    // -- WAVE 5 -- the page-title band becomes a real s_title with a Color Filter --
+    // The band eleven of the fourteen pages open with. The photograph is 2560x250 and almost
+    // entirely mid-tone, so text on it drops below 3:1 in places; the veil makes the contrast a
+    // property of the CSS instead of of whichever piece of photograph the text lands on. It is
+    // mixed from the section's OWN background, so it darkens a dark combination and lightens a
+    // light one -- it cannot invert into a contrast failure the way a typed rgba() could. At
+    // 90 px the band was a bar with a word in it and no photograph visible: weight, no function.
+    .o_prefab_page_title {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        min-height: clamp(176px, calc(9rem + 6vw), 232px);
+        background-size: cover;
+        background-position: center 40%;
+        overflow: hidden;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                color-mix(in srgb, var(--o-cc-bg) 88%, transparent) 0%,
+                color-mix(in srgb, var(--o-cc-bg) 55%, transparent) 46%,
+                color-mix(in srgb, var(--o-cc-bg) 28%, transparent) 100%);
+        }
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    // -- WAVE 5 -- the steps become native s_process_steps options ------
+    // The connector SVGs MUST stay in the DOM. The saas~19.4 builder plugin walks every visible
+    // .s_process_step but the last in reloadConnectors, looks for .s_process_step_connector and
+    // writes style.left on it WITHOUT a null check. Removing them leaves the public page intact
+    // and takes the BUILDER down on hover or on a height change -- and an HTTP check sees none
+    // of that. So they stay, hidden. The head puts the number and the icon on one line with the
+    // text left-aligned underneath; two brand marks stacked both said "this is step two".
+    .o_prefab_steps {
+        .s_process_step_connector { display: none !important; }
+
+        .s_process_step_content { text-align: left; }
+
+        .o_prefab_step_head {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .o_prefab_step_icon {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+        }
+    }
+
+    // -- WAVE 6 -- the gallery becomes a native s_image_gallery ---------
+    // A fixed ratio and `object-fit: cover`. Without those two the page jumps while it loads:
+    // the 36 photographs are landscape AND portrait, and a grid that changes height per row is
+    // precisely the layout shift the audit measures. The hover is REPEATED -- 36 photographs,
+    // dozens of them pointed at -- so 300 ms, transform only, and the crop stays put because
+    // the wrapper clips.
+    .o_prefab_shot {
+        position: relative;
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        // The photograph IS the link, and a line under a photograph is a line under nothing.
+        text-decoration: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            transition: transform var(--prefab-dur-hover) var(--prefab-ease-ui);
+        }
+
+        &:hover img,
+        &:focus-visible img { transform: scale(1.04); }
+
+        // The ring comes from the general rule above, but it has to fall OUTSIDE the clipped
+        // corner or it disappears half under the photograph.
+        &:focus-visible { outline-offset: 3px; }
+    }
+
+    // The town, and only where the source names one. Nineteen of the photographs carry nothing
+    // here and then nothing is drawn. It needs its own plane: white lettering straight onto a
+    // photograph is a contrast failure waiting for the wrong crop.
+    .o_prefab_shot_place {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        max-width: 100%;
+        padding: .25rem .6rem;
+        background: var(--o-color-5);
+        color: var(--o-color-4);
+    }
+
+    // -- WAVE 6 -- the lightbox becomes native o_image_popup ------------
+    // The block sits in the HTML with `hidden` and the script removes the attribute. The
+    // `display: none !important` is there because the `display: flex` beside it outranks the
+    // browser default of that attribute -- without it the lightbox stands open on every page for
+    // anyone without JavaScript.
+    .o_prefab_lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: $zindex-modal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3.5rem 1rem;
+
+        &[hidden] { display: none !important; }
+    }
+
+    // The page underneath must not scroll while it is open. The class is only ever set by the
+    // script, so without JavaScript this state does not exist.
+    &.o_prefab_lightbox_open { overflow: hidden; }
+
+    .o_prefab_lightbox_backdrop {
+        position: absolute;
+        inset: 0;
+        background: color-mix(in srgb, var(--o-color-5) 92%, transparent);
+    }
+
+    .o_prefab_lightbox_frame {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        // calc() around it: Sass has its OWN min() and evaluates it itself, and it cannot compare
+        // px with % -- that dropped the whole web.assets_frontend bundle, for every website on
+        // this instance. Inside calc() it survives to the browser. Same rule as for clamp().
+        max-width: calc(min(1100px, 100%));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .o_prefab_lightbox_image {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        // 100vh less the padding above and below, less the room the caption needs.
+        max-height: calc(100vh - 12rem);
+        object-fit: contain;
+    }
+
+    .o_prefab_lightbox_caption {
+        color: var(--o-color-4);
+        text-align: center;
+        max-width: 60ch;
+
+        > span {
+            display: block;
+
+            &:empty { display: none; }
+        }
+
+        .o_prefab_lightbox_counter { font-variant-numeric: tabular-nums; }
+    }
+
+    .o_prefab_lightbox_button {
+        position: absolute;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        border: 1px solid color-mix(in srgb, var(--o-color-4) 35%, transparent);
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--o-color-5) 75%, transparent);
+        color: var(--o-color-4);
+        line-height: 1;
+        transition: background-color var(--prefab-dur-hover) var(--prefab-ease-ui);
+
+        &:hover { background: var(--o-color-1); }
+
+        // The ring is the light one here, because the ground is nearly black.
+        &:focus-visible { outline-color: var(--o-color-4); }
+    }
+
+    .o_prefab_lightbox_close { top: .75rem; right: .75rem; }
+    .o_prefab_lightbox_prev { left: .75rem; top: 50%; transform: translateY(-50%); }
+    .o_prefab_lightbox_next { right: .75rem; top: 50%; transform: translateY(-50%); }
+
+    // On a phone two 48 px buttons do not fit beside the photograph. They move to the bottom,
+    // side by side, where a thumb reaches them, instead of lying over the image.
+    @include media-breakpoint-down(md) {
+        .o_prefab_lightbox { padding: 3.5rem .5rem 5.5rem; }
+
+        .o_prefab_lightbox_prev,
+        .o_prefab_lightbox_next {
+            top: auto;
+            bottom: 1rem;
+            transform: none;
+        }
+
+        .o_prefab_lightbox_prev { left: 25%; }
+        .o_prefab_lightbox_next { right: 25%; }
+    }
+
+    // ------------------------------------------------------------------
+    // Reduced motion
+    // ------------------------------------------------------------------
+    // The customer wants the animations and they stay. Someone who has asked their operating
+    // system for less movement is a different question, and the answer is not "no animation"
+    // but "no animation that shifts the page under them". The arrow still arrives -- it is the
+    // affordance, not the decoration -- it just stops sliding in; the 1 px press stays, because
+    // one pixel over 120 ms is feedback rather than motion.
+    @media (prefers-reduced-motion: reduce) {
+        // The script does not switch the hero entrance on under reduced motion; this is the
+        // second closure, for the visitor who turns the preference on while the page is already
+        // open -- that changes the media query but not the class on <body>.
+        &.o_prefab_hero_ready .o_prefab_hero_copy > *,
+        &.o_prefab_hero_ready .o_prefab_hero_badge_col {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+
+        .btn-primary::after,
+        .btn-secondary::after { transition: none; }
+
+        .o_prefab_shot:hover img,
+        .o_prefab_shot:focus-visible img,
+        .s_prefab_hotspot_pin:hover,
+        .s_prefab_hotspot_pin:focus-visible,
+        .o_prefab_whatsapp:hover,
+        .o_prefab_whatsapp:focus {
+            transform: none;
+            transition: none;
+        }
+    }
+}

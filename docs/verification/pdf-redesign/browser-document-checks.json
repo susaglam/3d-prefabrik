@@ -47,7 +47,156 @@
       "passed": true
     },
     {
-      "name": "SQLite proves three immutable snapshots and no duplicate row after retry",
+      "name": "Missing plan, front or side drawing blocks submission; retry recaptures successfully without losing contact data",
+      "passed": true
+    },
+    {
+      "name": "Captured proposal images contain no omgeving by default, fill the frame at every catalogue size, and the admin setting brings the omgeving back",
+      "passed": true,
+      "defaultOff": {
+        "620 × 320 cm": {
+          "perspective-left": {
+            "green": 0,
+            "span": 1,
+            "subject": 75.78,
+            "topMean": 222.7,
+            "share": {
+              "studio": 22.98,
+              "kamer": 3.84,
+              "aanbouw": 54.36,
+              "terras": 18.82
+            }
+          },
+          "perspective-right": {
+            "green": 0,
+            "span": 0.994,
+            "subject": 73.5,
+            "topMean": 227.6,
+            "share": {
+              "studio": 23.37,
+              "aanbouw": 53.97,
+              "kamer": 3.84,
+              "terras": 18.82
+            }
+          },
+          "interior": {
+            "green": 0,
+            "span": 1,
+            "subject": 40.98,
+            "topMean": 233.6,
+            "share": {
+              "studio": 19.34,
+              "kamer": 4.36,
+              "aanbouw": 62.76,
+              "terras": 13.54
+            }
+          }
+        },
+        "150 × 100 cm": {
+          "perspective-left": {
+            "green": 0,
+            "span": 0.983,
+            "subject": 38.01,
+            "topMean": 226.4,
+            "share": {
+              "studio": 46.16,
+              "kamer": 8.92,
+              "aanbouw": 38.22,
+              "terras": 6.71
+            }
+          },
+          "perspective-right": {
+            "green": 0,
+            "span": 0.983,
+            "subject": 37.15,
+            "topMean": 228.1,
+            "share": {
+              "studio": 46.55,
+              "aanbouw": 37.83,
+              "kamer": 8.92,
+              "terras": 6.71
+            }
+          },
+          "interior": {
+            "green": 0,
+            "span": 1,
+            "subject": 31.12,
+            "topMean": 235.7,
+            "share": {
+              "studio": 46.55,
+              "kamer": 1.69,
+              "aanbouw": 50.33,
+              "terras": 1.43
+            }
+          }
+        },
+        "750 × 340 cm": {
+          "perspective-left": {
+            "green": 0,
+            "span": 1,
+            "subject": 80.04,
+            "topMean": 224.9,
+            "share": {
+              "studio": 28.39,
+              "kamer": 4.56,
+              "aanbouw": 48.24,
+              "terras": 18.82
+            }
+          },
+          "perspective-right": {
+            "green": 0,
+            "span": 1,
+            "subject": 77.1,
+            "topMean": 228.5,
+            "share": {
+              "studio": 28.65,
+              "aanbouw": 47.98,
+              "kamer": 4.56,
+              "terras": 18.82
+            }
+          },
+          "interior": {
+            "green": 0,
+            "span": 0.998,
+            "subject": 42.56,
+            "topMean": 233.3,
+            "share": {
+              "studio": 20.57,
+              "kamer": 6.45,
+              "aanbouw": 58.4,
+              "terras": 14.58
+            }
+          }
+        }
+      },
+      "withSurroundings": {
+        "perspective-left": {
+          "green": 0.012,
+          "span": 1,
+          "subject": 100,
+          "topMean": 98.7
+        },
+        "perspective-right": {
+          "green": 0.097,
+          "span": 1,
+          "subject": 99.71,
+          "topMean": 101.1
+        },
+        "interior": {
+          "green": 0.449,
+          "span": 1,
+          "subject": 98.96,
+          "topMean": 108.7
+        }
+      },
+      "changedPixelsPct": {
+        "perspective-left": 38.26,
+        "perspective-right": 38.44,
+        "interior": 48.92
+      }
+    },
+    {
+      "name": "SQLite proves immutable snapshots and no duplicate row after retry",
       "passed": true,
       "saved": [
         {
@@ -61,6 +210,10 @@
         {
           "width": 620,
           "views": 3
+        },
+        {
+          "width": 620,
+          "views": 6
         }
       ]
     }

@@ -1,0 +1,35 @@
+id,name,model_id,group_id/id,operation,domain
+access_prefab_appearance_manager,Prefab appearance manager,cs.prefab.appearance,sales_team.group_sale_manager,crud,
+rule_prefab_appearance_company,Prefab appearance allowed companies,cs.prefab.appearance,,crud,"[('company_id', 'in', company_ids)]"
+access_prefab_quote_sales,Prefab requests sales,cs.prefab.quote,sales_team.group_sale_salesman,ru,
+access_prefab_quote_manager,Prefab requests manager,cs.prefab.quote,sales_team.group_sale_manager,rud,
+access_prefab_share_manager,Prefab shares manager,cs.prefab.share,sales_team.group_sale_manager,rd,
+rule_prefab_quote_company,Prefab requests allowed companies,cs.prefab.quote,,crud,"[('company_id', 'in', company_ids)]"
+rule_prefab_share_company,Prefab shares allowed companies,cs.prefab.share,,crud,"[('company_id', 'in', company_ids)]"
+access_prefab_catalog_manager,Prefab catalog manager,cs.prefab.catalog.release,sales_team.group_sale_manager,crud,
+access_prefab_catalog_sales,Prefab catalog sales,cs.prefab.catalog.release,sales_team.group_sale_salesman,r,
+access_prefab_option_manager,Prefab options manager,cs.prefab.catalog.option,sales_team.group_sale_manager,crud,
+access_prefab_option_sales,Prefab options sales,cs.prefab.catalog.option,sales_team.group_sale_salesman,r,
+access_prefab_component_manager,Prefab components manager,cs.prefab.catalog.component,sales_team.group_sale_manager,crud,
+access_prefab_component_sales,Prefab components sales,cs.prefab.catalog.component,sales_team.group_sale_salesman,r,
+rule_prefab_catalog_company,Prefab catalog allowed companies,cs.prefab.catalog.release,,crud,"[('company_id', 'in', company_ids)]"
+rule_prefab_option_company,Prefab options allowed companies,cs.prefab.catalog.option,,crud,"[('company_id', 'in', company_ids)]"
+rule_prefab_component_company,Prefab components allowed companies,cs.prefab.catalog.component,,crud,"[('company_id', 'in', company_ids)]"
+access_prefab_editor_manager,Prefab catalogue editor manager,cs.prefab.catalog.editor,sales_team.group_sale_manager,crud,
+access_prefab_editor_field_manager,Prefab catalogue field editor manager,cs.prefab.catalog.editor.field,sales_team.group_sale_manager,crud,
+access_prefab_editor_choice_manager,Prefab catalogue choice editor manager,cs.prefab.catalog.editor.choice,sales_team.group_sale_manager,crud,
+access_prefab_editor_number_manager,Prefab catalogue geometry editor manager,cs.prefab.catalog.editor.number,sales_team.group_sale_manager,crud,
+access_prefab_editor_text_manager,Prefab catalogue text editor manager,cs.prefab.catalog.editor.text,sales_team.group_sale_manager,crud,
+access_prefab_editor_price_manager,Prefab catalogue price editor manager,cs.prefab.catalog.editor.price,sales_team.group_sale_manager,crud,
+rule_prefab_editor_company,Prefab editor allowed companies,cs.prefab.catalog.editor,,crud,"[('company_id', 'in', company_ids)]"
+rule_prefab_editor_field_company,Prefab field editor allowed companies,cs.prefab.catalog.editor.field,,crud,"[('editor_id.company_id', 'in', company_ids)]"
+rule_prefab_editor_choice_company,Prefab choice editor allowed companies,cs.prefab.catalog.editor.choice,,crud,"[('field_id.editor_id.company_id', 'in', company_ids)]"
+rule_prefab_editor_number_company,Prefab geometry editor allowed companies,cs.prefab.catalog.editor.number,,crud,"[('editor_id.company_id', 'in', company_ids)]"
+rule_prefab_editor_text_company,Prefab text editor allowed companies,cs.prefab.catalog.editor.text,,crud,"[('editor_id.company_id', 'in', company_ids)]"
+rule_prefab_editor_price_company,Prefab price editor allowed companies,cs.prefab.catalog.editor.price,,crud,"[('editor_id.company_id', 'in', company_ids)]"
+access_prefab_quote_selection_sales,Prefab request choices sales,cs.prefab.quote.selection,sales_team.group_sale_salesman,r,
+access_prefab_quote_line_sales,Prefab request price lines sales,cs.prefab.quote.line,sales_team.group_sale_salesman,r,
+access_prefab_quote_visual_sales,Prefab request images sales,cs.prefab.quote.visual,sales_team.group_sale_salesman,r,
+rule_prefab_quote_selection_company,Prefab request choices allowed companies,cs.prefab.quote.selection,,crud,"[('company_id', 'in', company_ids)]"
+rule_prefab_quote_line_company,Prefab request price lines allowed companies,cs.prefab.quote.line,,crud,"[('company_id', 'in', company_ids)]"
+rule_prefab_quote_visual_company,Prefab request images allowed companies,cs.prefab.quote.visual,,crud,"[('company_id', 'in', company_ids)]"

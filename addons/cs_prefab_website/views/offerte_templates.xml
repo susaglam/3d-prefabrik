@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!--
+        The quote pages use the customer's own aanbouw configurator. The opbouw page
+        starts with the personal-advice route and identifies the separate aanbouw tool
+        explicitly, so the visitor never mistakes it for an opbouw configurator.
+
+        Structure of each page, and why it is split the way it is:
+
+          oe_structure  copy the customer owns and edits in the builder
+          t-call        the frame block — a mechanism, not content
+          oe_structure  copy again
+
+        The frame block is deliberately NOT inside an oe_structure. Everything the builder can
+        reach, it can also delete, and a "Ontwerp je aanbouw" page whose configurator was
+        dragged off the canvas by accident is a page that looks finished and converts nobody.
+        Everything around it stays editable, which is what the customer asked for; the one
+        thing that must not silently disappear is fixed and has one definition shared by both
+        pages.
+    -->
+    <template id="offerte_frame" name="Prefab Partner — configuratorvenster">
+        <div class="o_prefab_embed" data-name="Configurator">
+            <!--
+                Loaded per page rather than through web.assets_frontend: asset bundles are per
+                INSTANCE, so a bundle entry would be downloaded, parsed and executed on every
+                page of every website on this Odoo to be used on two of them. The stylesheet is
+                what makes the frame work; the script only raises its floor. Both are inside
+                this block so the builder cannot separate the frame from the two files it needs.
+
+                ?v= must match the version in cs_prefab_configurator/static/index.html. A
+                repository test asserts that it does, because a forgotten bump here is a stale
+                cached file and not an error anybody sees.
+            -->
+            <link rel="stylesheet" href="/cs_prefab_configurator/static/src/embed_host.css?v=2.15.2"/>
+            <!--
+                The way out of the frame. The configurator's "volledig scherm" button needs the
+                allow/allowfullscreen pair above to work at all, and this link is the answer for
+                anyone whose browser refuses the frame outright, or who would simply rather have
+                the configurator as a page of its own.
+            -->
+            <a class="o_prefab_embed_escape mb16" href="/prefab" target="_blank" rel="noopener">Open de configurator in een nieuw venster.</a>
+            <iframe src="/prefab/embed" title="Ontwerp je aanbouw — configurator" data-prefab-embed="1" loading="lazy" allow="fullscreen" allowfullscreen="allowfullscreen">
+            </iframe>
+            <script type="module" src="/cs_prefab_configurator/static/src/embed_host.js?v=2.15.2"></script>
+        </div>
+    </template>
+    <!--
+        /offerte — the page every "Ontwerp je aanbouw" button on the site points at.
+    -->
+    <template id="offerte_page" name="Ontwerp je aanbouw">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_page_wrap" tabindex="-1">
+                <div class="oe_structure" id="oe_structure_prefab_offerte_top">
+                    <section class="s_text_block o_prefab_quote_intro o_cc o_cc1 pt40 pb24" data-snippet="s_text_block" data-name="Tekst">
+                        <div class="container o_prefab_reading s_allow_columns">
+                            <h1>Ontwerp je aanbouw</h1>
+                            <p class="lead mt16">Stel eenvoudig jouw ideale aanbouw samen met onze configurator!</p>
+                            <p class="mt16">
+                                <strong>Geen bestelling en geen betaling.</strong> Je vraagt een voorstel aan, verder niets.</p>
+                        </div>
+                    </section>
+                </div>
+                <section class="s_text_block pb48" data-snippet="s_text_block" data-name="Configuratorsectie">
+                    <div class="container s_allow_columns">
+                        <t t-call="cs_prefab_website.offerte_frame"/>
+                    </div>
+                </section>
+                <div class="oe_structure" id="oe_structure_prefab_offerte_bottom">
+                    <!--
+                        What happens after you save. Every line is something the configurator
+                        actually does — the pdf, the local draft, the lead — plus the customer's
+                        own answer to "wat kost een prefab oplossing", verbatim from the FAQ on
+                        /contact/. Nothing here promises a response time nobody has committed to.
+                    -->
+                    <section class="s_text_block o_prefab_warm_section o_cc o_cc2 pt48 pb64" data-snippet="s_text_block" data-name="Na het opslaan">
+                        <div class="container o_prefab_reading s_allow_columns">
+                            <h2>Wat er daarna gebeurt</h2>
+                            <ul class="mt24">
+                                <li>Je voorstel staat meteen klaar als pdf, met je keuzes, de maatvoering en de berekening erin.</li>
+                                <li>Je ontwerp blijft op dit apparaat bewaard, dus je kunt het later rustig aanpassen of met iemand delen.</li>
+                                <li>Je aanvraag komt bij ons binnen en we nemen contact met je op om hem samen door te nemen.</li>
+                            </ul>
+                            <p class="mt24">Elke woning en wens is uniek. Daarom werken wij met maatwerkoffertes. Vraag gerust een vrijblijvende offerte aan voor een passende prijsindicatie.</p>
+                            <p class="mt24 mb0">
+                                <a class="btn btn-secondary" href="/contact">Bespreek je aanbouw</a>
+                            </p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!--
+        /offerte-prefab-opbouw — the second offerte address, and the more delicate of the two.
+
+        The old page asked eighteen questions about an opbouw, none of them required, and mailed
+        the answers. The configurator designs an AANBOUW, so putting it under this page's own
+        headline without saying so would be the kind of half-truth a visitor discovers three
+        steps in. The customer's own sentence about opbouw — verbatim from /oplossingen/ — goes
+        first and names the real route for an opbouw, and the configurator follows it with its
+        own heading, which says plainly what it does.
+    -->
+    <template id="offerte_opbouw_page" name="Offerte voor prefab opbouw">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_page_wrap" tabindex="-1">
+                <div class="oe_structure" id="oe_structure_prefab_offerte_opbouw_top">
+                    <section class="s_text_block o_prefab_quote_intro o_cc o_cc1 pt40 pb24" data-snippet="s_text_block" data-name="Tekst">
+                        <div class="container o_prefab_reading s_allow_columns">
+                            <h1>Offerte voor je prefab opbouw</h1>
+                            <p class="lead mt16">Voor opbouwen en dakkapellen bieden wij maatwerk. Neem contact met ons op voor een vrijblijvend adviesgesprek over de beste oplossing voor jouw woning.</p>
+                            <p class="mt16">
+                                <a class="btn btn-primary" href="/contact">Bespreek je opbouw</a>
+                            </p>
+                        </div>
+                    </section>
+                    <section class="s_text_block o_prefab_warm_section o_cc o_cc1 pt32 pb24" data-snippet="s_text_block" data-name="Configurator-introductie">
+                        <div class="container o_prefab_reading s_allow_columns">
+                            <h2>Denk je aan een aanbouw?</h2>
+                            <p class="mt16">Stel eenvoudig jouw ideale aanbouw samen met onze configurator!</p>
+                        </div>
+                    </section>
+                </div>
+                <section class="s_text_block pb48" data-snippet="s_text_block" data-name="Configuratorsectie">
+                    <div class="container s_allow_columns">
+                        <t t-call="cs_prefab_website.offerte_frame"/>
+                    </div>
+                </section>
+                <div class="oe_structure" id="oe_structure_prefab_offerte_opbouw_bottom">
+                    <!--
+                        Sectie 2 van de live /offerte-prefab-opbouw/, woord voor woord.
+
+                        Deze band stond op de oude pagina ONDER het formulier en is de enige
+                        plek op de site waar de klant vertelt waarom je voor een prefab opbouw
+                        zou kiezen in de eigen bewoordingen "Snelheid", "Kwaliteit", "Op maat
+                        gemaakt" en "Eén vast bedrag". Het formulier is vervangen, deze tekst
+                        niet: hij hoort bij de pagina en niet bij het formulier.
+
+                        De kop en de drie punten staan ook op /oplossingen/prefab-opbouw — op
+                        de live site óók, op allebei de pagina's. Dat is dus geen dubbeling
+                        die hier is ontstaan.
+                    -->
+                    <section class="s_text_image o_prefab_warm_section o_cc o_cc2 pt64 pb64" data-snippet="s_image_text" data-name="Waarom een prefab opbouw">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 pb24 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_bouw_prefab_referentie_webp_b7f51a4a/700x525/bouw-prefab-referentie.webp" class="img img-fluid rounded" loading="lazy" decoding="async" alt="Twee stalen portalen staan op de verdiepingsvloer, de dakelementen liggen klaar."/>
+                                </div>
+                                <div class="col-lg-6 pb24 o_prefab_reading o_colored_level">
+                                    <h2>Waarom kiezen voor een prefab opbouw?</h2>
+                                    <ul class="o_prefab_checklist list-unstyled mt24">
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Minimale bouwtijd en overlast.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Hoogwaardige isolatie en energiezuinige materialen.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Volledig afgestemd op jouw woning.</span>
+                                        </li>
+                                    </ul>
+                                    <p class="mt24">
+                                        <strong>Snelheid:</strong> Door onze prefab techniek kunnen wij snel aan de slag, waardoor je minder lange wachttijden hebt.</p>
+                                    <p>
+                                        <strong>Kwaliteit:</strong> Wij leveren alleen de hoogste kwaliteit prefab opbouwen.</p>
+                                    <p>
+                                        <strong>Op maat gemaakt:</strong> We luisteren naar jouw wensen en zorgen ervoor dat de opbouw perfect aansluit bij jouw behoeften en de uitstraling van je woning.</p>
+                                    <p class="mb-0">
+                                        <strong>Eén vast bedrag:</strong> We bieden transparantie in prijs en zorgen ervoor dat je precies weet waar je aan toe bent, zonder verrassingen.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!--
+        The page records. noupdate="1" for the same reason the website record is: the address,
+        the name and whether the page is published are the customer's to change, and an upgrade
+        that silently put them back would be a change nobody could trace.
+
+        The views above stay updatable. That split is how Odoo itself works: until somebody opens
+        a page in the builder the module's template is what renders, and from the first edit on
+        Odoo serves a website-owned copy and the module's updates stop reaching it (copy-on-write,
+        design-spec §9.6). So a release can still improve a page nobody has touched, and can never
+        overwrite a page somebody has.
+    -->
+    <data noupdate="1">
+        <record id="page_offerte" model="website.page">
+            <field name="name">Ontwerp je aanbouw</field>
+            <field name="url">/offerte</field>
+            <field name="view_id" ref="offerte_page"/>
+            <field name="is_published" eval="True"/>
+            <!--
+                The live page's title tag reads "Configureer uw aanbouw". The whole site
+                tutoyeert; this one string does not, and it is the version Google shows
+                (site-audit §40, defect 40). Fixed with the customer's own label for the page
+                rather than with a new sentence.
+            -->
+            <field name="website_meta_title">Ontwerp je aanbouw - Prefab Partner</field>
+            <!--
+                De zin van de klant zelf, met erachter wat de bezoeker in het zoekresultaat
+                nodig heeft om te besluiten of hij klikt. Op de live site is deze omschrijving
+                achttien tekens lang ("Ontwerp je aanbouw"), en dan verzint Google zelf een
+                fragment.
+            -->
+            <field name="website_meta_description">Stel eenvoudig jouw ideale aanbouw samen met onze configurator. Kies afmetingen, materialen en kozijnen, en zie meteen wat je ontwerp kost.</field>
+            <!--
+                De deelafbeelding. Zonder dit veld valt Odoo terug op
+                website.social_default_image, en dat veld wordt door dit module niet gevuld —
+                dan deelt uitgerekend de pagina die het vaakst in een appje wordt geplakt een
+                grijze plaatshouder. Dat is defect 25 uit site-audit.md, en het is de reden dat
+                de andere tien adressen dit veld wél dragen.
+
+                ontwerp-aanbouw.jpg is 720 × 720 en wordt nergens anders als deelafbeelding
+                gebruikt; de afmeting in het adres is de eigen afmeting van het bestand, zodat
+                /web/image niets hoeft op te schalen.
+            -->
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_ontwerp_aanbouw_jpg_1cd10519/720x720/ontwerp-aanbouw.jpg</field>
+        </record>
+        <record id="page_offerte_opbouw" model="website.page">
+            <field name="name">Offerte voor prefab opbouw</field>
+            <field name="url">/offerte-prefab-opbouw</field>
+            <field name="view_id" ref="offerte_opbouw_page"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Offerte voor prefab opbouw - Prefab Partner</field>
+            <field name="website_meta_description">Vraag een offerte aan voor je prefab opbouw. Voor opbouwen en dakkapellen werken wij met maatwerk; een aanbouw stel je zelf samen in de configurator.</field>
+            <!-- Zie de toelichting hierboven. Een opbouwfoto, en geen enkele andere pagina
+                 gebruikt hem als deelafbeelding. -->
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_opbouw_prefab_denhaag_1_jpg_145c1d60/600x350/opbouw-prefab-denhaag-1.jpg</field>
+        </record>
+    </data>
+</odoo>

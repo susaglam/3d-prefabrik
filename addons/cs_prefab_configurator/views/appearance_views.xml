@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_prefab_appearance_list" model="ir.ui.view">
+    <field name="name">cs.prefab.appearance.list</field><field name="model">cs.prefab.appearance</field>
+    <field name="arch" type="xml"><list><field name="website_id"/><field name="company_id" groups="base.group_multi_company"/><field name="mode"/><field name="logo_source"/><field name="scene_note"/><field name="document_surroundings" optional="show"/><field name="compare_enabled" optional="hide"/></list></field>
+  </record>
+  <record id="view_prefab_appearance_form" model="ir.ui.view">
+    <field name="name">cs.prefab.appearance.form</field><field name="model">cs.prefab.appearance</field>
+    <field name="arch" type="xml"><form><sheet>
+      <h1>Vormgeving en voorbeelden</h1>
+      <group><field name="website_id" options="{'no_create': True}" domain="[('company_id', 'in', context.get('allowed_company_ids', []))]"/><field name="company_id" groups="base.group_multi_company"/><field name="mode" widget="radio"/></group>
+      <div class="alert alert-info" role="status" invisible="mode != 'odoo'">Kleuren en lettertypen komen uit het actieve Odoo website-thema, inclusief aangepaste websitekleuren en lokaal opgeslagen webfonts. Wijzig het thema met de Odoo website-editor. Slecht leesbare tekstkleuren worden automatisch aangepast voor voldoende contrast.</div>
+      <p invisible="mode != 'brand'">De bestaande Prefab Partner vormgeving blijft actief. Kies eigen kleuren en lettertypen om deze te wijzigen.</p>
+      <group string="Kleuren" invisible="mode != 'custom'"><group>
+        <field name="color_action" widget="color"/><field name="color_on_action" widget="color"/><field name="color_text" widget="color"/><field name="color_heading" widget="color"/><field name="color_muted" widget="color"/>
+      </group><group><field name="color_surface" widget="color"/><field name="color_background" widget="color"/><field name="color_border" widget="color"/><field name="color_error" widget="color"/></group></group>
+      <p invisible="mode != 'custom'">Gebruik hexkleuren, bijvoorbeeld #294e40. Tekst en knoptekst vereisen minimaal 4,5:1 contrast; onleesbare combinaties kunnen niet worden opgeslagen.</p>
+      <group string="Typografie" invisible="mode != 'custom'"><field name="body_font"/><field name="heading_font"/><field name="font_size"/></group>
+      <!-- The logo is independent of the colour mode: it lives in the proposal PDF, not in the form. -->
+      <group string="Logo in het voorstel"><group>
+        <field name="logo_source" widget="radio"/>
+        <field name="logo_filename" invisible="1"/>
+        <field name="logo_image" widget="binary" filename="logo_filename" invisible="logo_source != 'upload'" required="logo_source == 'upload'"/>
+        <field name="logo_note" readonly="1"/>
+      </group><group>
+        <field name="logo_preview" widget="image" options="{'size': [220, 70]}" readonly="1" invisible="logo_source == 'wordmark'"/>
+      </group></group>
+      <p invisible="logo_source != 'upload'">PNG of JPEG, maximaal 512 kB en 1600 px per zijde (1,2 miljoen pixels in totaal). Een PNG met transparante achtergrond van ongeveer 600 px breed geeft het beste resultaat; de transparantie wordt op het witte papier van het voorstel gelegd. De verhouding blijft altijd behouden. SVG kan niet worden ingesloten — exporteer dat bestand eerst als PNG.</p>
+      <p invisible="logo_source != 'odoo'">Het logo komt uit Instellingen → Bedrijven → Logo, hetzelfde logo dat Odoo op facturen en offertes zet. Wijzig je het daar, dan verandert het voorstel mee. Is dat logo te groot voor een voorstelkop, dan gebruikt het voorstel automatisch de verkleinde versie die Odoo zelf al bewaart.</p>
+      <!-- What the proposal itself shows. It sits under the logo because both decide how the PDF looks,
+           and deliberately NOT under "Voorbeelden in het beeld": that section is about the beeld the
+           visitor configures in, this one is about the document that leaves the building. -->
+      <group string="Beelden in het voorstel"><field name="document_surroundings"/>
+        <field name="document_slab" invisible="document_surroundings"/>
+        <field name="document_terrace" invisible="document_surroundings"/>
+        <field name="document_house_room" invisible="document_surroundings"/>
+        <field name="document_note" readonly="1"/></group>
+      <p>De drie ruimtelijke beelden van het voorstel — dezelfde beelden die bij de aanvraag staan en in de PDF worden afgedrukt — tonen standaard alleen de aanbouw met het terras waarop hij staat. Wat erop gemonteerd wordt blijft staan: de wandlampen, de stopcontacten, de buitenkraan, de spots en de radiator. De bestaande woning, de buurhuizen, het gras, de schutting, de tuinset en de voorbeeldinrichting blijven eruit, want die worden niet geleverd.</p>
+      <p>Zet je 'Omgeving in de voorstelbeelden' aan, dan staat de aanbouw op die beelden weer in de voorbeeldtuin. Het beeld waarin de bezoeker zijn aanbouw samenstelt verandert hier nooit van; dat houdt zijn eigen knoppen. En aanvragen die al binnen zijn houden de beelden waarmee ze zijn verstuurd — die worden bij het versturen vastgelegd en nooit opnieuw getekend, dus een oud voorstel blijft er precies zo uitzien als de klant het heeft ontvangen.</p>
+      <group string="Functies"><field name="compare_enabled"/><field name="render_quality"/>
+        <field name="exit_url" placeholder="/ of https://www.voorbeeld.nl/"/></group>
+      <!-- Scene content, kept visibly apart from the colours and fonts above: this section decides
+           WHAT the 3D beeld shows, not how the form looks. -->
+      <group string="Voorbeelden in het beeld">
+        <group><field name="scene_fixtures"/><field name="scene_garden"/><field name="garden_fence"/><field name="garden_fence_style" invisible="not garden_fence"/><field name="camera_free_orbit"/><field name="interior_furniture"/><field name="scene_neighbours"/></group>
+        <group><field name="scene_interior"/><field name="scene_house_openings"/><field name="scene_note" readonly="1"/></group>
+      </group>
+      <p>Hieronder staat alles wat we ter illustratie in het beeld zetten: het helpt de bezoeker zich het resultaat voor te stellen, maar het wordt niet geleverd en het staat in geen enkele prijs.</p>
+      <ul>
+        <li><strong>Tonen</strong> — het voorbeeld staat in het beeld. Heeft het een eigen knop bij het beeld, dan kan de bezoeker het zelf uitzetten.</li>
+        <li><strong>Standaard uit</strong> — de knop blijft staan, maar het beeld begint zonder dit voorbeeld.</li>
+        <li><strong>Uitgeschakeld</strong> — het voorbeeld wordt niet meer getekend en de knop ervoor verdwijnt, zodat er geen knop overblijft die niets doet.</li>
+      </ul>
+      <p>Een bezoeker die zijn keuze al had gemaakt, houdt die keuze: heeft hij de tuinaankleding zelf aangezet, dan blijft die aan totdat je hier 'Uitgeschakeld' kiest. Kies je later opnieuw 'Tonen', dan komt zijn oude keuze gewoon terug — die wordt niet gewist. Bewaarde ontwerpen, prijzen en de leveringsomvang veranderen hier nooit van; alleen het beeld verandert.</p>
+      <p>Na opslaan geldt de vormgeving bij het opnieuw openen van de configurator. Keuzes, prijzen, cataloguspublicaties en bewaarde aanvragen blijven behouden.</p>
+    </sheet></form></field>
+  </record>
+  <record id="action_prefab_appearance" model="ir.actions.act_window"><field name="name">Vormgeving</field><field name="res_model">cs.prefab.appearance</field><field name="view_mode">list,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Stel de configurator in voor je eerste website</p>
+      <p>Hier bepaal je twee dingen per website: hoe het configuratieformulier eruitziet (kleuren, lettertypen en het logo op het voorstel) en welke voorbeelden er in het 3D-beeld staan — de voorbeeldapparaten, de tuinaankleding, de buurhuizen, de inrichting en de voorbeeldramen op de straatgevel.</p>
+      <p>Zolang hier niets staat, gebruikt elke website de meegeleverde Prefab Partner-vormgeving en worden alle voorbeelden getoond. Maak een regel aan voor de website die je wilt aanpassen.</p>
+    </field></record>
+  <menuitem id="menu_prefab_appearance" name="Vormgeving" parent="menu_prefab_root" action="action_prefab_appearance" sequence="30" groups="sales_team.group_sale_manager"/>
+  <!-- Only CSS is loaded. The parent reads computed theme tokens; no website JS
+       or Bootstrap rules are introduced into the configurator document. -->
+  <template id="theme_probe" name="Prefab website theme tokens">
+    <html lang="nl"><head><meta charset="utf-8"/><meta name="robots" content="noindex,nofollow"/>
+      <t t-call-assets="web.assets_frontend" t-js="false"/>
+      <link rel="stylesheet" href="/cs_prefab_configurator/static/vendor/native-fonts.css?v=2.4.0"/>
+    </head><body><div id="wrapwrap"><main><div id="wrap" class="oe_structure">
+      <section class="o_cc o_cc1" id="prefab-theme-surface"><p id="prefab-theme-text">Tekst</p><h2 id="prefab-theme-heading">Titel</h2>
+        <span id="prefab-theme-muted" class="text-muted">Toelichting</span><button id="prefab-theme-action" class="btn btn-primary">Actie</button>
+        <div id="prefab-theme-border" class="border">Lijn</div><div id="prefab-theme-soft" class="bg-light">Achtergrond</div>
+        <span id="prefab-theme-error" class="text-danger">Fout</span>
+      </section>
+    </div></main></div></body></html>
+  </template>
+</odoo>

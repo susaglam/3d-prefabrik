@@ -15,16 +15,28 @@
   <template id="report_prefab_money">
     <span class="cs-money">€ <t t-out="'{:,.2f}'.format(amount / 100).replace(',', '~').replace('.', ',').replace('~', '.')"/></span>
   </template>
+  <!-- One brand mark for both proposal renderers: the same resolved logo the
+       hand-composed PDF embeds. Falls back to the built-in wordmark when the
+       vormgeving keeps it, or when the chosen logo is empty or unusable. -->
   <template id="report_prefab_masthead">
     <table class="cs-masthead"><tr><td>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 36 40" fill="none" style="vertical-align:middle;margin-right:7px"><path d="M3 32V12L18 3l15 9v20L18 39 3 32Z M18 3v36M3 12l15 9 15-9M3 22l15 9 15-9" stroke="#263d34" stroke-width="1.6"/></svg>
-      <strong>CS</strong><span class="cs-brand-light">prefab</span><div class="cs-tagline">RUIMTE OM TE LEVEN</div>
+      <img t-if="logo" class="cs-logo" t-att-src="logo['dataUrl']" t-att-alt="logo['alt']"/>
+      <t t-else="">
+        <strong t-if="brand_name" class="cs-brand-name" t-out="brand_name"/>
+        <t t-else=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 36 40" fill="none" style="vertical-align:middle;margin-right:7px"><path d="M3 32V12L18 3l15 9v20L18 39 3 32Z M18 3v36M3 12l15 9 15-9M3 22l15 9 15-9" stroke="#263d34" stroke-width="1.6"/></svg>
+        <strong>CS</strong><span class="cs-brand-light">prefab</span><div class="cs-tagline">RUIMTE OM TE LEVEN</div></t>
+      </t>
     </td><td class="cs-right cs-muted"><strong t-out="o.name"/><br/><span t-out="snapshot['createdAt'][:10]"/></td></tr></table>
   </template>
   <template id="report_prefab_quote">
     <t t-call="web.html_container"><t t-foreach="docs" t-as="o">
       <t t-set="snapshot" t-value="o.snapshot_json"/><t t-set="price" t-value="snapshot['price']"/>
+      <t t-set="commercial_price" t-value="price.get('priceMode') == 'commercial'"/>
+      <t t-set="price_status" t-value="price.get('priceStatusLabel') or ('Prijsindicatie op goedgekeurde tarieven' if commercial_price else 'Demonstratieprijzen — geen bindende offerte')"/>
       <t t-set="config" t-value="snapshot['config']"/><t t-set="contact" t-value="o.contact_json"/>
+      <!-- Resolved once and inherited by every t-call of the masthead. -->
+      <t t-set="logo" t-value="o._proposal_logo()"/>
+      <t t-set="pal" t-value="o._proposal_palette()['colors']"/><t t-set="brand_name" t-value="o._proposal_brand_name()"/>
       <t t-set="views" t-value="{view['id']: view for view in snapshot.get('visuals', {}).get('views', [])}"/>
       <t t-set="gallery" t-value="[key for key in ['perspective-right', 'interior'] if key in views]"/>
       <t t-set="technical" t-value="[key for key in ['plan', 'front', 'side'] if key in views]"/>
@@ -34,58 +46,59 @@
       <t t-set="other_labels" t-value="[line for line in snapshot['labels'] if line['key'] not in grouped_keys]"/>
       <div class="article cs-prefab" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id" t-att-data-oe-lang="o.env.context.get('lang')">
         <style>
-          .cs-prefab {font-family:'DejaVu Sans',sans-serif;font-size:9pt;line-height:1.38;color:#263d34}
+          .cs-prefab {font-family:'DejaVu Sans',sans-serif;font-size:9pt;line-height:1.38;color:<t t-out="pal['ink']"/>}
           .cs-prefab div.page {padding:0;page-break-after:always}
           .cs-prefab div.page:last-child {page-break-after:auto}
-          .cs-prefab h1 {font-size:31pt;line-height:1.1;letter-spacing:-1px;margin:2mm 0 4mm;color:#263d34}
-          .cs-prefab h2 {font-size:21pt;line-height:1.15;margin:2mm 0 3mm;color:#263d34}
-          .cs-prefab h3 {font-size:10.5pt;margin:0 0 3mm;color:#263d34;page-break-after:avoid}
+          .cs-prefab h1 {font-size:31pt;line-height:1.1;letter-spacing:-1px;margin:2mm 0 4mm;color:<t t-out="pal['ink']"/>}
+          .cs-prefab h2 {font-size:21pt;line-height:1.15;margin:2mm 0 3mm;color:<t t-out="pal['ink']"/>}
+          .cs-prefab h3 {font-size:10.5pt;margin:0 0 3mm;color:<t t-out="pal['ink']"/>;page-break-after:avoid}
           .cs-prefab p {margin:0 0 3mm}
           .cs-prefab table {width:100%;border-collapse:collapse}
           .cs-prefab table,.cs-prefab td,.cs-prefab th {border:0}
           .cs-prefab td,.cs-prefab th {vertical-align:top}
-          .cs-prefab .cs-masthead {margin:0 0 8mm;border-bottom:1px solid #d9ddd5}
+          .cs-prefab .cs-masthead {margin:0 0 8mm;border-bottom:1px solid <t t-out="pal['line']"/>}
           .cs-prefab .cs-masthead td {padding:0 0 4mm}
           .cs-prefab .cs-masthead strong,.cs-prefab .cs-brand-light {font-size:18pt;letter-spacing:-.6px}
           .cs-prefab .cs-masthead .cs-right strong {font-size:8pt;letter-spacing:0}
           .cs-prefab .cs-tagline {padding-left:33px;font-size:5.8pt;letter-spacing:1.7px}
+          .cs-prefab .cs-logo {max-height:13mm;max-width:56mm;width:auto;height:auto}
           .cs-prefab .cs-brand-light {font-weight:300}
           .cs-prefab .cs-right {text-align:right}
-          .cs-prefab .cs-muted {color:#626d59}
-          .cs-prefab .cs-eyebrow {font-size:7pt;font-weight:bold;letter-spacing:1.7px;color:#a36640;text-transform:uppercase}
-          .cs-prefab .cs-intro {color:#626d59;max-width:160mm;margin-bottom:5mm}
-          .cs-prefab .cs-figure {background:#f6f5f1;border:1px solid #e4e5df;margin:0 0 5mm;page-break-inside:avoid;text-align:center}
+          .cs-prefab .cs-muted {color:<t t-out="pal['muted']"/>}
+          .cs-prefab .cs-eyebrow {font-size:7pt;font-weight:bold;letter-spacing:1.7px;color:<t t-out="pal['accent']"/>;text-transform:uppercase}
+          .cs-prefab .cs-intro {color:<t t-out="pal['muted']"/>;max-width:160mm;margin-bottom:5mm}
+          .cs-prefab .cs-figure {background:<t t-out="pal['paper']"/>;border:1px solid <t t-out="pal['line']"/>;margin:0 0 5mm;page-break-inside:avoid;text-align:center}
           .cs-prefab .cs-figure img {display:block;margin:auto;width:100%;height:auto}
           .cs-prefab .cs-hero img {max-height:100mm;width:auto;max-width:100%}
           .cs-prefab .cs-gallery img {max-height:83mm;width:auto;max-width:100%}
           .cs-prefab .cs-plan img {max-height:105mm;width:auto;max-width:100%}
           .cs-prefab .cs-elevation img {width:100%;height:auto}
-          .cs-prefab .cs-caption {font-size:7.5pt;text-align:left;padding:2.5mm 3mm;border-top:1px solid #e4e5df}
-          .cs-prefab .cs-caption b {margin-right:3mm;color:#a36640;font-size:7pt}
-          .cs-prefab .cs-dimensions {background:#263d34;color:#fff;margin:0 0 6mm}
+          .cs-prefab .cs-caption {font-size:7.5pt;text-align:left;padding:2.5mm 3mm;border-top:1px solid <t t-out="pal['line']"/>}
+          .cs-prefab .cs-caption b {margin-right:3mm;color:<t t-out="pal['accent']"/>;font-size:7pt}
+          .cs-prefab .cs-dimensions {background:<t t-out="pal['ink']"/>;color:#fff;margin:0 0 6mm}
           .cs-prefab .cs-dimensions td {padding:3.5mm 4mm;width:33.33%;border-right:1px solid #587064}
           .cs-prefab .cs-dimensions small {display:block;font-size:6.5pt;color:#dce2d9;text-transform:uppercase;letter-spacing:1px}
           .cs-prefab .cs-dimensions strong {font-size:18pt;font-weight:normal}
           .cs-prefab .cs-contact {table-layout:fixed;margin-bottom:5mm}
           .cs-prefab .cs-contact td {width:50%;padding:0 5mm 0 0;overflow-wrap:anywhere;word-wrap:break-word}
-          .cs-prefab .cs-contact small {color:#626d59;display:block;margin-bottom:2mm}
-          .cs-prefab .cs-notice {border-left:2px solid #c27d50;background:#f6f5f1;padding:3mm 4mm;font-size:8pt;margin-bottom:5mm}
+          .cs-prefab .cs-contact small {color:<t t-out="pal['muted']"/>;display:block;margin-bottom:2mm}
+          .cs-prefab .cs-notice {border-left:2px solid <t t-out="pal['accent']"/>;background:<t t-out="pal['paper']"/>;padding:3mm 4mm;font-size:8pt;margin-bottom:5mm}
           .cs-prefab .cs-spec-group {margin-bottom:3.5mm;page-break-inside:avoid}
-          .cs-prefab .cs-spec-group thead th {background:#e9ece5;font-size:8pt;color:#263d34;padding:2mm 3mm;text-align:left}
-          .cs-prefab .cs-spec-group td {padding:1.5mm 3mm;border-bottom:1px solid #e8e9e3;font-size:8pt}
-          .cs-prefab .cs-spec-label {width:39%;color:#626d59}
+          .cs-prefab .cs-spec-group thead th {background:<t t-out="pal['line']"/>;font-size:8pt;color:<t t-out="pal['ink']"/>;padding:2mm 3mm;text-align:left}
+          .cs-prefab .cs-spec-group td {padding:1.5mm 3mm;border-bottom:1px solid <t t-out="pal['line']"/>;font-size:8pt}
+          .cs-prefab .cs-spec-label {width:39%;color:<t t-out="pal['muted']"/>}
           .cs-prefab .cs-prices {font-size:7.5pt;table-layout:fixed;margin-bottom:4mm}
           .cs-prefab .cs-prices thead {display:table-header-group}
-          .cs-prefab .cs-prices th {padding:2.5mm 2mm;background:#263d34;color:white;font-weight:normal}
-          .cs-prefab .cs-prices td {border-bottom:1px solid #e4e5df;padding:2mm}
+          .cs-prefab .cs-prices th {padding:2.5mm 2mm;background:<t t-out="pal['ink']"/>;color:white;font-weight:normal}
+          .cs-prefab .cs-prices td {border-bottom:1px solid <t t-out="pal['line']"/>;padding:2mm}
           .cs-prefab tr {page-break-inside:avoid}
           .cs-prefab .cs-money {white-space:nowrap}
           .cs-prefab .cs-summary {width:90mm;margin-left:auto;page-break-inside:avoid}
           .cs-prefab .cs-summary td {padding:2.5mm 3mm}
-          .cs-prefab .cs-total {background:#263d34;color:#fff;font-size:11pt;font-weight:bold}
-          .cs-prefab .cs-scope {padding:3mm 0;border-bottom:1px solid #e4e5df;page-break-inside:avoid}
-          .cs-prefab .cs-message {white-space:pre-wrap;overflow-wrap:anywhere;word-wrap:break-word;padding:4mm;background:#f6f5f1;font-size:8.5pt}
-          .cs-prefab .cs-fineprint {color:#626d59;font-size:7.5pt}
+          .cs-prefab .cs-total {background:<t t-out="pal['ink']"/>;color:#fff;font-size:11pt;font-weight:bold}
+          .cs-prefab .cs-scope {padding:3mm 0;border-bottom:1px solid <t t-out="pal['line']"/>;page-break-inside:avoid}
+          .cs-prefab .cs-message {white-space:pre-wrap;overflow-wrap:anywhere;word-wrap:break-word;padding:4mm;background:<t t-out="pal['paper']"/>;font-size:8.5pt}
+          .cs-prefab .cs-fineprint {color:<t t-out="pal['muted']"/>;font-size:7.5pt}
         </style>
         <div class="page">
           <t t-call="cs_prefab_configurator.report_prefab_masthead"/>
@@ -105,12 +118,13 @@
             <td><small>SAMENGESTELD VOOR</small><strong t-out="contact['name']"/><br/><span t-out="contact['email']"/><br/><span t-out="contact.get('phone', '')"/></td>
             <td><small>PROJECTADRES</small><strong><span t-out="contact['address']"/> <span t-out="contact['houseNumber']"/></strong><br/><span t-out="contact['postcode']"/> <span t-out="contact['city']"/></td>
           </tr></table>
-          <div class="cs-notice"><strong>Demonstratieprijzen — geen bindende offerte</strong><br/><span t-out="price['disclaimer']"/></div>
+          <div class="cs-notice"><strong t-out="price_status"/><br/><span t-out="price['disclaimer']"/></div>
         </div>
         <div t-if="gallery" class="page">
           <t t-call="cs_prefab_configurator.report_prefab_masthead"/>
           <div class="cs-eyebrow">Ruimte vanuit meerdere hoeken</div><h2>Jouw ontwerp in 3D</h2>
           <p class="cs-intro">Vaste aanzichten van dezelfde configuratie. De dakloze weergave maakt de binnenruimte zichtbaar.</p>
+          <p t-if="snapshot.get('snapshotVersion', 1) &gt;= 2" class="cs-notice">Contouren: voorbeeldapparaten, niet inbegrepen. Een inbegrepen product kan als indicatief model zijn afgebeeld. De leveringsomvang in dit dossier is leidend.</p>
           <div t-foreach="gallery" t-as="key" class="cs-figure cs-gallery">
             <img t-att-src="views[key]['dataUrl']" t-att-alt="views[key]['label']"/>
             <div class="cs-caption"><b t-out="'02 / 3D' if key == 'perspective-right' else '03 / 3D'"/><span t-out="views[key]['label']"/></div>
@@ -143,14 +157,14 @@
               <tr t-foreach="rows" t-as="line"><td class="cs-spec-label" t-out="line['label']"/><td t-out="line['value']"/></tr>
             </tbody></table>
           </t>
-          <table t-if="other_labels" class="cs-spec-group"><thead><tr><th colspan="2">Overige opgeslagen keuzes</th></tr></thead><tbody>
+          <table t-if="other_labels" class="cs-spec-group" style="page-break-inside:auto"><thead><tr><th colspan="2">Overige opgeslagen keuzes</th></tr></thead><tbody>
             <tr t-foreach="other_labels" t-as="line"><td class="cs-spec-label" t-out="line['label']"/><td t-out="line['value']"/></tr>
           </tbody></table>
         </div>
         <div class="page">
           <t t-call="cs_prefab_configurator.report_prefab_masthead"/>
           <div class="cs-eyebrow">Transparante prijsopbouw</div><h2>Indicatieve investering</h2>
-          <p class="cs-intro">Demonstratieprijzen. Regelbedragen en eenheidsprijzen zijn exclusief btw; het totaal inclusief btw staat hieronder.</p>
+          <p class="cs-intro"><span t-out="price_status if commercial_price or price.get('priceStatusLabel') else 'Demonstratieprijzen'"/>. Regelbedragen en eenheidsprijzen zijn exclusief btw; het totaal inclusief btw staat hieronder.</p>
           <table class="cs-prices"><thead><tr>
             <th style="width:46%;text-align:left">Omschrijving</th><th style="width:17%" class="cs-right">Aantal / eenheid</th>
             <th style="width:18%" class="cs-right">Eenheidsprijs</th><th style="width:19%" class="cs-right">Bedrag</th>
@@ -172,6 +186,8 @@
           <t t-call="cs_prefab_configurator.report_prefab_masthead"/>
           <div class="cs-eyebrow">Van ontwerp naar een goed plan</div><h2>Kaders en vervolgstappen</h2>
           <p class="cs-intro">Dit dossier vormt het vertrekpunt voor de bespreking en technische beoordeling van jouw aanbouw.</p>
+          <p t-if="commercial_price" class="cs-notice">Dit voorstel is een prijsindicatie, geen bindende offerte. De definitieve offerte volgt na opname en technische beoordeling.</p>
+          <t t-if="snapshot.get('scope')"><h3>Leveringsomvang</h3><table class="cs-spec-group" style="page-break-inside:auto"><thead><tr><th>Onderdeel</th><th>Voorbereiding, product, montage en aansluiting</th></tr></thead><tbody><tr t-foreach="snapshot['scope']" t-as="item"><td t-out="item['label']"/><td t-out="item['summary']"/></tr></tbody></table></t>
           <h3>Bij jouw configuratie</h3>
           <p t-foreach="price.get('warnings', [])" t-as="warning" class="cs-scope" t-out="warning if isinstance(warning, str) else warning.get('message', '')"/>
           <p t-if="not views" class="cs-scope">Bij deze aanvraag zijn geen ontwerpbeelden opgeslagen. Je kunt een nieuwe aanvraag indienen om de actuele 3D-aanzichten en technische tekeningen mee te sturen.</p>
@@ -181,8 +197,8 @@
           <p class="cs-fineprint" style="margin-top:6mm">Aanvraag <span t-out="o.name"/> · Opgeslagen <span t-out="snapshot['createdAt']"/> · Toestemming contact: <span t-out="snapshot.get('consent', {}).get('textVersion', 'quote-contact-v1')"/></p>
         </div>
       </div>
-      <div class="footer" style="font-family:'DejaVu Sans',sans-serif;font-size:7pt;color:#626d59;border-top:1px solid #d9ddd5;padding-top:3mm">
-        <table style="width:100%;border:0"><tr><td style="border:0">CS Prefab · <span t-out="o.name"/></td><td style="text-align:center;border:0">Schematisch ontwerp · Demonstratieprijzen</td><td style="text-align:right;border:0"><span class="page"/> / <span class="topage"/></td></tr></table>
+      <div class="footer" t-attf-style="font-family:'DejaVu Sans',sans-serif;font-size:7pt;color:{{pal['muted']}};border-top:1px solid {{pal['line']}};padding-top:3mm">
+        <table style="width:100%;border:0"><tr><td style="border:0"><t t-out="brand_name or 'CS Prefab'"/> · <span t-out="o.name"/></td><td style="text-align:center;border:0">Schematisch ontwerp · <span t-out="price_status if commercial_price or price.get('priceStatusLabel') else 'Demonstratieprijzen'"/></td><td style="text-align:right;border:0"><span class="page"/> / <span class="topage"/></td></tr></table>
       </div>
     </t></t>
   </template>

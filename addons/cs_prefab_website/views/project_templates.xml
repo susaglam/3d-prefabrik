@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <!--
+        /projecten — de galerij.
+
+        De klant heeft de projecten nooit als benoemde items op de site gezet; hij heeft er een
+        galerij van gemaakt en vroeg om een voorbeeldweergave. Deze pagina is dat: één raster met
+        de 36 foto's van de oude site, in de volgorde van de oude site, en een vergroting die met
+        de muis, met het toetsenbord en zonder JavaScript werkt.
+
+        Wat de oude pagina fout deed en hier niet meer gebeurt:
+
+        * 36 foto's op volle resolutie tegelijk, goed voor 16.883 px scrollen op een telefoon en
+          ruim tien megabyte. Hier vraagt elke miniatuur de maat op waarop hij staat, en alles
+          onder de vouw laadt pas als je er bent.
+        * vier foto's zonder alt-attribuut (axe, impact *critical*). Hier is de beschrijving een
+          verplicht veld op het record, dus het kan niet terugkomen.
+        * geen manier om een foto groter te zien. De galerij van Divi opende het originele
+          bestand in hetzelfde tabblad — weg van de site, terug met de terugknop.
+
+        Wat er NIET staat: titels, bijschriften, jaartallen, soorten, en de onvoorwaardelijke
+        garantiebelofte die op de oude pagina stond (zie README, Openstaande punten). Geen van
+        die dingen staat in de bron. De velden bestaan op het model en staan leeg tot de klant
+        ze invult; wat leeg is, toont niets.
+    -->
+  <template id="projects_index" name="Projecten">
+    <t t-call="website.layout">
+      <div id="wrap" class="oe_page_wrap" tabindex="-1">
+        <div class="oe_structure" id="oe_structure_prefab_projecten_top">
+          <section class="s_text_block o_cc o_cc1 pt48 pb24 o_prefab_warm_section" data-snippet="s_text_block" data-name="Projecten">
+            <div class="container">
+              <h1>Onze projecten</h1>
+              <p class="lead o_prefab_reading">Bekijk onze aanbouwen, dakkapellen en opbouwen. Van de plaatsing tot de details: ontdek hoe prefab ruimte toevoegt aan een woning.</p>
+              <p>
+                <a href="#prefab_project_gallery">Bekijk alle foto's</a>
+              </p>
+            </div>
+          </section>
+          <section class="s_text_image o_prefab_project_selection o_cc o_cc1 pt0 pb48" data-snippet="s_text_image" data-name="Uitgelichte projecten">
+            <div class="container">
+              <div class="row g-4">
+                <div class="col-lg-7">
+                  <img class="img img-fluid" loading="eager" fetchpriority="high" alt="Binnenruimte met lichtstraat en glazen pui in Den Haag" src="/web/image/cs_prefab_website.media_project_aanbouw_denhaag_01_webp_18bc27f5/1000x750/Project-aanbouw-denhaag-01.webp" style="width: 100%; height: auto;"/>
+                  <h2 class="h4-fs mt16">Licht en ruimte in Den Haag</h2>
+                  <p>Een lichtstraat en een glazen pui verbinden de aanbouw met buiten.</p>
+                </div>
+                <div class="col-lg-5">
+                  <img class="img img-fluid" loading="lazy" alt="Houten aanbouw aan een woning in Zoetermeer" src="/web/image/cs_prefab_website.media_prefab_aanbouw_01_webp_9f2f2f6c/1000x750/Prefab-aanbouw-01.webp" style="width: 100%; height: auto;"/>
+                  <h2 class="h4-fs mt16">Een houten gevel in Zoetermeer</h2>
+                  <p>Verticale houten delen en een brede pui aan de tuin.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <section class="o_prefab_gallery pt24 pb56" data-name="Fotogalerij" id="prefab_project_gallery">
+          <div class="container">
+            <!--
+                            Een kop die je niet ziet maar wel hoort. Zonder hem springt de
+                            structuur van de <h1> van de pagina naar de <h2> van de sectie
+                            eronder, en iemand die met een schermlezer van kop naar kop springt
+                            heeft hier een houvast nodig: dit is de galerij, en hij is zo groot.
+                        -->
+            <h2 class="h3-fs mb32">
+                            Foto's van onze projecten (<t t-out="total"/>)
+                        </h2>
+            <!--
+                            Eén <ul> en geen losse <div>'s: dit IS een lijst van zesendertig
+                            dingen, en een schermlezer die "lijst, 36 items" zegt geeft de
+                            bezoeker meteen de maat van wat hij binnenloopt.
+
+                            Elke miniatuur is een gewone <a> naar het volledige bestand. Zonder
+                            JavaScript opent die de foto — geen kapotte knop, geen dode klik. Mét
+                            JavaScript onderschept het script de klik en opent de vergroting
+                            hieronder; de href blijft staan zodat "open in nieuw tabblad" en het
+                            middelklikken van iemand die dat gewend is, blijven werken.
+                        -->
+            <ul t-if="photos" class="o_prefab_gallery_grid list-unstyled row" data-prefab-gallery="1">
+              <li t-foreach="photos" t-as="photo" class="col-6 col-md-4 col-lg-3 pb24">
+                <a class="o_prefab_shot" t-attf-href="/web/image/cs.prefab.project.image/{{photo.id}}/image/1600x1600" t-att-data-prefab-meta="photo.project_id._meta_line() or None" t-att-data-prefab-story="photo.project_id.story or None">
+                  <!--
+                                        Drie maten en een `sizes`, want deze foto staat op een
+                                        telefoon op ongeveer 170 px en op een breed scherm op 300.
+                                        Eén bestand voor allebei betekent dat de telefoon
+                                        zesendertig keer een foto binnenhaalt die vier keer te
+                                        groot is. De vierkante vraagmaat is opzet: /web/image past
+                                        een foto IN het gevraagde kader zonder bij te snijden, dus
+                                        bij een liggende foto is de breedte de maat en bij een
+                                        staande de hoogte — en dan is geen van beide ooit te klein
+                                        voor het vakje waarin hij staat.
+                                    -->
+                  <img t-attf-src="/web/image/cs.prefab.project.image/{{photo.id}}/image/400x400" t-attf-srcset="/web/image/cs.prefab.project.image/{{photo.id}}/image/240x240 240w, /web/image/cs.prefab.project.image/{{photo.id}}/image/400x400 400w, /web/image/cs.prefab.project.image/{{photo.id}}/image/600x600 600w" sizes="(min-width: 992px) 25vw, (min-width: 768px) 33vw, 50vw" t-att-alt="photo.alt" width="400" height="300" loading="lazy" decoding="async"/>
+                  <!--
+                                        De plaats, en alleen waar de bron er een noemt. Op de oude
+                                        site staat "Project aanbouw in Den Haag" en "Project
+                                        Zoetermeer" in de fotobeschrijving; dat zijn de enige twee
+                                        plaatsen die bestaan. De overige negentien foto's krijgen
+                                        hier niets, want er is niets.
+                                    -->
+                  <span t-if="photo.project_id.location" class="o_prefab_shot_place" t-out="photo.project_id.location"/>
+                </a>
+              </li>
+            </ul>
+            <div t-if="not photos" class="row">
+              <div class="col-12">
+                <p class="lead">Er staan nog geen foto's in deze galerij.</p>
+                <p>
+                                    Benieuwd wat we voor jou kunnen bouwen? Bel
+                                    <a href="tel:+31624845453">06 24 84 54 53</a> of mail naar
+                                    <a href="mailto:info@prefabpartner.nl">info@prefabpartner.nl</a>.
+                                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="oe_structure" id="oe_structure_prefab_projecten_bottom">
+          <!--
+                        De drie projectfilms. Met posterframe en preload="none": op de live site
+                        halen deze drie samen 10,31 MB binnen zonder dat iemand op afspelen
+                        heeft gedrukt. Het aria-label is wat een schermlezer voorleest in plaats
+                        van "video" — het is de beschrijving die bij het posterbeeld van de oude
+                        site hoorde, en het is dezelfde scène.
+                    -->
+          <section class="s_text_block o_prefab_videos pt48 pb56" data-snippet="s_text_block" data-name="Projectfilms">
+            <div class="container">
+              <h2 class="h3-fs">Zien hoe het gaat</h2>
+              <p class="lead mt16">Drie korte films van de montage op locatie.</p>
+              <div class="row mt24">
+                <div class="col-lg-4 pb24">
+                  <video class="w-100 rounded" controls="controls" preload="none" aria-label="Film: de afgewerkte gevel van verticale houten latten, van dichtbij gefilmd." poster="/cs_prefab_website/static/src/video/Project-2026-01-poster.jpg"><source src="/cs_prefab_website/static/src/video/Project-2026-01.mp4" type="video/mp4"/>
+                                        Je browser kan deze film niet afspelen.
+                                    </video>
+                </div>
+                <div class="col-lg-4 pb24">
+                  <video class="w-100 rounded" controls="controls" preload="none" aria-label="Film: een ingepakt prefab element hangt aan de kraan boven de achtertuin, voor een rij bakstenen woningen." poster="/cs_prefab_website/static/src/video/Project-2026-02-poster.jpg"><source src="/cs_prefab_website/static/src/video/Project-2026-02.mp4" type="video/mp4"/>
+                                        Je browser kan deze film niet afspelen.
+                                    </video>
+                </div>
+                <div class="col-lg-4 pb24">
+                  <video class="w-100 rounded" controls="controls" preload="none" aria-label="Film: een ingepakt prefab element hangt aan de kraan boven de straat, op weg naar de achtertuin." poster="/cs_prefab_website/static/src/video/Project-2026-03-poster.jpg"><source src="/cs_prefab_website/static/src/video/Project-2026-03.mp4" type="video/mp4"/>
+                                        Je browser kan deze film niet afspelen.
+                                    </video>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_call_to_action o_cc o_cc5 pt56 pb56" data-snippet="s_call_to_action" data-name="Oproep">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-8">
+                  <h2 class="h3-fs mb-0">Vrijblijvend adviesgesprek</h2>
+                </div>
+                <div class="col-lg-4 text-lg-end pt16 pt-lg-0">
+                  <a href="/contact" class="btn btn-primary">Plan een afspraak</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!--
+                    DE VERGROTING.
+
+                    🪤 STAAT AAN HET EINDE VAN #wrap EN NIET IN DE GALERIJSECTIE. Gemeten:
+                    `will-change: transform` op de onthullingssecties (zie de stylesheet,
+                    "Beweging bij het scrollen") maakt van elke sectie een CONTAINING BLOCK voor
+                    `position: fixed`. Binnen de sectie stond dit venster daardoor niet over de
+                    pagina maar over de galerij: de achtergrond begon halverwege het scherm en de
+                    foto zelf viel buiten beeld. `transform: none` haalt dat niet weg — de
+                    aanwezigheid van `will-change` alleen is al genoeg. Een venster dat de hele
+                    pagina moet bedekken hoort buiten alles wat transformeert.
+
+                    Staat verder in de HTML en niet in het script, om twee redenen. De aria-rollen
+                    en de knoplabels horen bij de opmaak, waar een statische controle ze
+                    kan lezen; en een venster dat het script pas bouwt, bestaat niet voor
+                    wie het script niet krijgt — terwijl `hidden` voor iedereen werkt.
+
+                    Zonder JavaScript is dit blok onzichtbaar en gebeurt er niets; de
+                    miniaturen zijn dan gewone links naar de foto. Met JavaScript:
+                    Escape sluit, pijltjes bladeren, Tab blijft binnen het venster, en de
+                    focus keert terug naar de miniatuur waar hij vandaan kwam.
+
+                    De <img> draagt nog geen src. Een lege src laat sommige browsers de
+                    PAGINA zelf ophalen als afbeelding; geen src is de enige vorm die
+                    niets doet tot het script hem invult.
+                -->
+        <div class="o_prefab_lightbox" role="dialog" aria-modal="true" aria-label="Foto groter bekijken" hidden="hidden" data-prefab-lightbox="1">
+          <div class="o_prefab_lightbox_backdrop" data-prefab-lightbox-close="1"/>
+          <figure class="o_prefab_lightbox_frame">
+            <img class="o_prefab_lightbox_image" alt="" width="1600" height="1200" loading="lazy" decoding="async"/>
+            <figcaption class="o_prefab_lightbox_caption">
+              <span class="o_prefab_lightbox_meta"/>
+              <span class="o_prefab_lightbox_story"/>
+              <span class="o_prefab_lightbox_counter" aria-live="polite"/>
+            </figcaption>
+          </figure>
+          <button type="button" class="o_prefab_lightbox_button o_prefab_lightbox_close" data-prefab-lightbox-close="1" aria-label="Sluit de vergroting">
+            <i class="fa fa-times" aria-hidden="true"/>
+          </button>
+          <button type="button" class="o_prefab_lightbox_button o_prefab_lightbox_prev" data-prefab-lightbox-step="-1" aria-label="Vorige foto">
+            <i class="fa fa-angle-left" aria-hidden="true"/>
+          </button>
+          <button type="button" class="o_prefab_lightbox_button o_prefab_lightbox_next" data-prefab-lightbox-step="1" aria-label="Volgende foto">
+            <i class="fa fa-angle-right" aria-hidden="true"/>
+          </button>
+        </div>
+      </div>
+    </t>
+  </template>
+</odoo>
+

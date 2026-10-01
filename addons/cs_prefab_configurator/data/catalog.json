@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": 2,
   "reference": {
     "url": "https://prefabpartner.nl/offerte/",
     "observedAt": "2026-09-09",
@@ -32,7 +32,22 @@
     "demolition": false,
     "access": "normal",
     "piles": 3,
-    "postcode": ""
+    "postcode": "",
+    "greenRoof": false,
+    "overhang": "none",
+    "overhangSpots": 0,
+    "roofShade": false,
+    "painting": false,
+    "openingMaterial": "unspecified",
+    "ceilingPositions": [],
+    "spotPositions": [],
+    "wallLights": [],
+    "socketPositions": [],
+    "outsideLightControl": "switched-left",
+    "ceilingLightControl": "switched-left",
+    "spotControl": "switched-left",
+    "wallLightControl": "switched-left",
+    "overhangSpotControl": "switched"
   },
   "dimensions": {
     "width": {
@@ -65,7 +80,7 @@
       "fields": [
         {
           "key": "facade",
-          "label": "Baksteen steenstrips",
+          "label": "Gevelbekleding",
           "description": "Dit zijn de hoofdkleuren. Zodra de offerte is uitgebracht, bespreken we de mogelijkheden.",
           "type": "select",
           "referenceQuestionId": "db7d22c7-e6d2-43bb-ab47-24b27aacc4dd",
@@ -195,6 +210,10 @@
               "label": "Daktrim aluminium antraciet",
               "description": "",
               "referenceAnswerId": "6ab11429-df1a-4dc3-8843-46eb921ead92"
+            },
+            {
+              "id": "zinc",
+              "label": "Zinken kraal"
             }
           ]
         }
@@ -214,7 +233,7 @@
             {
               "id": "none",
               "label": "Geen deur",
-              "description": "",
+              "description": "Alleen de ruwe opening met het buitenkozijn; de pui kiest en plaatst u zelf.",
               "referenceAnswerId": "235cd45d-d410-43e0-87ef-9f0afebc66ed"
             },
             {
@@ -281,7 +300,7 @@
         },
         {
           "key": "rooflight",
-          "label": "Lessenaars dakramen",
+          "label": "Daklicht",
           "description": "",
           "type": "select",
           "referenceQuestionId": "1a7f73d8-e9b8-4ef5-9a7b-24ea4a2ac46f",
@@ -333,6 +352,98 @@
               "label": "8 vaks zadeldak",
               "description": "vaste uitvoering helder",
               "referenceAnswerId": "191e6a8e-6ffe-4329-be0f-56c899c7f646"
+            },
+            {
+              "id": "lean-5",
+              "label": "5 vaks lessenaar"
+            },
+            {
+              "id": "gable-2",
+              "label": "2 vaks zadeldak"
+            },
+            {
+              "id": "gable-10",
+              "label": "10 vaks zadeldak"
+            }
+          ]
+        },
+        {
+          "key": "openingMaterial",
+          "label": "Materiaal kozijn",
+          "description": "Bestaande zwarte kozijnen blijven zwart; materiaal wordt niet automatisch aangenomen.",
+          "type": "select",
+          "options": [
+            {
+              "id": "unspecified",
+              "label": "Nog niet gespecificeerd"
+            },
+            {
+              "id": "pvc",
+              "label": "Kunststof"
+            },
+            {
+              "id": "aluminium",
+              "label": "Aluminium"
+            },
+            {
+              "id": "wood",
+              "label": "Hout, gegrond"
+            }
+          ]
+        },
+        {
+          "key": "greenRoof",
+          "label": "Groen dak",
+          "description": "Belasting en afwatering worden technisch gecontroleerd.",
+          "type": "boolean",
+          "options": [
+            {
+              "id": false,
+              "label": "Geen groen dak"
+            },
+            {
+              "id": true,
+              "label": "Sedumdak"
+            }
+          ]
+        },
+        {
+          "key": "overhang",
+          "label": "Overstek",
+          "description": "",
+          "type": "select",
+          "options": [
+            {
+              "id": "none",
+              "label": "Geen overstek"
+            },
+            {
+              "id": "pvc-white",
+              "label": "Kunststof wit"
+            },
+            {
+              "id": "pvc-anthracite",
+              "label": "Kunststof antraciet"
+            },
+            {
+              "id": "wood-white",
+              "label": "Hout wit gegrond"
+            }
+          ]
+        },
+        {
+          "key": "roofShade",
+          "label": "Zonwering daklicht",
+          "description": "Beschikbaar bij 1, 2 of 3 vaks lessenaar.",
+          "type": "boolean",
+          "options": [
+            {
+              "id": false,
+              "label": "Geen zonwering"
+            },
+            {
+              "id": true,
+              "label": "Daklicht zonwering"
             }
           ]
         }
@@ -399,13 +510,29 @@
               "label": "Rechts",
               "description": "",
               "referenceAnswerId": "0ee35cb2-2b77-408f-bb9d-2dd27de6ecb3"
+            },
+            {
+              "id": "both",
+              "label": "Enkel links en rechts"
+            },
+            {
+              "id": "double-left",
+              "label": "Dubbel links"
+            },
+            {
+              "id": "double-right",
+              "label": "Dubbel rechts"
+            },
+            {
+              "id": "double-both",
+              "label": "Dubbel links en rechts"
             }
           ]
         },
         {
           "key": "outsideTap",
           "label": "Buiten kraan",
-          "description": "",
+          "description": "Voorbereiding; kraan, eindmontage en aansluiting zijn niet inbegrepen.",
           "type": "select",
           "referenceQuestionId": "1a655d29-64c2-4097-aa17-7ede2773a328",
           "options": [
@@ -426,6 +553,10 @@
               "label": "Rechts",
               "description": "",
               "referenceAnswerId": "cbf33461-bad8-4292-9fab-5134db9a714c"
+            },
+            {
+              "id": "both",
+              "label": "Links en rechts"
             }
           ]
         },
@@ -447,6 +578,10 @@
               "label": "Zink",
               "description": "",
               "referenceAnswerId": "d45f4a87-ac66-440d-a790-b4966147d674"
+            },
+            {
+              "id": "pvc-black",
+              "label": "PVC zwart"
             }
           ]
         },
@@ -468,6 +603,86 @@
               "label": "Rechts",
               "description": "",
               "referenceAnswerId": "b2cc89d8-c802-493c-aa65-720bf27b6221"
+            },
+            {
+              "id": "both",
+              "label": "Links en rechts"
+            }
+          ]
+        },
+        {
+          "key": "overhangSpots",
+          "label": "Spotposities overstek",
+          "description": "Alleen voorbereiding; armaturen niet inbegrepen.",
+          "type": "number",
+          "options": [
+            {
+              "id": 0,
+              "label": "Geen"
+            },
+            {
+              "id": 1,
+              "label": "1 spotposities"
+            },
+            {
+              "id": 2,
+              "label": "2 spotposities"
+            },
+            {
+              "id": 3,
+              "label": "3 spotposities"
+            },
+            {
+              "id": 4,
+              "label": "4 spotposities"
+            },
+            {
+              "id": 5,
+              "label": "5 spotposities"
+            },
+            {
+              "id": 6,
+              "label": "6 spotposities"
+            }
+          ]
+        },
+        {
+          "key": "outsideLightControl",
+          "label": "Bediening buitenlicht",
+          "description": "Bediening van de voorbereide lichtgroep.",
+          "type": "select",
+          "options": [
+            {
+              "id": "switched-left",
+              "label": "Geschakeld links"
+            },
+            {
+              "id": "switched-right",
+              "label": "Geschakeld rechts"
+            },
+            {
+              "id": "dimmed-left",
+              "label": "Gedimd links"
+            },
+            {
+              "id": "dimmed-right",
+              "label": "Gedimd rechts"
+            }
+          ]
+        },
+        {
+          "key": "overhangSpotControl",
+          "label": "Bediening overstekspots",
+          "description": "",
+          "type": "select",
+          "options": [
+            {
+              "id": "switched",
+              "label": "Geschakeld"
+            },
+            {
+              "id": "dimmed",
+              "label": "Gedimd"
             }
           ]
         }
@@ -550,7 +765,7 @@
         },
         {
           "key": "underfloorHeating",
-          "label": "Vloerverwarming",
+          "label": "Vloerverwarming voorbereiden",
           "description": "Indien u vloerverwarming wenst, verlagen wij de vloer voor de vloerverwarming, maar sluiten deze niet aan de bestaande verwarming.",
           "type": "boolean",
           "referenceQuestionId": "b7c13ea2-b757-432e-9d08-0c0bbaca9be3",
@@ -575,7 +790,7 @@
         },
         {
           "key": "heating",
-          "label": "Verwarming",
+          "label": "Radiatorvoorbereiding",
           "description": "Wordt als loze leiding aangelegd",
           "type": "select",
           "referenceQuestionId": "614eacf0-5267-4267-82f3-8bf9deb65e78",
@@ -634,10 +849,14 @@
               "label": "2 plafond lampen",
               "description": "",
               "referenceAnswerId": "9fe10ccc-1071-41a2-8a1d-7c5b9b7e8f16"
+            },
+            {
+              "id": 3,
+              "label": "3 lichtpunten"
             }
           ],
           "min": 0,
-          "max": 2,
+          "max": 3,
           "step": 1,
           "visibleWhen": {
             "field": "interior",
@@ -681,7 +900,7 @@
         {
           "key": "spotlights",
           "label": "Aantal spotjes",
-          "description": "Het aantal spots uitbreiden tot maximaal 12 spots.",
+          "description": "Voorbereide posities; spots en eindmontage zijn niet inbegrepen.",
           "type": "number",
           "referenceQuestionId": "18b5b68f-d4e0-4843-8266-feb966184368",
           "options": [
@@ -762,10 +981,22 @@
               "label": "12 spotjes",
               "description": "",
               "referenceAnswerId": "78facad7-8e7e-4b97-b9d8-73845651aed6"
+            },
+            {
+              "id": 13,
+              "label": "13 spotposities"
+            },
+            {
+              "id": 14,
+              "label": "14 spotposities"
+            },
+            {
+              "id": 15,
+              "label": "15 spotposities"
             }
           ],
           "min": 0,
-          "max": 12,
+          "max": 15,
           "step": 1,
           "visibleWhen": {
             "field": "interior",
@@ -802,6 +1033,282 @@
               "label": "Beide Kanten",
               "description": "",
               "referenceAnswerId": "1d3a6402-9dbf-478f-a4bc-c0253b5ace07"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "painting",
+          "label": "Schilderwerk",
+          "description": "Indicatie; definitieve wand- en plafondmeting na opname.",
+          "type": "boolean",
+          "options": [
+            {
+              "id": false,
+              "label": "Geen schilderwerk"
+            },
+            {
+              "id": true,
+              "label": "Schilderwerk na stucwerk"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "ceilingPositions",
+          "label": "Posities plafondlicht",
+          "description": "Lampen en armaturen zijn niet inbegrepen.",
+          "type": "multiselect",
+          "options": [
+            {
+              "id": "left",
+              "label": "Links"
+            },
+            {
+              "id": "center",
+              "label": "Midden"
+            },
+            {
+              "id": "right",
+              "label": "Rechts"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          },
+          "maxSelections": 3
+        },
+        {
+          "key": "spotPositions",
+          "label": "Posities inbouwspots",
+          "description": "Kies voorbereidingspunten buiten de lichtstraat.",
+          "type": "multiselect",
+          "options": [
+            {
+              "id": "r1c1",
+              "label": "Rij 1 · positie 1"
+            },
+            {
+              "id": "r1c2",
+              "label": "Rij 1 · positie 2"
+            },
+            {
+              "id": "r1c3",
+              "label": "Rij 1 · positie 3"
+            },
+            {
+              "id": "r1c4",
+              "label": "Rij 1 · positie 4"
+            },
+            {
+              "id": "r1c5",
+              "label": "Rij 1 · positie 5"
+            },
+            {
+              "id": "r2c1",
+              "label": "Rij 2 · positie 1"
+            },
+            {
+              "id": "r2c2",
+              "label": "Rij 2 · positie 2"
+            },
+            {
+              "id": "r2c3",
+              "label": "Rij 2 · positie 3"
+            },
+            {
+              "id": "r2c4",
+              "label": "Rij 2 · positie 4"
+            },
+            {
+              "id": "r2c5",
+              "label": "Rij 2 · positie 5"
+            },
+            {
+              "id": "r3c1",
+              "label": "Rij 3 · positie 1"
+            },
+            {
+              "id": "r3c2",
+              "label": "Rij 3 · positie 2"
+            },
+            {
+              "id": "r3c3",
+              "label": "Rij 3 · positie 3"
+            },
+            {
+              "id": "r3c4",
+              "label": "Rij 3 · positie 4"
+            },
+            {
+              "id": "r3c5",
+              "label": "Rij 3 · positie 5"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          },
+          "maxSelections": 15
+        },
+        {
+          "key": "wallLights",
+          "label": "Posities wandlicht",
+          "description": "Lampen en armaturen niet inbegrepen.",
+          "type": "multiselect",
+          "options": [
+            {
+              "id": "L1",
+              "label": "Links 1"
+            },
+            {
+              "id": "L2",
+              "label": "Links 2"
+            },
+            {
+              "id": "L3",
+              "label": "Links 3"
+            },
+            {
+              "id": "R1",
+              "label": "Rechts 1"
+            },
+            {
+              "id": "R2",
+              "label": "Rechts 2"
+            },
+            {
+              "id": "R3",
+              "label": "Rechts 3"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          },
+          "maxSelections": 6
+        },
+        {
+          "key": "socketPositions",
+          "label": "Posities wandcontactdozen",
+          "description": "Leidingvoorbereiding; eindmateriaal niet inbegrepen.",
+          "type": "multiselect",
+          "options": [
+            {
+              "id": "L1",
+              "label": "Links 1"
+            },
+            {
+              "id": "L2",
+              "label": "Links 2"
+            },
+            {
+              "id": "L3",
+              "label": "Links 3"
+            },
+            {
+              "id": "R1",
+              "label": "Rechts 1"
+            },
+            {
+              "id": "R2",
+              "label": "Rechts 2"
+            },
+            {
+              "id": "R3",
+              "label": "Rechts 3"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          },
+          "maxSelections": 6
+        },
+        {
+          "key": "ceilingLightControl",
+          "label": "Bediening plafondlicht",
+          "description": "Bediening van de voorbereide lichtgroep.",
+          "type": "select",
+          "options": [
+            {
+              "id": "switched-left",
+              "label": "Geschakeld links"
+            },
+            {
+              "id": "switched-right",
+              "label": "Geschakeld rechts"
+            },
+            {
+              "id": "dimmed-left",
+              "label": "Gedimd links"
+            },
+            {
+              "id": "dimmed-right",
+              "label": "Gedimd rechts"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "spotControl",
+          "label": "Bediening spots",
+          "description": "Bediening van de voorbereide lichtgroep.",
+          "type": "select",
+          "options": [
+            {
+              "id": "switched-left",
+              "label": "Geschakeld links"
+            },
+            {
+              "id": "switched-right",
+              "label": "Geschakeld rechts"
+            },
+            {
+              "id": "dimmed-left",
+              "label": "Gedimd links"
+            },
+            {
+              "id": "dimmed-right",
+              "label": "Gedimd rechts"
+            }
+          ],
+          "visibleWhen": {
+            "field": "interior",
+            "equals": true
+          }
+        },
+        {
+          "key": "wallLightControl",
+          "label": "Bediening wandlicht",
+          "description": "Bediening van de voorbereide lichtgroep.",
+          "type": "select",
+          "options": [
+            {
+              "id": "switched-left",
+              "label": "Geschakeld links"
+            },
+            {
+              "id": "switched-right",
+              "label": "Geschakeld rechts"
+            },
+            {
+              "id": "dimmed-left",
+              "label": "Gedimd links"
+            },
+            {
+              "id": "dimmed-right",
+              "label": "Gedimd rechts"
             }
           ],
           "visibleWhen": {
@@ -916,10 +1423,134 @@
         "ceilingLights",
         "switches",
         "spotlights",
-        "sockets"
+        "sockets",
+        "painting",
+        "ceilingPositions",
+        "spotPositions",
+        "wallLights",
+        "socketPositions",
+        "ceilingLightControl",
+        "spotControl",
+        "wallLightControl"
       ],
       "message": "Binnenopties worden gewist als de binnenzijde niet wordt samengesteld."
     }
   ],
-  "engineeringNotice": "Afmetingen en aantal heipalen zijn klantkeuzes, geen constructieve goedkeuring. Definitieve uitwerking na inmeting en berekening."
+  "engineeringNotice": "Afmetingen en aantal heipalen zijn klantkeuzes, geen constructieve goedkeuring. Definitieve uitwerking na inmeting en berekening.",
+  "openingRules": {
+    "minimumWidthCm": {
+      "none": 150,
+      "french": 210,
+      "sliding-2": 230,
+      "sliding-4": 370,
+      "folding": 370
+    },
+    "notice": "Voorlopige geometrische ruimtecontrole; definitieve productieprofielen na technische beoordeling."
+  },
+  "assetRevision": "2026-09-13.4",
+  "geometryRules": {
+    "version": 1,
+    "profileId": "generic-aanbouw-v1",
+    "verification": "indicative",
+    "wallThicknessCm": 22,
+    "clearanceCm": {
+      "roof": 5,
+      "wallEdge": 8,
+      "fixture": 5
+    },
+    "openingProfiles": {
+      "none": {
+        "minWidthCm": 150,
+        "maxWidthCm": 750,
+        "minDepthCm": 100,
+        "maxDepthCm": 340
+      },
+      "french": {
+        "minWidthCm": 210,
+        "maxWidthCm": 750,
+        "minDepthCm": 100,
+        "maxDepthCm": 340
+      },
+      "sliding-2": {
+        "minWidthCm": 230,
+        "maxWidthCm": 750,
+        "minDepthCm": 100,
+        "maxDepthCm": 340
+      },
+      "sliding-4": {
+        "minWidthCm": 370,
+        "maxWidthCm": 750,
+        "minDepthCm": 100,
+        "maxDepthCm": 340
+      },
+      "folding": {
+        "minWidthCm": 370,
+        "maxWidthCm": 750,
+        "minDepthCm": 100,
+        "maxDepthCm": 340
+      }
+    },
+    "rooflightProfiles": {
+      "lean-1": {
+        "minWidthCm": 169,
+        "maxWidthCm": 750,
+        "minDepthCm": 200,
+        "maxDepthCm": 340
+      },
+      "lean-2": {
+        "minWidthCm": 241,
+        "maxWidthCm": 750,
+        "minDepthCm": 200,
+        "maxDepthCm": 340
+      },
+      "lean-3": {
+        "minWidthCm": 313,
+        "maxWidthCm": 750,
+        "minDepthCm": 200,
+        "maxDepthCm": 340
+      },
+      "lean-4": {
+        "minWidthCm": 385,
+        "maxWidthCm": 750,
+        "minDepthCm": 200,
+        "maxDepthCm": 340
+      },
+      "lean-5": {
+        "minWidthCm": 457,
+        "maxWidthCm": 750,
+        "minDepthCm": 200,
+        "maxDepthCm": 340
+      },
+      "gable-2": {
+        "minWidthCm": 169,
+        "maxWidthCm": 750,
+        "minDepthCm": 230,
+        "maxDepthCm": 340
+      },
+      "gable-4": {
+        "minWidthCm": 241,
+        "maxWidthCm": 750,
+        "minDepthCm": 230,
+        "maxDepthCm": 340
+      },
+      "gable-6": {
+        "minWidthCm": 313,
+        "maxWidthCm": 750,
+        "minDepthCm": 230,
+        "maxDepthCm": 340
+      },
+      "gable-8": {
+        "minWidthCm": 385,
+        "maxWidthCm": 750,
+        "minDepthCm": 230,
+        "maxDepthCm": 340
+      },
+      "gable-10": {
+        "minWidthCm": 457,
+        "maxWidthCm": 750,
+        "minDepthCm": 230,
+        "maxDepthCm": 340
+      }
+    }
+  }
 }

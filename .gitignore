@@ -11,3 +11,32 @@ test-results/
 playwright-report/
 *.log
 dist/
+# Bouwuitvoer van scripts/preview_website.py: twintig megabyte HTML en verkleinde beelden die
+# in vijf seconden opnieuw te maken zijn. De screenshots ernaast zijn wél bewijsmateriaal en
+# blijven staan.
+docs/verification/website/preview/
+
+# --- Niet naar GitHub (de repository is publiek) ---------------------------------------------
+# Persoonsgegevens van echte mensen. Deze horen in geen enkele repository, publiek of niet.
+contacts.csv
+CS-Prefab-aanvraag.pdf
+
+# Bewijsmateriaal en bouwuitvoer: samen ruim 600 MB aan schermafbeeldingen, renders en video die
+# ieder script in minuten opnieuw maakt (scripts/render-*.mjs, verify-*.mjs, preview_website.py).
+# Ze blijven op de schijf staan; alleen de repository blijft hanteerbaar.
+docs/verification/
+docs/video/
+docs/website/
+*.png
+*.jpg
+!addons/**/*.png
+!addons/**/*.jpg
+
+# Materiaal van andere websites: concurrentieonderzoek en gevonden productfoto's. Werkmateriaal
+# op deze machine, geen eigen werk om te publiceren.
+research/
+kozijn/
+
+# Gereedschapsuitvoer van deze werkplek.
+.playwright-mcp/
+.impeccable/

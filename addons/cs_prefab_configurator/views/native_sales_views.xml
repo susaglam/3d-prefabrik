@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_sale_order_prefab" model="ir.ui.view">
+    <field name="name">sale.order.form.prefab</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//div[@name='button_box']" position="inside">
+        <button name="action_open_prefab_request" type="object" class="oe_stat_button" icon="fa-home" invisible="not prefab_quote_id">
+          <div class="o_stat_info"><span class="o_stat_text">Prefab-aanvraag</span></div>
+        </button>
+      </xpath>
+      <xpath expr="//sheet" position="inside">
+        <field name="prefab_quote_id" invisible="True"/>
+        <field name="prefab_source_price_mode" invisible="True"/>
+      </xpath>
+      <xpath expr="//sheet/div[@name='button_box']" position="after">
+        <div class="alert alert-warning" role="alert" invisible="prefab_source_price_mode != 'demonstration'">
+          Deze aanvraag gebruikt demonstratieprijzen. Controleer de echte verkoopprijzen, belastingen en leveringsomvang voordat je deze offerte verstuurt of bevestigt.
+        </div>
+      </xpath>
+      <xpath expr="//notebook" position="inside">
+        <page string="Prefab-configuratie" invisible="not prefab_origin_ref">
+          <p>De oorspronkelijke aanvraag blijft behouden. Bewerk de actuele producten, aantallen, eenheden, prijzen en belastingen onder Orderregels; klantgegevens bewerk je via de klantkaart.</p>
+          <group><group><field name="prefab_origin_ref"/><field name="prefab_snapshot_total"/></group><group><field name="prefab_width_cm"/><field name="prefab_depth_cm"/><field name="prefab_area_m2"/></group></group>
+          <field name="prefab_summary" nolabel="1"/>
+          <p>Na bevestiging ontstaat een project en krijgt de CRM-verantwoordelijke een opvolgactiviteit. De CRM-fase wijzigt niet automatisch.</p>
+        </page>
+      </xpath>
+    </field>
+  </record>
+  <record id="view_crm_lead_prefab" model="ir.ui.view">
+    <field name="name">crm.lead.form.prefab</field><field name="model">crm.lead</field><field name="inherit_id" ref="crm.crm_lead_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//div[@name='button_box']" position="inside">
+        <button name="action_open_prefab_requests" type="object" class="oe_stat_button" icon="fa-home" invisible="not prefab_request_count">
+          <field name="prefab_request_count" widget="statinfo" string="Prefab-aanvragen"/>
+        </button>
+      </xpath>
+    </field>
+  </record>
+  <record id="view_company_prefab" model="ir.ui.view">
+    <field name="name">res.company.form.prefab</field><field name="model">res.company</field><field name="inherit_id" ref="base.view_company_form"/>
+    <field name="arch" type="xml"><xpath expr="//sheet" position="inside"><group string="Prefab-aanvragen"><field name="prefab_sales_user_id"/></group></xpath></field>
+  </record>
+</odoo>

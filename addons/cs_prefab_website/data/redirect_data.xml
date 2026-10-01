@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <!--
+            The 301s from data/url_map.json, scoped to this website only.
+
+            Runs after data/media_data.xml on purpose: three of them point at the brochure and
+            terms PDFs, and those targets are attachment addresses that only resolve once the
+            attachments exist.
+        -->
+        <function model="cs.prefab.website.urlmap" name="_sync_redirects"/>
+    </data>
+
+</odoo>

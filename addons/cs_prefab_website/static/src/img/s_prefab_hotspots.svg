@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Miniatuur voor de blokkenlade: een afbeelding met drie markeringen. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 135" width="240" height="135" role="img" aria-label="Interactieve afbeelding">
+  <rect width="240" height="135" fill="#f6f6f6"/>
+  <rect x="60" y="14" width="120" height="107" rx="4" fill="#dedede"/>
+  <path d="M74 106 L120 62 L166 106 Z" fill="#c9c9c9"/>
+  <rect x="104" y="86" width="32" height="20" fill="#bdbdbd"/>
+  <g fill="#C43F12">
+    <circle cx="86" cy="36" r="9"/>
+    <circle cx="122" cy="61" r="9"/>
+    <circle cx="150" cy="80" r="9"/>
+  </g>
+  <g stroke="#ffffff" stroke-width="2" stroke-linecap="round">
+    <path d="M82 36h8M86 32v8"/>
+    <path d="M118 61h8M122 57v8"/>
+    <path d="M146 80h8M150 76v8"/>
+  </g>
+</svg>

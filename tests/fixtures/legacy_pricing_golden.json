@@ -1,0 +1,1654 @@
+{
+ "designs": {
+  "default": {
+   "config": {},
+   "lines": [
+    {
+     "id": "base",
+     "label": "Geïsoleerde prefab casco aanbouw",
+     "quantity": 15.0,
+     "role": "product",
+     "total": 2025000,
+     "unit": "m²",
+     "unitPrice": 135000
+    },
+    {
+     "id": "setup",
+     "label": "Werkvoorbereiding, transport en plaatsing (basis)",
+     "quantity": 1.0,
+     "role": "installation",
+     "total": 325000,
+     "unit": "post",
+     "unitPrice": 325000
+    },
+    {
+     "id": "facade",
+     "label": "Gevelbekleding · Product: Baksteen rood",
+     "quantity": 15.0,
+     "role": "product",
+     "total": 270000,
+     "unit": "m²",
+     "unitPrice": 18000
+    },
+    {
+     "id": "rollaag",
+     "label": "Rollaag · Product: Rollaag",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 65000,
+     "unit": "post",
+     "unitPrice": 65000
+    },
+    {
+     "id": "roofEdge",
+     "label": "Daktrim · Product: Daktrim aluminium antraciet",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 25000,
+     "unit": "post",
+     "unitPrice": 25000
+    },
+    {
+     "id": "frontOpening",
+     "label": "Kozijn · Product: 2-delige schuifpui zwart",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 285000,
+     "unit": "post",
+     "unitPrice": 285000
+    },
+    {
+     "id": "piles",
+     "label": "Aantal heipalen · Product: 3 heipalen",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 270000,
+     "unit": "post",
+     "unitPrice": 270000
+    }
+   ],
+   "scope": [
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 15.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 270000,
+       "unit": "m²",
+       "unitPrice": 18000
+      }
+     ],
+     "key": "facade"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 65000,
+       "unit": "post",
+       "unitPrice": 65000
+      }
+     ],
+     "key": "rollaag"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 25000,
+       "unit": "post",
+       "unitPrice": 25000
+      }
+     ],
+     "key": "roofEdge"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 285000,
+       "unit": "post",
+       "unitPrice": 285000
+      }
+     ],
+     "key": "frontOpening"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "drainMaterial"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "drainSide"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "access"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 270000,
+       "unit": "post",
+       "unitPrice": 270000
+      }
+     ],
+     "key": "piles"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "openingMaterial"
+    }
+   ],
+   "subtotal": 3265000,
+   "total": 3950650,
+   "vat": 685650
+  },
+  "large-750x340-full": {
+   "config": {
+    "access": "restricted",
+    "ceilingLights": 2,
+    "demolition": true,
+    "depth": 340,
+    "drainMaterial": "zinc",
+    "drainSide": "both",
+    "facade": "pvc-anthracite",
+    "frontOpening": "folding-black",
+    "greenRoof": true,
+    "heating": "both",
+    "interior": true,
+    "openingMaterial": "aluminium",
+    "outsideLight": "both",
+    "outsideSocket": "double-both",
+    "outsideTap": "left",
+    "overhang": "wood-white",
+    "overhangSpots": 4,
+    "painting": true,
+    "piles": 6,
+    "plaster": true,
+    "roofEdge": "zinc",
+    "roofShade": false,
+    "rooflight": "lean-4",
+    "screed": true,
+    "sockets": "both",
+    "spotlights": 6,
+    "switches": 2,
+    "underfloorHeating": true,
+    "wallLights": [
+     "L1",
+     "R1"
+    ],
+    "width": 750
+   },
+   "lines": [
+    {
+     "id": "base",
+     "label": "Geïsoleerde prefab casco aanbouw",
+     "quantity": 25.5,
+     "role": "product",
+     "total": 3442500,
+     "unit": "m²",
+     "unitPrice": 135000
+    },
+    {
+     "id": "setup",
+     "label": "Werkvoorbereiding, transport en plaatsing (basis)",
+     "quantity": 1.0,
+     "role": "installation",
+     "total": 325000,
+     "unit": "post",
+     "unitPrice": 325000
+    },
+    {
+     "id": "facade",
+     "label": "Gevelbekleding · Product: Kunststof antraciet",
+     "quantity": 25.5,
+     "role": "product",
+     "total": 191250,
+     "unit": "m²",
+     "unitPrice": 7500
+    },
+    {
+     "id": "rollaag",
+     "label": "Rollaag · Product: Rollaag",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 65000,
+     "unit": "post",
+     "unitPrice": 65000
+    },
+    {
+     "id": "roofEdge",
+     "label": "Daktrim · Product: Zinken kraal",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 45000,
+     "unit": "post",
+     "unitPrice": 45000
+    },
+    {
+     "id": "frontOpening",
+     "label": "Kozijn · Product: Harmonicapui zwart",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 525000,
+     "unit": "post",
+     "unitPrice": 525000
+    },
+    {
+     "id": "rooflight",
+     "label": "Daklicht · Product: 4 vaks lessenaar",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 385000,
+     "unit": "post",
+     "unitPrice": 385000
+    },
+    {
+     "id": "outsideLight",
+     "label": "Buitenlicht · Voorbereiding: Beide kanten",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 28000,
+     "unit": "post",
+     "unitPrice": 28000
+    },
+    {
+     "id": "outsideSocket",
+     "label": "Buiten stopcontact · Voorbereiding: Dubbel links en rechts",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 38000,
+     "unit": "post",
+     "unitPrice": 38000
+    },
+    {
+     "id": "outsideTap",
+     "label": "Buiten kraan · Voorbereiding: Links",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 45000,
+     "unit": "post",
+     "unitPrice": 45000
+    },
+    {
+     "id": "drainMaterial",
+     "label": "Regenbuis materiaal · Product: Zink",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 45000,
+     "unit": "post",
+     "unitPrice": 45000
+    },
+    {
+     "id": "drainSide",
+     "label": "Plaatsing · Product: Links en rechts",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 18000,
+     "unit": "post",
+     "unitPrice": 18000
+    },
+    {
+     "id": "plaster",
+     "label": "Wel of geen stucwerk · Product: Wel stucwerk",
+     "quantity": 25.5,
+     "role": "product",
+     "total": 446250,
+     "unit": "m²",
+     "unitPrice": 17500
+    },
+    {
+     "id": "screed",
+     "label": "Wel of geen afwerkvloer · Product: Wel een afwerkvloer",
+     "quantity": 25.5,
+     "role": "product",
+     "total": 165750,
+     "unit": "m²",
+     "unitPrice": 6500
+    },
+    {
+     "id": "underfloorHeating",
+     "label": "Vloerverwarming voorbereiden · Voorbereiding: Vloerverwarming",
+     "quantity": 25.5,
+     "role": "preparation",
+     "total": 165750,
+     "unit": "m²",
+     "unitPrice": 6500
+    },
+    {
+     "id": "heating",
+     "label": "Radiatorvoorbereiding · Voorbereiding: Beide kanten",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 34000,
+     "unit": "post",
+     "unitPrice": 34000
+    },
+    {
+     "id": "ceilingLights",
+     "label": "Plafond lamp · Voorbereiding: 2 plafond lampen",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 28000,
+     "unit": "post",
+     "unitPrice": 28000
+    },
+    {
+     "id": "switches",
+     "label": "Schakelaar · Voorbereiding: 2 schakelaars",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 22000,
+     "unit": "post",
+     "unitPrice": 22000
+    },
+    {
+     "id": "spotlights",
+     "label": "Aantal spotjes · Voorbereiding: 6 spotjes",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 51000,
+     "unit": "post",
+     "unitPrice": 51000
+    },
+    {
+     "id": "sockets",
+     "label": "Stopcontact · Voorbereiding: Beide Kanten",
+     "quantity": 2.0,
+     "role": "preparation",
+     "total": 30000,
+     "unit": "stuk",
+     "unitPrice": 15000
+    },
+    {
+     "id": "demolition",
+     "label": "Geveldoorbraak · Product: Met doorbraak",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 395000,
+     "unit": "post",
+     "unitPrice": 395000
+    },
+    {
+     "id": "access",
+     "label": "Is er een achterom aanwezig · Product: Nee",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 125000,
+     "unit": "post",
+     "unitPrice": 125000
+    },
+    {
+     "id": "piles",
+     "label": "Aantal heipalen · Product: 6 heipalen",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 510000,
+     "unit": "post",
+     "unitPrice": 510000
+    },
+    {
+     "id": "greenRoof",
+     "label": "Groen dak · Product: Sedumdak",
+     "quantity": 25.5,
+     "role": "product",
+     "total": 306000,
+     "unit": "m²",
+     "unitPrice": 12000
+    },
+    {
+     "id": "overhang",
+     "label": "Overstek · Product: Hout wit gegrond",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 205000,
+     "unit": "post",
+     "unitPrice": 205000
+    },
+    {
+     "id": "painting",
+     "label": "Schilderwerk · Product: Schilderwerk na stucwerk",
+     "quantity": 25.5,
+     "role": "product",
+     "total": 242250,
+     "unit": "m²",
+     "unitPrice": 9500
+    },
+    {
+     "id": "openingMaterial",
+     "label": "Materiaal kozijn · Product: Aluminium",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 75000,
+     "unit": "post",
+     "unitPrice": 75000
+    },
+    {
+     "id": "overhangSpots",
+     "label": "Spotposities overstek · Voorbereiding: 4 spotposities",
+     "quantity": 1.0,
+     "role": "preparation",
+     "total": 34000,
+     "unit": "post",
+     "unitPrice": 34000
+    },
+    {
+     "id": "wallLights",
+     "label": "Posities wandlicht · Voorbereiding: Links 1, Rechts 1",
+     "quantity": 2.0,
+     "role": "preparation",
+     "total": 30000,
+     "unit": "stuk",
+     "unitPrice": 15000
+    }
+   ],
+   "scope": [
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 25.5,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 191250,
+       "unit": "m²",
+       "unitPrice": 7500
+      }
+     ],
+     "key": "facade"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 65000,
+       "unit": "post",
+       "unitPrice": 65000
+      }
+     ],
+     "key": "rollaag"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 45000,
+       "unit": "post",
+       "unitPrice": 45000
+      }
+     ],
+     "key": "roofEdge"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 525000,
+       "unit": "post",
+       "unitPrice": 525000
+      }
+     ],
+     "key": "frontOpening"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 385000,
+       "unit": "post",
+       "unitPrice": 385000
+      }
+     ],
+     "key": "rooflight"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 28000,
+       "unit": "post",
+       "unitPrice": 28000
+      },
+      {
+       "label": "Product",
+       "quantity": 2.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 2.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 2.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "outsideLight"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 38000,
+       "unit": "post",
+       "unitPrice": 38000
+      },
+      {
+       "label": "Product",
+       "quantity": 4.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 4.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 4.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "outsideSocket"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 45000,
+       "unit": "post",
+       "unitPrice": 45000
+      },
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 1.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 1.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "outsideTap"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 45000,
+       "unit": "post",
+       "unitPrice": 45000
+      }
+     ],
+     "key": "drainMaterial"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 18000,
+       "unit": "post",
+       "unitPrice": 18000
+      }
+     ],
+     "key": "drainSide"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 25.5,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 446250,
+       "unit": "m²",
+       "unitPrice": 17500
+      }
+     ],
+     "key": "plaster"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 25.5,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 165750,
+       "unit": "m²",
+       "unitPrice": 6500
+      }
+     ],
+     "key": "screed"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 25.5,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 165750,
+       "unit": "m²",
+       "unitPrice": 6500
+      },
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 1.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 1.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "underfloorHeating"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 34000,
+       "unit": "post",
+       "unitPrice": 34000
+      },
+      {
+       "label": "Product",
+       "quantity": 2.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 2.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 2.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "heating"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 28000,
+       "unit": "post",
+       "unitPrice": 28000
+      },
+      {
+       "label": "Product",
+       "quantity": 2.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 2.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 2.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "ceilingLights"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 22000,
+       "unit": "post",
+       "unitPrice": 22000
+      },
+      {
+       "label": "Product",
+       "quantity": 2.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 2.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 2.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "switches"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 51000,
+       "unit": "post",
+       "unitPrice": 51000
+      },
+      {
+       "label": "Product",
+       "quantity": 6.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 6.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 6.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "spotlights"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 2.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 30000,
+       "unit": "stuk",
+       "unitPrice": 15000
+      },
+      {
+       "label": "Product",
+       "quantity": 2.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 2.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 2.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "sockets"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 395000,
+       "unit": "post",
+       "unitPrice": 395000
+      }
+     ],
+     "key": "demolition"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 125000,
+       "unit": "post",
+       "unitPrice": 125000
+      }
+     ],
+     "key": "access"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 510000,
+       "unit": "post",
+       "unitPrice": 510000
+      }
+     ],
+     "key": "piles"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 25.5,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 306000,
+       "unit": "m²",
+       "unitPrice": 12000
+      }
+     ],
+     "key": "greenRoof"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 205000,
+       "unit": "post",
+       "unitPrice": 205000
+      }
+     ],
+     "key": "overhang"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 25.5,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 242250,
+       "unit": "m²",
+       "unitPrice": 9500
+      }
+     ],
+     "key": "painting"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 75000,
+       "unit": "post",
+       "unitPrice": 75000
+      }
+     ],
+     "key": "openingMaterial"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 1.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 34000,
+       "unit": "post",
+       "unitPrice": 34000
+      },
+      {
+       "label": "Product",
+       "quantity": 4.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 4.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 4.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "overhangSpots"
+    },
+    {
+     "components": [
+      {
+       "label": "Voorbereiding",
+       "quantity": 2.0,
+       "role": "preparation",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 30000,
+       "unit": "stuk",
+       "unitPrice": 15000
+      },
+      {
+       "label": "Product",
+       "quantity": 2.0,
+       "role": "product",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Montage",
+       "quantity": 2.0,
+       "role": "installation",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      },
+      {
+       "label": "Aansluiting",
+       "quantity": 2.0,
+       "role": "connection",
+       "status": "excluded",
+       "statusLabel": "Niet inbegrepen",
+       "total": 0,
+       "unit": "stuk",
+       "unitPrice": 0
+      }
+     ],
+     "key": "wallLights"
+    }
+   ],
+   "subtotal": 8017750,
+   "total": 9701478,
+   "vat": 1683728
+  },
+  "odd-501x299": {
+   "config": {
+    "depth": 299,
+    "facade": "render",
+    "frontOpening": "french-white",
+    "width": 501
+   },
+   "lines": [
+    {
+     "id": "base",
+     "label": "Geïsoleerde prefab casco aanbouw",
+     "quantity": 14.9799,
+     "role": "product",
+     "total": 2022287,
+     "unit": "m²",
+     "unitPrice": 135000
+    },
+    {
+     "id": "setup",
+     "label": "Werkvoorbereiding, transport en plaatsing (basis)",
+     "quantity": 1.0,
+     "role": "installation",
+     "total": 325000,
+     "unit": "post",
+     "unitPrice": 325000
+    },
+    {
+     "id": "facade",
+     "label": "Gevelbekleding · Product: Buitenstuc",
+     "quantity": 14.9799,
+     "role": "product",
+     "total": 179759,
+     "unit": "m²",
+     "unitPrice": 12000
+    },
+    {
+     "id": "rollaag",
+     "label": "Rollaag · Product: Rollaag",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 65000,
+     "unit": "post",
+     "unitPrice": 65000
+    },
+    {
+     "id": "roofEdge",
+     "label": "Daktrim · Product: Daktrim aluminium antraciet",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 25000,
+     "unit": "post",
+     "unitPrice": 25000
+    },
+    {
+     "id": "frontOpening",
+     "label": "Kozijn · Product: Openslaande deur wit",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 190000,
+     "unit": "post",
+     "unitPrice": 190000
+    },
+    {
+     "id": "piles",
+     "label": "Aantal heipalen · Product: 3 heipalen",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 270000,
+     "unit": "post",
+     "unitPrice": 270000
+    }
+   ],
+   "scope": [
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 14.9799,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 179759,
+       "unit": "m²",
+       "unitPrice": 12000
+      }
+     ],
+     "key": "facade"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 65000,
+       "unit": "post",
+       "unitPrice": 65000
+      }
+     ],
+     "key": "rollaag"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 25000,
+       "unit": "post",
+       "unitPrice": 25000
+      }
+     ],
+     "key": "roofEdge"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 190000,
+       "unit": "post",
+       "unitPrice": 190000
+      }
+     ],
+     "key": "frontOpening"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "drainMaterial"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "drainSide"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "access"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 270000,
+       "unit": "post",
+       "unitPrice": 270000
+      }
+     ],
+     "key": "piles"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "openingMaterial"
+    }
+   ],
+   "subtotal": 3077046,
+   "total": 3723226,
+   "vat": 646180
+  },
+  "tiny-151x101": {
+   "config": {
+    "depth": 101,
+    "frontOpening": "none",
+    "width": 151
+   },
+   "lines": [
+    {
+     "id": "base",
+     "label": "Geïsoleerde prefab casco aanbouw",
+     "quantity": 1.5251,
+     "role": "product",
+     "total": 205889,
+     "unit": "m²",
+     "unitPrice": 135000
+    },
+    {
+     "id": "setup",
+     "label": "Werkvoorbereiding, transport en plaatsing (basis)",
+     "quantity": 1.0,
+     "role": "installation",
+     "total": 325000,
+     "unit": "post",
+     "unitPrice": 325000
+    },
+    {
+     "id": "facade",
+     "label": "Gevelbekleding · Product: Baksteen rood",
+     "quantity": 1.5251,
+     "role": "product",
+     "total": 27452,
+     "unit": "m²",
+     "unitPrice": 18000
+    },
+    {
+     "id": "rollaag",
+     "label": "Rollaag · Product: Rollaag",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 65000,
+     "unit": "post",
+     "unitPrice": 65000
+    },
+    {
+     "id": "roofEdge",
+     "label": "Daktrim · Product: Daktrim aluminium antraciet",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 25000,
+     "unit": "post",
+     "unitPrice": 25000
+    },
+    {
+     "id": "piles",
+     "label": "Aantal heipalen · Product: 3 heipalen",
+     "quantity": 1.0,
+     "role": "product",
+     "total": 270000,
+     "unit": "post",
+     "unitPrice": 270000
+    }
+   ],
+   "scope": [
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.5251,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 27452,
+       "unit": "m²",
+       "unitPrice": 18000
+      }
+     ],
+     "key": "facade"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 65000,
+       "unit": "post",
+       "unitPrice": 65000
+      }
+     ],
+     "key": "rollaag"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 25000,
+       "unit": "post",
+       "unitPrice": 25000
+      }
+     ],
+     "key": "roofEdge"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "drainMaterial"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "drainSide"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "access"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "extra",
+       "statusLabel": "Apart geprijsd",
+       "total": 270000,
+       "unit": "post",
+       "unitPrice": 270000
+      }
+     ],
+     "key": "piles"
+    },
+    {
+     "components": [
+      {
+       "label": "Product",
+       "quantity": 1.0,
+       "role": "product",
+       "status": "included",
+       "statusLabel": "Inbegrepen in casco",
+       "total": 0,
+       "unit": "post",
+       "unitPrice": 0
+      }
+     ],
+     "key": "openingMaterial"
+    }
+   ],
+   "subtotal": 918341,
+   "total": 1111193,
+   "vat": 192852
+  }
+ },
+ "revision": "local-c7f1fe7fac7cd1e5bd35"
+}

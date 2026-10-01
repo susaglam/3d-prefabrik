@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="action_prefab_supplier_prices" model="ir.actions.act_window">
+    <field name="name">Leveranciers van prefabproducten</field>
+    <field name="res_model">product.supplierinfo</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">[('product_tmpl_id.prefab_item_key', '!=', False)]</field>
+    <field name="context">{'visible_product_tmpl_id': False, 'search_default_active': True, 'group_by': 'partner_id'}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Nog geen leveranciers voor prefabproducten</p>
+      <p>Voer 'Voorbeeldinrichting toepassen' uit onder Prefab → Uitvoering en inkoop, of voeg op een prefabproduct onder Inkoop een leverancier toe. De bovenste geldige regel wordt gebruikt voor de concept-inkoopaanvraag.</p>
+    </field>
+  </record>
+  <record id="view_prefab_operations" model="ir.ui.view">
+    <field name="name">res.company.form.prefab.operations</field>
+    <field name="model">res.company</field>
+    <field name="arch" type="xml">
+      <form string="Prefab uitvoering en inkoop" create="false" delete="false">
+        <header>
+          <button name="action_setup_prefab_operations" type="object" string="Voorbeeldinrichting toepassen" groups="base.group_system"
+                  confirm="Dit zet automatische inkoopaanvragen aan, voegt de voorbeeldleverancier met prijs 0 toe aan prefabproducten zonder leverancier en maakt zo nodig het projectsjabloon. Bestaande leveranciers, prijzen en bevestigde orders blijven ongewijzigd. Doorgaan?"/>
+          <button name="%(action_prefab_supplier_prices)d" type="action" string="Leveranciers van prefabproducten" groups="purchase.group_purchase_manager,base.group_system"/>
+        </header>
+        <sheet>
+          <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+          <group string="Uitvoeringsproject"><field name="prefab_project_template_id" context="{'default_is_template': True, 'default_company_id': id}"/></group>
+          <p>Open het projectsjabloon om taken, kolommen, mijlpalen en afhankelijkheden te bewerken. Nieuwe bevestigde prefab-orders krijgen dit werkplan. Bestaande taken en mijlpalen behouden hun planning. Gedeelde kolomnamen gelden voor alle projecten die die kolom gebruiken.</p>
+          <group string="Automatische inkoopaanvragen">
+            <field name="prefab_purchase_enabled"/>
+            <field name="prefab_purchase_user_id"/>
+            <field name="prefab_purchase_vendor_id" domain="[('company_id', 'in', [False, id])]" context="{'res_partner_search_mode': 'supplier', 'default_supplier_rank': 1}"/>
+          </group>
+          <p>Bij verkoopbevestiging worden de te kopen producten en diensten per leverancier in een concept-inkoopaanvraag opgenomen. Een inkoopgebruiker controleert en bevestigt de aanvraag; er wordt niets automatisch verzonden of bevestigd. Orders die al vóór de inrichting bevestigd waren, krijgen geen aanvraag; gebruik daar op het tabblad Prefab-inkoop 'Ontbrekende inkoopaanvragen aanvullen'.</p>
+          <separator string="Leveranciers en inkoopprijzen wijzigen"/>
+          <p>Open 'Leveranciers van prefabproducten' (rol Inkoop: Beheerder) om alle leveranciersregels te zien, prijzen te wijzigen of regels te verwijderen. Een andere leverancier kiest u op het product zelf onder Inkoop (rol Productbeheer). De bovenste geldige leveranciersregel bepaalt de aanvraag; een voorbeeldregel met prijs 0 wijkt voor elke andere geldige leverancier. Verwijder alle leveranciers of schakel 'Inkoop' op het product uit om automatische inkoop van dat product te stoppen.</p>
+          <p>De voorbeeldinrichting vult prefabproducten zonder leverancier eenmalig aan met prijs 0; dat is geen kostprijsschatting. De inrichting zet verwijderde leveranciers en gewijzigde prijzen niet terug. Odoo zelf voegt bij het bevestigen van een inkooporder de leverancier van die order aan het product toe: annuleer of wijzig open aanvragen voordat u een leverancier verwijdert.</p>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_prefab_operations" model="ir.actions.server">
+    <field name="name">Uitvoering en inkoop</field>
+    <field name="model_id" ref="base.model_res_company"/>
+    <field name="state">code</field>
+    <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
+    <field name="code">action = env.company.action_open_prefab_operations()</field>
+  </record>
+  <menuitem id="menu_prefab_operations" name="Uitvoering en inkoop" parent="menu_prefab_root" action="action_prefab_operations" sequence="40" groups="base.group_system"/>
+
+  <menuitem id="menu_prefab_supplier_prices" name="Leveranciers van prefabproducten" parent="menu_prefab_root" action="action_prefab_supplier_prices" sequence="45" groups="purchase.group_purchase_manager"/>
+
+  <record id="view_sale_prefab_purchase" model="ir.ui.view">
+    <field name="name">sale.order.form.prefab.purchase</field><field name="model">sale.order</field><field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//notebook" position="inside">
+        <page name="prefab_purchase" string="Prefab-inkoop" invisible="not prefab_origin_ref" groups="purchase.group_purchase_user">
+          <field name="prefab_purchase_company_enabled" invisible="1"/>
+          <p>Inkoopaanvragen gebruiken de leveranciers en inkoopprijzen van de producten. Ze blijven ter controle bij Inkoop. Bestaande inkoopregels worden behouden wanneer de verkooporder later verandert; wijzigingen verschijnen als notitie en controleactiviteit.</p>
+          <p invisible="prefab_purchase_company_enabled">Automatische inkoopaanvragen staan uit voor dit bedrijf. Een beheerder zet ze aan onder Prefab → Uitvoering en inkoop.</p>
+          <field name="prefab_purchase_review" nolabel="1" invisible="not prefab_purchase_review"/>
+          <button name="action_prepare_prefab_procurement" type="object" string="Ontbrekende inkoopaanvragen aanvullen" class="btn-secondary"
+                  invisible="state != 'sale' or not prefab_purchase_company_enabled"/>
+        </page>
+      </xpath>
+    </field>
+  </record>
+  <record id="view_purchase_prefab" model="ir.ui.view">
+    <field name="name">purchase.order.form.prefab</field><field name="model">purchase.order</field><field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet" position="inside"><field name="prefab_needs_price_review" invisible="1"/></xpath>
+      <xpath expr="//sheet/div[@name='button_box']" position="after">
+        <div class="alert alert-warning" role="alert" invisible="not prefab_needs_price_review or state not in ('draft', 'sent', 'to approve')">Deze prefab-inkoopaanvraag bevat nulprijzen. Vul de overeengekomen inkoopprijzen in en controleer aantallen en leverdatum vóór bevestiging.</div>
+      </xpath>
+      <xpath expr="//field[@name='partner_id']" position="after"><field name="prefab_sale_order_id" invisible="not prefab_sale_order_id" groups="sales_team.group_sale_salesman"/></xpath>
+    </field>
+  </record>
+  <record id="view_purchase_prefab_filter" model="ir.ui.view">
+    <field name="name">purchase.order.search.prefab</field><field name="model">purchase.order</field><field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='origin']" position="after"><field name="prefab_sale_order_id"/></xpath>
+      <xpath expr="//filter[@name='draft_rfqs']" position="before">
+        <filter name="prefab_to_review" string="Prefab te controleren" domain="[('prefab_sale_order_id', '!=', False), ('state', 'in', ['draft', 'sent'])]"/>
+        <filter name="prefab_zero_prices" string="Prefab nulprijzen" domain="[('prefab_needs_price_review', '=', True), ('state', 'in', ['draft', 'sent', 'to approve'])]"/>
+        <separator/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

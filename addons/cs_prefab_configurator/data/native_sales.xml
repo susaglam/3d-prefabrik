@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <function model="cs.prefab.quote" name="_configure_unit_precision"/>
+  <data noupdate="1">
+  <record id="uom_prefab_post" model="uom.uom">
+    <field name="name">Post</field>
+    <field name="relative_factor">1</field>
+    <field name="relative_uom_id" ref="uom.product_uom_unit"/>
+  </record>
+  </data>
+</odoo>

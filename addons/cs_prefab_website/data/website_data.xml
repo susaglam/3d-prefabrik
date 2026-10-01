@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        noupdate="1" on purpose. Everything below is a starting point the customer edits in
+        the interface. Without noupdate every upgrade would quietly reset those edits, and the
+        person who made them would have no way of knowing why.
+    -->
+    <data noupdate="1">
+
+        <!--
+            The one canonical host of the site, naked rather than www.
+
+            This is not a preference. The configurator compares the Origin header of every
+            price, share and quote request literally against website.domain; a visitor who
+            arrives on a spelling the field does not contain gets 403 on every one of them.
+            So exactly one spelling may reach Odoo, and the reverse proxy has to 301 the
+            others to it BEFORE that field is filled in.
+
+            Naked wins because it is what already exists: every canonical tag, every Open
+            Graph url and the whole XML sitemap of the old site are naked. Choosing www would
+            invalidate all of them for no gain.
+
+            NOTE WHAT THIS PARAMETER IS NOT. It is not written into website.domain by this
+            module, and nothing here changes the address the site answers on today. The
+            website this site is installed on is LIVE and already serves the configurator on
+            /prefab; filling in a domain it does not yet answer on turns every price request
+            into a 403 on the day of the upgrade instead of on the day of the switch. The
+            value is read back on the website settings form (Herkomstcontrole configurator)
+            with what to do and when, and a human does it.
+
+            It is a parameter rather than a constant so it can be corrected in
+            Instellingen -> Technisch -> Systeemparameters before DNS moves, without a release.
+        -->
+        <record id="param_canonical_host" model="ir.config_parameter">
+            <field name="key">cs_prefab_website.canonical_host</field>
+            <field name="value">https://prefabpartner.nl</field>
+        </record>
+
+    </data>
+
+    <data>
+        <!--
+            THERE IS NO <record model="website"> IN THIS FILE, AND THAT IS THE DESIGN.
+
+            This site is installed onto the website this Odoo already has — the customer's
+            own default website, the one serving the configurator on /prefab. A second
+            website record would be a layer with nothing behind it: a second host to point
+            somewhere, a second catalogue to publish, a second set of settings to keep in
+            step, and a live configurator on the wrong one of the two.
+
+            models/website.py::_cs_prefab_target_website resolves that website (the flagged
+            one, else the default — lowest sequence, id) and NEVER creates one. Every data
+            record below and in the other files resolves its website_id through that method
+            rather than through an xmlid, deliberately: an ir.model.data row of this module
+            pointing at the customer's website would make uninstalling this module DELETE
+            that website, because ir.model.data._module_data_uninstall unlinks every record a
+            removed module's external ids refer to.
+
+            This runs FIRST of all this module's data, so the flag is in place before any
+            page, blog or offerte record resolves its website_id. It runs on install AND on
+            every upgrade; each step inside either fills something still empty or is guarded
+            by the one-shot cs_prefab_seeded flag, so a new release can add a step without
+            undoing an administrator's correction.
+        -->
+        <function model="website" name="_cs_prefab_bootstrap"/>
+    </data>
+
+</odoo>

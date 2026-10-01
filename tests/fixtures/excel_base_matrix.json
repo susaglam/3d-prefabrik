@@ -1,0 +1,850 @@
+{
+"source": "Aanbouw blanco prijslijst concept HSB 1-12-2025, sheet Buiten C3:P15, EUR excl. btw (casco incl. fundering, transport en plaatsing)",
+"cells": [
+{
+"widthCm": 150,
+"depthCm": 100,
+"eur": 34051
+},
+{
+"widthCm": 150,
+"depthCm": 120,
+"eur": 34305
+},
+{
+"widthCm": 150,
+"depthCm": 140,
+"eur": 34567
+},
+{
+"widthCm": 150,
+"depthCm": 160,
+"eur": 34836
+},
+{
+"widthCm": 150,
+"depthCm": 180,
+"eur": 35111
+},
+{
+"widthCm": 150,
+"depthCm": 200,
+"eur": 35392
+},
+{
+"widthCm": 150,
+"depthCm": 220,
+"eur": 35678
+},
+{
+"widthCm": 150,
+"depthCm": 240,
+"eur": 35970
+},
+{
+"widthCm": 150,
+"depthCm": 260,
+"eur": 36265
+},
+{
+"widthCm": 150,
+"depthCm": 280,
+"eur": 36565
+},
+{
+"widthCm": 150,
+"depthCm": 300,
+"eur": 36869
+},
+{
+"widthCm": 150,
+"depthCm": 320,
+"eur": 37177
+},
+{
+"widthCm": 150,
+"depthCm": 340,
+"eur": 37488
+},
+{
+"widthCm": 200,
+"depthCm": 100,
+"eur": 34479
+},
+{
+"widthCm": 200,
+"depthCm": 120,
+"eur": 34836
+},
+{
+"widthCm": 200,
+"depthCm": 140,
+"eur": 35204
+},
+{
+"widthCm": 200,
+"depthCm": 160,
+"eur": 35582
+},
+{
+"widthCm": 200,
+"depthCm": 180,
+"eur": 35970
+},
+{
+"widthCm": 200,
+"depthCm": 200,
+"eur": 36365
+},
+{
+"widthCm": 200,
+"depthCm": 220,
+"eur": 36767
+},
+{
+"widthCm": 200,
+"depthCm": 240,
+"eur": 37177
+},
+{
+"widthCm": 200,
+"depthCm": 260,
+"eur": 37593
+},
+{
+"widthCm": 200,
+"depthCm": 280,
+"eur": 38015
+},
+{
+"widthCm": 200,
+"depthCm": 300,
+"eur": 38443
+},
+{
+"widthCm": 200,
+"depthCm": 320,
+"eur": 38875
+},
+{
+"widthCm": 200,
+"depthCm": 340,
+"eur": 39313
+},
+{
+"widthCm": 250,
+"depthCm": 100,
+"eur": 34927
+},
+{
+"widthCm": 250,
+"depthCm": 120,
+"eur": 35392
+},
+{
+"widthCm": 250,
+"depthCm": 140,
+"eur": 35872
+},
+{
+"widthCm": 250,
+"depthCm": 160,
+"eur": 36365
+},
+{
+"widthCm": 250,
+"depthCm": 180,
+"eur": 36869
+},
+{
+"widthCm": 250,
+"depthCm": 200,
+"eur": 37384
+},
+{
+"widthCm": 250,
+"depthCm": 220,
+"eur": 37909
+},
+{
+"widthCm": 250,
+"depthCm": 240,
+"eur": 38443
+},
+{
+"widthCm": 250,
+"depthCm": 260,
+"eur": 38985
+},
+{
+"widthCm": 250,
+"depthCm": 280,
+"eur": 39534
+},
+{
+"widthCm": 250,
+"depthCm": 300,
+"eur": 40091
+},
+{
+"widthCm": 250,
+"depthCm": 320,
+"eur": 40656
+},
+{
+"widthCm": 250,
+"depthCm": 340,
+"eur": 41226
+},
+{
+"widthCm": 300,
+"depthCm": 100,
+"eur": 35392
+},
+{
+"widthCm": 300,
+"depthCm": 120,
+"eur": 35970
+},
+{
+"widthCm": 300,
+"depthCm": 140,
+"eur": 36565
+},
+{
+"widthCm": 300,
+"depthCm": 160,
+"eur": 37177
+},
+{
+"widthCm": 300,
+"depthCm": 180,
+"eur": 37803
+},
+{
+"widthCm": 300,
+"depthCm": 200,
+"eur": 38443
+},
+{
+"widthCm": 300,
+"depthCm": 220,
+"eur": 39094
+},
+{
+"widthCm": 300,
+"depthCm": 240,
+"eur": 39756
+},
+{
+"widthCm": 300,
+"depthCm": 260,
+"eur": 40429
+},
+{
+"widthCm": 300,
+"depthCm": 280,
+"eur": 41112
+},
+{
+"widthCm": 300,
+"depthCm": 300,
+"eur": 41803
+},
+{
+"widthCm": 300,
+"depthCm": 320,
+"eur": 42504
+},
+{
+"widthCm": 300,
+"depthCm": 340,
+"eur": 43212
+},
+{
+"widthCm": 350,
+"depthCm": 100,
+"eur": 35872
+},
+{
+"widthCm": 350,
+"depthCm": 120,
+"eur": 36565
+},
+{
+"widthCm": 350,
+"depthCm": 140,
+"eur": 37280
+},
+{
+"widthCm": 350,
+"depthCm": 160,
+"eur": 38015
+},
+{
+"widthCm": 350,
+"depthCm": 180,
+"eur": 38767
+},
+{
+"widthCm": 350,
+"depthCm": 200,
+"eur": 39534
+},
+{
+"widthCm": 350,
+"depthCm": 220,
+"eur": 40316
+},
+{
+"widthCm": 350,
+"depthCm": 240,
+"eur": 41112
+},
+{
+"widthCm": 350,
+"depthCm": 260,
+"eur": 41919
+},
+{
+"widthCm": 350,
+"depthCm": 280,
+"eur": 42739
+},
+{
+"widthCm": 350,
+"depthCm": 300,
+"eur": 43569
+},
+{
+"widthCm": 350,
+"depthCm": 320,
+"eur": 44410
+},
+{
+"widthCm": 350,
+"depthCm": 340,
+"eur": 45261
+},
+{
+"widthCm": 400,
+"depthCm": 100,
+"eur": 36365
+},
+{
+"widthCm": 400,
+"depthCm": 120,
+"eur": 37177
+},
+{
+"widthCm": 400,
+"depthCm": 140,
+"eur": 38015
+},
+{
+"widthCm": 400,
+"depthCm": 160,
+"eur": 38875
+},
+{
+"widthCm": 400,
+"depthCm": 180,
+"eur": 39756
+},
+{
+"widthCm": 400,
+"depthCm": 200,
+"eur": 40656
+},
+{
+"widthCm": 400,
+"depthCm": 220,
+"eur": 41572
+},
+{
+"widthCm": 400,
+"depthCm": 240,
+"eur": 42504
+},
+{
+"widthCm": 400,
+"depthCm": 260,
+"eur": 43450
+},
+{
+"widthCm": 400,
+"depthCm": 280,
+"eur": 44410
+},
+{
+"widthCm": 400,
+"depthCm": 300,
+"eur": 45383
+},
+{
+"widthCm": 400,
+"depthCm": 320,
+"eur": 46368
+},
+{
+"widthCm": 400,
+"depthCm": 340,
+"eur": 47365
+},
+{
+"widthCm": 450,
+"depthCm": 100,
+"eur": 36869
+},
+{
+"widthCm": 450,
+"depthCm": 120,
+"eur": 37803
+},
+{
+"widthCm": 450,
+"depthCm": 140,
+"eur": 38767
+},
+{
+"widthCm": 450,
+"depthCm": 160,
+"eur": 39756
+},
+{
+"widthCm": 450,
+"depthCm": 180,
+"eur": 40769
+},
+{
+"widthCm": 450,
+"depthCm": 200,
+"eur": 41803
+},
+{
+"widthCm": 450,
+"depthCm": 220,
+"eur": 42857
+},
+{
+"widthCm": 450,
+"depthCm": 240,
+"eur": 43928
+},
+{
+"widthCm": 450,
+"depthCm": 260,
+"eur": 45017
+},
+{
+"widthCm": 450,
+"depthCm": 280,
+"eur": 46121
+},
+{
+"widthCm": 450,
+"depthCm": 300,
+"eur": 47239
+},
+{
+"widthCm": 450,
+"depthCm": 320,
+"eur": 48372
+},
+{
+"widthCm": 450,
+"depthCm": 340,
+"eur": 49518
+},
+{
+"widthCm": 500,
+"depthCm": 100,
+"eur": 37384
+},
+{
+"widthCm": 500,
+"depthCm": 120,
+"eur": 38443
+},
+{
+"widthCm": 500,
+"depthCm": 140,
+"eur": 39534
+},
+{
+"widthCm": 500,
+"depthCm": 160,
+"eur": 40656
+},
+{
+"widthCm": 500,
+"depthCm": 180,
+"eur": 41803
+},
+{
+"widthCm": 500,
+"depthCm": 200,
+"eur": 42975
+},
+{
+"widthCm": 500,
+"depthCm": 220,
+"eur": 44169
+},
+{
+"widthCm": 500,
+"depthCm": 240,
+"eur": 45383
+},
+{
+"widthCm": 500,
+"depthCm": 260,
+"eur": 46616
+},
+{
+"widthCm": 500,
+"depthCm": 280,
+"eur": 47867
+},
+{
+"widthCm": 500,
+"depthCm": 300,
+"eur": 49135
+},
+{
+"widthCm": 500,
+"depthCm": 320,
+"eur": 50418
+},
+{
+"widthCm": 500,
+"depthCm": 340,
+"eur": 51717
+},
+{
+"widthCm": 550,
+"depthCm": 100,
+"eur": 37909
+},
+{
+"widthCm": 550,
+"depthCm": 120,
+"eur": 39094
+},
+{
+"widthCm": 550,
+"depthCm": 140,
+"eur": 40316
+},
+{
+"widthCm": 550,
+"depthCm": 160,
+"eur": 41572
+},
+{
+"widthCm": 550,
+"depthCm": 180,
+"eur": 42857
+},
+{
+"widthCm": 550,
+"depthCm": 200,
+"eur": 44169
+},
+{
+"widthCm": 550,
+"depthCm": 220,
+"eur": 45505
+},
+{
+"widthCm": 550,
+"depthCm": 240,
+"eur": 46865
+},
+{
+"widthCm": 550,
+"depthCm": 260,
+"eur": 48246
+},
+{
+"widthCm": 550,
+"depthCm": 280,
+"eur": 49646
+},
+{
+"widthCm": 550,
+"depthCm": 300,
+"eur": 51065
+},
+{
+"widthCm": 550,
+"depthCm": 320,
+"eur": 52503
+},
+{
+"widthCm": 550,
+"depthCm": 340,
+"eur": 53956
+},
+{
+"widthCm": 600,
+"depthCm": 100,
+"eur": 38443
+},
+{
+"widthCm": 600,
+"depthCm": 120,
+"eur": 39756
+},
+{
+"widthCm": 600,
+"depthCm": 140,
+"eur": 41112
+},
+{
+"widthCm": 600,
+"depthCm": 160,
+"eur": 42504
+},
+{
+"widthCm": 600,
+"depthCm": 180,
+"eur": 43928
+},
+{
+"widthCm": 600,
+"depthCm": 200,
+"eur": 45383
+},
+{
+"widthCm": 600,
+"depthCm": 220,
+"eur": 46865
+},
+{
+"widthCm": 600,
+"depthCm": 240,
+"eur": 48372
+},
+{
+"widthCm": 600,
+"depthCm": 260,
+"eur": 49903
+},
+{
+"widthCm": 600,
+"depthCm": 280,
+"eur": 51456
+},
+{
+"widthCm": 600,
+"depthCm": 300,
+"eur": 53029
+},
+{
+"widthCm": 600,
+"depthCm": 320,
+"eur": 54623
+},
+{
+"widthCm": 600,
+"depthCm": 340,
+"eur": 56235
+},
+{
+"widthCm": 650,
+"depthCm": 100,
+"eur": 38985
+},
+{
+"widthCm": 650,
+"depthCm": 120,
+"eur": 40429
+},
+{
+"widthCm": 650,
+"depthCm": 140,
+"eur": 41919
+},
+{
+"widthCm": 650,
+"depthCm": 160,
+"eur": 43450
+},
+{
+"widthCm": 650,
+"depthCm": 180,
+"eur": 45017
+},
+{
+"widthCm": 650,
+"depthCm": 200,
+"eur": 46616
+},
+{
+"widthCm": 650,
+"depthCm": 220,
+"eur": 48246
+},
+{
+"widthCm": 650,
+"depthCm": 240,
+"eur": 49903
+},
+{
+"widthCm": 650,
+"depthCm": 260,
+"eur": 51586
+},
+{
+"widthCm": 650,
+"depthCm": 280,
+"eur": 53294
+},
+{
+"widthCm": 650,
+"depthCm": 300,
+"eur": 55024
+},
+{
+"widthCm": 650,
+"depthCm": 320,
+"eur": 56776
+},
+{
+"widthCm": 650,
+"depthCm": 340,
+"eur": 58548
+},
+{
+"widthCm": 700,
+"depthCm": 100,
+"eur": 39534
+},
+{
+"widthCm": 700,
+"depthCm": 120,
+"eur": 41112
+},
+{
+"widthCm": 700,
+"depthCm": 140,
+"eur": 42739
+},
+{
+"widthCm": 700,
+"depthCm": 160,
+"eur": 44410
+},
+{
+"widthCm": 700,
+"depthCm": 180,
+"eur": 46121
+},
+{
+"widthCm": 700,
+"depthCm": 200,
+"eur": 47867
+},
+{
+"widthCm": 700,
+"depthCm": 220,
+"eur": 49646
+},
+{
+"widthCm": 700,
+"depthCm": 240,
+"eur": 51456
+},
+{
+"widthCm": 700,
+"depthCm": 260,
+"eur": 53294
+},
+{
+"widthCm": 700,
+"depthCm": 280,
+"eur": 55158
+},
+{
+"widthCm": 700,
+"depthCm": 300,
+"eur": 57047
+},
+{
+"widthCm": 700,
+"depthCm": 320,
+"eur": 58960
+},
+{
+"widthCm": 700,
+"depthCm": 340,
+"eur": 60895
+},
+{
+"widthCm": 750,
+"depthCm": 100,
+"eur": 40091
+},
+{
+"widthCm": 750,
+"depthCm": 120,
+"eur": 41803
+},
+{
+"widthCm": 750,
+"depthCm": 140,
+"eur": 43569
+},
+{
+"widthCm": 750,
+"depthCm": 160,
+"eur": 45383
+},
+{
+"widthCm": 750,
+"depthCm": 180,
+"eur": 47239
+},
+{
+"widthCm": 750,
+"depthCm": 200,
+"eur": 49135
+},
+{
+"widthCm": 750,
+"depthCm": 220,
+"eur": 51065
+},
+{
+"widthCm": 750,
+"depthCm": 240,
+"eur": 53029
+},
+{
+"widthCm": 750,
+"depthCm": 260,
+"eur": 55024
+},
+{
+"widthCm": 750,
+"depthCm": 280,
+"eur": 57047
+},
+{
+"widthCm": 750,
+"depthCm": 300,
+"eur": 59098
+},
+{
+"widthCm": 750,
+"depthCm": 320,
+"eur": 61174
+},
+{
+"widthCm": 750,
+"depthCm": 340,
+"eur": 63274
+}
+]
+}

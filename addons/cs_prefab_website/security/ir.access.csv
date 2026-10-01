@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_prefab_project_public,Projecten: alleen gepubliceerd,cs.prefab.project,base.group_public,r,"[('is_published', '=', True)]"
+access_prefab_project_portal,Projecten: alleen gepubliceerd,cs.prefab.project,base.group_portal,r,"[('is_published', '=', True)]"
+access_prefab_project_user,Projecten lezen,cs.prefab.project,base.group_user,r,
+access_prefab_project_designer,Projecten beheren,cs.prefab.project,website.group_website_designer,crud,
+access_prefab_project_image_public,Projectfoto's: alleen van gepubliceerde projecten,cs.prefab.project.image,base.group_public,r,"[('project_id.is_published', '=', True)]"
+access_prefab_project_image_portal,Projectfoto's: alleen van gepubliceerde projecten,cs.prefab.project.image,base.group_portal,r,"[('project_id.is_published', '=', True)]"
+access_prefab_project_image_user,Projectfoto's lezen,cs.prefab.project.image,base.group_user,r,
+access_prefab_project_image_designer,Projectfoto's beheren,cs.prefab.project.image,website.group_website_designer,crud,

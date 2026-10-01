@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <!--
+            LAATSTE DATABESTAND VAN DIT MODULE, en dat is de hele reden dat het een eigen
+            bestand is: deze stap heeft de eigen startpagina van dit module NODIG, en die
+            wordt pas in data/page_data.xml aangemaakt.
+
+            Wat hij doet: de eigen pagina en haar native website-kopie op "/" behouden.
+            De website had er al een — de startpagina van de klant — en dit module levert er
+            ook een. Twee records op hetzelfde adres is geen cosmetisch dubbeltje:
+            ir.http._serve_page zoekt met order='website_id asc' en limit=1, dus bij twee
+            pagina's van DEZELFDE website beslist PostgreSQL welke de bezoeker krijgt.
+            Het generieke sjabloon en zijn website-specifieke editorkopie met dezelfde
+            view-key zijn wel geldig: Odoo kiest dan de eigen website-kopie. Die kopie
+            wordt nooit als oude startpagina verplaatst of ongepubliceerd.
+
+            De oude startpagina wordt VERPLAATST naar /oude-startpagina en op niet-gepubliceerd
+            gezet, nooit verwijderd: het record, de view en de inhoud blijven bestaan, dus
+            terugzetten is één veld. Het "Home"-menu-item wordt eerst naar onze pagina
+            omgezet, want website.menu.url is een opgeslagen compute over page_id en zou
+            anders stilletjes naar /oude-startpagina gaan wijzen.
+
+            Buiten een noupdate-blok: een <function> daarbinnen draait alleen bij de
+            allereerste installatie en daarna nooit meer, zonder logregel en zonder fout.
+            De methode zelf is idempotent — ze doet niets zodra alleen de eigen pagina en
+            eventuele editorkopie op "/" staan, of als de klant onze startpagina heeft verwijderd.
+        -->
+        <function model="website" name="_cs_prefab_claim_homepage"/>
+    </data>
+
+</odoo>

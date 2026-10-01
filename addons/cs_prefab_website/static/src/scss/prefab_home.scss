@@ -1,0 +1,62 @@
+// Homepage composition. Native Theme / snippet controls own colour, type and spacing.
+// The self-hosted video is an optional enhancement over the editable cover background.
+.o_prefab_site {
+    // Keep the existing contact icon legible over the moving scene and orange bands.
+    // This surface follows the website's native Paper colour and is homepage-scoped.
+    &:has(.o_prefab_home_video_hero) .o_prefab_whatsapp { background-color: var(--o-color-4); }
+    .o_prefab_home_video_hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        background-size: cover;
+        > .container { position: relative; z-index: 2; }
+        > .o_we_bg_filter { z-index: 1; }
+    }
+    .o_prefab_home_video_layer {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .o_prefab_home_background_video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        opacity: 0;
+    }
+    .o_prefab_home_video_ready .o_prefab_home_background_video { opacity: 1; }
+    // Reserve the eventual control's row before the deferred player mounts.
+    // A zero-width anchor otherwise wraps only after JS loads on narrow screens.
+    .o_prefab_home_video_controls { min-inline-size: 12rem; min-height: 3.125rem; }
+    .o_prefab_home_video_toggle { min-height: 44px; }
+    .o_prefab_home_hero_copy {
+        > p { max-width: 29rem; }
+        h1 { text-wrap: balance; line-height: 1.02; }
+    }
+    .o_prefab_home_hero_footer {
+        border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+        > a { display: inline-flex; align-items: center; min-height: 44px; }
+    }
+    .o_prefab_home_products {
+        .s_card { position: relative; }
+        .o_card_img_wrapper { overflow: hidden; }
+        .card-body { display: flex; flex-direction: column; }
+        .card-title { margin-bottom: .6em; }
+        .card-text { flex: 1; }
+        .stretched-link { padding-block: .5rem; text-decoration: none; }
+        .s_card:focus-within { outline: 2px solid var(--o-color-1); outline-offset: 4px; }
+    }
+    .o_prefab_home_project h2,
+    .o_prefab_home_brochures h2,
+    .o_prefab_home_process h2 { text-wrap: balance; }
+    .o_prefab_home_process .s_process_step_content p { max-width: 32ch; margin-inline: auto; }
+    .o_prefab_home_faq .accordion-body { max-width: 68ch; }
+    .o_prefab_home_partners img { object-fit: contain; }
+    @include media-breakpoint-down(lg) {
+        .o_prefab_home_hero_copy > p { max-width: 100%; }
+        .o_prefab_home_hero_copy > .d-flex { width: 100%; }
+        .o_prefab_home_process .s_process_step_content p { max-width: 48ch; }
+    }
+}

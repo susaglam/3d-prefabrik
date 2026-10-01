@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Het nieuws.
+
+        De berichten zelf zijn blog.post-records op de eigen adressen van Odoo Blog, want daar
+        horen de editor, de volgende/vorige-navigatie, de structured data en de tags bij. Alleen
+        het overzicht verhuist naar /nieuws, omdat dat adres in de URL-afspraak staat en /blog
+        niet.
+
+        De kaart staat één keer in prefab_news_card en wordt door het overzicht én door de
+        homepage aangeroepen. Op de live site tonen de kaarten alleen een titel en een knop,
+        terwijl de artikelkop van het bericht zelf wél "7-mrt-2025 | Nieuws" draagt — het enige
+        plekje op de hele site waar een datum staat. Het versheidssignaal bestond dus en werd
+        weggegooid op precies de plek waar een bezoeker besluit of hij klikt. Hier staat het op
+        de kaart.
+    -->
+
+    <template id="prefab_news_card" name="Prefab Partner — nieuwskaart">
+        <div class="s_card card h-100 o_cc o_cc2 border-0 o_prefab_news_card" data-name="Nieuwskaart">
+            <t t-set="cover" t-value="post._cs_prefab_cover_image(size='800x450')"/>
+            <!--
+                Geen Bootstrap `ratio` maar een eigen verhoudingsregel in de stylesheet.
+                Gemeten: in deze Odoo krijgt `.ratio::before` binnen `.o_card_img_wrapper`
+                padding-top 0, waardoor het kader nul pixels hoog wordt en de foto er dus niet
+                staat — de kaart zag er compleet uit en miste zijn beeld. `aspect-ratio` in
+                onze eigen regel heeft geen enkel onderdeel van Odoo nodig om te kloppen.
+            -->
+            <figure t-if="cover" class="o_card_img_wrapper mb-0">
+                <img class="o_card_img card-img-top" t-att-src="cover"
+                     t-att-alt="post.name" loading="lazy" decoding="async"/>
+            </figure>
+            <div class="card-body">
+                <p class="o_prefab_news_meta mb-2">
+                    <!--
+                        `format` erbij, want zonder dat argument levert de datumconverter het
+                        korte formaat van de actieve taal (07-03-2025). Een kaart wordt
+                        gescand, niet ontcijferd, en een voluit geschreven maand is op die
+                        ene regel het verschil tussen een getal en een datum. De artikelkop
+                        van de live site doet hetzelfde ("7-mrt-2025").
+                    -->
+                    <time t-if="post.published_date" t-att-datetime="post.published_date"
+                          t-out="post.published_date"
+                          t-options="{'widget': 'date', 'format': 'd MMMM yyyy'}"/>
+                    <span t-if="post.published_date and post.blog_id" class="mx-2" aria-hidden="true">|</span>
+                    <span t-if="post.blog_id" t-out="post.blog_id.name"/>
+                </p>
+                <h3 class="card-title h5-fs">
+                    <a t-att-href="post.website_url" class="stretched-link text-reset text-decoration-none" t-out="post.name"/>
+                </h3>
+                <p class="card-text" t-out="post.teaser"/>
+                <p class="mb-0 o_prefab_news_more" aria-hidden="true">Lees meer</p>
+            </div>
+        </div>
+    </template>
+
+    <!--
+        Het blok op de homepage. De query staat in Python (website._cs_prefab_recent_posts) en
+        niet in dit sjabloon: een databasequery in arch_db werkt vandaag, is onzichtbaar voor
+        elke statische controle en breekt stil op de dag dat de rendercontext verandert.
+
+        Zonder berichten rendert het blok helemaal niets. Een kop "Laatste nieuws" boven een
+        lege rij is slechter dan geen kop.
+    -->
+    <template id="prefab_news_teaser" name="Prefab Partner — nieuwsteaser">
+        <t t-set="prefab_posts" t-value="website._cs_prefab_recent_posts(2)"/>
+        <section t-if="prefab_posts" class="s_three_columns o_prefab_news pt56 pb64"
+                 data-snippet="s_three_columns" data-name="Laatste nieuws">
+            <div class="container">
+                <div class="row align-items-center pb24">
+                    <div class="col-lg-8">
+                        <h2 class="h3-fs mb-0">Laatste nieuws</h2>
+                    </div>
+                    <div class="col-lg-4 text-lg-end pt16 pt-lg-0">
+                        <a href="/nieuws" class="btn btn-secondary">Al het nieuws</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div t-foreach="prefab_posts" t-as="post" class="col-lg-6 pb24 d-flex">
+                        <t t-call="cs_prefab_website.prefab_news_card"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!--
+        /nieuws — het overzicht.
+
+        Twee oe_structure-regio's, één erboven en één eronder, zodat de klant de introtekst en
+        alles onder de lijst in de bouwer kan schrijven. De lijst zelf staat ertussen en is
+        geen bouwerblok: hij komt uit de records en mag niet per ongeluk weggesleept worden.
+    -->
+    <template id="news_index" name="Nieuws">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_page_wrap" tabindex="-1">
+
+                <div class="oe_structure" id="oe_structure_prefab_nieuws_top">
+                    <section class="s_title o_cc o_cc5 pt32 pb32 o_prefab_page_title"
+                             data-snippet="s_title" data-name="Paginatitel"
+                             style="background-image: url('/web/image/cs_prefab_website.media_header_sub_jpg_3cd69bb8/1600x250/header-sub.jpg');">
+                        <div class="container">
+                            <p class="h2-fs fw-bold mb0">Nieuws</p>
+                        </div>
+                    </section>
+
+                    <t t-call="cs_prefab_website.s_prefab_usp"/>
+
+                    <section class="s_text_block o_cc o_cc2 pt40 pb32" data-snippet="s_text_block" data-name="Intro">
+                        <div class="container">
+                            <h1>Laatste nieuws</h1>
+                            <p class="lead mt16 mb-0">Nieuws en achtergronden over prefab bouwen, onze projecten en het bedrijf.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="s_three_columns o_prefab_news pt48 pb48" data-name="Nieuwsoverzicht">
+                    <div class="container">
+                        <!--
+                            Een kop die je niet ziet maar wel hoort. Zonder hem springt de
+                            structuur van de <h1> van de pagina naar de <h3> van het eerste
+                            bericht; met hem kan iemand die van kop naar kop navigeert de lijst
+                            als geheel vinden.
+                        -->
+                        <h2 class="visually-hidden">Alle berichten</h2>
+                        <div t-if="posts" class="row">
+                            <div t-foreach="posts" t-as="post" class="col-lg-4 col-md-6 pb32 d-flex">
+                                <t t-call="cs_prefab_website.prefab_news_card"/>
+                            </div>
+                        </div>
+                        <div t-else="" class="row">
+                            <div class="col-12">
+                                <p class="lead">Er staan nog geen berichten op deze pagina.</p>
+                                <p>
+                                    Wil je weten wat er speelt? Bel ons op
+                                    <a href="tel:+31624845453">06 24 84 54 53</a> of mail naar
+                                    <a href="mailto:info@prefabpartner.nl">info@prefabpartner.nl</a>.
+                                </p>
+                            </div>
+                        </div>
+                        <div t-if="pager" class="row">
+                            <div class="col-12">
+                                <t t-call="website.pager"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="oe_structure" id="oe_structure_prefab_nieuws_bottom">
+                    <t t-call="cs_prefab_website.s_prefab_diensten"/>
+                </div>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

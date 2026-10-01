@@ -4,9 +4,24 @@
     <field name="name">cs.prefab.quote.list</field>
     <field name="model">cs.prefab.quote</field>
     <field name="arch" type="xml">
-      <list create="false" delete="false">
-        <field name="name"/><field name="create_date"/><field name="website_id"/>
-        <field name="lead_id"/><field name="pricebook_version"/><field name="state"/>
+      <list create="false" delete="true">
+        <header>
+          <button name="action_open_configurator" type="object" string="Nieuwe aanvraag" class="btn-primary" display="always"/>
+        </header>
+        <field name="name" string="Aanvraag"/>
+        <field name="contact_name" string="Klant"/>
+        <field name="contact_email" string="E-mail" widget="email" optional="show"/>
+        <field name="contact_phone" string="Telefoon" widget="phone" optional="hide"/>
+        <field name="create_date" string="Ontvangen"/>
+        <field name="currency_id" column_invisible="True"/>
+        <field name="amount_total" string="Aanvraag incl. btw" widget="monetary"/>
+        <field name="sale_order_id" optional="show"/>
+        <field name="native_order_state" optional="hide"/>
+        <field name="state" string="Opvolging" widget="badge"/>
+        <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+        <field name="follow_up_date" optional="show"/>
+        <field name="activity_ids" widget="list_activity" optional="hide"/>
+        <field name="website_id" optional="hide"/>
         <field name="company_id" groups="base.group_multi_company"/>
       </list>
     </field>
@@ -15,18 +30,165 @@
     <field name="name">cs.prefab.quote.form</field>
     <field name="model">cs.prefab.quote</field>
     <field name="arch" type="xml">
-      <form create="false" delete="false">
-        <header><button name="action_open_lead" string="Open CRM-aanvraag" type="object" class="oe_highlight" invisible="not lead_id"/><field name="state" widget="statusbar"/></header>
+      <form create="false" delete="true">
+        <header>
+          <button name="action_open_sale_order" string="Offerte bewerken" type="object" class="oe_highlight" invisible="not sale_order_id"/>
+          <button name="action_open_partner" string="Klant bewerken" type="object" invisible="not partner_id"/>
+          <button name="action_sync_native" string="Verkoopofferte aanmaken" type="object" class="oe_highlight" invisible="sale_order_id"/>
+          <field name="state" widget="statusbar" options="{'clickable': True}"/>
+        </header>
         <sheet>
-          <div class="alert alert-warning" role="alert">Demonstratieprijs. Technische haalbaarheid en commerciële prijs moeten worden beoordeeld.</div>
-          <h1><field name="name"/></h1>
-          <group><field name="company_id"/><field name="website_id"/><field name="lead_id"/><field name="pricebook_version"/><field name="total_cents" string="Totaal incl. btw (eurocenten)"/><field name="expires_at"/></group>
-          <notebook><page string="Opgeslagen configuratie en prijs"><field name="snapshot_json"/></page><page string="Contact en toestemming"><field name="contact_json"/></page></notebook>
+          <field name="price_mode" invisible="True"/>
+          <field name="currency_id" invisible="True"/>
+          <field name="partner_id" invisible="True"/>
+          <field name="lead_id" invisible="True"/>
+          <field name="project_id" invisible="True"/>
+          <div class="alert alert-warning" role="alert" invisible="not native_error">
+            <strong>Controleer de verkoopinstellingen.</strong>
+            <p>De aanvraag is bewaard. Los de onderstaande melding op en maak daarna de verkoopofferte aan.</p>
+            <field name="native_error" nolabel="1" readonly="1"/>
+          </div>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_partner" type="object" class="oe_stat_button" icon="fa-user" invisible="not partner_id">
+              <div class="o_stat_info"><span class="o_stat_text">Klant</span></div>
+            </button>
+            <button name="action_open_sale_order" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not sale_order_id">
+              <div class="o_stat_info"><span class="o_stat_text">Verkoopofferte</span></div>
+            </button>
+            <button name="action_open_lead" type="object" class="oe_stat_button" icon="fa-handshake-o" invisible="not lead_id">
+              <div class="o_stat_info"><span class="o_stat_text">CRM-aanvraag</span></div>
+            </button>
+            <button name="action_open_project" type="object" class="oe_stat_button" icon="fa-tasks" invisible="not project_id">
+              <div class="o_stat_info"><span class="o_stat_text">Project</span></div>
+            </button>
+          </div>
+          <div class="alert alert-warning" role="alert" invisible="price_mode == 'commercial'">Demonstratieprijs. Technische haalbaarheid en commerciële prijs moeten worden beoordeeld.</div>
+          <div class="alert alert-info" role="alert" invisible="price_mode != 'commercial'">Prijsindicatie op goedgekeurde tarieven. Technische beoordeling en definitieve offerte blijven nodig.</div>
+          <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+          <p>Dit is de oorspronkelijke aanvraag van de klant. Pas klantgegevens aan via Klant bewerken en prijzen of offertelijnen via Offerte bewerken. De ingediende gegevens en prijs hieronder blijven bewaard.</p>
+          <group>
+            <group string="Contact bij aanvraag">
+              <field name="contact_name" string="Naam"/>
+              <field name="contact_email" string="E-mail" widget="email"/>
+              <field name="contact_phone" string="Telefoon" widget="phone"/>
+              <field name="contact_street"/>
+              <field name="contact_zip"/>
+              <field name="contact_city"/>
+            </group>
+            <group string="Aanvraag en opvolging">
+              <field name="create_date" string="Ontvangen op"/>
+              <field name="sale_order_id" options="{'no_create': True}"/>
+              <field name="native_order_state"/>
+              <field name="amount_total" widget="monetary"/>
+              <field name="website_id" options="{'no_create': True}"/>
+              <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+            </group>
+          </group>
+          <group string="Interne opvolging" name="office">
+            <group>
+              <field name="user_id" widget="many2one_avatar_user" options="{'no_create': True}"/>
+              <field name="follow_up_date"/>
+            </group>
+          </group>
+          <group string="Klantopmerking" invisible="not contact_message">
+            <field name="contact_message" nolabel="1" colspan="2"/>
+          </group>
+          <notebook>
+            <page name="internal_notes" string="Interne notities">
+              <field name="internal_note" nolabel="1" placeholder="Afspraken, bijzonderheden van de locatie, wat er aan de telefoon is besproken … Alleen zichtbaar voor het team."/>
+            </page>
+            <page name="configuration" string="Configuratie">
+              <group string="Afmetingen">
+                <group><field name="width_cm"/><field name="depth_cm"/></group>
+                <group><field name="height_cm"/><field name="area_m2"/></group>
+              </group>
+              <field name="config_line_ids" nolabel="1">
+                <list create="false" edit="false" delete="false">
+                  <field name="name" string="Onderdeel"/>
+                  <field name="value" string="Keuze bij aanvraag"/>
+                </list>
+              </field>
+            </page>
+            <page name="price_and_scope" string="Prijs en levering">
+              <p>Prijzen bij het indienen van de aanvraag. De actuele verkoopofferte kan na overleg worden aangepast.</p>
+              <field name="price_line_ids" nolabel="1">
+                <list create="false" edit="false" delete="false">
+                  <field name="name" string="Onderdeel"/>
+                  <field name="role_label" string="Leveringsdeel" optional="show"/>
+                  <field name="status_label" string="Levering"/>
+                  <field name="quantity" string="Aantal"/>
+                  <field name="unit_label" string="Eenheid"/>
+                  <field name="currency_id" column_invisible="True"/>
+                  <field name="unit_price" string="Eenheidsprijs excl. btw" widget="monetary"/>
+                  <field name="amount_total" string="Bedrag excl. btw" widget="monetary"/>
+                </list>
+              </field>
+              <group class="oe_subtotal_footer oe_right">
+                <field name="amount_untaxed" widget="monetary"/>
+                <field name="amount_tax" widget="monetary"/>
+                <field name="amount_total" widget="monetary" class="oe_subtotal_footer_separator"/>
+              </group>
+            </page>
+            <page name="design_images" string="Ontwerpbeelden">
+              <p>De ingediende beelden geven het ontwerp weer. Voorbeeldapparaten en indicatieve modellen bepalen niet wat wordt geleverd; zie Prijs en levering.</p>
+              <field name="visual_ids" mode="kanban" nolabel="1">
+                <kanban create="false" edit="false" delete="false" records_draggable="false">
+                  <templates>
+                    <t t-name="card">
+                      <field name="image_1920" widget="image" options="{'size': [0, 180]}"/>
+                      <div class="fw-bold mt-2"><field name="name"/></div>
+                    </t>
+                  </templates>
+                </kanban>
+                <form create="false" edit="false" delete="false">
+                  <sheet>
+                    <h2><field name="name" readonly="1"/></h2>
+                    <field name="image_1920" widget="image" nolabel="1" readonly="1"/>
+                  </sheet>
+                </form>
+              </field>
+            </page>
+            <page name="technical" string="Technische gegevens" groups="base.group_no_one">
+              <group>
+                <field name="pricebook_version"/>
+                <field name="catalog_revision"/>
+                <field name="price_mode"/>
+                <field name="expires_at" string="Verloopt op"/>
+              </group>
+            </page>
+          </notebook>
         </sheet>
+        <chatter/>
       </form>
     </field>
   </record>
-  <record id="action_prefab_quote" model="ir.actions.act_window"><field name="name">Prefab aanvragen</field><field name="res_model">cs.prefab.quote</field><field name="view_mode">list,form</field></record>
-  <menuitem id="menu_prefab_root" name="Prefab" sequence="45" groups="sales_team.group_sale_salesman"/>
+  <record id="view_prefab_quote_search" model="ir.ui.view">
+    <field name="name">cs.prefab.quote.search</field>
+    <field name="model">cs.prefab.quote</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name" string="Aanvraag"/>
+        <field name="contact_name" string="Klant"/>
+        <field name="contact_email" string="E-mail"/>
+        <field name="user_id"/>
+        <filter name="mine" string="Mijn aanvragen" domain="[('user_id', '=', uid)]"/>
+        <filter name="unassigned" string="Niet toegewezen" domain="[('user_id', '=', False)]"/>
+        <filter name="to_follow_up" string="Op te volgen" domain="[('follow_up_date', '&lt;=', context_today().strftime('%Y-%m-%d')), ('state', '!=', 'closed')]"/>
+        <filter name="open" string="Nog open" domain="[('state', '!=', 'closed')]"/>
+        <filter name="group_state" string="Opvolging" context="{'group_by': 'state'}"/>
+        <filter name="group_user" string="Verantwoordelijke" context="{'group_by': 'user_id'}"/>
+      </search>
+    </field>
+  </record>
+  <record id="action_prefab_quote" model="ir.actions.act_window"><field name="name">Prefab aanvragen</field><field name="res_model">cs.prefab.quote</field><field name="view_mode">list,form</field>
+    <field name="search_view_id" ref="view_prefab_quote_search"/>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Nog geen prefab-aanvragen</p>
+      <p>Elke aanvraag die een bezoeker in de configurator verstuurt, komt hier binnen met de gekozen uitvoering,
+         de prijs en het voorstel. Wijs een verantwoordelijke toe, plan een opvolgdatum en houd notities bij;
+         met <b>Nieuwe aanvraag</b> open je de configurator zelf.</p>
+    </field>
+  </record>
+  <menuitem id="menu_prefab_root" name="Prefab" sequence="45" groups="sales_team.group_sale_salesman" web_icon="cs_prefab_configurator,static/description/icon.png"/>
   <menuitem id="menu_prefab_quotes" name="Aanvragen" parent="menu_prefab_root" action="action_prefab_quote"/>
 </odoo>

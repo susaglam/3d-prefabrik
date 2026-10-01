@@ -4,7 +4,7 @@ import json
 import threading
 import time
 
-from .catalog import public_catalog
+from .catalog import public_catalog, release_context, check_revision
 from .documents import quote_html, quote_pdf
 from .errors import DomainError
 from .pricing import price_config
@@ -88,13 +88,20 @@ def parse_json_body(raw, *, max_bytes=MAX_BODY_BYTES):
 
 
 def dispatch(repository, method, path, payload=None):
+    release = repository.catalog_release() if hasattr(repository, "catalog_release") else None
+    with release_context(release):
+        return _dispatch(repository, method, path, payload)
+
+
+def _dispatch(repository, method, path, payload=None):
     if method == "GET" and path == "/prefab/api/health":
         return 200, "application/json", repository.health()
     if method == "GET" and path == "/prefab/api/catalog":
         return 200, "application/json", public_catalog()
     if method == "POST" and path in ("/prefab/api/price", "/prefab/api/share"):
-        if not isinstance(payload, dict) or set(payload) != {"config"}:
-            raise DomainError("Alleen het veld config is toegestaan.")
+        if not isinstance(payload, dict) or "config" not in payload or set(payload) - {"config", "catalogRevision"}:
+            raise DomainError("Alleen config en catalogRevision zijn toegestaan.")
+        check_revision(payload.get("catalogRevision"))
         if path.endswith("price"):
             return 200, "application/json", price_config(payload["config"])
         return 201, "application/json", repository.create_share(payload["config"])

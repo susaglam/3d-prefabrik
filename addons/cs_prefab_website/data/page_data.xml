@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        De pagina's van de site.
+
+        noupdate="1", net als bij de offertepagina's: het adres, de naam, de titel voor Google
+        en of de pagina gepubliceerd is, zijn van de klant. De SJABLONEN blijven wél
+        bijwerkbaar — dat is precies hoe Odoo zelf werkt. Zolang niemand een pagina in de
+        bouwer opent rendert het sjabloon van dit module; vanaf de eerste bewerking serveert
+        Odoo een kopie die aan deze website hangt en bereiken module-updates die pagina niet
+        meer (copy-on-write). Een release kan dus nog steeds een pagina verbeteren die niemand
+        heeft aangeraakt, en kan er nooit een overschrijven die iemand wél heeft aangeraakt.
+
+        Elke pagina draagt een eigen omschrijving van 140 tot 160 tekens. Op de live site zijn
+        negen van de veertien omschrijvingen niet meer dan een echo van de titel — "Contact"
+        (7 tekens), "Prefab opbouw" (13) — en dan verzint Google zelf een fragment. Dat
+        fragment is de verkoopregel in het zoekresultaat, dus het is de moeite waard hem zelf
+        te schrijven. De twee die op de live site wél goed waren (home en projecten) zijn
+        letterlijk overgenomen.
+
+        Elke pagina draagt ook een eigen og:image. Op de live site ontbreekt die op acht van
+        de veertien pagina's — dan toont WhatsApp een leeg grijs kaartje — en de drie
+        dienstpagina's delen er één: wie de dakkapelpagina deelt, stuurt een foto van een
+        aanbouw.
+    -->
+    <data noupdate="1">
+    <!--
+        THERE IS NO <field name="website_id"> ON THESE RECORDS, AND THAT IS THE FIX.
+
+        It used to be here, and it was the defect that made this module's central promise
+        false. `website.page.website_id` is `related='view_id.website_id', store=True,
+        readonly=False`, so setting it wrote straight through onto the `ir.ui.view` row and the
+        view was born website-SPECIFIC. Odoo skips copy-on-write for a view that is already
+        specific — there is nothing left to copy it to — and the guard that would otherwise
+        stamp `noupdate` on an edited view is deliberately disabled under a website context.
+
+        The consequence, measured on the live database: all ten page views carried
+        `website_id = 1` with `noupdate = f`, so every `-u cs_prefab_website` rewrote them
+        unconditionally and destroyed whatever the customer had changed in the builder, with no
+        error and no log line. The README said the opposite.
+
+        Generic is what every Odoo module ships and what makes copy-on-write work: the template
+        below renders until somebody edits the page, and from that first edit Odoo serves a copy
+        owned by this website which no upgrade can reach.
+
+        `models/website.py::_cs_prefab_release_page_views` clears the field on the websites that
+        already carry it, and refuses to do so on an instance with more than one website,
+        where a generic page would be served by all of them.
+    -->
+
+        <record id="page_home_record" model="website.page">
+            <field name="name">Home</field>
+            <field name="url">/</field>
+            <field name="view_id" ref="page_home"/>
+            <field name="is_published" eval="True"/>
+            <!--
+                De titel begint niet meer met "Welkom". Op de live site is dat
+                "Welkom bij PrefabPartner.nl - Prefab Partner": van de 44 tekens dragen de
+                eerste tien geen enkele zoekterm, terwijl de <h1> op diezelfde pagina wél
+                sterk is. De dienst staat nu vooraan.
+            -->
+            <field name="website_meta_title">Prefab aanbouw, dakkapel en opbouw op maat | PrefabPartner</field>
+            <field name="website_meta_description">Wij bieden hoogwaardige prefab aanbouwen, dakkapellen en opbouwen voor particulieren en aannemers. Ontwerp je aanbouw. ✓ Snelle bouwtijd. ✓ Hoge kwaliteit.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_project_1_jpg_4b3c18ea/1200x900/project-1.jpg</field>
+        </record>
+
+        <record id="page_over_ons_record" model="website.page">
+            <field name="name">Over ons</field>
+            <field name="url">/over-ons</field>
+            <field name="view_id" ref="page_over_ons"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Over PrefabPartner — specialist in prefab aanbouw en opbouw</field>
+            <field name="website_meta_description">PrefabPartner maakt prefab aanbouwen, opbouwen en dakkapellen voor particulieren en aannemers. Lees wie wij zijn, hoe we werken en wat je van ons kunt verwachten.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_opbouw_steiger_webp_46b2d29c/1200x858/opbouw-steiger.webp</field>
+        </record>
+
+        <record id="page_oplossingen_record" model="website.page">
+            <field name="name">Oplossingen</field>
+            <field name="url">/oplossingen</field>
+            <field name="view_id" ref="page_oplossingen"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Prefab oplossingen: aanbouw, dakkapel, opbouw en elementen</field>
+            <field name="website_meta_description">PrefabPartner.nl biedt een breed scala aan prefab oplossingen. Of je nu een complete aanbouw, dakkapel, opbouw of losse prefab zoekt.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_dakkapel_prefab_partner_webp_b0ef8a41/1024x1024/Dakkapel-prefab-partner.webp</field>
+        </record>
+
+        <record id="page_prefab_aanbouw_record" model="website.page">
+            <field name="name">Prefab aanbouw</field>
+            <field name="url">/oplossingen/prefab-aanbouw</field>
+            <field name="view_id" ref="page_prefab_aanbouw"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Prefab aanbouw op maat — binnen enkele dagen geplaatst</field>
+            <field name="website_meta_description">Een prefab aanbouw op maat, in houtskeletbouw of beton, binnen enkele dagen geplaatst. Ontwerp je aanbouw zelf in de configurator en zie direct wat hij kost.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_prefab_aanbouw_jpg_9d1bf718/700x700/prefab-aanbouw.jpg</field>
+        </record>
+
+        <record id="page_prefab_dakkapel_record" model="website.page">
+            <field name="name">Prefab dakkapel</field>
+            <field name="url">/oplossingen/prefab-dakkapel</field>
+            <field name="view_id" ref="page_prefab_dakkapel"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Prefab dakkapel op maat — binnen één dag geplaatst</field>
+            <field name="website_meta_description">Een prefab dakkapel geeft je zolder in één dag ruimte en licht. Volledig maatwerk, onderhoudsvrije materialen en duidelijkheid over de prijs vooraf.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_prefab_dakkapel_jpg_c21a9924/700x700/prefab-dakkapel.jpg</field>
+        </record>
+
+        <record id="page_prefab_opbouw_record" model="website.page">
+            <field name="name">Prefab opbouw</field>
+            <field name="url">/oplossingen/prefab-opbouw</field>
+            <field name="view_id" ref="page_prefab_opbouw"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Prefab opbouw en extra verdieping op maat</field>
+            <field name="website_meta_description">Meer woonruimte zonder uit te breiden: een prefab opbouw of extra verdieping, snel geplaatst, goed geïsoleerd en volledig afgestemd op jouw woning.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_prefab_referentie_opbouw_webp_7e400760/1000x750/prefab-referentie-opbouw.webp</field>
+        </record>
+
+        <record id="page_partner_worden_record" model="website.page">
+            <field name="name">Partner worden</field>
+            <field name="url">/partner-worden</field>
+            <field name="view_id" ref="page_partner_worden"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Partner worden — prefab voor aannemers en bouwbedrijven</field>
+            <field name="website_meta_description">Aannemer of bouwbedrijf? Word partner van PrefabPartner en bied je klanten prefab aanbouwen, dakkapellen en opbouwen met vaste tarieven en korte levertijden.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_partner_worden_webp_fc4ae799/394x645/partner-worden.webp</field>
+        </record>
+
+        <record id="page_contact_record" model="website.page">
+            <field name="name">Contact</field>
+            <field name="url">/contact</field>
+            <field name="view_id" ref="page_contact"/>
+            <field name="is_published" eval="True"/>
+            <field name="website_meta_title">Contact — PrefabPartner in Rijswijk</field>
+            <field name="website_meta_description">Bel 06 24 84 54 53 of stuur een bericht. We denken graag mee over een prefab aanbouw, dakkapel of opbouw voor jouw woning in Rijswijk en omgeving.</field>
+            <field name="website_meta_og_img">/web/image/cs_prefab_website.media_aanbouw_contact_webp_0de4a8db/613x800/aanbouw-contact.webp</field>
+        </record>
+
+    </data>
+
+</odoo>

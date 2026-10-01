@@ -28,8 +28,14 @@ test('front elevation follows chosen frame divisions, aperture size, drain and e
     assert.match(svg,/data-drain-side="left"/);
     assert.equal((svg.match(/data-connection="lighting-conduit"/g)||[]).length,2);
     assert.match(svg,/stroke="#efede6"/);
-    const closed=elevationSvg(buildGeometry({frontOpening:'none'}));
-    assert.doesNotMatch(closed,/data-front-panel=/);
+    // "Geen kozijn" draws the rough opening with its outer frame only: the aperture is dimensioned, nothing is divided.
+    const skeleton=elevationSvg(buildGeometry({width:500,frontOpening:'none'}));
+    assert.doesNotMatch(skeleton,/data-front-panel=/);
+    assert.match(skeleton,/data-skeleton-opening="true"/);
+    assert.match(skeleton,/stroke="#303432"/);
+    assert.match(skeleton,/data-dimension="320 cm"/);
+    assert.match(documentPlanSvg(buildGeometry({width:500,frontOpening:'none'})),/data-skeleton-opening="true"/);
+    assert.doesNotMatch(documentPlanSvg(buildGeometry({width:500,frontOpening:'none'})),/data-plan-panel=/);
 });
 
 test('sliding and folding plans retain closed panels without inventing an opening direction',()=>{

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        De twee nieuwsberichten, als Odoo Blog-records.
+
+        Waarom Blog en niet twee gewone pagina's: een bericht hoort een datum, een auteur, een
+        overzicht en een volgende/vorige te hebben, en dat is precies wat website_blog levert.
+        De klant schrijft een nieuw bericht daarna zelf, zonder ontwikkelaar.
+
+        noupdate="1": vanaf het moment dat ze bestaan zijn dit teksten van de klant. Een
+        upgrade die een gecorrigeerde zin terugdraait, is een wijziging die niemand kan
+        traceren.
+
+        De teksten zijn LETTERLIJK die van de live site. Eén ding is veranderd en dat is een
+        reparatie: de knop "Ontwerp je aanbouw" onderaan het tweede bericht had op de live site
+        href="#" — geen onclick, geen handler. Klikken deed niets. Dat is de enige bevinding in
+        het defectenrapport waarvan zeker is dat hij vandaag leads kost, want het staat op het
+        artikel dat op "voordelen prefab aanbouw" binnenhaalt: precies het moment waarop een
+        huiseigenaar overtuigd is. De knop wijst nu naar /offerte.
+    -->
+    <data noupdate="1">
+
+        <!--
+            Geen is_published hier. In saas~19.4 erft blog.blog de website.published.mixin NIET: het model heeft
+            alleen `active` en `website_id` als zichtbaarheidsvelden, en een <field name="is_published"/> laat de
+            installatie afbreken met ValueError: Invalid field 'is_published' in 'blog.blog', waarna het hele
+            register niet laadt. Wat wel of niet zichtbaar is, is het BERICHT. blog.post erft de mixin wel, en
+            beide berichten hieronder zetten het zelf. Gemeten op het release-image, niet aangenomen.
+        -->
+        <record id="blog_nieuws" model="blog.blog">
+            <field name="name">Nieuws</field>
+            <field name="subtitle">Nieuws en achtergronden over prefab bouwen</field>
+            <field name="website_id" model="website" eval="obj()._cs_prefab_target_website().id"/>
+        </record>
+
+        <!--
+            De auteur is de bedrijfspartner en niet de beheerder die toevallig installeert. De
+            naam die onder het bericht komt te staan volgt dan het bedrijfsrecord van Odoo, en
+            dat is ook de bron die het defectenrapport aanwijst voor de bedrijfsnaam: op de
+            live site staat er "Prefab Partner BV" op /contact, "Prefab Partner" in de
+            structured data en "PrefabPartner.nl" in de voettekst. Eén bron, drie plaatsen.
+        -->
+        <record id="post_nieuwe_website" model="blog.post">
+            <field name="name">Onze nieuwe website is live!</field>
+            <field name="blog_id" ref="blog_nieuws"/>
+            <field name="author_id" ref="base.main_partner"/>
+            <field name="is_published" eval="True"/>
+            <field name="published_date" eval="'2025-02-25 09:00:00'"/>
+            <field name="teaser_manual">We zijn blij om te delen dat onze nieuwe website online is! Deze vernieuwde website helpt ons om onze diensten beter en duidelijker te presenteren.</field>
+            <field name="cover_properties">{"background-image": "url(/web/image/cs_prefab_website.media_dakkapel_aanbouw_home_jpg_96efff00/1200x686/Dakkapel-aanbouw-home.jpg)", "background-color": "", "opacity": "0.2", "resize_class": "o_record_has_cover cover_mid"}</field>
+            <field name="website_meta_title">Onze nieuwe website is live! | PrefabPartner</field>
+            <field name="website_meta_description">Deze vernieuwde website helpt ons om onze diensten beter en duidelijker te presenteren, en vertelt het verhaal achter ons logo.</field>
+            <field name="content" type="html">
+                <div>
+                    <p>
+                        <img src="/web/image/cs_prefab_website.media_dakkapel_aanbouw_home_jpg_96efff00/672x384/Dakkapel-aanbouw-home.jpg"
+                             class="img img-fluid rounded" width="672" height="384" loading="lazy"
+                             alt="Woning met een prefab dakkapel en een aanbouw aan de achterzijde"/>
+                    </p>
+                    <h2>We zijn blij om te delen dat onze nieuwe website online is!</h2>
+                    <p>Deze vernieuwde website helpt ons om onze diensten beter en duidelijker te presenteren. Dankzij het frisse ontwerp is het nu eenvoudiger om informatie te vinden over wat wij doen, zoals prefab aanbouwen, opbouwen en prefab dakkapellen. De website is snel, makkelijk te gebruiken en biedt een duidelijk overzicht van alles wat PrefabPartner te bieden heeft. We zijn enthousiast over deze nieuwe stap en hopen dat je de website net zo prettig vindt als wij!</p>
+                    <h2>Het verhaal achter ons logo</h2>
+                    <p>Ons nieuwe logo vertelt het verhaal van wie we zijn en wat we doen. Het ontwerp brengt onze drie belangrijkste diensten – prefab aanbouw, opbouw en prefab dakkapellen – samen in één modern symbool. Het huis en dak in het logo symboliseren het stevige en betrouwbare karakter van onze oplossingen, terwijl de letter P een verwijzing is naar ‘Prefab Partner’. Dit toont onze rol als partner die betrouwbare en duurzame oplossingen biedt voor de woningbouw.</p>
+                    <p>De kleuren zwart en oranje zijn niet alleen visueel krachtig, maar weerspiegelen ook de energie en passie die we in elk project stoppen. Zwart staat voor betrouwbaarheid en professionaliteit, terwijl oranje de kracht en dynamiek van ons werk benadrukt. Ons logo is meer dan alleen een beeld; het vertegenwoordigt de combinatie van vakmanschap, innovatie en klantgerichte oplossingen die we bieden. Het is een visuele belofte van kwaliteit, waarmee we onze klanten vertrouwen geven in onze diensten.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="post_voordelen_prefab_aanbouw" model="blog.post">
+            <field name="name">Voordelen van een prefab aanbouw</field>
+            <field name="blog_id" ref="blog_nieuws"/>
+            <field name="author_id" ref="base.main_partner"/>
+            <field name="is_published" eval="True"/>
+            <field name="published_date" eval="'2025-03-07 09:00:00'"/>
+            <field name="teaser_manual">Wil je snel en zonder gedoe extra woonruimte? Een prefab aanbouw is dé oplossing! Dankzij de moderne bouwtechnieken wordt een prefab aanbouw in de fabriek geproduceerd en binnen enkele dagen bij jou geplaatst.</field>
+            <field name="cover_properties">{"background-image": "url(/web/image/cs_prefab_website.media_voordelen_prefab_aanbouw_jpg_8e680db4/1200x800/voordelen-prefab-aanbouw.jpg)", "background-color": "", "opacity": "0.2", "resize_class": "o_record_has_cover cover_mid"}</field>
+            <field name="website_meta_title">Voordelen van een prefab aanbouw | PrefabPartner</field>
+            <field name="website_meta_description">Een prefab aanbouw staat binnen enkele dagen, is vaak voordeliger dan traditioneel bouwen en geeft veel minder overlast. De vijf voordelen op een rij.</field>
+            <field name="content" type="html">
+                <div>
+                    <p>
+                        <img src="/web/image/cs_prefab_website.media_voordelen_prefab_aanbouw_jpg_8e680db4/800x533/voordelen-prefab-aanbouw.jpg"
+                             class="img img-fluid rounded" width="800" height="533" loading="lazy"
+                             alt="Prefab aanbouw met grote raampartij aan de tuinzijde van een woning"/>
+                    </p>
+                    <h2>Wil je snel en zonder gedoe extra woonruimte?</h2>
+                    <p>Een prefab aanbouw is dé oplossing! Dankzij de moderne bouwtechnieken wordt een prefab aanbouw in de fabriek geproduceerd en binnen enkele dagen bij jou geplaatst. Dit bespaart tijd, kosten en overlast.</p>
+                    <h3>Snelle plaatsing</h3>
+                    <p>In tegenstelling tot traditionele aanbouw, die weken kan duren, staat een <a href="/oplossingen/prefab-aanbouw">prefab aanbouw</a> vaak binnen enkele dagen. Dit betekent minder bouwoverlast en sneller genieten van je nieuwe ruimte.</p>
+                    <h3>Kostenbesparend</h3>
+                    <p>Een prefab aanbouw is vaak voordeliger dan een traditionele aanbouw. Door efficiënte productie in de fabriek blijven de kosten lager en is er minder materiaalverspilling.</p>
+                    <h3>Duurzaam en energiezuinig</h3>
+                    <p>Prefab <a href="/oplossingen">aanbouwen</a> worden met hoogwaardige isolatiematerialen gebouwd, waardoor ze energiezuinig zijn. Dit zorgt voor lagere stookkosten en een duurzamer huis.</p>
+                    <h3>Minder overlast</h3>
+                    <p>Omdat de aanbouw grotendeels in de fabriek wordt gemaakt, is er op locatie minder werk nodig. Dit betekent minder geluid, stof en verstoring van je dagelijkse leven.</p>
+                    <h3>Strakke afwerking en flexibiliteit</h3>
+                    <p>Dankzij gecontroleerde productieomstandigheden is een prefab aanbouw vaak van hogere kwaliteit dan traditioneel gebouwde aanbouwen. Bovendien zijn er veel afwerkingsopties, zodat de aanbouw perfect bij jouw woning past.</p>
+                    <p><a href="/offerte" class="btn btn-primary">Ontwerp je aanbouw</a></p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+
+    <data>
+        <!--
+            Buiten het noupdate-blok, en dat is geen slordigheid: een <function> BINNEN een
+            noupdate="1"-blok draait alleen bij de allereerste installatie en daarna nooit
+            meer — zonder logregel en zonder fout. Deze moet bij elke upgrade draaien, want
+            hij leest het adres dat de berichten op dat moment hebben.
+
+            Stage 1 liet /onze-nieuwe-website-is-live/ en /voordelen-van-een-prefab-aanbouw/
+            naar /nieuws wijzen, omdat de berichten toen nog niet bestonden. Nu wel, dus
+            wijzen ze naar het bericht zelf.
+        -->
+        <function model="website" name="_cs_prefab_point_news_redirects"/>
+    </data>
+
+</odoo>

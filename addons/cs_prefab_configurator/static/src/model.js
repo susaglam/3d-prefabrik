@@ -1,26 +1,27 @@
+import {FINISHES, PREFAB_FACADES} from './finishes.js';
 export const STORAGE_KEY = 'cs-prefab-design-v1';
+export const COMPARISON_STORAGE_KEY = 'cs-prefab-comparison-v1';
 export const money = cents => new Intl.NumberFormat('nl-NL', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(cents / 100);
 export const preciseMoney = cents => new Intl.NumberFormat('nl-NL', {style:'currency', currency:'EUR'}).format(cents / 100);
 export const metric = cm => new Intl.NumberFormat('nl-NL', {minimumFractionDigits:2,maximumFractionDigits:2}).format(cm / 100);
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, x => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 export const STEPS = [
- {label:'Afmetingen',short:'Maat',title:'Maak ruimte voor je plannen.',description:'Een fijne woonkeuken, een grotere woonkamer of een plek voor jezelf. Hoeveel ruimte wil jij erbij?',icon:'ruler',fields:['width','depth']},
- {label:'Gevel',short:'Gevel',title:'Een buitenkant die bij je past.',description:'Sluit aan op je woning of kies een nieuw karakter. Jij bepaalt de uitstraling.',icon:'home',fields:['facade','rollaag']},
- {label:'Kozijn & dak',short:'Licht',title:'Laat het buitenleven binnen.',description:'Kies je verbinding met de tuin en laat het daglicht zijn werk doen.',icon:'sun',fields:['frontOpening','rooflight','roofEdge']},
- {label:'Buiten',short:'Buiten',title:'Ook buiten goed geregeld.',description:'Denk alvast aan de praktische details. Links en rechts zijn gezien vanuit de tuin.',icon:'leaf',fields:['outsideLight','outsideSocket','outsideTap','drainMaterial','drainSide']},
- {label:'Binnen',short:'Binnen',title:'Van extra ruimte naar jouw plek.',description:'Bepaal hoe ver we de binnenzijde voor je voorbereiden. De details bespreken we bij de opname.',icon:'light',fields:['interior','plaster','screed','underfloorHeating','heating','ceilingLights','switches','spotlights','sockets']},
- {label:'Situatie',short:'Situatie',title:'Een goede basis begint hier.',description:'Vertel ons iets over de bestaande woning en de bereikbaarheid van je tuin.',icon:'shield',fields:['demolition','access','piles']},
- {label:'Jouw voorstel',short:'Voorstel',title:'Dit wordt jouw extra ruimte.',description:'Controleer je ontwerp en bewaar een persoonlijk voorstel met alle keuzes op een rij.',icon:'list',fields:[]},
+ {label:'Buitenzijde',short:'Buiten',title:'Stel je aanbouw samen',description:'Begin met de buitenmaten. Kies daarna de materialen en de verbinding met je tuin.',icon:'home',fields:['width','depth','facade','rollaag','openingMaterial','frontOpening','rooflight','roofShade','greenRoof','roofEdge','overhang','overhangSpots','overhangSpotControl','outsideLight','outsideLightControl','outsideSocket','outsideTap','drainMaterial','drainSide']},
+ {label:'Binnenzijde',short:'Binnen',title:'Richt de binnenzijde in',description:'Kies de afwerking en de plaatsen voor verwarming en elektra. De leveringsomvang staat bij iedere voorziening.',icon:'floor',fields:['interior','plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','wallLights','wallLightControl','socketPositions','sockets','switches']},
+ {label:'Situatie & levering',short:'Situatie',title:'De aansluiting op je woning',description:'Geef de situatie ter plaatse aan en controleer wat er bij je keuzes wordt geleverd.',icon:'shield',fields:['demolition','access','piles']},
+ {label:'Jouw voorstel',short:'Voorstel',title:'Controleer je ontwerp',description:'Je keuzes, de leveringsomvang en de voorbeeldberekening op één plek.',icon:'list',fields:[]},
 ];
-export const INTERIOR_FIELDS = ['plaster','screed','underfloorHeating','heating','ceilingLights','switches','spotlights','sockets'];
-export const MATERIALS = {
- 'brick-red':{color:'#926557',type:'brick'},'brick-black':{color:'#454241',type:'brick'},'brick-white':{color:'#dedbd1',type:'brick'},'brick-yellow':{color:'#b79b6c',type:'brick'},
- 'wood-horizontal':{color:'#b78d60',type:'wood-h'},'wood-vertical':{color:'#bb9568',type:'wood-v'},'open-vertical':{color:'#98734c',type:'open-v'},'open-horizontal':{color:'#98734c',type:'open-h'},
- 'pvc-black':{color:'#343633',type:'pvc'},'pvc-green':{color:'#354b40',type:'pvc'},'pvc-cream':{color:'#e6dfca',type:'pvc'},'pvc-anthracite':{color:'#555956',type:'pvc'},render:{color:'#e7e3da',type:'render'}
-};
+export const INTERIOR_FIELDS = ['plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','wallLights','wallLightControl','socketPositions','sockets','switches'];
+/**
+ * The aanbouw's thirteen "Gevelbekleding" chips: {color, type} per catalog facade code, in catalog.json's order.
+ * The colours themselves live in finishes.js — one table for the aanbouw chip, the house chip and the wall the
+ * scene renders — so this is a VIEW on that table, never a second copy of it. Shape and keys are unchanged; the
+ * "Picker chip truth" gate still walks exactly this object.
+ */
+export const MATERIALS = Object.freeze(Object.fromEntries(PREFAB_FACADES.map(code => [code, FINISHES[code]])));
 export function fieldsOf(catalog) { return Object.fromEntries(catalog.groups.flatMap(g => g.fields).map(f => [f.key, f])); }
 export function normalizedDraft(input, catalog) {
- const result = {...catalog.defaults};
+  const result = structuredClone(catalog.defaults);
  if (!input || typeof input !== 'object' || Array.isArray(input)) return result;
  const fields = fieldsOf(catalog);
  for (const [key, value] of Object.entries(input)) {
@@ -28,23 +29,75 @@ export function normalizedDraft(input, catalog) {
    const dimension = catalog.dimensions[key];
    if (dimension) {if (typeof value === 'number' && Number.isInteger(value) && value>=dimension.min && value<=dimension.max) result[key]=value;continue;}
    const field=fields[key]; if(!field) continue;
-   if (field.options?.length) {if(field.options.some(option=>option.id===value)) result[key]=value;}
+    if(field.type==='multiselect') {
+      if(Array.isArray(value)&&value.every(item=>field.options.some(option=>option.id===item))&&new Set(value).size===value.length&&value.length<=(field.maxSelections??field.options.length)) result[key]=field.options.filter(option=>value.includes(option.id)).map(option=>option.id);
+    }
+    else if (field.options?.length) {if(field.options.some(option=>option.id===value)) result[key]=value;}
    else if (field.type==='boolean' && typeof value==='boolean') result[key]=value;
    else if (['number','integer'].includes(field.type) && Number.isInteger(value) && value >= field.min && value <= field.max) result[key]=value;
  }
- return normalizeInterior(result,catalog.defaults);
+  for(const [positions,count] of [['ceilingPositions','ceilingLights'],['spotPositions','spotlights']]) {
+    if(fields[positions]&&!Object.hasOwn(input,positions)&&Number.isInteger(result[count]))result[positions]=fields[positions].options.slice(0,result[count]).map(option=>option.id);
+  }
+  if(fields.socketPositions&&!Object.hasOwn(input,'socketPositions'))result.socketPositions=({left:['L2'],right:['R2'],both:['L2','R2']})[result.sockets]||[];
+  return normalizeInterior(result,catalog.defaults);
 }
 export function normalizeInterior(config, defaults) {
  const result={...config};
- if(!result.interior) for(const key of INTERIOR_FIELDS) result[key]=defaults[key];
+ if(!result.interior) for(const key of INTERIOR_FIELDS) if(Object.hasOwn(defaults,key))result[key]=Array.isArray(defaults[key])?[...defaults[key]]:defaults[key];
+ if(!result.plaster&&Object.hasOwn(defaults,'painting'))result.painting=false;
+ if(result.overhang==='none'){result.overhangSpots=0;if(Object.hasOwn(defaults,'overhangSpotControl'))result.overhangSpotControl=defaults.overhangSpotControl;}
+ if(!['lean-1','lean-2','lean-3'].includes(result.rooflight)&&Object.hasOwn(defaults,'roofShade'))result.roofShade=false;
+ if(Array.isArray(result.ceilingPositions))result.ceilingLights=result.ceilingPositions.length;
+ if(Array.isArray(result.spotPositions))result.spotlights=result.spotPositions.length;
+ if(Array.isArray(result.socketPositions)){const left=result.socketPositions.some(p=>p.startsWith('L')),right=result.socketPositions.some(p=>p.startsWith('R'));result.sockets=left&&right?'both':left?'left':right?'right':'none';}
+ for(const [key,active] of [['outsideLightControl',result.outsideLight!=='none'],['ceilingLightControl',result.ceilingLights>0],['spotControl',result.spotlights>0],['wallLightControl',result.wallLights?.length>0]])if(!active&&Object.hasOwn(defaults,key))result[key]=defaults[key];
  return result;
 }
 export function labelFor(fields,key,value) {
+ if(Array.isArray(value))return value.length?value.map(id=>fields[key]?.options?.find(option=>option.id===id)?.label||id).join(', '):'Geen';
  const option=fields[key]?.options?.find(o=>o.id===value);
  return option?.label ?? (typeof value==='boolean' ? (value?'Ja':'Nee') : String(value));
 }
+
+/** Presentation visibility never joins the commercial configuration or saved quote. */
+export function fieldIsVisible(key,config,fields) {
+ if(INTERIOR_FIELDS.includes(key)&&!config.interior)return false;
+ if(key==='painting')return !!config.plaster;
+ if(key==='roofShade')return ['lean-1','lean-2','lean-3'].includes(config.rooflight);
+ if(['overhangSpots','overhangSpotControl'].includes(key)&&config.overhang==='none')return false;
+ if(key==='overhangSpotControl')return config.overhangSpots>0;
+ if(key==='outsideLightControl')return config.outsideLight!=='none';
+ if(key==='ceilingLightControl')return config.ceilingLights>0;
+ if(key==='spotControl')return config.spotlights>0;
+ if(key==='wallLightControl')return config.wallLights?.length>0;
+ if(key==='ceilingLights'&&fields.ceilingPositions)return false;
+ if(key==='spotlights'&&fields.spotPositions)return false;
+ if(key==='sockets'&&fields.socketPositions)return false;
+ return true;
+}
 export function validDimensions(config,catalog) {
  return Object.entries(catalog.dimensions).every(([key,d])=>Number.isInteger(config[key])&&config[key]>=d.min&&config[key]<=d.max);
+}
+
+/** Comparison persistence contains configurations only; prices and scope are always refreshed. */
+export function comparisonDrafts(input,catalog) {
+ const slots={A:null,B:null};
+ if(!input||typeof input!=='object'||Array.isArray(input))return slots;
+ for(const slot of ['A','B']){
+  const value=input[slot]?.config;
+  if(value&&typeof value==='object'&&!Array.isArray(value))slots[slot]=normalizedDraft(value,catalog);
+ }
+ return slots;
+}
+export function comparisonRows(a,b,catalog) {
+ const left=normalizedDraft(a,catalog),right=normalizedDraft(b,catalog),fields=fieldsOf(catalog);
+ const keys=[...new Set(STEPS.slice(0,3).flatMap(item=>item.fields))];
+ return keys.filter(key=>JSON.stringify(left[key])!==JSON.stringify(right[key])&&(fieldIsVisible(key,left,fields)||fieldIsVisible(key,right,fields))).map(key=>({
+  key,label:catalog.dimensions[key]?.label||fields[key]?.label||key,
+  a:catalog.dimensions[key]?`${left[key]} cm`:labelFor(fields,key,left[key]),
+  b:catalog.dimensions[key]?`${right[key]} cm`:labelFor(fields,key,right[key]),
+ }));
 }
 export function validateContact(contact) {
  contact=Object.fromEntries(Object.entries(contact && typeof contact==='object' ? contact : {}).map(([k,v])=>[k,typeof v==='string'?v.trim():'']));

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        De interactieve afbeelding met drie plusjes. Op de live site is dit een blok
+        handgeschreven HTML, CSS en JavaScript dat in een Divi-codemodule is geplakt en
+        vervolgens VIER keer is gekopieerd: op de homepage en op alle drie de
+        oplossingspagina's, met exact dezelfde tekst en dezelfde coördinaten.
+
+        Hier staat het één keer. De coördinaten (12/20, 35/52, 50/70 in procenten) en de
+        Nederlandse tekst zijn letterlijk overgenomen uit de inventarisatie.
+
+        GEEN JAVASCRIPT. Elk plusje is een echte <button> met een `aria-describedby` naar zijn
+        eigen uitleg; de uitleg verschijnt bij hover én bij focus, puur met CSS (:hover op de
+        omhulling, :focus-visible op de knop). Daarmee is hij bedienbaar met een muis, met een
+        vinger (een tik geeft focus) en met een toetsenbord — dat laatste kan de versie op de
+        live site niet.
+
+        ER STAAT BEWUST GEEN `aria-expanded` EN GEEN `aria-controls` OP.
+        (Gecorrigeerd 2026-09-17: deze kop beweerde tot vandaag het tegenovergestelde — dat
+        elk plusje "een aria-expanded en een aria-controls" droeg. Dat heeft de markup nooit
+        gedaan, en de alinea eronder sprak zichzelf in dezelfde adem tegen door uit te leggen
+        waarom aria-expanded op "false" blijft staan. Een kopcommentaar dat een
+        toegankelijkheidseigenschap belooft die er niet is, is erger dan geen commentaar: de
+        volgende beheerder vinkt het af zonder te kijken.)
+
+        De reden dat ze er niet staan: `aria-expanded` beschrijft een toestand die verandert,
+        en zonder JavaScript kan er niets meeveranderen — een attribuut dat liegt is erger dan
+        een attribuut dat ontbreekt. `aria-controls` wordt door vrijwel geen enkele
+        schermlezer opgevolgd en zou hier alleen ruis toevoegen. Wat er wél staat, klopt:
+        `aria-describedby` zegt "deze tekst hoort bij deze knop", en dat wordt voorgelezen
+        zodra de knop focus krijgt.
+    -->
+    <template id="s_prefab_hotspots" name="Prefab Partner — interactieve afbeelding">
+        <!--
+            Het grijze vlak is geen versiering maar een besluit: de tekening stond in een wit
+            vlak van 1440 px breed op 720 px afbeelding, met aan weerszijden 360 px leegte die
+            niets deed. Op de grijze band is diezelfde leegte een ondergrond waar de tekening
+            op ligt — en dat is precies wat de tekening is: een bouwkundige doorsnede op een
+            werkblad, niet een foto die zweeft.
+        -->
+        <section class="s_prefab_hotspots o_cc o_cc3 pt80 pb80"
+                 data-snippet="s_prefab_hotspots" data-name="Interactieve afbeelding">
+            <div class="container">
+                <div class="s_prefab_hotspots_stage">
+                    <img src="/web/image/cs_prefab_website.media_ontwerp_aanbouw_jpg_1cd10519/720x720/ontwerp-aanbouw.jpg"
+                         class="img img-fluid rounded" loading="lazy" decoding="async"
+                         alt="Getekende woning met een opbouw, een dakkapel en een aanbouw, met drie markeringen erop" style="width: 100%; height: auto;"/>
+
+                    <div class="s_prefab_hotspot" style="top: 12%; left: 20%;" data-name="Markering">
+                        <button type="button" class="s_prefab_hotspot_pin"
+                                aria-describedby="prefab_hotspot_opbouw">
+                            <span class="visually-hidden">Meer over prefab opbouw</span>
+                            <span aria-hidden="true">+</span>
+                        </button>
+                        <div class="s_prefab_hotspot_card" id="prefab_hotspot_opbouw" role="note">
+                            <strong>Prefab opbouw</strong>
+                            <span>Heb je behoefte aan meer woonruimte, maar geen ruimte om uit te breiden?</span>
+                        </div>
+                    </div>
+
+                    <div class="s_prefab_hotspot" style="top: 35%; left: 52%;" data-name="Markering">
+                        <button type="button" class="s_prefab_hotspot_pin"
+                                aria-describedby="prefab_hotspot_dakkapel">
+                            <span class="visually-hidden">Meer over prefab dakkapel</span>
+                            <span aria-hidden="true">+</span>
+                        </button>
+                        <div class="s_prefab_hotspot_card" id="prefab_hotspot_dakkapel" role="note">
+                            <strong>Prefab dakkapel</strong>
+                            <span>Met een prefab dakkapel voeg je eenvoudig ruimte en licht toe aan jouw woning.</span>
+                        </div>
+                    </div>
+
+                    <div class="s_prefab_hotspot" style="top: 50%; left: 70%;" data-name="Markering">
+                        <button type="button" class="s_prefab_hotspot_pin"
+                                aria-describedby="prefab_hotspot_aanbouw">
+                            <span class="visually-hidden">Meer over prefab aanbouw</span>
+                            <span aria-hidden="true">+</span>
+                        </button>
+                        <div class="s_prefab_hotspot_card" id="prefab_hotspot_aanbouw" role="note">
+                            <strong>Prefab aanbouw</strong>
+                            <span>Wil je jouw woning uitbreiden met een extra kamer, kantoor of leefruimte?</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                    Dezelfde drie teksten, zichtbaar onder de afbeelding op een telefoon. Een
+                    tooltip van 260 px naast een plusje werkt niet op 390 px breed, en de
+                    inhoud weglaten zou betekenen dat de mobiele bezoeker — de meerderheid —
+                    drie van de drie beloftes mist. De stylesheet toont de ene of de andere,
+                    nooit allebei tegelijk.
+                -->
+                <ul class="s_prefab_hotspots_plain list-unstyled mt32">
+                    <li><strong>Prefab opbouw</strong> — Heb je behoefte aan meer woonruimte, maar geen ruimte om uit te breiden?</li>
+                    <li><strong>Prefab dakkapel</strong> — Met een prefab dakkapel voeg je eenvoudig ruimte en licht toe aan jouw woning.</li>
+                    <li><strong>Prefab aanbouw</strong> — Wil je jouw woning uitbreiden met een extra kamer, kantoor of leefruimte?</li>
+                </ul>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_prefab_hotspots_in_panel" inherit_id="website.snippets"
+              name="Prefab Partner — interactieve afbeelding in de blokkenlade">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="cs_prefab_website.s_prefab_hotspots" string="Interactieve afbeelding" group="images"
+               t-thumbnail="/cs_prefab_website/static/src/img/s_prefab_hotspots.svg">
+                <keywords>hotspot, markering, interactief, afbeelding, plusje, ontwerp</keywords>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

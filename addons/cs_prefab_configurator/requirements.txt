@@ -1,0 +1,4 @@
+# Runtime: Python standard library and the installed Odoo dependencies only.
+# No additional pip packages are currently required by this addon.
+# Add genuinely required packages here; ../requirements.txt includes this file
+# for the supplied Coolify container's startup installer.

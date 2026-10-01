@@ -1,0 +1,29 @@
+// Composition only. Native Theme and snippet options own type, colour and spacing.
+.o_prefab_site {
+    .o_prefab_reading { max-width: 70ch; }
+    .o_prefab_warm_hero_copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        > h1, > p { max-width: 28rem; }
+    }
+    .o_prefab_warm_hero h1,
+    .o_prefab_warm_intro h1,
+    .o_prefab_warm_section h2 { text-wrap: balance; }
+    .o_prefab_product_grid .card-body { padding-inline: 0; }
+    .o_prefab_product_grid .o_card_img_wrapper > img { object-fit: cover; }
+    .o_prefab_warm_intro img,
+    .o_prefab_project_feature img { object-fit: cover; }
+    .o_prefab_project_selection img { object-fit: cover; }
+    .o_prefab_quote_intro { scroll-margin-top: var(--prefab-header-offset, 80px); }
+    .o_prefab_contact_intro .o_prefab_reading { max-width: 48ch; }
+
+    @include media-breakpoint-down(lg) {
+        .o_prefab_warm_intro .row { row-gap: 1rem; }
+    }
+    @include media-breakpoint-down(md) {
+        .o_prefab_quote_intro .lead { margin-bottom: .5rem; }
+        .o_prefab_quote_intro a:not(.btn) { display: inline-flex; align-items: center; min-height: 44px; }
+    }
+}

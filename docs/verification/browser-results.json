@@ -1,5 +1,5 @@
 {
-  "startedAt": "2026-09-09T19:14:09.980Z",
+  "startedAt": "2026-09-14T05:07:47.142Z",
   "checks": [
     {
       "name": "Initial WebGL scene, catalogue and server price load without script errors",
@@ -8,98 +8,14 @@
     {
       "name": "Minimum 150 × 100 cm remains exact in 3D",
       "passed": true
-    },
-    {
-      "name": "Out-of-range dimension rejected without changing canonical preview",
-      "passed": true
-    },
-    {
-      "name": "Facade, white barred doors and eight-panel gable rooflight drive actual scene geometry",
-      "passed": true
-    },
-    {
-      "name": "Outside connections and drain selections propagate",
-      "passed": true
-    },
-    {
-      "name": "Interior branch hides and clears previous optional costs",
-      "passed": true
-    },
-    {
-      "name": "Summary edit links reopen the correct completed step",
-      "passed": true
-    },
-    {
-      "name": "Itemized net/VAT/total explanation marks demonstration pricing",
-      "passed": true
-    },
-    {
-      "name": "Scale floor plan and roof visibility controls work",
-      "passed": true
-    },
-    {
-      "name": "Share link restores design in a fresh browser without contact data",
-      "passed": true
-    },
-    {
-      "name": "Local draft survives reload",
-      "passed": true
-    },
-    {
-      "name": "Required-field validation, persistent quotation and real PDF download complete",
-      "passed": true
-    },
-    {
-      "name": "360, 390, 768 and 1440 px viewports: no overflow and controls remain usable",
-      "passed": true
-    },
-    {
-      "name": "A late outdated price response cannot overwrite a newer configuration total",
-      "passed": true
-    },
-    {
-      "name": "Offline price hides stale total and recovers with explicit retry",
-      "passed": true
-    },
-    {
-      "name": "Unavailable WebGL falls back to usable SVG plan",
-      "passed": true
-    },
-    {
-      "name": "Blocked browser storage never reports a false successful save",
-      "passed": true
-    },
-    {
-      "name": "No unexpected browser runtime or resource errors",
-      "passed": true
     }
   ],
-  "viewports": [
-    {
-      "viewport": 360,
-      "document": 360,
-      "passed": true
-    },
-    {
-      "viewport": 390,
-      "document": 390,
-      "passed": true
-    },
-    {
-      "viewport": 768,
-      "document": 768,
-      "passed": true
-    },
-    {
-      "viewport": 1440,
-      "document": 1440,
-      "passed": true
-    }
-  ],
+  "viewports": [],
   "errors": [
-    "Failed to load resource: net::ERR_FAILED"
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
   ],
   "productionWrites": false,
-  "passed": true,
-  "finishedAt": "2026-09-09T19:14:50.820Z"
+  "passed": false,
+  "failure": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('#width-error')\nExpected substring: \"150\"\nReceived string:    \"\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('#width-error')\n    9 × locator resolved to <p id=\"width-error\" class=\"field-error\"></p>\n      - unexpected value \"\"\n\n    at Proxy.<anonymous> (E:\\Projeler\\cs_prefab_configurator\\node_modules\\playwright\\lib\\matchers\\expect.js:213:24)\n    at file:///E:/Projeler/cs_prefab_configurator/scripts/verify-browser.mjs:46:45",
+  "finishedAt": "2026-09-14T05:08:01.190Z"
 }

@@ -135,7 +135,7 @@ class DocumentVisualTests(unittest.TestCase):
             self.assertEqual(original, repeated)
             self.assertEqual(repo.get_quote(original["token"])["snapshot"]["visuals"], canonical_a["visuals"])
             shared = repo.get_share(repo.create_share(first["config"])["token"])
-            self.assertEqual(set(shared), {"config"})
+            self.assertEqual(set(shared), {"config", "catalogRevision", "schemaVersion"})
             second["contact"]["email"] = "different@example.test"
             with self.assertRaises(DomainError) as error:
                 repo.create_quote(second)

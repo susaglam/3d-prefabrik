@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Run the local durable configurator: python3 scripts/serve.py --port 8069."""
 import argparse
+import base64
+import hashlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from html.parser import HTMLParser
 import json
 import logging
 import mimetypes
+import os
 from pathlib import Path
 import sys
 from urllib.parse import unquote, urlsplit
@@ -13,12 +17,44 @@ ROOT = Path(__file__).resolve().parent.parent
 ADDON = ROOT / "addons" / "cs_prefab_configurator"
 sys.path.insert(0, str(ADDON))
 
+from services.appearance import appearance_payload
 from services.errors import DomainError
 from services.http_api import RateLimiter, body_limit, dispatch, enforce_origin, parse_json_body
 from services.storage import SQLiteRepository
 
 STATIC = ADDON / "static"
 LOGGER = logging.getLogger("prefab")
+
+
+class _ImportMapParser(HTMLParser):
+    """Collect inline import maps from our trusted static entry point only."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=False)
+        self.maps = []
+        self.current = None
+
+    def handle_starttag(self, tag, attrs):
+        attributes = dict(attrs)
+        if tag == "script" and attributes.get("type") == "importmap" and "src" not in attributes:
+            self.current = []
+
+    def handle_data(self, data):
+        if self.current is not None:
+            self.current.append(data)
+
+    def handle_endtag(self, tag):
+        if tag == "script" and self.current is not None:
+            self.maps.append("".join(self.current))
+            self.current = None
+
+
+def importmap_csp_sources(index_html):
+    # HTML parsing normalizes CRLF and lone CR before CSP hashes are checked.
+    parser = _ImportMapParser()
+    parser.feed(index_html.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n"))
+    parser.close()
+    return " ".join("'sha256-" + base64.b64encode(hashlib.sha256(value.encode("utf-8")).digest()).decode("ascii") + "'" for value in parser.maps)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -39,7 +75,15 @@ class Handler(BaseHTTPRequestHandler):
             return path.rsplit("/", 2)[0] + "/[private]"
         return path[:160]
 
-    def _send(self, status, content_type, data, *, head=False):
+    def _drain(self, count):
+        """Read and discard at most `count` bytes of a request body we are not going to parse."""
+        while count > 0:
+            chunk = self.rfile.read(min(count, 65536))
+            if not chunk:
+                return
+            count -= len(chunk)
+
+    def _send(self, status, content_type, data, *, head=False, trusted_index=False):
         if not isinstance(data, bytes):
             data = json.dumps(data, ensure_ascii=False, allow_nan=False).encode("utf-8")
         self.send_response(status)
@@ -49,7 +93,8 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Referrer-Policy", "no-referrer")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("Cache-Control", "no-store" if "/api/" in self.path else "no-cache")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'")
+        script_sources = "'self'" + (" " + importmap_csp_sources(data) if trusted_index else "")
+        self.send_header("Content-Security-Policy", f"default-src 'self'; script-src {script_sources}; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'")
         if content_type == "application/pdf":
             self.send_header("Content-Disposition", 'attachment; filename="CS-Prefab-aanvraag.pdf"')
         if status == 429:
@@ -62,6 +107,18 @@ class Handler(BaseHTTPRequestHandler):
         try:
             parsed = urlsplit(self.path)
             path = unquote(parsed.path)
+            if path == "/prefab/api/appearance" and self.command in {"GET", "HEAD"}:
+                # Standalone server: brand look; the compare panel follows PREFAB_COMPARE=1 (default off, as in Odoo).
+                # PREFAB_SCENE seeds the illustrative-extras policy the same way an appearance record would, e.g.
+                # PREFAB_SCENE='{"scene_garden":"hidden"}'. Field names, not browser keys: this is the admin side.
+                # PREFAB_DOCUMENT_SURROUNDINGS=1 puts the omgeving back into the proposal images, exactly as ticking
+                # "Omgeving in de voorstelbeelden" on the vormgeving record does. Default off, as in Odoo.
+                self._send(200, "application/json", appearance_payload({
+                    "compare_enabled": os.environ.get("PREFAB_COMPARE") == "1",
+                    "document_surroundings": os.environ.get("PREFAB_DOCUMENT_SURROUNDINGS") == "1",
+                    **json.loads(os.environ.get("PREFAB_SCENE") or "{}"),
+                }), head=head)
+                return
             if path.startswith("/prefab/api/"):
                 method = "GET" if head else self.command
                 operation = path.rsplit("/", 1)[-1] if method == "POST" else "read"
@@ -82,6 +139,12 @@ class Handler(BaseHTTPRequestHandler):
                         length = -1
                     maximum = body_limit(path)
                     if not 0 < length <= maximum:
+                        # Refusing an oversized body still has to leave the connection usable long enough for the
+                        # client to read the 413. Answering while the client is still writing makes its own read fail
+                        # with a connection reset instead (observed on Windows), so drain what it already committed
+                        # to send — never more than the limit that was just exceeded — and close afterwards.
+                        self._drain(min(length, maximum) if length > 0 else 0)
+                        self.close_connection = True
                         raise DomainError("Ongeldige of te grote aanvraag.", code="payload_too_large", status=413)
                     payload = parse_json_body(self.rfile.read(length), max_bytes=maximum)
                 status, content_type, response = dispatch(self.server.repository, method, path, payload)
@@ -89,7 +152,11 @@ class Handler(BaseHTTPRequestHandler):
                 return
             if self.command not in {"GET", "HEAD"}:
                 raise DomainError("Methode niet toegestaan.", code="method_not_allowed", status=405)
-            if path in ("/", "/prefab", "/prefab/", "/offerte", "/offerte/"):
+            # /prefab/embed is the frame address the Odoo controller also serves, byte for byte.
+            # It is listed here so a browser acceptance run against this server exercises the same
+            # path the site will: an embed that only exists in Odoo cannot be proven locally, and
+            # a local-only embed proves nothing about the site.
+            if path in ("/", "/prefab", "/prefab/", "/prefab/embed", "/prefab/embed/", "/offerte", "/offerte/"):
                 asset = STATIC / "index.html"
             else:
                 relative = path.removeprefix("/cs_prefab_configurator/static/").lstrip("/")
@@ -98,13 +165,18 @@ class Handler(BaseHTTPRequestHandler):
                     raise DomainError("Niet gevonden.", code="not_found", status=404)
             if not asset.is_file():
                 raise DomainError("Niet gevonden.", code="not_found", status=404)
-            self._send(200, mimetypes.guess_type(asset.name)[0] or "application/octet-stream", asset.read_bytes(), head=head)
+            self._send(200, mimetypes.guess_type(asset.name)[0] or "application/octet-stream", asset.read_bytes(), head=head,
+                       trusted_index=asset.resolve() == (STATIC / "index.html").resolve())
         except DomainError as exc:
             if self.command == "POST":
                 # Unconsumed bodies must not become a second request on this connection.
                 self.close_connection = True
             self._send(exc.status, "application/json", exc.as_dict(), head=head)
-        except (BrokenPipeError, ConnectionResetError, TimeoutError):
+        # ConnectionAbortedError is the Windows spelling of the same thing: a browser that closed
+        # the tab (or a test that closed the page) while a response was being written. Without it
+        # the generic handler below logs a full traceback per closed page, which reads like a
+        # server failure in an acceptance log and is not one.
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError, TimeoutError):
             self.close_connection = True
         except Exception:
             LOGGER.exception("Request failed at %s", self._safe_path())

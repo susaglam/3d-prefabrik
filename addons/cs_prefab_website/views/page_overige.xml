@@ -1,0 +1,658 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <!-- ==============================================================
+         Over ons
+         ============================================================== -->
+  <template id="page_over_ons" name="Over ons">
+    <t t-call="website.layout">
+      <div id="wrap" class="oe_page_wrap" tabindex="-1">
+        <div class="oe_structure" id="oe_structure_prefab_over_ons">
+          <section class="s_text_image pt48 pb48 o_prefab_warm_intro" data-snippet="s_text_image" data-name="Welkom">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-7 pb24">
+                  <h1>Samen bouwen aan meer ruimte.</h1>
+                  <p class="lead mt16">PrefabPartner is dé specialist in prefab aanbouwen, opbouwen en andere slimme prefab bouwelementen. Wij helpen zowel particulieren als aannemers bij het realiseren van duurzame, efficiënte en hoogwaardige bouwoplossingen – van idee tot plaatsing.</p>
+                  <p class="mt24 mb-0">
+                    <a href="/contact" class="btn btn-primary">Neem contact op</a>
+                  </p>
+                </div>
+                <div class="col-lg-5 pb24 text-center">
+                  <!--
+                                        HET BEWEGENDE BEELDMERK, en drie problemen op een rij.
+
+                                        Op de live site is dit een GIF van 13,0 MB — 22,7% van het
+                                        hele sitegewicht en anderhalf keer de grootste video die
+                                        er staat, weergegeven op 348 px. Een geanimeerde WebP
+                                        bracht dat terug naar 640 kB, en dat was nog steeds de
+                                        helft van deze pagina op een telefoon.
+
+                                        Belangrijker: het bleef draaien bij iemand die zijn
+                                        besturingssysteem om MINDER BEWEGING heeft gevraagd. Een
+                                        geanimeerde afbeelding is met geen enkele CSS-regel te
+                                        stoppen — `animation`, `transition` en
+                                        `prefers-reduced-motion` raken hem niet, want de beweging
+                                        zit in het bestand.
+
+                                        Dit is de enige constructie die het wél oplost, en hij
+                                        lost het bij de download op in plaats van bij het
+                                        afspelen: de <source> heeft een mediavoorwaarde, dus wie
+                                        om minder beweging vraagt krijgt de animatie NIET
+                                        binnen — hij krijgt het stilstaande beeldmerk van 2,9 kB.
+                                        Wie er geen bezwaar tegen heeft, krijgt de animatie van
+                                        215 kB. Een browser die de voorwaarde niet kent, valt
+                                        terug op de <img> en dus op het stilstaande beeld; de
+                                        veilige kant.
+
+                                        /web/content en niet /web/image voor de animatie: een
+                                        bewerking van een geanimeerd beeld levert het eerste frame
+                                        op, en dan is de animatie stil weg.
+
+                                        Het script hangt er nog een pauzeknop onder. WCAG 2.2.2
+                                        vraagt die voor alles wat vanzelf begint, langer dan vijf
+                                        seconden beweegt en naast andere inhoud staat — deze lus
+                                        duurt tien seconden en herhaalt zich. Zonder JavaScript is
+                                        er geen knop en gebeurt er precies wat de klant gewend is.
+                                    -->
+                  <img src="/web/image/cs_prefab_website.media_prefab_aanbouw_01_webp_9f2f2f6c/900x900/Prefab-aanbouw-01.webp" class="img img-fluid rounded" loading="eager" alt="Aanbouw met houten gevel en een glazen pui" style="width: 100%; height: auto;"/>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_text_block o_cc o_cc5 pt80 pb80" data-snippet="s_text_block" data-name="Wie zijn wij">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-7 pb32">
+                  <h2>Wie zijn wij?</h2>
+                  <p class="mt16">PrefabPartner beschikt over ruime kennis, kunde én ervaring binnen zowel de traditionele als de prefab bouw. Ons team heeft jarenlang gewerkt aan uiteenlopende projecten: van appartementencomplexen en vrijstaande woningen tot gezinsuitbreidingen via aanbouw of opbouw. Wij begrijpen de bouwpraktijk van binnenuit en weten wat er nodig is om efficiënt en zonder verrassingen te bouwen.</p>
+                  <p>Die ervaring zie je terug in onze aanpak: wij werken volgens de principes van de nieuwbouw – met een sterke focus op voorbereiding, planning en kwaliteitscontrole. Onze prefab elementen worden volledig in de fabriek geproduceerd, onder gecontroleerde omstandigheden, zodat de montage op locatie snel en foutloos verloopt.</p>
+                  <h2 class="mt40">Waarom prefab?</h2>
+                  <p class="mt16">Prefab bouwen is de toekomst. Onze prefab oplossingen zorgen voor:</p>
+                  <ul class="o_prefab_checklist list-unstyled mt16">
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Snelle plaatsing – vaak binnen één dag</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Direct wind- en waterdicht resultaat</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Geen vertraging door weersomstandigheden</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Efficiënt en duurzaam bouwen</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Minder afhankelijkheid van vakmensen op locatie</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-5 pb32">
+                  <video class="w-100 rounded" controls="controls" preload="none" poster="/cs_prefab_website/static/src/video/prefab-partner-poster.jpg"><source src="/cs_prefab_website/static/src/video/prefab-partner.mp4" type="video/mp4"/>
+                                        Je browser kan deze film niet afspelen.
+                                    </video>
+                </div>
+              </div>
+              <div class="row mt24">
+                <div class="col-lg-6 pb24">
+                  <h2>Ontwerp je eigen aanbouw</h2>
+                  <p class="mt16">PrefabPartner biedt een gebruiksvriendelijke aanbouw <a href="/offerte">configurator</a> waarmee klanten hun aanbouw volledig zelf kunnen samenstellen. Kies afmetingen, materialen, kozijnen en andere opties – en ontvang direct een prijsindicatie.</p>
+                  <p>Voor opbouwen en dakkapellen bieden wij maatwerk. Neem contact met ons op voor een vrijblijvend adviesgesprek over de beste oplossing voor jouw woning.</p>
+                </div>
+                <div class="col-lg-6 pb24">
+                  <h2>Wat mag je van ons verwachten?</h2>
+                  <p class="mt16">Bij PrefabPartner staan kwaliteit, snelheid en transparantie centraal. Dankzij onze ervaring in engineering, bouwbegeleiding én productie kunnen wij onze klanten volledig ontzorgen. Wij leveren prefab oplossingen die klaar zijn voor de toekomst – duurzaam, betrouwbaar en perfect passend.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <t t-call="cs_prefab_website.prefab_folder_block"/>
+        </div>
+      </div>
+    </t>
+  </template>
+  <!-- ==============================================================
+         Partner worden
+         ============================================================== -->
+  <template id="page_partner_worden" name="Partner worden">
+    <t t-call="website.layout">
+      <div id="wrap" class="oe_page_wrap" tabindex="-1">
+        <div class="oe_structure" id="oe_structure_prefab_partner_worden">
+          <section class="s_text_image pt48 pb48 o_prefab_warm_intro" data-snippet="s_text_image" data-name="Partner worden">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-7 pb24 o_prefab_reading">
+                  <h1>Bouw samen met PrefabPartner.</h1>
+                  <p class="lead mt16">PrefabPartner.nl werkt graag samen met aannemers en bouwbedrijven die hun klanten de voordelen van prefab bouwen willen bieden.</p>
+                  <p class="mb-0">
+                    <a href="#partnerformulier" class="btn btn-primary">Samenwerken</a>
+                  </p>
+                  <h2 class="h4-fs mt32">Waarom partner worden?</h2>
+                  <ul class="o_prefab_checklist list-unstyled mt16">
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Kwalitatieve prefab producten: Gemaakt met oog voor detail en duurzaamheid.</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Voordelige tarieven: Speciale prijzen voor vaste partners.</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Ondersteuning: Technisch advies en projectbegeleiding.</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-check-square-o" aria-hidden="true"/>
+                      <span>Snelle levertijden: Prefab elementen direct beschikbaar voor jouw projecten.</span>
+                    </li>
+                  </ul>
+                  <p class="mt24">Neem <a href="/contact">contact</a> met ons op en ontdek hoe we samen efficiënter kunnen bouwen!</p>
+                </div>
+                <div class="col-lg-5 pb24">
+                  <img src="/web/image/cs_prefab_website.media_partner_worden_webp_fc4ae799/394x645/partner-worden.webp" class="img img-fluid rounded" loading="lazy" decoding="async" alt="Aannemer aan de telefoon voor een oranje achtergrond"/>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!--
+                        Het partnerformulier bestaat op de live site niet: /partner-worden/
+                        eindigt met "Neem contact met ons op" en linkt naar het algemene
+                        contactformulier. Een aannemer die partner wil worden belandt daarmee in
+                        hetzelfde formulier als een particulier, zonder veld voor bedrijfsnaam of
+                        KvK, en in de mailbox is die aanvraag niet van een particuliere te
+                        onderscheiden. Hier is het een eigen formulier met een eigen onderwerp,
+                        zodat de aanvraag als partneraanvraag binnenkomt.
+                    -->
+          <section class="s_website_form o_cc o_cc3 pt56 pb56" id="partnerformulier" data-vcss="001" data-snippet="s_website_form" data-name="Partnerformulier">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-5 pb24">
+                  <h2 class="h4-fs">Samenwerken?</h2>
+                  <!--
+                                        Hier stond "dan bellen we je terug". Dat is een belofte
+                                        die de bron nergens doet: de live /partner-worden/ zegt
+                                        alleen "Neem contact met ons op", en de richting van dat
+                                        contact (telefoon, en door ons) is een toezegging die
+                                        het bedrijf elke keer moet waarmaken. Dezelfde reden als
+                                        waarom de reactietermijn hieronder is geschrapt. De zin
+                                        gebruikt nu de formulering die de rest van de site al
+                                        gebruikt ("we nemen contact met je op", /offerte), zodat
+                                        de bezoeker overal hetzelfde leest.
+                                    -->
+                  <p class="lead mt16">Laat je gegevens achter, dan nemen we contact met je op om de mogelijkheden door te nemen.</p>
+                  <p class="mt24 mb-0">Liever direct contact? Bel <a href="tel:+31624845453">06 24 84 54 53</a> of mail naar <a href="mailto:info@prefabpartner.nl">info@prefabpartner.nl</a>.</p>
+                </div>
+                <div class="col-lg-7">
+                  <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-model_name="crm.lead" data-success-mode="message">
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <div class="col-12">
+                            <input type="hidden" class="form-control s_website_form_input" name="name" value="Partner worden — aanvraag via prefabpartner.nl"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_required" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_partner_bedrijf">
+                            <span class="s_website_form_label_content">Bedrijfsnaam</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="partner_name" required="1" id="prefab_partner_bedrijf" autocomplete="organization" data-fill-with="parent_name"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_required" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_partner_naam">
+                            <span class="s_website_form_label_content">Naam contactpersoon</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="contact_name" required="1" id="prefab_partner_naam" autocomplete="name" data-fill-with="name"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_custom" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_partner_kvk">
+                            <span class="s_website_form_label_content">KvK-nummer</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="KvK-nummer" id="prefab_partner_kvk" inputmode="numeric" placeholder="bijv. 96566140"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_required" data-type="tel">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_partner_telefoon">
+                            <span class="s_website_form_label_content">Telefoon</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="tel" name="phone" required="1" id="prefab_partner_telefoon" autocomplete="tel" data-fill-with="phone" placeholder="bijv. 06 12 34 56 78"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="email">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_partner_email">
+                            <span class="s_website_form_label_content">E-mailadres</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="email" name="email_from" required="1" id="prefab_partner_email" autocomplete="email" data-fill-with="email"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="text">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_partner_bericht">
+                            <span class="s_website_form_label_content">Wat voor projecten doe je?</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <textarea class="form-control s_website_form_input" name="description" required="1" id="prefab_partner_bericht" rows="4"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="boolean">
+                        <div class="form-check">
+                          <input class="form-check-input s_website_form_input" type="checkbox" name="Toestemming" value="Ja" required="1" id="prefab_partner_akkoord"/>
+                          <label class="form-check-label s_website_form_label" for="prefab_partner_akkoord">
+                            <span class="s_website_form_label_content">Ik ga ermee akkoord dat Prefab Partner mijn gegevens gebruikt om contact met mij op te nemen over deze aanvraag.</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label" data-name="Verzendknop">
+                        <div style="width: 100%;" class="s_website_form_label"/>
+                        <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Verstuur aanvraag</a>
+                        <span id="s_website_form_result"/>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="s_website_form_end_message d-none">
+                    <div class="oe_structure" id="oe_structure_prefab_partner_bedankt">
+                      <section class="s_text_block o_cc o_cc1 rounded p-4" data-snippet="s_text_block">
+                        <h2 class="h4-fs">Bedankt, we hebben je aanvraag ontvangen.</h2>
+                        <!--
+                                                    Hier stond "We nemen binnen twee werkdagen
+                                                    contact met je op." Dat staat NERGENS in de
+                                                    bron: elke termijn op de oude site gaat over
+                                                    hoe lang de BOUW duurt, niet over hoe snel er
+                                                    wordt teruggebeld. Een reactietermijn is een
+                                                    belofte die het bedrijf elke werkdag moet
+                                                    waarmaken, en die belofte kan alleen de klant
+                                                    zelf doen. Wat blijft staan is wel waar: het
+                                                    nummer werkt, en bellen gaat sneller.
+                                                -->
+                        <p class="mb-0">Heb je haast? Bel <a href="tel:+31624845453">06 24 84 54 53</a>.</p>
+                      </section>
+                    </div>
+                  </div>
+                  <p class="small mt16 mb-0">Je gegevens komen binnen in ons eigen systeem en worden alleen gebruikt om op deze aanvraag te reageren. We delen ze niet met anderen.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_references o_cc o_cc1 pt32 pb32" data-snippet="s_references" data-name="Logostrook">
+            <div class="container">
+              <div class="row align-items-center justify-content-center">
+                <div class="col-6 col-lg-3 pt8 pb8 text-center">
+                  <img src="/web/image/cs_prefab_website.media_logo_terwoldebeton_jpg_38cbace4/300x120/Logo-terwoldebeton.jpg" class="img img-fluid mx-auto" loading="lazy" decoding="async" alt="Logo Terwolde Beton"/>
+                </div>
+                <div class="col-6 col-lg-3 pt8 pb8 text-center">
+                  <img src="/web/image/cs_prefab_website.media_logotarion_jpg_572a7551/300x120/logotarion.jpg" class="img img-fluid mx-auto" loading="lazy" decoding="async" alt="Logo Tarion"/>
+                </div>
+                <div class="col-6 col-lg-3 pt8 pb8 text-center">
+                  <img src="/web/image/cs_prefab_website.media_logo_kozijntoelevering_jpg_a9d77a47/300x120/Logo-kozijntoelevering.jpg" class="img img-fluid mx-auto" loading="lazy" decoding="async" alt="Logo Kozijn Toelevering"/>
+                </div>
+                <div class="col-6 col-lg-3 pt8 pb8 text-center">
+                  <img src="/web/image/cs_prefab_website.media_logo_bouwendnl_jpg_5c49cf51/300x120/logo-bouwendnl.jpg" class="img img-fluid mx-auto" loading="lazy" decoding="async" alt="Logo Bouwend Nederland"/>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_call_to_action o_cc o_cc5 pt64 pb64" data-snippet="s_call_to_action" data-name="Oproep">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-8">
+                  <h2>Word vandaag nog PrefabPartner!</h2>
+                  <p class="lead mt16 mb-0">Word PrefabPartner en bied je klanten de voordelen van snel, duurzaam en betaalbaar bouwen! Neem contact met ons op en ontdek de mogelijkheden.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end pt24 pt-lg-0">
+                  <a href="/contact" class="btn btn-primary btn-lg">Contact</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </t>
+  </template>
+  <!-- ==============================================================
+         Contact
+         ============================================================== -->
+  <template id="page_contact" name="Contact">
+    <t t-call="website.layout">
+      <div id="wrap" class="oe_page_wrap" tabindex="-1">
+        <!--
+                    De FAQ-markering staat BUITEN de oe_structure. Alles binnen een
+                    bouwerregio wordt bij het opslaan door de sanitizer gehaald en een
+                    <script> overleeft dat niet — de structured data zou dan verdwijnen op het
+                    moment dat iemand voor het eerst een zin op deze pagina wijzigt, zonder dat
+                    er iets zichtbaar verandert.
+                -->
+        <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {"@type": "Question", "name": "Is prefab alleen geschikt voor nieuwbouw?", "acceptedAnswer": {"@type": "Answer", "text": "Nee, prefab is ook ideaal voor verbouwingen en uitbreidingen aan bestaande woningen. Door de flexibiliteit in ontwerp en uitvoering sluit het perfect aan op bestaande bouw, met minimale overlast."}},
+        {"@type": "Question", "name": "Wat zijn de voordelen van prefab beton?", "acceptedAnswer": {"@type": "Answer", "text": "Prefab beton is snel te plaatsen, duurzaam, extreem sterk en van constante hoge kwaliteit. Daarnaast is het onderhoudsarm, biedt het uitstekend wooncomfort en is het vaak voordeliger dan traditionele bouwmethodes."}},
+        {"@type": "Question", "name": "Wat zijn de kosten van een prefab oplossing?", "acceptedAnswer": {"@type": "Answer", "text": "Elke woning en wens is uniek. Daarom werken wij met maatwerkoffertes. Vraag gerust een vrijblijvende offerte aan voor een passende prijsindicatie."}},
+        {"@type": "Question", "name": "Heb ik een vergunning nodig voor een prefab aanbouw of uitbouw?", "acceptedAnswer": {"@type": "Answer", "text": "Dat hangt af van de locatie en de omvang van het project. Wij begeleiden u graag in het volledige vergunningstraject en controleren samen met u de regelgeving van uw gemeente."}},
+        {"@type": "Question", "name": "Kan ik zelf het ontwerp bepalen?", "acceptedAnswer": {"@type": "Answer", "text": "Zeker! Wij werken op basis van uw wensen en maken een maatwerk ontwerp dat naadloos aansluit op uw bestaande woning en stijl."}},
+        {"@type": "Question", "name": "Is een prefab uitbouw duurzamer dan traditionele bouw?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Prefab beton wordt in een gecontroleerde omgeving geproduceerd, wat zorgt voor minder verspilling, efficiënter materiaalgebruik en een lagere CO2-uitstoot. Hierdoor is het een milieubewuste keuze."}},
+        {"@type": "Question", "name": "Hoe lang duurt het plaatsen van een prefab aanbouw?", "acceptedAnswer": {"@type": "Answer", "text": "De plaatsing zelf duurt gemiddeld 5 werkdagen. Uiteraard is dit afhankelijk van de omvang en complexiteit van het project."}},
+        {"@type": "Question", "name": "Hoe wordt de fundering voorbereid?", "acceptedAnswer": {"@type": "Answer", "text": "Voor elk project beoordelen wij de ondergrond en bepalen we het juiste type fundering. Onze vakmensen zorgen voor een stabiele en duurzame basis, passend bij uw situatie."}},
+        {"@type": "Question", "name": "Kan prefab ook gebruikt worden voor een verdieping of dakopbouw?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, prefab beton is uitstekend geschikt voor een extra verdieping of dakopbouw. Dankzij het lichte en sterke materiaal kan er snel en veilig uitgebreid worden zonder grote overlast."}}
+    ]
+}</script>
+        <div class="oe_structure" id="oe_structure_prefab_contact">
+          <section class="s_website_form pt48 pb56 o_prefab_warm_intro o_prefab_contact_intro" data-vcss="001" data-snippet="s_website_form" data-name="Contactformulier">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-5 pb32">
+                  <h1>Contact</h1>
+                  <p class="lead mt16">Wil je meer weten over onze prefab oplossingen of heb je een vraag? Neem contact met ons op en we helpen je graag verder!</p>
+                  <!--
+                                        Op de live site staan het telefoonnummer en het
+                                        e-mailadres op alle veertien pagina's als platte tekst:
+                                        nul mailto:-links, nul tel:-links. Een huiseigenaar op
+                                        zijn telefoon moet het nummer overtikken, terwijl bellen
+                                        in deze sector het snelste kanaal is.
+                                    -->
+                  <p class="mt24">
+                    <a href="tel:+31624845453">06 24 84 54 53</a>
+                    <br/>
+                    <a href="mailto:info@prefabpartner.nl">info@prefabpartner.nl</a>
+                  </p>
+                </div>
+                <div class="col-lg-7">
+                  <h2 class="h4-fs">Contactformulier</h2>
+                  <form action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required mt24" data-mark="*" data-pre-fill="true" data-model_name="crm.lead" data-success-mode="message">
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                      <!--
+                                                crm.lead.name is verplicht op het model. Op de
+                                                live site vraagt het formulier geen onderwerp, en
+                                                een extra veld toevoegen is een drempel voor de
+                                                bezoeker die niets oplevert. Het onderwerp is
+                                                daarom vast en zegt waar de aanvraag vandaan
+                                                komt; wie het formulier invult staat in Naam.
+                                            -->
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <div class="col-12">
+                            <input type="hidden" class="form-control s_website_form_input" name="name" value="Contactformulier prefabpartner.nl"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_required" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_contact_naam">
+                            <span class="s_website_form_label_content">Naam</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="contact_name" required="1" id="prefab_contact_naam" autocomplete="name" data-fill-with="name"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_custom s_website_form_required" data-type="char">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_contact_woonplaats">
+                            <span class="s_website_form_label_content">Woonplaats</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="text" name="Woonplaats" required="1" id="prefab_contact_woonplaats" autocomplete="address-level2"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_required" data-type="tel">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_contact_telefoon">
+                            <span class="s_website_form_label_content">Telefoon</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="tel" name="phone" required="1" id="prefab_contact_telefoon" autocomplete="tel" data-fill-with="phone" placeholder="bijv. 06 12 34 56 78"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-md-6 s_website_form_required" data-type="email">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_contact_email">
+                            <span class="s_website_form_label_content">E-mailadres</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <input class="form-control s_website_form_input" type="email" name="email_from" required="1" id="prefab_contact_email" autocomplete="email" data-fill-with="email"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="text">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                          <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100%" for="prefab_contact_bericht">
+                            <span class="s_website_form_label_content">Je bericht</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                          <div class="col-sm">
+                            <textarea class="form-control s_website_form_input" name="description" required="1" id="prefab_contact_bericht" rows="5"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="boolean">
+                        <div class="form-check">
+                          <input class="form-check-input s_website_form_input" type="checkbox" name="Toestemming" value="Ja" required="1" id="prefab_contact_akkoord"/>
+                          <label class="form-check-label s_website_form_label" for="prefab_contact_akkoord">
+                            <span class="s_website_form_label_content">Ik ga ermee akkoord dat Prefab Partner mijn gegevens gebruikt om contact met mij op te nemen over deze aanvraag.</span>
+                            <span class="s_website_form_mark"> *</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label" data-name="Verzendknop">
+                        <div style="width: 100%;" class="s_website_form_label"/>
+                        <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Verzenden</a>
+                        <span id="s_website_form_result"/>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="s_website_form_end_message d-none">
+                    <div class="oe_structure" id="oe_structure_prefab_contact_bedankt">
+                      <section class="s_text_block o_cc o_cc2 rounded p-4" data-snippet="s_text_block">
+                        <h2 class="h4-fs">Bedankt, je bericht is verstuurd.</h2>
+                        <!-- Zie /partner-worden: de reactietermijn is eruit, om dezelfde reden. -->
+                        <p>We hebben je bericht ontvangen.</p>
+                        <p class="mb-0">Kan het niet wachten? Bel <a href="tel:+31624845453">06 24 84 54 53</a>.</p>
+                      </section>
+                    </div>
+                  </div>
+                  <p class="small mt16 mb-0">Je gegevens komen binnen in ons eigen systeem en worden alleen gebruikt om op dit bericht te reageren. We delen ze niet met anderen.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_text_block o_cc o_cc2 pt48 pb48 o_prefab_warm_section" data-snippet="s_text_block" data-name="Bedrijfsgegevens">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6">
+                  <h2 class="h4-fs">Prefab Partner BV</h2>
+                  <ul class="o_prefab_contact_list list-unstyled mt32">
+                    <li>
+                      <i class="fa fa-building-o" aria-hidden="true"/>
+                      <span><strong>Prefab Partner BV</strong><br/>
+                                                Lange Kleiweg 62b<br/>
+                                                2288 GK Rijswijk
+                                            </span>
+                    </li>
+                    <li>
+                      <i class="fa fa-phone" aria-hidden="true"/>
+                      <span>
+                        <a href="tel:+31624845453">06 24 84 54 53</a>
+                      </span>
+                    </li>
+                    <li>
+                      <i class="fa fa-envelope-o" aria-hidden="true"/>
+                      <span>
+                        <a href="mailto:info@prefabpartner.nl">info@prefabpartner.nl</a>
+                      </span>
+                    </li>
+                    <li>
+                      <i class="fa fa-file-text-o" aria-hidden="true"/>
+                      <span>KvK: 96566140<br/>BTW-nummer: NL867664022B01</span>
+                    </li>
+                    <li>
+                      <i class="fa fa-map-marker" aria-hidden="true"/>
+                      <span>
+                        <!--
+                                                    Een link naar een kaart in plaats van een
+                                                    ingesloten kaart: elke ingesloten kaart van
+                                                    Google zet het IP-adres van elke bezoeker bij
+                                                    een derde partij neer, nog voor er iets is
+                                                    gevraagd. Dat is precies de klasse waarop de
+                                                    live site vastloopt.
+                                                -->
+                        <a href="https://www.openstreetmap.org/search?query=Lange%20Kleiweg%2062b%2C%202288%20GK%20Rijswijk" target="_blank" rel="noopener noreferrer">Bekijk Lange Kleiweg 62b op de kaart</a>
+                      </span>
+                    </li>
+                  </ul>
+                  <div class="mt24 d-flex align-items-center gap-3 o_prefab_socials">
+                    <a href="https://www.linkedin.com/company/prefabpartner-nl" target="_blank" rel="noopener noreferrer" aria-label="Prefab Partner op LinkedIn">
+                      <i class="fa fa-linkedin fa-lg" aria-hidden="true"/>
+                    </a>
+                    <a href="https://www.instagram.com/prefabpartner.nl" target="_blank" rel="noopener noreferrer" aria-label="Prefab Partner op Instagram">
+                      <i class="fa fa-instagram fa-lg" aria-hidden="true"/>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="s_faq_collapse o_cc o_cc5 pt64 pb64" data-vcss="001" data-snippet="s_faq_collapse" data-name="Veelgestelde vragen">
+            <div class="container">
+              <div class="row align-items-start s_nb_column_fixed">
+                <div class="col-lg-4 pt16 o_prefab_sticky_aside">
+                  <h2>Veelgestelde vragen</h2>
+                  <p class="lead mt16">Prefab bouwen roept vaak vragen op. Daarom hebben we de meestgestelde vragen en antwoorden voor je op een rij gezet – duidelijk, kort en praktisch.</p>
+                </div>
+                <div class="col-lg-7 offset-lg-1 s_col_no_bgcolor" data-name="Accordeon">
+                  <div class="s_accordion" data-name="Accordeon">
+                    <div id="prefabFaq" class="accordion accordion-flush">
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_1" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_1" aria-controls="prefab_faq_1" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Is prefab alleen geschikt voor nieuwbouw?</span>
+                        </button>
+                        <div id="prefab_faq_1" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_1">
+                          <div class="accordion-body">
+                            <p>Nee, prefab is ook ideaal voor verbouwingen en uitbreidingen aan bestaande woningen. Door de flexibiliteit in ontwerp en uitvoering sluit het perfect aan op bestaande bouw, met minimale overlast.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_2" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_2" aria-controls="prefab_faq_2" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Wat zijn de voordelen van prefab beton?</span>
+                        </button>
+                        <div id="prefab_faq_2" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_2">
+                          <div class="accordion-body">
+                            <p>Prefab beton is snel te plaatsen, duurzaam, extreem sterk en van constante hoge kwaliteit. Daarnaast is het onderhoudsarm, biedt het uitstekend wooncomfort en is het vaak voordeliger dan traditionele bouwmethodes.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_3" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_3" aria-controls="prefab_faq_3" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Wat zijn de kosten van een prefab oplossing?</span>
+                        </button>
+                        <div id="prefab_faq_3" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_3">
+                          <div class="accordion-body">
+                            <p>Elke woning en wens is uniek. Daarom werken wij met maatwerkoffertes. Vraag gerust een vrijblijvende offerte aan voor een passende prijsindicatie.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_4" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_4" aria-controls="prefab_faq_4" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Heb ik een vergunning nodig voor een prefab aanbouw of uitbouw?</span>
+                        </button>
+                        <div id="prefab_faq_4" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_4">
+                          <div class="accordion-body">
+                            <p>Dat hangt af van de locatie en de omvang van het project. Wij begeleiden u graag in het volledige vergunningstraject en controleren samen met u de regelgeving van uw gemeente.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_5" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_5" aria-controls="prefab_faq_5" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Kan ik zelf het ontwerp bepalen?</span>
+                        </button>
+                        <div id="prefab_faq_5" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_5">
+                          <div class="accordion-body">
+                            <p>Zeker! Wij werken op basis van uw wensen en maken een maatwerk ontwerp dat naadloos aansluit op uw bestaande woning en stijl.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_6" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_6" aria-controls="prefab_faq_6" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Is een prefab uitbouw duurzamer dan traditionele bouw?</span>
+                        </button>
+                        <div id="prefab_faq_6" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_6">
+                          <div class="accordion-body">
+                            <p>Ja. Prefab beton wordt in een gecontroleerde omgeving geproduceerd, wat zorgt voor minder verspilling, efficiënter materiaalgebruik en een lagere CO₂-uitstoot. Hierdoor is het een milieubewuste keuze.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_7" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_7" aria-controls="prefab_faq_7" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Hoe lang duurt het plaatsen van een prefab aanbouw?</span>
+                        </button>
+                        <div id="prefab_faq_7" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_7">
+                          <div class="accordion-body">
+                            <p>De plaatsing zelf duurt gemiddeld 5 werkdagen. Uiteraard is dit afhankelijk van de omvang en complexiteit van het project.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_8" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_8" aria-controls="prefab_faq_8" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Hoe wordt de fundering voorbereid?</span>
+                        </button>
+                        <div id="prefab_faq_8" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_8">
+                          <div class="accordion-body">
+                            <p>Voor elk project beoordelen wij de ondergrond en bepalen we het juiste type fundering. Onze vakmensen zorgen voor een stabiele en duurzame basis, passend bij uw situatie.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item position-relative z-1" data-name="Vraag">
+                        <button type="button" id="prefab_faq_button_9" class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold text-decoration-none text-reset transition-none" data-bs-target="#prefab_faq_9" aria-controls="prefab_faq_9" data-bs-toggle="collapse" aria-expanded="false">
+                          <span class="flex-grow-1">Kan prefab ook gebruikt worden voor een verdieping of dakopbouw?</span>
+                        </button>
+                        <div id="prefab_faq_9" class="accordion-collapse collapse" data-bs-parent="#prefabFaq" role="region" aria-labelledby="prefab_faq_button_9">
+                          <div class="accordion-body">
+                            <p>Ja, prefab beton is uitstekend geschikt voor een extra verdieping of dakopbouw. Dankzij het lichte en sterke materiaal kan er snel en veilig uitgebreid worden zonder grote overlast.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </t>
+  </template>
+</odoo>

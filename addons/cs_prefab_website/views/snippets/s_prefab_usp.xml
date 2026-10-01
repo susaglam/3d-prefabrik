@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        De USP-balk: de oranje strook met vier beloftes die op elf van de veertien pagina's
+        van de live site staat.
+
+        Waarom een eigen snippet en niet een bestaande: geen enkele Odoo-snippet is deze
+        strook. Een band van 62 px met vier items en verder niets bestaat niet in de lade, en
+        de dichtstbijzijnde (s_features, s_numbers_grid) brengen koppen, iconen in vlakken en
+        veel verticale ruimte mee die hier juist weg moeten.
+
+        Waarom GEEN koppen: op de live site staan deze vier woorden als vier <h4>'s, bóven de
+        <h1> van de pagina. Dat levert op tien pagina's een koppenstructuur op die met h4
+        begint (axe `heading-order`, 19 knopen op alle veertien pagina's). Het zijn geen
+        koppen — het is een opsomming. Dus is het een <ul>, en begint elke pagina netjes met
+        haar eigen <h1>.
+    -->
+    <template id="s_prefab_usp" name="Prefab Partner — USP-balk">
+        <section class="s_prefab_usp o_cc o_cc4 pt16 pb16"
+                 data-snippet="s_prefab_usp" data-name="USP-balk">
+            <div class="container">
+                <ul class="s_prefab_usp_list list-unstyled d-flex flex-wrap justify-content-between gap-3 mb-0">
+                    <li><i class="fa fa-check-square-o" aria-hidden="true"/><span>Snelle bouwtijd</span></li>
+                    <li><i class="fa fa-check-square-o" aria-hidden="true"/><span>Hoge kwaliteit</span></li>
+                    <li><i class="fa fa-check-square-o" aria-hidden="true"/><span>Transparante kosten</span></li>
+                    <li><i class="fa fa-check-square-o" aria-hidden="true"/><span>Ondersteuning</span></li>
+                </ul>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_prefab_usp_in_panel" inherit_id="website.snippets"
+              name="Prefab Partner — USP-balk in de blokkenlade">
+        <!--
+            In saas~19.4 is de selector <snippets>, niet de oude //div[@id='snippet_structure'].
+            Een xpath die niet matcht laat de module bij -u NIET laden, en die fout verschijnt
+            in het installatielog, niet op een pagina.
+
+            group= is in 19.4 verplicht in de praktijk: de lade is per categorie ingedeeld en
+            een item zonder groep komt nergens terecht. 'content' is waar de andere
+            inhoudsstroken staan.
+        -->
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="cs_prefab_website.s_prefab_usp" string="USP-balk" group="content"
+               t-thumbnail="/cs_prefab_website/static/src/img/s_prefab_usp.svg">
+                <keywords>usp, balk, belofte, voordelen, oranje, strook, prefab</keywords>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

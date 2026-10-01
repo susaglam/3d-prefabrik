@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Miniatuur voor de blokkenlade. Een ontbrekende miniatuur is geen lege plek maar het
+    gebroken-afbeeldingsicoon van de browser: het snippet lijkt stuk voordat iemand het heeft
+    neergezet. t-thumbnail verwijst naar een bestandspad, dus dit bestand moet bestaan.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 135" width="240" height="135" role="img" aria-label="USP-balk">
+  <rect width="240" height="135" fill="#f6f6f6"/>
+  <rect x="0" y="52" width="240" height="31" fill="#C43F12"/>
+  <g fill="#ffffff">
+    <rect x="16" y="64" width="9" height="9" rx="2"/>
+    <rect x="30" y="66" width="30" height="5" rx="2.5"/>
+    <rect x="72" y="64" width="9" height="9" rx="2"/>
+    <rect x="86" y="66" width="26" height="5" rx="2.5"/>
+    <rect x="124" y="64" width="9" height="9" rx="2"/>
+    <rect x="138" y="66" width="34" height="5" rx="2.5"/>
+    <rect x="184" y="64" width="9" height="9" rx="2"/>
+    <rect x="198" y="66" width="26" height="5" rx="2.5"/>
+  </g>
+  <g fill="#dedede">
+    <rect x="16" y="22" width="120" height="7" rx="3.5"/>
+    <rect x="16" y="98" width="208" height="5" rx="2.5"/>
+    <rect x="16" y="110" width="160" height="5" rx="2.5"/>
+  </g>
+</svg>

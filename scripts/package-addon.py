@@ -1,11 +1,13 @@
 """Build a clean Odoo addon archive; never include local records or research."""
+import ast
 import hashlib
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 
 ROOT = Path(__file__).resolve().parents[1]
 ADDON = ROOT / 'addons' / 'cs_prefab_configurator'
-OUTPUT = ROOT / 'dist' / 'cs_prefab_configurator-1.1.0.zip'
+VERSION = ast.literal_eval((ADDON / '__manifest__.py').read_text(encoding='utf-8'))['version']
+OUTPUT = ROOT / 'dist' / f'cs_prefab_configurator-{VERSION}.zip'
 
 if __name__ == '__main__':
     OUTPUT.parent.mkdir(exist_ok=True)

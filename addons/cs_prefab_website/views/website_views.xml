@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        The three readbacks live next to the field they are about. website.domain is the value
+        that decides whether the configurator accepts a price request at all, and "the
+        configurator quietly serves demonstration prices" is not something anyone goes
+        looking for — so it is stated on the form where the decision is made.
+
+        The menu readback is there for the other half of the same idea: this module installs
+        onto a website that already had a navigation, and it never deletes an entry it did not
+        create. What is left over would otherwise only be discovered by a visitor clicking it.
+    -->
+    <record id="view_website_form_prefab" model="ir.ui.view">
+        <field name="name">website.form.prefab</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='domain']" position="after">
+                <field name="cs_prefab_site"/>
+                <field name="cs_prefab_motion" invisible="not cs_prefab_site"/>
+                <field name="cs_prefab_origin_status" invisible="not cs_prefab_site"/>
+                <field name="cs_prefab_catalog_status" invisible="not cs_prefab_site"/>
+                <field name="cs_prefab_menu_status" invisible="not cs_prefab_site"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+        Both configurator records default to the FIRST website, which is right on an Odoo with
+        one website and stops being right the moment somebody adds a second. The field is
+        already on these forms; what it lacked was a sentence saying what picking the wrong
+        one costs — the prices land on a website nobody is looking at, while the site the
+        customer IS looking at keeps serving the demonstration prices from the source.
+    -->
+    <record id="view_catalog_release_form_prefab_website" model="ir.ui.view">
+        <field name="name">cs.prefab.catalog.release.form.website</field>
+        <field name="model">cs.prefab.catalog.release</field>
+        <field name="inherit_id" ref="cs_prefab_configurator.view_prefab_catalog_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='website_id']" position="attributes">
+                <attribute name="help">De website waarvoor deze catalogus geldt. Publiceren raakt alleen deze website; de andere website houdt haar eigen gepubliceerde catalogus. Staat hier de verkeerde website, dan blijven de nieuwe prijzen onzichtbaar op de site waar je ze verwacht, terwijl daar ongemerkt de demonstratieprijzen uit de broncode worden getoond.</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

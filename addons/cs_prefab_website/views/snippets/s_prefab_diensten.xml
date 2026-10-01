@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Native saas~19.4 s_three_columns + s_card DOM. De homepage bewaart deze
+         begininhoud inline zodat een editor-save geen gedeelde t-call hoeft te bewerken. -->
+    <template id="s_prefab_diensten" name="Prefab Partner — oplossingen in beeld">
+        <section class="s_three_columns s_prefab_diensten o_prefab_product_grid o_cc o_cc1 o_colored_level pt64 pb64"
+                 data-vxml="001" data-vcss="001" data-snippet="s_prefab_diensten" data-name="Oplossingen in beeld">
+            <div class="container">
+                <div class="row align-items-end pb24">
+                    <div class="col-lg-7 pt16 pb16"><h2>Hoe wil jij meer ruimte?</h2></div>
+                    <div class="col-lg-5 pt16 pb16">
+                        <p class="mb-0">Een plek om samen te komen, een extra kamer of meer licht. Begin bij jouw woning.</p>
+                    </div>
+                </div>
+                <div class="row d-flex align-items-stretch">
+                    <div data-name="Aanbouw" class="col-lg-4 pt16 pb16">
+                        <div class="s_card o_card_img_top card h-100 o_cc o_cc1 my-0 border-0 shadow-none"
+                             data-vxml="001" data-snippet="s_card" data-name="Aanbouw">
+                            <figure class="o_card_img_wrapper ratio ratio-4x3 mb-0">
+                                <img class="o_card_img card-img-top" src="/cs_prefab_website/static/src/media/Prefab-aanbouw-02.webp" alt="Houten aanbouw aan een woning in Zoetermeer" loading="lazy" decoding="async"/>
+                            </figure>
+                            <div class="card-body">
+                                <h3 class="card-title h4-fs">Een aanbouw</h3>
+                                <p class="card-text">Meer leefruimte aan je woning.</p>
+                                <a href="/oplossingen/prefab-aanbouw" class="stretched-link">Ontdek aanbouwen</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-name="Dakkapel" class="col-lg-4 pt16 pb16">
+                        <div class="s_card o_card_img_top card h-100 o_cc o_cc1 my-0 border-0 shadow-none"
+                             data-vxml="001" data-snippet="s_card" data-name="Dakkapel">
+                            <figure class="o_card_img_wrapper ratio ratio-4x3 mb-0">
+                                <img class="o_card_img card-img-top" src="/cs_prefab_website/static/src/media/prefab-dakkapel.jpg" alt="Prefab dakkapel tijdens de plaatsing op een bestaand dak" loading="lazy" decoding="async"/>
+                            </figure>
+                            <div class="card-body">
+                                <h3 class="card-title h4-fs">Een dakkapel</h3>
+                                <p class="card-text">Meer licht en ruimte op zolder.</p>
+                                <a href="/oplossingen/prefab-dakkapel" class="stretched-link">Ontdek dakkapellen</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-name="Opbouw" class="col-lg-4 pt16 pb16">
+                        <div class="s_card o_card_img_top card h-100 o_cc o_cc1 my-0 border-0 shadow-none"
+                             data-vxml="001" data-snippet="s_card" data-name="Opbouw">
+                            <figure class="o_card_img_wrapper ratio ratio-4x3 mb-0">
+                                <img class="o_card_img card-img-top" src="/cs_prefab_website/static/src/media/opbouw-prefab-denhaag-1.jpg" alt="Woning met prefab opbouw in Den Haag" loading="lazy" decoding="async"/>
+                            </figure>
+                            <div class="card-body">
+                                <h3 class="card-title h4-fs">Een opbouw</h3>
+                                <p class="card-text">Uitbreiden op je bestaande woning.</p>
+                                <a href="/oplossingen/prefab-opbouw" class="stretched-link">Ontdek opbouwen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt24 mb-0"><a href="/oplossingen">Bekijk alle oplossingen</a></p>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_prefab_diensten_in_panel" inherit_id="website.snippets"
+              name="Prefab Partner — oplossingen in de blokkenlade">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="cs_prefab_website.s_prefab_diensten" string="Oplossingen in beeld" group="columns"
+               t-thumbnail="/cs_prefab_website/static/src/img/s_prefab_diensten.svg">
+                <keywords>diensten, kaarten, aanbouw, dakkapel, opbouw, oplossingen, prefab</keywords>
+            </t>
+        </xpath>
+    </template>
+</odoo>

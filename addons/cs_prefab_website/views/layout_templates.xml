@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Everything in this file is an EXTENSION of website.layout, conditioned at render time
+        on website.cs_prefab_site. Two reasons, both learned the expensive way elsewhere:
+
+        1. A module must not ship a standalone header or footer template that REPLACES a node
+           like //header//nav. The live website's header is a copy-on-write copy owned by that
+           website, and a late-loaded module view cannot reliably locate a node inside a tree
+           the builder has already rewritten. Adding attributes, or replacing a node that core
+           itself replaces (//div[@id='footer']), stays inside what Odoo supports.
+        2. Views are global; websites are not. Guarding on a field rather than trying to scope
+           the view means the existing website renders byte-identically — the $0 branches
+           below are literally its current content.
+    -->
+
+    <template id="prefab_site_markers" inherit_id="website.layout"
+              name="Prefab Partner — sitemarkering">
+        <!--
+            One class on <body> is what scopes this module's entire stylesheet. Asset bundles
+            are per instance, so the other website downloads the CSS and matches nothing.
+        -->
+        <xpath expr="//body" position="attributes">
+            <attribute name="t-attf-class" add="#{'o_prefab_site' if website and website.cs_prefab_site else ''} #{'o_prefab_motion_enabled' if website and website.cs_prefab_site and website.cs_prefab_motion else ''}" separator=" "/>
+        </xpath>
+        <!--
+            The sticky header. Core uses exactly this idiom on this node for its own header
+            colour and visibility options, so the class lands on the same element the builder
+            manipulates and the stylesheet can stand aside when the builder sets its own.
+        -->
+        <xpath expr="//header" position="attributes">
+            <attribute name="t-attf-class" add="#{'o_prefab_header' if website and website.cs_prefab_site else ''}" separator=" "/>
+        </xpath>
+    </template>
+
+    <!--
+        The one button in the header, on all 21 pages.
+
+        Odoo ships it as `<a href="/contactus" class="btn btn-primary btn_cta">Contact Us</a>`,
+        hard-coded inside `website.header_call_to_action` — it is builder content, not a field.
+        `website.contact_us_link_url` does NOT drive it, which is why setting that field to
+        /contact left the rendered header pointing at /contactus anyway. Measured on the clone
+        after the field was already correct.
+
+        And /contactus is Odoo's own demonstration page: it tells Dutch visitors to take the
+        BART to Balboa Park Station and claims that more than fifty thousand companies use
+        these services. So the single most prominent link on this site led to somebody else's
+        sample content, in English, from every page.
+
+        It stays inside core's `oe_structure`, so the customer can still rewrite the label or
+        the destination in the builder. WHAT it should point at is a conversion decision rather
+        than a defect: today it goes to this site's own contact page, and the wave that
+        rebuilds the route into the configurator decides whether it becomes that instead.
+    -->
+    <template id="prefab_header_cta" inherit_id="website.header_call_to_action"
+              name="Prefab Partner — knop in de header">
+        <xpath expr="//a[@class='oe_unremovable btn btn-primary btn_cta']" position="replace">
+            <t t-if="website and website.cs_prefab_site">
+                <a href="/offerte" class="oe_unremovable btn btn-primary btn_cta">Ontwerp je aanbouw</a>
+            </t>
+            <t t-else="">$0</t>
+        </xpath>
+    </template>
+
+    <!--
+        THE FOOTER IS A PRESET, NOT AN OVERRIDE. That is the whole of this template's design
+        and it changed in this release.
+
+        It used to inherit website.layout at priority 60 and replace //div[@id='footer'].
+        Priority 60 is higher than every one of Odoo's twelve selectable footers, which all sit
+        at default priority and all replace that same node — so whichever preset the customer
+        picked in Vormgeving → Voettekst, this one replaced it afterwards and the chooser did
+        nothing. A control that silently does nothing is worse than a missing one: the person
+        using it concludes the software is broken and stops trusting the rest of the panel.
+
+        Inheriting website.footer_custom instead makes this site's footer the CONTENT of Odoo's
+        own "Default" preset rather than a layer over all of them. The consequences are exactly
+        the ones wanted:
+
+        * while "Default" is the chosen footer — which it is — this content renders;
+        * the moment the customer picks another preset, Odoo deactivates footer_custom, this
+          inheritance stops applying with it, and the preset he chose renders clean. No stacking,
+          no priority war, and the chooser is a real control again;
+        * picking "Default" back brings this content back.
+
+        The #footer wrapper itself now comes from core, so its oe_structure, its border options
+        and its no_footer guard are Odoo's rather than ours — one less thing this module can get
+        out of step with. What is replaced is the single <section> of demonstration content
+        inside it.
+
+        The $0 branch still hands any other website on this instance its own footer untouched.
+    -->
+    <template id="prefab_footer" inherit_id="website.footer_custom"
+              name="Prefab Partner — voettekst">
+        <xpath expr="//div[@id='footer']/section" position="replace">
+            <t t-if="website and website.cs_prefab_site">
+                <!--
+                    The sections below sit in core's oe_structure region: the customer can
+                    rewrite a column, add a link or drop a block in, and Odoo saves the result as
+                    a copy owned by this website. From that first edit on, this template is the
+                    starting point rather than the live content — which is the trade the
+                    customer asked for when they said the pages have to stay editable.
+                -->
+                <t>
+
+                    <section class="s_text_block o_cc o_cc5 pt48 pb24 o_prefab_footer" data-snippet="s_text_block" data-name="Voettekst">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-5 pb24 o_prefab_footer_mark">
+                                    <!--
+                                        De uitgeknipte figuur die hier stond, is weg.
+
+                                        Hij was een stockmodel, hij stond in de voettekst van
+                                        elke pagina, en de enige reden dat hij naast de tekst
+                                        paste was een eigen stijlregel voor de omloop. Die regel
+                                        is met de opruiming verdwenen: de maatvoering van een
+                                        afbeelding is iets wat de bouwer hoort te bepalen, niet
+                                        iets wat een modulestylesheet vastzet. Zonder die regel
+                                        stond hij op 400 px dwars door de voettekst heen.
+
+                                        Terugzetten hoeft niet met CSS. Wie hem terug wil, sleept
+                                        in de bouwer een afbeelding in deze kolom; en wat hier
+                                        volgens het ontwerp hoort te komen is een echte projectfoto
+                                        als sectieachtergrond, in de golf die de voettekst opnieuw
+                                        vormgeeft.
+                                    -->
+                                    <img src="/cs_prefab_website/static/src/media/logo-prefab_partner-wit.svg"
+                                         alt="Prefab Partner" loading="lazy"/>
+                                    <p class="mt24">Wil je meer weten over onze prefab oplossingen of heb je een vraag? Neem contact met ons op en we helpen je graag verder!</p>
+                                    <a href="/contact" class="btn btn-primary">Neem contact op</a>
+                                </div>
+
+                                <!--
+                                    De kolomkoppen zijn <p> en geen <h5>. Op de live site zijn
+                                    het koppen, en omdat de voettekst onder de inhoud van elke
+                                    pagina staat springt de koppenstructuur daar van h2 of h3
+                                    naar h5 — op alle veertien pagina's, op beide breedtes
+                                    (axe heading-order). Het zijn labels boven een
+                                    navigatielijst; de <nav> eromheen draagt het label nu, wat
+                                    een schermlezer ook echt iets oplevert: hij kan van
+                                    landmark naar landmark springen.
+                                -->
+                                <nav class="col-lg-2 col-6 pb24" aria-label="Menu">
+                                    <p class="h6-fs fw-bold text-uppercase mb8">Menu</p>
+                                    <ul>
+                                        <li><a href="/">Home</a></li>
+                                        <li><a href="/over-ons">Over ons</a></li>
+                                        <li><a href="/projecten">Projecten</a></li>
+                                        <li><a href="/partner-worden">Partner worden</a></li>
+                                        <li><a href="/contact">Contact</a></li>
+                                    </ul>
+                                </nav>
+
+                                <nav class="col-lg-2 col-6 pb24" aria-label="Oplossingen">
+                                    <p class="h6-fs fw-bold text-uppercase mb8">Oplossingen</p>
+                                    <ul>
+                                        <li><a href="/oplossingen">Oplossingen</a></li>
+                                        <li><a href="/oplossingen/prefab-aanbouw">Prefab aanbouw</a></li>
+                                        <li><a href="/oplossingen/prefab-dakkapel">Prefab dakkapel</a></li>
+                                        <li><a href="/oplossingen/prefab-opbouw">Prefab opbouw</a></li>
+                                        <li><a href="/offerte">Ontwerp je aanbouw</a></li>
+                                    </ul>
+                                </nav>
+
+                                <!--
+                                    New column. On the live site the telephone number and the
+                                    e-mail address appear as plain text and are clickable
+                                    nowhere, on any of the fourteen pages — so a visitor on a
+                                    phone has to type them over. Here they are links, in the
+                                    footer, which means on every page.
+                                -->
+                                <div class="col-lg-3 pb24">
+                                    <p class="h6-fs fw-bold text-uppercase mb8">Contact</p>
+                                    <ul>
+                                        <li>Prefab Partner BV</li>
+                                        <li>Lange Kleiweg 62b<br/>2288 GK Rijswijk</li>
+                                        <li><a href="tel:+31624845453">06 24 84 54 53</a></li>
+                                        <li><a href="mailto:info@prefabpartner.nl">info@prefabpartner.nl</a></li>
+                                        <li class="mt16 small">KvK 96566140<br/>BTW NL867664022B01</li>
+                                    </ul>
+                                    <!--
+                                        De ronde grijze schijfjes van de live site. Ze stonden
+                                        hier als kale oranje glyphs op de donkere voettekst:
+                                        een pictogram zonder vlak is op 16 px een raadsel en
+                                        een kliksteun van 16 px is onder de 24x24 die WCAG
+                                        2.5.8 als ondergrens noemt. De schijf is 40 px en
+                                        draagt #C43F12 op #EEEEEE (5,14:1).
+                                    -->
+                                    <!--
+                                        Odoo's eigen `s_social_media`. Het tekent dezelfde schijf
+                                        achter elk pictogram als de regel die hier stond, maar het
+                                        is een echte snippet: de klant kan er in de bouwer een
+                                        netwerk bij zetten of er een weghalen zonder sjabloon.
+
+                                        De Facebook-link van de live site staat er NIET bij.
+                                        https://www.facebook.com/share/1AFjFfkSuE/?mibextid=wwXIfr
+                                        antwoordt met HTTP 400, op alle veertien pagina's. Een
+                                        kapotte link overnemen draagt het defect mee; het juiste
+                                        adres moet van de klant komen.
+                                    -->
+                                    <div class="s_social_media text-start mt16" data-snippet="s_social_media" data-name="Sociale media">
+                                        <a href="https://www.linkedin.com/company/prefabpartner-nl"
+                                           class="s_social_media_linkedin" target="_blank"
+                                           rel="noopener noreferrer" aria-label="Prefab Partner op LinkedIn">
+                                            <i class="fa fa-linkedin rounded-circle shadow-sm o_editable_media"/>
+                                        </a>
+                                        <a href="https://www.instagram.com/prefabpartner.nl"
+                                           class="s_social_media_instagram" target="_blank"
+                                           rel="noopener noreferrer" aria-label="Prefab Partner op Instagram">
+                                            <i class="fa fa-instagram rounded-circle shadow-sm o_editable_media"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="s_text_block o_cc o_cc5 pt16 pb16 o_prefab_footer o_prefab_footer_legal"
+                             data-snippet="s_text_block" data-name="Colofon">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 pb16">
+                                    <img src="/cs_prefab_website/static/src/media/badge-logo-prefab.svg"
+                                         alt="Prefab Partner" style="max-width: 90px; height: auto;" loading="lazy"/>
+                                </div>
+                                <div class="col-lg-4 pb16">
+                                    <p class="mb-0">© 2026 PrefabPartner.nl</p>
+                                </div>
+                                <!--
+                                    De scheidingstekens stonden als losse <span>'s tússen de
+                                    links. Op een telefoon brak de regel dan ná een streepje en
+                                    begon de volgende regel met een liggend streepje dat nergens
+                                    meer tussen stond. Nu is het een rij met een eigen tussenmaat
+                                    en tekent de stylesheet het streepje vóór elke link behalve
+                                    de eerste — dan kan er geen los teken achterblijven.
+                                -->
+                                <div class="col-lg-6 pb16">
+                                    <p class="mb-0 o_prefab_footer_links">
+                                        <a href="/nieuws">Nieuws</a>
+                                        <a href="/web/content/cs_prefab_website.media_av_prefabpartner_pdf_ac983943/av-prefabpartner.pdf"
+                                           target="_blank" rel="noopener">Algemene voorwaarden</a>
+                                        <a href="https://www.ortaq.nl" target="_blank" rel="noopener noreferrer">Website door Ortaq</a>
+                                        <a href="https://www.ortaqdesign.nl/" target="_blank" rel="noopener noreferrer">Design</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </t>
+            </t>
+            <t t-else="">$0</t>
+        </xpath>
+    </template>
+
+    <!--
+        The WhatsApp affordance. On the live site this is a plugin-rendered <div id="ht-ctc-chat">
+        with no tabindex, no role and no aria-label: a keyboard or switch user cannot reach it,
+        and it fires analytics events on top. A link needs none of that to work.
+    -->
+    <template id="prefab_whatsapp" inherit_id="website.layout"
+              name="Prefab Partner — WhatsApp-knop">
+        <xpath expr="//div[@id='wrapwrap']" position="inside">
+            <!--
+                De knop staat in een eigen landmark. Hij zweeft over de pagina en valt daarmee
+                buiten header, main en footer; axe meldt dat als `region`, en de melding heeft
+                gelijk: iemand die per landmark navigeert komt er anders nooit langs.
+            -->
+            <div t-if="website and website.cs_prefab_site" role="complementary" aria-label="Direct contact">
+            <a class="o_prefab_whatsapp" href="https://wa.me/31624845453"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Chat met ons via WhatsApp">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                    <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+                    <path d="M12.04 2.4c-5.3 0-9.6 4.3-9.6 9.6 0 1.7.44 3.3 1.22 4.7L2.4 21.6l5.05-1.32a9.56 9.56 0 0 0 4.59 1.17h.01c5.3 0 9.6-4.3 9.6-9.6s-4.31-9.45-9.61-9.45zm0 17.5h-.01a7.9 7.9 0 0 1-4.03-1.11l-.29-.17-2.99.78.8-2.92-.19-.3a7.93 7.93 0 0 1-1.21-4.22c0-4.38 3.56-7.94 7.94-7.94a7.9 7.9 0 0 1 7.93 7.95c0 4.38-3.57 7.93-7.95 7.93z"/>
+                </svg>
+            </a>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

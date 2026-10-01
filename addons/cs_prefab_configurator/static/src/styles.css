@@ -1,24 +1,790 @@
 @import url('/cs_prefab_configurator/static/vendor/fonts.css');
-:root{--ink:#263d34;--text:#333b36;--muted:#797e75;--line:#e4e5dc;--paper:#fff;--page:#f6f5f1;--green:#2c473b;--accent:#c27d50;--accent-soft:#f5e9db;--soft:#eef1e9;--danger:#a44134;--radius:16px;font-family:'DM Sans',Arial,sans-serif;color:var(--text);background:var(--page);font-synthesis:none;-webkit-font-smoothing:antialiased}
-*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button,a,input,textarea{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button{color:inherit}button:disabled{cursor:not-allowed;opacity:.48}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #cf976f;outline-offset:4px}button{border:0;background:none}svg{flex-shrink:0}.icon{width:20px;height:20px;display:inline-block;vertical-align:middle}h1,h2,h3,p{margin:0}em{font-style:normal}input,textarea{color:var(--text)}.skip-link{position:fixed;top:-60px;left:15px;z-index:100;background:var(--green);color:white;padding:14px;border-radius:8px}.skip-link:focus{top:15px}.site-header{height:94px;margin:0 auto;padding:0 max(4.2vw,24px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#fbfaf7}.brand{display:flex;align-items:center;gap:12px;color:var(--green)}.brand>svg{height:41px;width:36px}.brand>span{font-size:30px;letter-spacing:-1.1px;font-weight:750;line-height:1}.brand-light{font-weight:400;margin-left:5px}.brand small{display:block;font-size:7.8px;letter-spacing:2.3px;font-weight:600;margin-top:8px}.header-nav{display:flex;gap:33px;align-items:center;font-size:13px}.header-nav .current{font-weight:650;position:relative}.header-nav .current:after{content:'';position:absolute;bottom:-36px;height:2px;left:0;right:0;background:var(--green)}.header-nav button{color:var(--muted);padding:8px}.button{display:inline-flex;justify-content:center;align-items:center;gap:12px;font-size:13px;font-weight:600;min-height:48px;padding:12px 20px;border:1px solid transparent;border-radius:8px;transition:background .15s,transform .15s}.button:not(:disabled):active{transform:translateY(1px)}.button.ghost{border-color:#ced2c6;background:transparent}.button.ghost:hover{background:var(--soft)}.button.primary{background:var(--green);color:white}.button.primary:hover:not(:disabled){background:#385849}.button.compact{min-height:40px;padding:10px 15px;font-size:12px}.button.compact .icon{width:16px;height:16px}#app{max-width:1600px;margin:auto;padding:0 max(4.2vw,24px)}.intro{display:flex;align-items:center;justify-content:space-between;padding:39px 0 29px;gap:20px}.eyebrow{font-size:9px;letter-spacing:2px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:8px}.eyebrow>span{display:inline-block;width:5px;height:5px;background:#be8558;border-radius:50%}.intro h1{font-size:clamp(25px,2.45vw,39px);font-weight:500;letter-spacing:-1.4px;line-height:1.35;margin:9px 0}.intro h1 em{font-family:'DM Serif Display',Georgia,serif;font-weight:400;color:#6f7d66}.intro>div>p:last-child{font-size:13px;color:var(--muted)}.intro-note{display:flex;align-items:center;gap:14px;font-size:11px;line-height:1.8;color:var(--muted);padding-right:8px}.intro-note>.icon{width:37px;height:37px;color:#889078;stroke-width:1}.intro-note strong{color:var(--green);font-weight:500}.steps{display:flex;align-items:stretch;padding:0 0 22px;gap:0}.step-tab{display:flex;align-items:center;flex:1;text-align:left;gap:9px;padding:9px 0;color:#92968d;font-size:11px;position:relative;white-space:nowrap}.step-tab:last-child{flex:0 0 auto}.step-number{height:26px;width:26px;display:flex;align-items:center;justify-content:center;border:1px solid #d7dacf;border-radius:50%;font-size:10px;color:#92968d;flex-shrink:0;background:var(--page)}.step-line{height:1px;background:#dddfd5;flex:1;margin:0 14px 0 8px;min-width:6px}.step-tab.active{color:var(--green);font-weight:650}.step-tab.active .step-number{background:var(--green);color:white;border-color:var(--green)}.step-tab.completed{color:#5b705f}.step-tab.completed .step-number{border-color:#c3d0bd;background:#e8eee2;color:var(--green)}.step-number .icon{width:14px;height:14px}.step-short{display:none}.workspace{display:grid;grid-template-columns:minmax(0,1.46fr) minmax(365px,1fr);gap:22px;align-items:start}.preview-card{border:1px solid #e1e3d9;background:#efeee7;position:sticky;top:16px;border-radius:var(--radius);overflow:hidden;min-width:0;box-shadow:0 3px 10px #23332603}.preview-top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:20px 21px 0;gap:6px}.live-label{font-size:8px;font-weight:600;letter-spacing:1.4px;display:flex;align-items:center;gap:6px;color:#65725f}.live-label>span{height:5px;width:5px;border-radius:50%;background:#819166}.live-label small{font-size:10px;letter-spacing:0;font-weight:400;margin-left:6px;color:#8b8f81}.segmented{display:flex;padding:3px;background:#fff9;border:1px solid #dedfd4;border-radius:7px}.segmented button{border-radius:4px;padding:6px 10px;font-size:10px;display:flex;gap:5px;align-items:center;color:#8b8f80;min-height:29px}.segmented .icon{width:13px;height:13px}.segmented button.active{background:white;color:var(--green);box-shadow:0 1px 4px #263c3410}.preview-scene{width:100%;height:435px;position:relative;margin-top:-18px;overflow:hidden;touch-action:pan-y}.preview-scene canvas{display:block;width:100%;height:100%;touch-action:none}.preview-scene>svg{width:100%;height:100%;display:block}.preview-floating{position:absolute;bottom:109px;left:20px;right:20px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}.preview-floating>*{pointer-events:auto}.design-tag{padding:8px 11px;background:#fbfbf0d9;border:1px solid #fff9;border-radius:6px;display:flex;align-items:center;gap:7px;font-size:10px;color:#67745e;backdrop-filter:blur(6px)}.design-tag .icon{width:13px;height:13px}.icon-button{width:33px;height:33px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#fff9;color:#52604d}.icon-button:hover{background:white}.icon-button .icon{width:17px;height:17px}.preview-toolbar{display:flex;align-items:center;justify-content:space-between;padding:17px 20px 16px;gap:8px}.camera-tools{display:flex;align-items:center;gap:3px;padding:3px;border:1px solid #dddcd0;border-radius:7px;background:#faf9f4b8}.tool-button{width:30px;height:29px;border-radius:4px;color:#8a8d7e;display:flex;align-items:center;justify-content:center}.tool-button .icon{width:16px;height:16px}.tool-button:hover,.tool-button.active{background:#e4e8dc;color:var(--green)}.tool-divider{height:14px;width:1px;background:#d3d7c9;margin:0 5px}.rotate-hint{color:#909184;font-size:9px}.preview-bottom{border-top:1px solid #dfdfd4;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;color:#8a8d7d;font-size:8px;background:#f7f6ef88;gap:10px}.preview-bottom>span{display:flex;align-items:center;gap:5px}.preview-bottom .icon{width:12px;height:12px}.preview-bottom button{font-size:10px;color:var(--green);display:flex;align-items:center;gap:5px;padding:5px}.choices-card{background:white;border:1px solid var(--line);border-radius:var(--radius);min-width:0;overflow:hidden;box-shadow:0 3px 10px #23332603}#panel-content{height:426px;overflow:auto;scrollbar-width:thin;scrollbar-color:#dce1d5 transparent;padding:25px 27px 8px;scroll-behavior:smooth}.panel-heading{margin-bottom:24px}.step-eyebrow{color:#8b907c;font-size:8px;letter-spacing:1.5px;font-weight:650;display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.step-eyebrow>.icon,.step-eyebrow>span>.icon{width:17px;height:17px;color:#869476}.panel-heading h2{font-size:23px;letter-spacing:-.6px;line-height:1.3;font-weight:550;color:var(--ink);max-width:340px;margin-bottom:10px;outline:none}.panel-heading>p{color:var(--muted);font-size:11px;line-height:1.85}.field-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-size:11px;font-weight:600}.field-heading>span{font-size:9px;font-weight:400;color:#95998e}.dimension-field{margin-bottom:17px}.number-control{display:flex;align-items:center;border:1px solid #d8ded1;border-radius:7px;overflow:hidden;height:41px;background:#fff}.number-control>button{width:43px;height:100%;background:#f8f9f5;color:#87947b;display:flex;align-items:center;justify-content:center}.number-control>button .icon{width:13px;height:13px}.number-control>button:hover{background:#e8eee2}.number-control>div{display:flex;align-items:center;justify-content:center;flex:1}.number-control input{width:64px;text-align:center;border:0;padding:8px 0;font-size:16px;font-weight:500;background:none;-moz-appearance:textfield}.number-control input::-webkit-inner-spin-button{appearance:none}.number-control>div>span{color:#979d8d;font-size:11px}.dimension-slider{appearance:none;width:100%;height:3px;display:block;margin:16px 0 2px;background:linear-gradient(to right,#647c56 var(--fill),#e6e9e0 var(--fill));border-radius:5px;cursor:pointer;outline-offset:9px!important}.dimension-slider::-webkit-slider-thumb{appearance:none;background:#f9faf6;width:13px;height:13px;border:3px solid #647c56;border-radius:50%;box-shadow:0 1px 4px #23332620}.dimension-slider::-moz-range-thumb{background:#f9faf6;width:8px;height:8px;border:3px solid #647c56;border-radius:50%}.area-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#f0f3e9;border:1px solid #e6ebdf;border-radius:8px;margin-top:20px}.area-card>span{display:flex;align-items:center;gap:8px;color:#77896a;font-size:10px}.area-card .icon{width:19px;height:19px}.area-card>strong{font-size:23px;letter-spacing:-.7px;font-weight:500;color:#4c6240}.area-card small{font-weight:400;font-size:11px;letter-spacing:0}.tip{display:flex;align-items:flex-start;gap:9px;color:#8b8f81;margin:18px 0 13px;line-height:1.8;font-size:9px}.tip .icon{width:13px;height:13px;margin-top:2px}.tip p{flex:1}#panel-footer{padding:18px 27px 13px;border-top:1px solid var(--line);background:#fdfdfa}.price-peek{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px}.price-peek>div{display:flex;flex-direction:column;gap:4px}.price-caption{font-size:9px;display:flex;align-items:center;gap:5px;color:#6b7463}.price-caption .icon{width:11px;height:11px}.price-peek button{font-size:9px;padding:0;text-align:left;color:#a2a597;text-decoration:underline;text-underline-offset:3px;margin-left:16px}.price-value{font-size:24px;font-weight:500;letter-spacing:-.7px;color:var(--green);white-space:nowrap}.price-value.pending{font-size:15px;letter-spacing:0;color:#819071}.step-actions{display:flex;gap:8px}.next-button{flex:1;justify-content:space-between;min-height:44px;font-size:11px;padding:11px 16px}.next-button .icon{width:17px;height:17px}.back-button{padding:10px 12px;border-color:#dbe0d3;min-height:44px;color:#849474;background:white}.back-button .icon{width:16px;height:16px}.footer-note{font-size:8px;text-align:center;color:#9da292;margin-top:10px}.confidence{display:flex;justify-content:center;gap:50px;font-size:10px;color:#8d9484;padding:26px 0 23px;border-bottom:1px solid var(--line)}.confidence>span{display:flex;align-items:center;gap:8px}.confidence .icon{width:16px;height:16px;color:#9ca98b}.project-bar{display:flex;justify-content:space-between;align-items:center;font-size:9px;padding:17px 0;color:#a0a294}.project-bar>div{display:flex;align-items:center;gap:6px}.project-dot{height:4px;width:4px;background:#99a58a;border-radius:50%}.project-bar button{display:flex;align-items:center;gap:7px;font-size:9px;color:#919787}.project-bar .icon{width:13px;height:13px}.site-footer{max-width:1600px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:20px max(4.2vw,24px) 27px;font-size:9px;color:#a1a499;gap:10px}.site-footer button{font-size:9px;color:#a1a499}.field-block{border:0;margin:0 0 24px;padding:0;min-width:0}.field-block legend,.count-field label{font-size:12px;font-weight:550;color:#40513e;margin-bottom:8px}.field-description{font-size:9px;line-height:1.7;color:#919787;margin-bottom:10px}.option-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.option-grid.visual-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.option-card{border:1px solid #e2e6db;padding:12px 11px;border-radius:7px;display:flex;align-items:center;position:relative;cursor:pointer;transition:background .15s,border-color .15s;min-height:43px;gap:7px;background:white;min-width:0}.option-card:hover{border-color:#aebc9c;background:#f9faf6}.option-card.selected{border-color:#7d956b;background:#f2f5eb;box-shadow:inset 0 0 0 .5px #7d956b}.option-card input{position:absolute;opacity:0;width:1px;height:1px}.option-card:has(input:focus-visible){outline:3px solid #cf976f;outline-offset:3px}.option-check{height:12px;width:12px;border:1px solid #d3d9c9;border-radius:50%;flex-shrink:0;background:white;display:flex;align-items:center;justify-content:center}.selected .option-check{border-color:#799066;background:#799066;color:white}.option-check .icon{width:9px;height:9px;stroke-width:2.5}.option-title{font-size:9px;line-height:1.5}.visual-card{flex-direction:column;padding:6px 6px 9px;gap:7px;justify-content:flex-start;text-align:center;min-height:95px}.visual-card .option-check{position:absolute;right:9px;top:9px;z-index:1;box-shadow:0 0 0 2px #fff9}.visual-card .option-title{font-size:9px;font-weight:450;flex:1;display:flex;align-items:center;justify-content:center}.material-swatch{width:100%;height:48px;border-radius:4px;background-color:var(--material);border:1px solid #00000008;position:relative;overflow:hidden;box-shadow:inset 0 0 15px #00000008}.material-swatch.brick{background-image:linear-gradient(335deg,#ffffff08 23px,transparent 23px),linear-gradient(155deg,#ffffff08 23px,transparent 23px),linear-gradient(335deg,#00000012 23px,transparent 23px),linear-gradient(155deg,#00000012 23px,transparent 23px);background-size:58px 28px;background-position:0 2px,4px 16px,29px 16px,33px 2px}.material-swatch.brick:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 12px,#ffffff38 12px 14px)}.material-swatch.wood-v,.material-swatch.open-v{background-image:repeating-linear-gradient(90deg,transparent 0 8px,#4d321433 8px 9px,#ffffff0a 9px 17px,#39261155 17px 19px)}.material-swatch.wood-h,.material-swatch.open-h{background-image:repeating-linear-gradient(0deg,transparent 0 8px,#4d321433 8px 9px,#ffffff0a 9px 17px,#39261155 17px 19px)}.material-swatch.open-v{background-image:repeating-linear-gradient(90deg,transparent 0 7px,#332d23 7px 10px)}.material-swatch.open-h{background-image:repeating-linear-gradient(0deg,transparent 0 7px,#332d23 7px 10px)}.material-swatch.pvc{background-image:repeating-linear-gradient(0deg,transparent 0 10px,#00000025 10px 11px,#ffffff1c 11px 12px)}.opening-swatch,.roof-swatch{width:100%;height:62px}.count-field{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #edf0e7;padding-bottom:17px}.count-field>div:first-child{flex:1}.count-field .field-description{margin-top:4px;margin-bottom:0}.counter{display:flex;align-items:center;border:1px solid #dbe2d3;border-radius:6px;height:35px;flex-shrink:0}.counter button{height:33px;width:29px;display:flex;align-items:center;justify-content:center;color:#849473}.counter .icon{width:12px;height:12px}.counter input{width:30px;padding:4px 0;border:0;background:transparent;text-align:center;appearance:textfield;font-size:12px}.counter input::-webkit-inner-spin-button{appearance:none}.interior-placeholder{text-align:center;padding:22px 16px 30px;color:#97a28b;background:#f7f9f2;border-radius:9px}.interior-placeholder>.icon{width:44px;height:44px;stroke-width:1}.interior-placeholder h3{font-size:13px;font-weight:500;color:#77896a;margin:14px 0 10px}.interior-placeholder p{font-size:10px;line-height:1.9}.summary-hero{background:#eff3e7;padding:18px;border-radius:9px;color:#6d835d;display:flex;flex-direction:column;gap:9px}.summary-hero>span{font-size:8px;letter-spacing:1.7px}.summary-hero strong{font-weight:500;font-size:26px;letter-spacing:-1px;color:#456138}.summary-hero strong small{font-size:16px}.summary-hero p{font-size:10px}.summary-section{padding:20px 0;border-bottom:1px solid var(--line)}.summary-heading{display:flex;justify-content:space-between;align-items:center}.summary-heading h3{font-size:12px;font-weight:550}.summary-heading button{font-size:9px;color:#8c9c7c;display:flex;align-items:center;gap:4px}.summary-heading .icon{width:12px;height:12px}.summary-section dl{margin:12px 0 0}.summary-section dl>div{display:flex;justify-content:space-between;gap:15px;font-size:10px;line-height:1.8;margin:6px 0}.summary-section dt{color:#8b9383;flex:1}.summary-section dd{margin:0;color:#566a49;text-align:right;flex:1}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,25px);opacity:0;pointer-events:none;padding:14px 23px;background:#2c443bf5;border:1px solid #758371;border-radius:10px;color:white;z-index:100;font-size:12px;max-width:min(90vw,650px);box-shadow:0 7px 30px #283b3422;transition:opacity .2s,transform .2s;text-align:center;line-height:1.5}.toast.visible{transform:translate(-50%,0);opacity:1}dialog{border:1px solid #d8dfce;border-radius:16px;padding:0;max-width:600px;width:calc(100% - 32px);max-height:90dvh;color:var(--text);box-shadow:0 30px 120px #20332744;background:#fff}dialog::backdrop{background:#1a2f2870;backdrop-filter:blur(4px)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:23px 27px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}.modal-head h2{font-size:21px;font-weight:500;letter-spacing:-.5px;color:var(--green)}.modal-head .icon-button{background:var(--soft);flex-shrink:0}.modal-body{padding:23px 27px 27px;font-size:12px;line-height:1.85;color:#7b8570}.modal-body>p{margin-bottom:18px}.modal-body .muted{font-size:10px;line-height:1.9;margin-top:16px;color:#97a08a}.notice{padding:13px 16px;background:#f7efe3;border:1px solid #ecddc8;border-radius:7px;color:#92724e;font-size:11px;line-height:1.8}.breakdown-list>div{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:12px 0;border-bottom:1px solid var(--line);font-size:11px;color:#69775e}.breakdown-list small{display:block;font-size:9px;color:#9aa18c}.breakdown-list strong{white-space:nowrap;font-weight:500;color:#455e38}.breakdown-list>.breakdown-total{font-size:16px;padding-top:18px;border-bottom:0;color:var(--green)}.warnings{font-size:10px;padding-left:15px;line-height:1.8;color:#94815c}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}.contact-field label{display:block;font-size:11px;margin-bottom:5px;color:#4f6443}.contact-field label>span{color:#9ba68e}.contact-field input,.contact-field textarea{border:1px solid #dbe1d2;border-radius:6px;background:#fcfdf9;padding:10px 12px;width:100%;min-height:41px;font-size:12px;resize:vertical;max-width:100%}.contact-field input[aria-invalid=true]{border-color:#c2715f}.contact-field input::placeholder,.contact-field textarea::placeholder{color:#b0b8a4}.contact-field textarea{margin-bottom:4px}.contact-field:has(textarea){margin-top:11px}.optional{font-size:9px;margin-left:5px;font-weight:400}.consent{display:flex;align-items:flex-start;gap:10px;font-size:10px;line-height:1.8;color:#8a977b;margin:15px 0 0}.consent input{width:15px;height:15px;accent-color:var(--green);flex-shrink:0;margin:3px 0 0}.consent button{padding:0;text-decoration:underline;color:#677f53;font-size:10px}.submit-button{width:100%;justify-content:space-between;margin-top:13px;font-size:12px}.form-note{text-align:center;font-size:9px;color:#9ca68f;margin-top:11px}.field-error{font-size:10px;color:var(--danger);min-height:0;line-height:1.5;margin-top:5px}.field-error:empty{display:none}.dimension-field .field-error:empty{display:block;height:1px}.api-error{font-size:10px;line-height:1.7;color:var(--danger);margin:8px 0}.api-error:empty{display:none}.api-error button{text-decoration:underline;padding:0;color:var(--danger);font-size:10px}.success-state{text-align:center;padding:10px 0}.success-icon{display:flex;align-items:center;justify-content:center;margin:0 auto 20px;border-radius:50%;height:60px;width:60px;background:#eaf0de;color:#6b8a51}.success-icon>.icon{height:30px;width:30px}.success-state .eyebrow{justify-content:center}.success-state h3{font-size:26px;font-family:'DM Serif Display',Georgia,serif;color:var(--green);font-weight:400;margin:12px 0 15px}.success-state>p{margin-bottom:20px}.success-state>.button{margin-bottom:20px}.text-button{font-size:11px;text-decoration:underline;color:#637d50;text-underline-offset:4px}.share-label{display:block;font-size:10px;color:#617951;margin-bottom:5px}.share-input{display:flex;gap:8px}.share-input input{min-width:0;flex:1;padding:11px;border:1px solid var(--line);border-radius:7px;background:var(--soft);font-size:11px}.share-input .button{min-height:42px;padding:10px 13px;font-size:11px}.share-input .icon{width:14px;height:14px}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.process-list{padding-left:20px;line-height:1.9;margin:0}.process-list li{padding:0 0 16px 7px}.process-list strong{font-size:13px;color:#556d45}.process-list p{font-size:11px;margin-top:4px}.inline-privacy{background:var(--soft);padding:14px;border-radius:7px;font-size:10px;margin-top:10px}.inline-privacy p+p{margin-top:8px}.loading-screen,.load-error{min-height:65vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:20px;padding:40px 20px;color:#819271}.loading-screen p{font-size:13px}.loading-mark{width:36px;height:36px;border:2px solid #dee5d3;border-top-color:#6c8558;border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.load-error h1{font-size:25px;color:var(--green)}.load-error p{font-size:13px}.load-error>.icon{width:40px;height:40px}.preview-loading,.preview-unavailable{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:#8e9e7d;gap:10px}.preview-card:fullscreen,.preview-card.expanded{width:100%;height:100dvh;background:#efeee7;border-radius:0;display:flex;flex-direction:column;position:fixed;inset:0;z-index:80}.preview-card:fullscreen .preview-scene,.preview-card.expanded .preview-scene{flex:1;height:auto;min-height:0}.preview-card:fullscreen .preview-floating,.preview-card.expanded .preview-floating{bottom:120px}.preview-card:fullscreen .preview-toolbar,.preview-card.expanded .preview-toolbar{justify-content:center;gap:40px}.preview-card:fullscreen .preview-top,.preview-card.expanded .preview-top{padding:25px}
-@media(min-width:1500px){.preview-scene{height:495px}#panel-content{height:486px}.intro{padding-top:45px}.intro h1{font-size:39px}.workspace{grid-template-columns:minmax(0,1.5fr) minmax(410px,1fr)}.panel-heading h2{font-size:25px}.panel-heading>p{font-size:12px}.field-heading{font-size:12px}.field-description{font-size:10px}.option-title,.visual-card .option-title{font-size:10px}}
-@media(max-width:1100px){#app{padding:0 26px}.site-header{padding:0 26px}.workspace{grid-template-columns:minmax(0,1.14fr) minmax(340px,1fr);gap:15px}.live-label small{display:none}.step-tab{font-size:9px;gap:6px}.step-line{margin-right:9px;margin-left:3px}.step-number{height:24px;width:24px}.preview-top{padding:17px 15px 0}.preview-toolbar{padding:16px 13px}.preview-bottom{padding:13px}.rotate-hint{display:none}.preview-scene{height:435px}#panel-content{padding:24px 22px 8px}#panel-footer{padding-left:22px;padding-right:22px}.confidence{gap:23px;font-size:9px}.intro-note{display:none}.intro h1{font-size:32px}.header-nav{font-size:12px;gap:20px}.intro{padding-top:31px}.preview-bottom{font-size:7px}}
-@media(max-width:850px){.header-nav{display:none}.workspace{grid-template-columns:minmax(0,1fr) minmax(330px,1fr);gap:12px}.intro h1{font-size:30px}.intro>div>p:last-child{font-size:12px}.step-label{display:none}.step-short{display:inline}.step-line{margin-left:4px;margin-right:9px}.preview-top{padding:15px 10px 0}.live-label{font-size:7px;letter-spacing:.8px}.segmented button{padding:5px 7px}.preview-scene{height:435px}.camera-tools{gap:0}.tool-button{width:28px}.tool-divider{margin:0 3px}.preview-toolbar{padding-left:10px;padding-right:10px}.preview-bottom>span{font-size:7px;max-width:185px}.preview-floating{left:12px;right:12px}.design-tag{font-size:8px;padding:7px 8px}.confidence{gap:20px}.confidence>span{gap:5px}.confidence>span .icon{width:14px;height:14px}.confidence>span:first-child{display:none}}
-@media(max-width:760px){.site-header{height:77px;padding:0 20px}.brand>svg{height:33px;width:28px}.brand>span{font-size:26px}.brand small{font-size:6px;letter-spacing:2px;margin-top:7px}.brand{gap:9px}.button.compact{font-size:10px;padding:8px 10px;min-height:36px}.button.compact .icon{width:14px;height:14px}#app{padding:0 18px}.intro{padding:28px 0 22px}.intro .eyebrow{font-size:7px;letter-spacing:1.5px}.intro h1{font-size:28px;line-height:1.27;letter-spacing:-.9px;margin:11px 0}.intro h1 em{display:block}.intro>div>p:last-child{font-size:11px;line-height:1.8;max-width:290px}.steps{padding-bottom:19px;gap:0;justify-content:space-between}.step-tab{flex:1;flex-direction:column;gap:6px;text-align:center;font-size:8px;padding:0}.step-tab:last-child{flex:1}.step-number{width:24px;height:24px;font-size:9px}.step-line{position:absolute;left:calc(50% + 17px);top:12px;width:calc(100% - 34px);margin:0;min-width:0}.step-short{font-size:7px}.workspace{grid-template-columns:1fr;gap:15px}.preview-card{position:relative;top:auto;border-radius:12px}.preview-scene{height:310px;margin-top:-20px}.preview-top{padding:13px 14px 0}.live-label{font-size:7px;letter-spacing:1px}.live-label small{display:inline;font-size:9px;margin-left:2px}.preview-floating{bottom:93px;left:14px;right:14px}.preview-toolbar{padding:9px 12px;justify-content:space-between}.preview-bottom{padding:8px 12px;font-size:7px}.preview-bottom>span{font-size:7px;max-width:none}.preview-bottom button{font-size:9px}.preview-bottom .icon{width:11px;height:11px}.rotate-hint{display:inline;font-size:7px}.tool-button{height:27px;width:28px}.camera-tools{padding:2px}.design-tag{font-size:8px}.choices-card{border-radius:12px;scroll-margin-top:12px}#panel-content{height:auto;max-height:none;padding:24px 22px 10px;overflow:visible;scroll-behavior:auto}.panel-heading h2{font-size:24px;max-width:280px}.panel-heading>p{font-size:11px}.panel-heading{margin-bottom:25px}.step-eyebrow{font-size:8px}.field-heading{font-size:12px}.field-heading>span{font-size:10px}.number-control{height:45px}.number-control input{font-size:18px}.number-control>div>span{font-size:12px}.dimension-field{margin-bottom:23px}.dimension-slider{height:4px;margin-top:18px}.dimension-slider::-webkit-slider-thumb{width:17px;height:17px}.area-card{padding:18px}.area-card>span{font-size:11px}.area-card>strong{font-size:26px}.tip{font-size:10px}.tip .icon{width:15px;height:15px}.field-block legend,.count-field label{font-size:13px}.field-description{font-size:10px}.option-title,.visual-card .option-title{font-size:10px}.material-swatch{height:60px}.visual-card{min-height:109px;padding-bottom:10px}.option-grid{gap:9px}.option-card{min-height:45px}.option-check{height:14px;width:14px}.option-grid.visual-grid{gap:9px}.opening-swatch,.roof-swatch{height:70px}.field-block{margin-bottom:27px}#panel-footer{padding:18px 22px 16px;background:#fdfefb}.price-caption{font-size:10px}.price-peek button{font-size:10px}.price-value{font-size:27px}.next-button{font-size:12px;min-height:47px}.footer-note{font-size:9px;margin-top:12px}.confidence{padding:22px 5px;gap:20px;font-size:8px;justify-content:space-around}.confidence>span{line-height:1.7}.project-bar{font-size:8px;gap:15px;align-items:flex-start;line-height:1.8;padding-top:16px}.project-bar>div{align-items:flex-start}.project-dot{margin-top:5px;flex-shrink:0}.project-bar button{font-size:8px;white-space:nowrap}.site-footer{font-size:8px;padding:15px 18px 28px}.site-footer>span:nth-child(2){display:none}.modal-head{padding:20px}.modal-head h2{font-size:19px}.modal-body{padding:20px}.contact-grid{gap:10px 12px}.contact-field input{font-size:16px;padding:10px;min-height:43px}.contact-field label{font-size:10px}.contact-field textarea{font-size:16px}.consent{font-size:10px}.form-note{font-size:9px}.share-input{flex-direction:column}.share-input input{font-size:14px}.summary-section dt,.summary-section dd{font-size:11px}.preview-card:fullscreen .preview-scene,.preview-card.expanded .preview-scene{margin-top:0}}
-@media(max-width:380px){#app{padding:0 13px}.site-header{padding:0 14px}.brand>span{font-size:24px}.button.compact{font-size:9px;gap:6px}.intro h1{font-size:27px}.preview-scene{height:280px}.live-label small{font-size:8px}.preview-toolbar{padding-left:9px;padding-right:9px}.tool-button{width:26px}.rotate-hint{font-size:6px}.preview-bottom{font-size:6px}.preview-bottom>span{font-size:6px}.preview-bottom .icon{width:10px;height:10px}.confidence{font-size:7px}.contact-grid{grid-template-columns:1fr}#panel-content{padding-left:18px;padding-right:18px}#panel-footer{padding-left:18px;padding-right:18px}.option-title,.visual-card .option-title{font-size:9px}.option-grid.visual-grid{gap:7px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
-@media print{.site-header,.steps,.preview-card,.confidence,.project-bar,.site-footer,#panel-footer,.summary-heading button,.skip-link{display:none!important}.workspace{display:block}#app{padding:0}.intro{padding:10px 0}.choices-card{border:0}#panel-content{height:auto;overflow:visible}.summary-section{break-inside:avoid}dialog{position:relative;max-height:none}.modal-head>.icon-button{display:none}}
-/* AA contrast for supporting copy across the warm paper and white surfaces. */
-:root{--muted:#626d59}
-.step-tab,.step-number,.rotate-hint,.preview-bottom,.step-eyebrow,.field-heading>span,
-.number-control>div>span,.area-card>span,.tip,.price-peek button,.footer-note,
-.confidence,.project-bar,.project-bar button,.site-footer,.site-footer button,
-.field-description,.interior-placeholder,.interior-placeholder h3,.summary-hero,
-.summary-heading button,.summary-section dt,.modal-body,.contact-field label>span,
-.consent,.consent button,.form-note,.modal-body .muted,.breakdown-list small,
-.live-label small,.price-value.pending,.warnings{color:var(--muted)}
-.step-tab.active .step-number{color:white}
-.step-tab.completed .step-number{color:var(--green)}
-.contact-field input::placeholder,.contact-field textarea::placeholder{color:#6c7565}
-.segmented button{color:#647259}
-.tool-button,.number-control>button,.counter button{color:#5f7152}
+:root {
+ --ink:#20302c;
+ --text:#2f3935;
+ --muted:#657069;
+ --line:#dce0d9;
+ --paper:#ffffff;
+ --page:#f1f1ec;
+ --soft:#f4f5f0;
+ --green:#294e40;
+ --accent:#294e40;
+ --danger:#a43b2d;
+ --focus:#967246;
+ --font:'DM Sans',Arial,sans-serif;
+ --font-heading:var(--font);
+ --font-button:var(--font);
+ --font-size:16px;
+ --green-soft:#eef3e9;
+ --action-ink:var(--green);
+ --on-action:#ffffff;
+ /* One owner for the floating scene controls, so the chips over the top corners and the toolbar over the bottom
+    corners can never drift apart. .92 rather than a lighter wash because the plates sit on a photographic scene:
+    measured over the darkest interior pixel the control ink still reaches 5.2:1 (AA needs 4.5). */
+ --glass:rgba(247,249,245,.92);
+ --glass-line:rgba(203,209,199,.9);
+ --glass-blur:blur(8px);
+ --glass-shadow:0 1px 2px rgba(32,48,44,.06);
+ /* One owner for motion. Everything in this product is the REPEATED register — a hover, a press, the cursor's
+    scroll to the next choice — so the whole scale sits under 300 ms. --ease-out is the exact value of the CSS
+    ease-out keyword this file already used everywhere; naming it stops a second, subtly different curve from
+    arriving later. The JS tween in app.js reads the two scroll durations from here rather than owning them, and
+    uses the matching ease-out cubic because a requestAnimationFrame loop cannot consume a cubic-bezier(). */
+ --ease-out:cubic-bezier(0,0,.58,1);
+ --dur-quick:150ms;
+ --dur-scroll:200ms;
+ --dur-scroll-far:260ms;
+ font-family:var(--font);
+ font-size:var(--font-size);
+ font-synthesis:none;
+ color:var(--text);
+ background:var(--paper);
+ -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;min-width:320px}
+body{display:flex;flex-direction:column;overflow:hidden}
+button,input,textarea{font:inherit}
+button{font-family:var(--font-button)}
+h1,h2,h3,h4,legend,.field-head label{font-family:var(--font-heading)}
+button,input,textarea,summary{color:inherit}
+button{cursor:pointer;border:0;background:none}
+button:disabled{cursor:not-allowed;opacity:.48}
+a{color:inherit;text-decoration:none}
+button,a,input,textarea{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--focus);outline-offset:4px}
+::selection{background:var(--green-soft);color:var(--ink)}
+input,textarea{caret-color:var(--action-ink)}
+svg{flex-shrink:0}
+.icon{width:20px;height:20px;display:inline-block;vertical-align:middle}
+h1,h2,h3,h4,p{margin:0}
+.skip-link{position:fixed;left:16px;top:-80px;z-index:120;background:var(--ink);color:var(--on-action);padding:14px 18px}
+.skip-link:focus{top:12px}
+.site-header{height:76px;flex-shrink:0;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);background:var(--paper);z-index:4}
+.brand{display:flex;align-items:center;gap:20px;min-width:0}
+.brand img{width:214px;height:auto;max-height:40px;display:block}
+.brand-divider{width:1px;height:25px;background:var(--line)}
+.brand-title{font-size:calc(var(--font-size) * 14 / 16);font-weight:500;color:var(--muted)}
+.header-nav{margin-left:auto;display:flex;align-items:center;gap:18px}
+.header-nav button{font-size:calc(var(--font-size) * 13 / 16);min-height:44px}
+.header-actions{display:flex;align-items:center;gap:8px}
+.reset-header{color:var(--ink);white-space:nowrap;background:transparent}
+.reset-header:hover{background:var(--soft)}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:11px 16px;border:1px solid transparent;border-radius:5px;font-size:calc(var(--font-size) * 13 / 16);font-weight:600;line-height:1.35;transition:background var(--dur-quick) var(--ease-out)}
+.button .icon{width:17px;height:17px}
+.button.ghost{border-color:#ccd2c9;background:var(--paper)}
+.button.ghost:hover{background:var(--soft);border-color:#b6c0b3}
+.button.primary{background:var(--green);color:var(--on-action)}
+.button.primary:hover:not(:disabled){box-shadow:inset 0 0 0 2px var(--on-action)}
+.button.compact{min-height:42px;padding:10px 13px}
+#app{flex:1;min-height:0}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 426px;height:100%;min-height:0}
+.preview-card{min-width:0;min-height:0;position:relative;display:flex;flex-direction:column;overflow:hidden;background:#e9e9e1}
+/* The size chip and the Buiten/Binnen/Plan control float over the scene's top corners (translucent, blurred) instead of
+   taking a row of their own; only the chips catch the pointer so orbit and drag on the canvas stay free. */
+.preview-stage{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.preview-top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;padding:16px 26px;gap:12px;pointer-events:none}
+.preview-top>*{pointer-events:auto}
+.scene-heading{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border:1px solid var(--glass-line);border-radius:10px;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow);white-space:nowrap}
+.scene-heading>span{font-size:calc(var(--font-size) * 13 / 16);color:#5b655d}
+.scene-heading strong{font-size:calc(var(--font-size) * 14 / 16);font-weight:550;font-variant-numeric:tabular-nums;color:var(--ink)}
+.segmented{display:flex;align-items:center;border:1px solid var(--glass-line);border-radius:10px;padding:3px;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow)}
+.segmented button{font-size:calc(var(--font-size) * 12 / 16);min-width:66px;min-height:36px;padding:8px 13px;border-radius:7px;color:#536157;font-weight:500}
+.segmented button.active{color:var(--ink);background:#e0e6dd}
+.segmented button:hover:not(:disabled){background:#e9ede4}
+.preview-scene{position:relative;flex:1;min-height:0;width:100%;overflow:hidden}
+.preview-scene canvas{display:block;width:100%;height:100%;touch-action:none}
+.prefab-plan [tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:4px}
+/* The camera tools and the Weergave/fullscreen pair float over the scene's bottom corners, mirroring .preview-top:
+   the row costs the picture no height and only the two plates catch the pointer, so dragging or scrolling through
+   the gap between them still orbits and zooms the scene. */
+.preview-toolbar{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:0 26px 16px;pointer-events:none}
+.preview-toolbar>*{pointer-events:auto}
+/* Same glass plate as .scene-heading and .segmented above, so top and bottom read as one family. */
+.camera-tools,.view-tools{display:flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--glass-line);border-radius:10px;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow)}
+/* The material card hangs above the plate, the same way the viewpoints popover hangs above its own button. */
+.camera-tools{position:relative}
+.tool-button{width:38px;height:36px;flex-shrink:0;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:#536157}
+.icon-button{width:39px;height:38px;flex-shrink:0;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;color:#536157}
+.tool-button:hover,.icon-button:hover{background:#e9ede4}
+.tool-button.active{background:#e0e6dd;color:var(--action-ink)}
+.tool-button .icon{width:18px;height:18px}
+/* "Weergave" opens the Weergave dialog (2.10.7); it shares the right-hand plate with the fullscreen button. */
+.strip-toggle{width:auto;padding:0 12px;gap:7px;font-size:calc(var(--font-size) * 13 / 16);font-weight:500;white-space:nowrap}
+/* The hint is a caption, not a control: it sits centred and quiet between the two plates and drops out as soon as
+   the row gets tight (below 1280 px), so it can never crowd the buttons. */
+.rotate-hint{flex:0 1 auto;min-width:0;margin-inline:auto;align-self:center;pointer-events:none;padding:5px 12px;border-radius:9px;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);font-size:calc(var(--font-size) * 11 / 16);color:#58625a;line-height:1.45;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:1280px){.rotate-hint{display:none}}
+.example-toggle{display:flex;align-items:center;gap:8px;font-size:calc(var(--font-size) * 12 / 16);cursor:pointer;line-height:1.4}
+.example-toggle input{width:16px;height:16px;accent-color:var(--action-ink);margin:0;flex-shrink:0}
+.scene-legend{display:flex;align-items:center;gap:8px;font-size:calc(var(--font-size) * 11 / 16);line-height:1.4;max-width:250px}
+.choices-card{background:var(--paper);border-left:1px solid var(--line);min-width:0;min-height:0;display:flex;flex-direction:column}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line);padding:0 14px;flex-shrink:0}
+.step-tab{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:79px;font-size:calc(var(--font-size) * 10 / 16);color:var(--muted);padding:13px 0 12px;line-height:1.3}
+.step-number{width:24px;height:24px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(var(--font-size) * 11 / 16)}
+.step-number .icon{width:14px;height:14px}
+.step-tab.active{color:var(--ink);font-weight:600}
+.step-tab.active:after{content:'';position:absolute;bottom:-1px;left:8px;right:8px;height:2px;background:var(--ink)}
+.step-tab.active .step-number{border-color:var(--ink);background:var(--ink);color:#fff}
+.step-tab.completed .step-number{border-color:#a5b8a7;color:var(--ink);background:var(--soft)}
+.step-short{display:none}
+#panel-content{flex:1;min-height:0;overflow:auto;padding:27px 26px 20px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;overflow-anchor:none;overscroll-behavior:contain}
+.panel-heading{margin-bottom:25px}
+.panel-heading h1{color:var(--ink);font-size:calc(var(--font-size) * 25 / 16);font-weight:550;line-height:1.23;letter-spacing:-.025em;outline:none;margin-bottom:10px}
+.panel-heading>p{font-size:calc(var(--font-size) * 12 / 16);line-height:1.7;color:var(--muted);max-width:45ch}
+.dimension-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.dimension-field{min-width:0}
+.field-heading{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-bottom:8px;font-size:calc(var(--font-size) * 12 / 16);font-weight:600}
+.field-heading>span{font-size:calc(var(--font-size) * 9 / 16);color:var(--muted);font-weight:400;white-space:nowrap}
+.number-control{height:44px;display:flex;align-items:center;border:1px solid #858e87;border-radius:4px}
+.number-control>button{width:29px;height:42px;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted)}
+.number-control>button:hover{background:var(--soft)}
+.number-control>button .icon{width:13px;height:13px}
+.number-control>div{display:flex;flex:1;min-width:0;justify-content:center;align-items:baseline;gap:4px}
+.number-control input{width:47px;min-width:0;border:0;padding:8px 0;text-align:center;background:transparent;appearance:textfield;font-size:calc(var(--font-size) * 18 / 16);font-weight:500;font-variant-numeric:tabular-nums}
+.number-control input::-webkit-inner-spin-button{appearance:none}
+.number-control>div>span{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted)}
+.dimension-slider{appearance:none;width:100%;height:3px;background:var(--line);display:block;margin:18px 0 12px;cursor:pointer;border-radius:1px}
+.dimension-slider::-webkit-slider-thumb{appearance:none;background:var(--paper);width:16px;height:16px;border:2px solid var(--ink);border-radius:50%}
+.dimension-slider::-moz-range-thumb{background:var(--paper);width:12px;height:12px;border:2px solid var(--ink);border-radius:50%}
+.area-line{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:10px 0 24px;padding:10px 0;color:var(--muted);font-size:calc(var(--font-size) * 11 / 16)}
+.area-line strong{font-size:calc(var(--font-size) * 16 / 16);font-weight:550;color:var(--ink);font-variant-numeric:tabular-nums}
+.choice-group{border-top:1px solid var(--line)}
+.choice-group:last-child{border-bottom:1px solid var(--line)}
+.choice-group>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:76px;padding:18px 0;list-style:none;cursor:pointer}
+.choice-group>summary::-webkit-details-marker{display:none}
+.choice-group>summary>span{font-size:calc(var(--font-size) * 14 / 16);font-weight:550;color:var(--ink)}
+.choice-group>summary small{display:block;font-size:calc(var(--font-size) * 11 / 16);line-height:1.6;color:var(--muted);font-weight:400;margin-top:3px}
+/* A chevron, not a plus that turns into a cross (2.10.9): an open section showed an "x", which reads as delete. */
+.choice-group>summary>.icon{width:16px;height:16px;transform:rotate(90deg);transition:transform 160ms ease-out}
+.choice-group[open]>summary>.icon{transform:rotate(-90deg)}
+/* 12px, not 6: the removed "Volgende sectie" row used to supply the card's bottom breathing room. */
+.group-fields{padding:4px 0 12px}
+.field-block{border:0;margin:0 0 24px;padding:0 0 24px;min-width:0;border-bottom:1px solid var(--line)}
+/* Where the cursor lands. Plain :focus, not :focus-visible — Chrome does not apply :focus-visible to programmatic
+   focus on a tabindex="-1" element, and clicking inside a group never focuses the group itself, so there is no
+   false positive to avoid here. */
+[data-field]:focus,[data-dimension]:focus{outline:2px solid var(--focus);outline-offset:3px;border-radius:3px}
+.group-fields>.field-block:last-child{border-bottom:0;margin-bottom:0}
+.choice-group[open]>summary{background:var(--soft);padding-inline:12px;margin-inline:-12px;margin-bottom:20px}
+.field-head{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0}
+.field-head>span,.field-head>label{min-width:0;flex:1}
+.field-head .field-preview{flex:none;margin:0;padding:4px 0;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;min-height:36px;line-height:1.2}
+.field-head .field-preview .icon{margin:0;width:15px;height:15px}
+.dimension-hint{font-size:calc(var(--font-size) * 11 / 16);line-height:1.45;color:var(--muted);margin-top:8px}
+.availability-note{display:flex;align-items:flex-start;gap:7px;color:var(--muted);font-size:calc(var(--font-size) * 12 / 16);line-height:1.5;margin:9px 0}
+.availability-note .icon{width:13px;height:15px;margin-top:1px}
+.option-card[aria-disabled=true]{cursor:help}
+.option-card[aria-disabled=true]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.option-card.unavailable .option-check{border:0;background:none;color:var(--muted)}
+.option-card.unavailable .option-check .icon{width:14px;height:14px}
+.option-card.unavailable .material-swatch,.option-card.unavailable .opening-swatch,.option-card.unavailable .roof-swatch,.option-card.unavailable .rooflight-icon{opacity:.55}
+.field-block legend,.count-field label{font-size:calc(var(--font-size) * 14 / 16);font-weight:600;color:var(--ink);padding:0;margin-bottom:7px}
+.current-choice{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;font-size:calc(var(--font-size) * 12 / 16);line-height:1.5;margin-bottom:9px;color:var(--muted)}
+.current-choice strong{font-weight:600;color:var(--action-ink)}
+.field-description{font-size:calc(var(--font-size) * 11 / 16);line-height:1.7;color:var(--muted);margin-bottom:12px;white-space:pre-line}
+.option-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.option-card{position:relative;display:flex;align-items:center;gap:8px;min-height:44px;min-width:0;padding:10px;border:1px solid var(--line);border-radius:4px;background:var(--paper);cursor:pointer;transition:border-color var(--dur-quick) var(--ease-out),background var(--dur-quick) var(--ease-out)}
+.option-card:hover{border-color:var(--action-ink);background:var(--soft)}
+.option-card.selected{border-color:var(--action-ink);outline:1px solid var(--green);outline-offset:-2px;background:var(--green-soft)}
+.option-card.selected .option-title{font-weight:600;color:var(--ink)}
+.option-card input{position:absolute;opacity:0;width:1px;height:1px}
+.option-card:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:3px}
+.option-check{border:1px solid var(--line);width:14px;height:14px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--paper);flex-shrink:0}
+.selected .option-check{background:var(--green);border-color:var(--action-ink);color:var(--on-action)}
+.option-check .icon{width:11px;height:11px;stroke-width:2}
+.option-title{font-size:calc(var(--font-size) * 12 / 16);line-height:1.5;overflow-wrap:anywhere}
+.visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.visual-card{flex-wrap:wrap;align-content:flex-start;padding:7px;gap:7px}
+.visual-card .option-check{position:absolute;right:12px;top:12px;z-index:1}
+.visual-card .option-title{width:100%;padding:0 2px 3px;font-size:calc(var(--font-size) * 12 / 16)}
+.material-family{margin:21px 0 18px}
+.option-family-title{font-size:calc(var(--font-size) * 13 / 16);font-weight:600;margin-bottom:9px;color:var(--ink);line-height:1.4}
+.option-family-description{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted);line-height:1.5;margin:-4px 0 10px}
+.control-option-icon{width:18px;height:18px;color:var(--action-ink)}
+.material-swatch{display:block;position:relative;width:100%;height:55px;background-color:var(--material);overflow:hidden}
+.material-swatch:after{content:'';display:block;position:absolute;inset:0;opacity:.35}
+.material-swatch.brick:after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='24'%3E%3Cpath d='M0 0h44M0 12h44M0 24h44M22 0v12M0 12v12M44 12v12' fill='none' stroke='%23f0e8d9' stroke-width='2'/%3E%3C/svg%3E")}
+.material-swatch.wood-v:after,.material-swatch.open-v:after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='60'%3E%3Cpath d='M0 0v60M13 0v60' stroke='%23463420' stroke-width='2'/%3E%3C/svg%3E")}
+.material-swatch.wood-h:after,.material-swatch.open-h:after,.material-swatch.pvc:after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='15'%3E%3Cpath d='M0 0h60M0 13h60' stroke='%23463420' stroke-width='2'/%3E%3C/svg%3E")}
+.opening-swatch,.roof-swatch,.rooflight-icon{width:100%;height:62px}
+.roof-swatch,.rooflight-icon,.opening-icon{height:82px}
+.roof-none{grid-template-columns:1fr}
+.roof-none .visual-card{flex-wrap:nowrap;align-items:center;padding:9px 12px}
+.roof-none .roof-swatch,.roof-none .rooflight-icon{width:70px;height:50px;flex-shrink:0}
+.roof-none .option-check{position:static}
+.roof-none .option-title{width:auto;padding:0}
+.count-field{display:block}
+.count-body{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}
+.count-body>div:first-child{flex:1;min-width:0}
+.count-field>div:first-child{flex:1;min-width:0}
+.counter{height:40px;display:flex;border:1px solid #858e87;border-radius:4px;flex-shrink:0}
+.counter button{width:31px;height:38px;display:flex;align-items:center;justify-content:center;padding:0}
+.counter .icon{width:14px;height:14px}
+.counter input{width:29px;border:0;text-align:center;background:none;appearance:textfield;font-size:calc(var(--font-size) * 14 / 16);font-variant-numeric:tabular-nums}
+.counter input::-webkit-inner-spin-button{appearance:none}
+.placement-board{background:var(--soft);border:1px solid var(--line);padding:12px 11px}
+.placement-side{display:block;text-align:center;font-size:calc(var(--font-size) * 10 / 16);color:var(--muted);margin-bottom:13px}
+.placement-side:last-child{margin:13px 0 0}
+.position-grid{gap:7px}
+.ceiling-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.three-positions{grid-template-columns:repeat(3,minmax(0,1fr))}
+.wall-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.position-option{min-height:52px;padding:7px 3px;display:flex;flex-direction:column;justify-content:center;gap:5px}
+.position-option .option-title{font-size:calc(var(--font-size) * 10 / 16);text-align:center;line-height:1.3}
+.position-option .option-check{border-radius:3px}
+.position-count{font-size:calc(var(--font-size) * 10 / 16);color:var(--muted);margin-top:8px}
+/* The scope note (2.10.8): ONE line that never wraps, its explanation behind a tap. It keeps its node while a price
+   is recalculated (app.js scopeState), so a +/- no longer makes the field grow and shrink. Semantic colours, never
+   the accent: orange means "act", and this note only informs. */
+.field-scope{--scope-ink:#657069;margin:8px 0 0;min-width:0;font-size:calc(var(--font-size) * 12 / 16);line-height:1.4;color:var(--scope-ink)}
+.field-scope.included{--scope-ink:#2e6b45}
+.field-scope>summary{display:inline-flex;align-items:center;gap:6px;max-width:100%;min-height:32px;list-style:none;cursor:pointer;white-space:nowrap;border-radius:4px}
+.field-scope>summary::-webkit-details-marker{display:none}
+.field-scope>summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* The dotted underline says "there is more" on a phone, where a title tooltip never shows. */
+.scope-short{min-width:0;overflow:hidden;text-overflow:ellipsis;font-weight:500;color:var(--ink);text-decoration:underline dotted rgba(32,48,44,.45);text-underline-offset:3px}
+.field-scope.illustrative .scope-short{color:var(--scope-ink)}
+.field-scope .icon{width:16px;height:16px;flex:none;color:var(--scope-ink)}
+.field-scope .scope-more{width:12px;height:12px;opacity:.75;transform:rotate(90deg);transition:transform var(--dur-quick) var(--ease-out)}
+.field-scope[open] .scope-more{transform:rotate(-90deg)}
+.scope-detail{max-width:60ch;margin:2px 0 0;padding:8px 10px;border-left:2px solid var(--scope-ink);border-radius:4px;background:var(--soft);color:#2f3935;font-size:calc(var(--font-size) * 13 / 16);line-height:1.5;white-space:normal}
+.interior-placeholder{padding:28px 0}
+.interior-placeholder h2{font-size:calc(var(--font-size) * 17 / 16);font-weight:500;color:var(--ink);margin-bottom:12px}
+.interior-placeholder p{font-size:calc(var(--font-size) * 12 / 16);line-height:1.7;color:var(--muted);margin-bottom:16px}
+.text-button{font-size:calc(var(--font-size) * 12 / 16);text-decoration:underline;text-underline-offset:4px;color:var(--action-ink);padding:6px 0;min-height:32px}
+.text-button .icon{width:15px;height:15px;margin-left:6px}
+#panel-footer{flex-shrink:0;padding:18px 26px 13px;border-top:1px solid var(--line);background:var(--paper);z-index:3}
+.price-peek{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.price-peek>div{display:flex;flex-direction:column;gap:4px}
+.price-caption{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted)}
+.price-peek button{font-size:calc(var(--font-size) * 11 / 16);color:var(--action-ink);padding:0;text-align:left;text-decoration:underline;text-underline-offset:3px}
+.price-value{font-size:calc(var(--font-size) * 25 / 16);font-weight:550;color:var(--ink);letter-spacing:-.025em;white-space:nowrap;font-variant-numeric:tabular-nums}
+/* Only the FIRST calculation (no amount yet) shows the small "Berekenen…". After that the last amount keeps its own
+   size and is only dimmed — 2.10.8 used font-size:inherit here, which took the footer's 16 px and still shrank it. */
+.price-value.pending:not(.refreshing){font-size:calc(var(--font-size) * 15 / 16);letter-spacing:0;color:var(--muted)}
+/* .7, not lower: at .45 the dimmed total was 2.6:1 (axe, 2.10.9); at .7 ink on white is ~5.3:1, readable at 21 px on a phone. */
+.price-value.refreshing{opacity:.7;transition:opacity var(--dur-quick) var(--ease-out)}
+.step-actions{display:flex;gap:8px}
+.next-button{flex:1;justify-content:space-between;min-height:46px}
+/* The label names where the button goes ("Naar Vloerverwarming voorbereiden"), so it must truncate rather than
+   wrap: a second line grows the button from 43px to 56px and gives back the height this design just recovered. */
+.next-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Since 2.10.9 the label sits in .next-text (with the phone's kicker line); the chain keeps min-width:0 at every width. */
+.next-button{min-width:0}
+.next-text{display:flex;flex:1 1 auto;min-width:0;overflow:hidden}
+.next-label{display:block}
+.next-button .icon{flex:none}
+.back-button{border-color:var(--line);background:var(--paper);padding:11px 13px}
+.footer-note{font-size:calc(var(--font-size) * 10 / 16);line-height:1.5;text-align:center;color:var(--muted);margin-top:9px}
+.field-error,.api-error{font-size:calc(var(--font-size) * 11 / 16);color:var(--danger);line-height:1.6;margin-top:7px}
+.field-error:empty,.api-error:empty{display:none}
+.api-error{margin:0 0 10px}
+.api-error button{padding:0;text-decoration:underline;font-size:calc(var(--font-size) * 11 / 16)}
+.scope-panel{padding:25px 0 10px}
+.scope-panel>h2{font-size:calc(var(--font-size) * 17 / 16);font-weight:550;color:var(--ink);margin-bottom:9px}
+.scope-panel>p,.scope-empty,.scope-loading{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted);line-height:1.7}
+.scope-list{margin-top:16px;border-top:1px solid var(--line)}
+.scope-item{border-bottom:1px solid var(--line)}
+.scope-item>summary{display:flex;align-items:center;gap:10px;padding:14px 0;cursor:pointer;list-style:none}
+.scope-item>summary::-webkit-details-marker{display:none}
+.scope-item>summary>span:first-child{flex:1;font-size:calc(var(--font-size) * 12 / 16);font-weight:500;color:var(--ink)}
+.scope-item small{display:block;font-size:calc(var(--font-size) * 10 / 16);color:var(--muted);font-weight:400;line-height:1.6;margin-top:3px}
+.scope-item .icon{width:13px;height:13px}
+.scope-item[open]>summary .icon{transform:rotate(90deg)}
+.scope-quantity{font-size:calc(var(--font-size) * 12 / 16);font-variant-numeric:tabular-nums}
+.scope-item dl{margin:0 0 14px}
+.scope-item dl>div{display:flex;justify-content:space-between;gap:16px;font-size:calc(var(--font-size) * 10 / 16);line-height:1.7;padding:4px 0}
+.scope-item dt{color:var(--muted)}
+.scope-item dd{margin:0;text-align:right}
+.summary-dimensions{display:flex;align-items:flex-start;flex-direction:column;gap:7px;border-bottom:1px solid var(--line);padding:2px 0 20px}
+.summary-dimensions strong{font-size:calc(var(--font-size) * 26 / 16);font-weight:500;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.summary-dimensions>span{font-size:calc(var(--font-size) * 12 / 16);color:var(--muted)}
+.summary-section{padding:21px 0;border-bottom:1px solid var(--line)}
+.summary-heading{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.summary-heading h2{font-size:calc(var(--font-size) * 14 / 16);font-weight:550;color:var(--ink)}
+.summary-heading button{font-size:calc(var(--font-size) * 11 / 16);min-height:32px;color:var(--action-ink);display:flex;gap:6px;align-items:center}
+.summary-heading .icon{width:13px;height:13px}
+.summary-section dl{margin:12px 0 0}
+.summary-section dl>div{display:flex;justify-content:space-between;gap:15px;font-size:calc(var(--font-size) * 11 / 16);line-height:1.6;margin:8px 0}
+.summary-section dt{flex:1;color:var(--muted)}
+.summary-section dd{margin:0;flex:1;text-align:right;overflow-wrap:anywhere}
+.summary-sharing{display:flex;gap:8px;margin:18px 0}
+.summary-sharing .button{flex:1;padding:10px 8px;font-size:calc(var(--font-size) * 11 / 16)}
+.site-footer{display:none}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,14px);opacity:0;pointer-events:none;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:5px;z-index:120;font-size:calc(var(--font-size) * 12 / 16);line-height:1.6;max-width:min(90vw,620px);box-shadow:0 10px 25px #19261b26;transition:opacity 170ms ease-out,transform 170ms ease-out;text-align:center}
+.toast.visible{opacity:1;transform:translate(-50%,0)}
+dialog{border:0;border-radius:8px;padding:0;width:calc(100% - 32px);max-width:610px;max-height:90dvh;color:var(--text);background:var(--paper);box-shadow:0 24px 80px #16211a4a;overscroll-behavior:contain}
+dialog::backdrop{background:#17231dc2}
+.modal-head{position:sticky;top:0;background:var(--paper);z-index:2;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 28px;border-bottom:1px solid var(--line)}
+.modal-head h2{font-size:calc(var(--font-size) * 22 / 16);font-weight:550;letter-spacing:-.025em;color:var(--ink)}
+.modal-head .icon-button{background:var(--soft)}
+.modal-body{padding:24px 28px 28px;font-size:calc(var(--font-size) * 13 / 16);line-height:1.75;color:var(--muted)}
+.modal-body>p{margin-bottom:18px}
+.modal-body strong{color:var(--ink);font-weight:550}
+.modal-body .muted{font-size:calc(var(--font-size) * 11 / 16);margin-top:15px}
+.notice{padding:15px;background:#f4f0e7;color:#685b42;font-size:calc(var(--font-size) * 11 / 16);line-height:1.75;border-radius:4px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px 16px}
+.contact-field label{display:block;font-size:calc(var(--font-size) * 12 / 16);color:var(--ink);margin-bottom:5px}
+.contact-field label>span{color:var(--muted)}
+.contact-field input,.contact-field textarea{width:100%;max-width:100%;border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:11px 12px;min-height:44px;font-size:calc(var(--font-size) * 14 / 16);resize:vertical}
+.contact-field input::placeholder,.contact-field textarea::placeholder{color:var(--muted)}
+.contact-field input[aria-invalid=true]{border-color:var(--danger)}
+.contact-field:has(textarea){margin-top:14px}
+.optional{font-size:calc(var(--font-size) * 11 / 16);margin-left:5px}
+.consent{display:flex;align-items:flex-start;gap:10px;font-size:calc(var(--font-size) * 11 / 16);line-height:1.7;color:var(--muted);margin:16px 0 0}
+.consent input{width:17px;height:17px;margin:2px 0 0;accent-color:var(--action-ink);flex-shrink:0}
+.consent button{padding:0;font-size:calc(var(--font-size) * 11 / 16);text-decoration:underline;text-underline-offset:3px}
+.submit-button{width:100%;justify-content:space-between;margin-top:18px}
+.form-note{font-size:calc(var(--font-size) * 10 / 16);line-height:1.7;text-align:center;color:var(--muted);margin-top:10px}
+.success-state{text-align:center;padding:2px 0}
+.success-icon{width:52px;height:52px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;border-radius:50%;background:#e7efdf;color:var(--action-ink)}
+.success-state h3{font-size:calc(var(--font-size) * 24 / 16);font-weight:500;line-height:1.3;letter-spacing:-.025em;color:var(--ink);margin-bottom:16px}
+.success-state>p,.success-state>.button{margin-bottom:18px}
+.share-label{display:block;font-size:calc(var(--font-size) * 12 / 16);color:var(--ink);margin-bottom:7px}
+.share-input{display:flex;gap:8px}
+.share-input input{flex:1;min-width:0;border:1px solid #ccd3c8;border-radius:4px;padding:11px;font-size:calc(var(--font-size) * 12 / 16);background:var(--soft)}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:22px}
+.process-list{padding-left:22px;margin:0}
+.process-list li{padding:0 0 20px 7px}
+.process-list strong{font-size:calc(var(--font-size) * 14 / 16)}
+.process-list p{font-size:calc(var(--font-size) * 12 / 16);margin-top:5px}
+.inline-privacy{padding:15px;background:var(--soft);font-size:calc(var(--font-size) * 11 / 16);margin-top:13px}
+.inline-privacy p+p{margin-top:10px}
+.breakdown-list>div{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid var(--line);font-size:calc(var(--font-size) * 12 / 16)}
+.breakdown-list small{display:block;font-size:calc(var(--font-size) * 10 / 16);color:var(--muted)}
+.breakdown-list strong{white-space:nowrap;font-variant-numeric:tabular-nums}
+.breakdown-list>.breakdown-total{font-size:calc(var(--font-size) * 17 / 16);border:0}
+.warnings{font-size:calc(var(--font-size) * 11 / 16);padding-left:18px}
+.preview-loading,.preview-unavailable,.loading-screen,.load-error{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:30px;text-align:center;color:var(--muted);font-size:calc(var(--font-size) * 13 / 16);line-height:1.7}
+.preview-loading,.preview-unavailable{position:absolute;inset:0}
+.loading-screen,.load-error{height:100%}
+.load-error h1{color:var(--ink);font-size:calc(var(--font-size) * 25 / 16)}
+.loading-mark{height:3px;width:160px;background:#ccd6c5;position:relative;overflow:hidden}
+.loading-mark:after{content:'';position:absolute;left:0;top:0;width:60px;height:3px;background:var(--green);animation:loading 1.2s ease-in-out infinite alternate}
+@keyframes loading{to{transform:translateX(100px)}}
+.preview-card:fullscreen,.preview-card.expanded{position:fixed;inset:0;width:100%;height:100dvh;max-height:none;z-index:80;background:#e9e9e1}
+@media(min-width:1600px){.workspace{grid-template-columns:minmax(0,1fr) 460px}#panel-content{padding:30px 30px 24px}#panel-footer{padding-left:30px;padding-right:30px}.preview-top{padding:18px 34px}.preview-toolbar{padding:0 34px 20px}}
+@media(max-width:1100px){.workspace{grid-template-columns:minmax(0,1fr) 385px}.brand-title,.brand-divider{display:none}.preview-top{padding:14px 18px}.scene-heading{flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;padding:4px 12px}.preview-toolbar{padding:0 18px 14px;gap:10px}.rotate-hint{display:none}#panel-content{padding:23px 22px 18px}#panel-footer{padding-left:22px;padding-right:22px}.panel-heading h1{font-size:calc(var(--font-size) * 23 / 16)}.dimension-grid{gap:10px}.field-heading>span{font-size:calc(var(--font-size) * 8 / 16)}.step-label{display:none}.step-short{display:inline}}
+@media(max-width:800px){
+ .site-header{height:62px;padding:0 17px;gap:10px}.brand img{width:clamp(108px,33vw,153px);max-height:32px}.header-nav{display:none}.header-actions{gap:3px;margin-left:auto}.header-actions .button{padding:8px;font-size:calc(var(--font-size) * 11 / 16);min-height:44px}.header-actions .share-header{display:none}.header-actions .save-header{width:40px;min-width:40px;padding:8px}.save-header>span:last-child{display:none}.reset-header .icon{width:15px;height:15px}.reset-header{gap:5px}
+ .workspace{display:flex;flex-direction:column}
+ .preview-card{height:35dvh;min-height:245px;max-height:305px;flex-shrink:0}
+ .preview-top{padding:10px 14px;gap:8px}.scene-heading{min-height:46px;gap:1px;padding:4px 11px}.scene-heading>span{font-size:calc(var(--font-size) * 10 / 16)}.scene-heading strong{font-size:calc(var(--font-size) * 11 / 16)}.segmented{padding:2px}.segmented button{font-size:calc(var(--font-size) * 11 / 16);min-width:50px;min-height:40px;padding:6px 8px;border-radius:8px}
+ .preview-toolbar{padding:0 14px 12px;gap:8px}.camera-tools,.view-tools{padding:3px;gap:0}.tool-button{width:36px;height:36px}.tool-button .icon{width:16px;height:16px}.strip-toggle{width:36px;padding:0;gap:0}.strip-toggle-label{display:none}
+ .choices-card{border-left:0;border-top:1px solid var(--line);flex:1;min-height:0}
+ .steps{padding:0 13px}.step-tab{min-height:49px;flex-direction:row;gap:6px;padding:11px 0;font-size:calc(var(--font-size) * 11 / 16)}.step-number{width:21px;height:21px;font-size:calc(var(--font-size) * 10 / 16)}.step-number .icon{width:12px;height:12px}
+ #panel-content{padding:18px 20px 22px}.panel-heading{margin-bottom:17px}.panel-heading h1{font-size:calc(var(--font-size) * 22 / 16);margin-bottom:6px}.panel-heading>p{font-size:calc(var(--font-size) * 11 / 16);line-height:1.55}
+ .dimension-grid{gap:18px}.field-heading{font-size:calc(var(--font-size) * 12 / 16);margin-bottom:6px}.field-heading>span{font-size:calc(var(--font-size) * 9 / 16)}.number-control{height:43px}.number-control>button{height:41px;width:32px}.number-control input{font-size:calc(var(--font-size) * 18 / 16);width:48px}.dimension-slider{margin:14px 0 9px}
+ .area-line{margin:6px 0 17px;padding:7px 0;font-size:calc(var(--font-size) * 10 / 16)}.area-line strong{font-size:calc(var(--font-size) * 15 / 16)}
+ .choice-group>summary{min-height:65px;padding:14px 0}.choice-group>summary>span{font-size:calc(var(--font-size) * 14 / 16)}.visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.material-swatch{height:52px}
+ #panel-footer{padding:11px 20px 9px}.price-peek{margin-bottom:9px}.price-value{font-size:calc(var(--font-size) * 23 / 16)}.price-caption,.price-peek button{font-size:calc(var(--font-size) * 10 / 16)}.price-peek>div{gap:2px}.next-button{min-height:43px;font-size:calc(var(--font-size) * 12 / 16)}.back-button{min-height:43px}.footer-note{font-size:calc(var(--font-size) * 9 / 16);margin-top:6px}
+ .modal-head{padding:19px 20px}.modal-head h2{font-size:calc(var(--font-size) * 20 / 16)}.modal-body{padding:20px}.contact-field input,.contact-field textarea{font-size:calc(var(--font-size) * 16 / 16)}.toast{bottom:145px;font-size:calc(var(--font-size) * 11 / 16)}
+}
+@media(max-width:380px){
+ .site-header{padding:0 13px}.brand img{width:clamp(108px,33vw,125px)}.header-actions .button{font-size:calc(var(--font-size) * 10 / 16);padding:7px 6px;gap:5px}
+ .preview-card{min-height:226px;height:32dvh}.preview-top{padding-left:10px;padding-right:10px}
+ #panel-content{padding:16px 17px 22px}#panel-footer{padding-left:17px;padding-right:17px}.panel-heading h1{font-size:calc(var(--font-size) * 21 / 16)}.dimension-grid{gap:12px}.field-heading>span{font-size:calc(var(--font-size) * 8 / 16)}.step-tab{font-size:calc(var(--font-size) * 10 / 16);gap:5px}
+ .contact-grid{grid-template-columns:1fr}.share-input{flex-direction:column}.position-option .option-title{font-size:calc(var(--font-size) * 9 / 16)}
+}
+@media(max-height:680px) and (max-width:800px){.preview-card{height:28dvh;min-height:178px}.preview-toolbar{padding-bottom:8px}.site-header{height:55px}.panel-heading>p{display:none}.panel-heading{margin-bottom:12px}.steps .step-tab{min-height:43px}#panel-footer{padding-top:8px;padding-bottom:7px}.footer-note{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{body{height:auto;overflow:visible}.site-header,.preview-card,.steps,#panel-footer,.site-footer,.summary-heading button,.summary-sharing,.skip-link{display:none!important}#app,.workspace{display:block;height:auto}.choices-card{border:0}#panel-content{height:auto;overflow:visible;padding:0}.summary-section{break-inside:avoid}dialog{position:relative;max-height:none}}
+.option-card.unavailable{background:var(--soft);border-color:var(--line);color:var(--muted);cursor:not-allowed}.option-title small{display:block;font-size:calc(var(--font-size) * 10 / 16);color:var(--muted);margin-top:3px;line-height:1.4}
+.mobile-help{display:none}@media(max-width:800px){.mobile-help{display:inline-flex}}
+
+.field-preview{font-size:calc(var(--font-size) * 12 / 16);min-height:36px}.field-preview .icon{width:14px;height:14px}
+.preview-status{padding:9px 24px;background:#f1eade;color:#594e3d;font-size:calc(var(--font-size) * 11 / 16);line-height:1.5}.preview-status button{text-decoration:underline;text-underline-offset:3px;font-size:inherit;padding:0 4px}
+/* Embed mode (/prefab/embed). The host page already carries the brand and the navigation, so the
+   header keeps only its actions and gives 20px back to the workspace. "Hoe werkt het?" moves to
+   the tool button the phone layout already shows for it, so nothing loses its only route.
+   These selectors are 0,2,0 and therefore hold against the plain .site-header rules in the width
+   media queries below — the embedded header is 56px at every width, on purpose. */
+.embedded .site-header{height:56px;padding:0 18px;justify-content:flex-end}
+.embedded .brand,.embedded .header-nav{display:none}
+.embedded .mobile-help{display:inline-flex}
+.admin-preview #app{display:flex;flex-direction:column}.admin-preview .workspace{height:auto;flex:1}
+.admin-preview-bar{display:flex;align-items:center;gap:14px;flex-shrink:0;padding:11px 26px;background:#f1eade;color:#594e3d;font-size:calc(var(--font-size) * 12 / 16);line-height:1.5}.admin-preview-bar strong{font-weight:600}.admin-preview-bar a{margin-left:auto;white-space:nowrap;text-decoration:underline;text-underline-offset:3px}.admin-preview-bar .icon{width:13px;height:13px}
+.comparison-panel{border-bottom:1px solid var(--line);padding:20px 0}.comparison-panel>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:32px;list-style:none;cursor:pointer;color:var(--action-ink);font-size:calc(var(--font-size) * 13 / 16);font-weight:550}.comparison-panel>summary::-webkit-details-marker{display:none}.comparison-panel>summary .icon{width:17px;height:17px}.comparison-panel[open]>summary{margin-bottom:13px}
+.comparison-note{font-size:calc(var(--font-size) * 11 / 16);line-height:1.6;color:var(--muted);margin:10px 0}.comparison-slots{margin:15px 0}.comparison-slots>div{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line)}.comparison-slots>div:last-child{border-bottom:1px solid var(--line)}.comparison-slots strong{display:block;color:var(--ink);font-size:calc(var(--font-size) * 12 / 16);font-weight:550}.comparison-slots small{display:block;color:var(--muted);font-size:calc(var(--font-size) * 11 / 16);margin-top:5px;font-variant-numeric:tabular-nums}.comparison-slots button{max-width:57%;text-align:right;font-size:calc(var(--font-size) * 11 / 16);line-height:1.5;min-height:38px}.comparison-refresh{width:100%;font-size:calc(var(--font-size) * 12 / 16)}.comparison-outcome{margin-top:20px}
+.comparison-table{border-collapse:collapse;table-layout:fixed;width:100%;font-size:calc(var(--font-size) * 10 / 16);line-height:1.6;color:var(--ink);font-variant-numeric:tabular-nums}.comparison-table caption{text-align:left;font-size:calc(var(--font-size) * 13 / 16);font-weight:550;padding:10px 0}.comparison-table th,.comparison-table td{padding:10px 6px;vertical-align:top;text-align:left;overflow-wrap:anywhere;border-bottom:1px solid var(--line)}.comparison-table th:first-child{width:34%;padding-left:0}.comparison-table thead th{font-weight:550;background:var(--soft)}.comparison-table tbody th{font-weight:400;color:var(--muted)}.comparison-table td:last-child{padding-right:0}.comparison-difference{margin:14px 0;font-size:calc(var(--font-size) * 12 / 16);line-height:1.6;color:var(--ink)}.comparison-scope{padding:10px 0;border-bottom:1px solid var(--line)}.comparison-scope>summary{cursor:pointer;font-size:calc(var(--font-size) * 11 / 16);color:var(--action-ink);min-height:28px;line-height:1.6}.comparison-use{display:flex;gap:8px;margin-top:17px}.comparison-use button{flex:1;font-size:calc(var(--font-size) * 11 / 16);padding:10px 8px}
+@media(max-width:800px){.admin-preview-bar{padding:8px 16px;gap:7px;font-size:calc(var(--font-size) * 10 / 16);flex-wrap:wrap}.admin-preview-bar span{max-width:60%}.admin-preview-bar a{font-size:calc(var(--font-size) * 10 / 16)}.preview-status{font-size:calc(var(--font-size) * 10 / 16);padding:8px 15px}.field-preview{min-height:34px}}
+
+/* Form reading and touch targets keep their hierarchy on a phone. */
+.field-description{font-size:calc(var(--font-size) * 13 / 16);line-height:1.6}
+.field-block legend,.count-field label{font-size:calc(var(--font-size) * 15 / 16)}
+.position-option .option-title{font-size:calc(var(--font-size) * 12 / 16)}
+.position-count{font-size:calc(var(--font-size) * 12 / 16)}
+.counter input{font-size:var(--font-size)}
+.number-control:has(input[aria-invalid=true]){border-color:var(--danger)}
+@media(max-width:800px){
+ .panel-heading>p,.field-description,.option-title,.visual-card .option-title,.field-error,.api-error{font-size:calc(var(--font-size) * 14 / 16)}
+ .field-head{gap:8px}.field-head .field-preview{font-size:calc(var(--font-size) * 12 / 16)}
+ .field-block{padding-bottom:20px;margin-bottom:20px}.choice-group[open]>summary{margin-bottom:18px}
+ .position-option .option-title{font-size:calc(var(--font-size) * 12 / 16);line-height:1.35}
+ .position-grid{gap:6px}.position-option{min-height:52px;padding:7px 2px}
+ .availability-note{font-size:calc(var(--font-size) * 12 / 16)}
+ .toast{font-size:calc(var(--font-size) * 14 / 16);width:calc(100% - 32px);max-width:420px;padding:12px 16px;top:var(--toast-top,112px);bottom:auto}
+ .counter button{min-height:44px;width:36px}.counter{height:46px}.field-head .field-preview{min-height:44px}
+}
+@media(forced-colors:active){.option-card.unavailable{border-style:dashed}.option-card.selected{outline:2px solid Highlight}.option-card.unavailable .option-check{color:GrayText}}
+.option-card.unavailable > input { pointer-events: none; }
+
+.viewpoints{position:relative;display:inline-flex}
+/* The popover and the material card are the two panels that open over the scene. They share the card language of
+   the form sections (paper, 1 px line, 8 px radius, a small caps heading) so the scene does not get a third style. */
+.viewpoints-menu,.material-callout{position:absolute;bottom:calc(100% + 8px);left:0;z-index:6;padding:9px 10px 10px;background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 26px rgba(32,48,44,.16)}
+/* 2.10.7: each standpoint is a drawn tile (scene_icons.js) — the same aanbouw every time, only the eye moves. */
+.viewpoints-menu{width:max-content}
+.viewpoints-title{font-size:calc(var(--font-size) * 10 / 16);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:#536157;padding:0 3px 5px}
+.viewpoints-title+.viewpoints-grid{margin-bottom:9px}
+.viewpoints-grid{display:grid;grid-template-columns:repeat(4,92px);gap:5px}
+.viewpoints-grid:last-child{margin-bottom:0}
+.viewpoints-menu button{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;padding:4px 3px 6px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-size:calc(var(--font-size) * 12 / 16);line-height:1.25;text-align:center;color:#3d4a43;transition:border-color var(--dur-quick) var(--ease-out),background var(--dur-quick) var(--ease-out)}
+.viewpoints-menu .viewpoint-icon{display:block;width:84px;height:auto;aspect-ratio:96/68;max-width:100%}
+.viewpoint-label{max-width:100%;overflow-wrap:anywhere}
+.viewpoints-menu button:hover{background:var(--soft);border-color:#b6c0b3}
+.viewpoints-menu button.active{background:var(--green-soft);border-color:var(--action-ink);outline:1px solid var(--green);outline-offset:-2px;color:var(--action-ink);font-weight:600}
+.viewpoints-menu button:disabled{opacity:.5;cursor:not-allowed}
+.viewpoint-check{position:absolute;top:5px;right:5px;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;flex-shrink:0;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--on-action)}
+.viewpoint-check .icon{width:10px;height:10px;stroke-width:2.4;opacity:0}
+.viewpoints-menu button.active .viewpoint-check{background:var(--green);border-color:var(--action-ink)}
+.viewpoints-menu button.active .viewpoint-check .icon{opacity:1}
+/* The card behind "Materiaal van dichtbij": what you are looking at, the one caveat, and the way back. */
+.material-callout{width:250px;max-width:calc(100vw - 40px)}
+.callout-label{font-size:calc(var(--font-size) * 10 / 16);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:#536157}
+.callout-name{font-size:calc(var(--font-size) * 14 / 16);font-weight:550;color:var(--ink);margin:3px 0 5px;line-height:1.35}
+.callout-note{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted);line-height:1.55}
+.material-callout .text-button{margin-top:7px;min-height:34px;font-size:calc(var(--font-size) * 11 / 16)}
+.option-badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:10px;background:var(--green-soft);color:var(--action-ink);font-size:calc(var(--font-size) * 10 / 16);font-weight:600;vertical-align:middle}
+/* The phone scene is ~260 px tall, so both panels have to fit between the toolbar and the top of the card:
+   tighter rows and, for the material card, only the two lines that answer "what am I looking at". */
+@media(max-width:800px){
+ .material-callout{width:228px;padding:8px 9px 9px}
+ .callout-name{font-size:calc(var(--font-size) * 13 / 16)}
+}
+@media(max-width:560px){.callout-note{display:none}}
+
+/* ---- Section cards (plan 2.9 row 10): numbered headers with status, one open per step, "Volgende sectie" at the foot; step tabs count sections. ---- */
+.choice-group.section-card{border:1px solid var(--line);border-radius:8px;margin:0 0 10px;padding:0 14px;background:var(--paper)}
+.choice-group.section-card:last-child{border-bottom:1px solid var(--line)}
+.choice-group.section-card[open]{border-color:#b6c0b3}
+.choice-group.section-card>summary{min-height:64px;padding:12px 0;gap:10px}
+.choice-group.section-card[open]>summary{background:transparent;padding-inline:0;margin-inline:0;margin-bottom:8px;border-bottom:1px solid var(--line)}
+.choice-group.section-card>summary>.section-index{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:calc(var(--font-size) * 11 / 16);font-weight:600;color:var(--muted);background:var(--soft)}
+.choice-group.section-card[open]>summary>.section-index{border-color:var(--ink);background:var(--ink);color:#fff}
+.choice-group.section-card>summary>.section-text{flex:1;min-width:0}
+.choice-group.section-card>summary .section-title{display:block}
+.choice-group.section-card>summary small{overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.choice-group.section-card>summary>.section-status{flex:none;font-size:calc(var(--font-size) * 10 / 16);font-weight:500;line-height:1;white-space:nowrap;border-radius:10px;padding:5px 8px}
+.choice-group.section-card>summary>.section-status.pending{color:#6f5a27;background:#f7efdc}
+.choice-group.section-card>summary>.section-status.done{color:var(--ink);background:var(--soft);width:24px;height:24px;padding:0;display:flex;align-items:center;justify-content:center}
+.choice-group.section-card>summary>.section-status.done .icon{width:14px;height:14px}
+.choice-group.section-card>summary>.section-status.pending:before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#c9a24a;margin-right:6px;vertical-align:1px}
+.step-count{display:block;font-size:calc(var(--font-size) * 9 / 16);color:var(--muted);font-weight:400;line-height:1.2;font-variant-numeric:tabular-nums}
+.step-tab.active .step-count{color:var(--ink)}
+@media(max-width:800px){
+ .choice-group.section-card{padding:0 12px}.choice-group.section-card>summary{min-height:58px;padding:10px 0;gap:8px}.choice-group.section-card[open]>summary{margin-bottom:8px}
+ .choice-group.section-card>summary>.section-status.pending{font-size:calc(var(--font-size) * 9 / 16);padding:4px 6px}
+ /* Tabs are a row on phones: number left, label + counter stacked right. */
+ .step-tab{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:6px;row-gap:1px;align-items:center;justify-content:center;justify-items:start;text-align:left}
+ .step-tab .step-number{grid-row:1/3;grid-column:1}.step-tab .step-short{grid-column:2}.step-tab .step-count{grid-column:2;grid-row:2;font-size:calc(var(--font-size) * 8 / 16)}
+ .step-tab:has(.step-count[hidden]) .step-short{grid-row:1/3}
+}
+@media(max-width:380px){.step-tab .step-count{font-size:calc(var(--font-size) * 7.5 / 16)}.choice-group.section-card{padding:0 10px}}
+
+/* Chips: the alignment choice in "Woning en tuin" and the underfloor replay in the Weergave dialog. */
+.chip-group{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px}
+.chip{position:relative;display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border:1px solid #cbd1c7;border-radius:13px;background:#f9faf6;color:#3d4a43;font-size:calc(var(--font-size) * 11 / 16);font-weight:500;line-height:1;white-space:nowrap;cursor:pointer}
+.chip:hover{background:#edf0e7}
+.chip.active{background:#e0e6dd;border-color:#aebbac;color:var(--action-ink);font-weight:600}
+.chip .icon{width:13px;height:13px}
+.chip[hidden]{display:none}
+/* Panel radios: the label is the chip, the native input stays focusable for the keyboard. */
+.chip input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;margin:0}
+.panel-chips .chip{height:34px;padding:0 13px;font-size:calc(var(--font-size) * 12 / 16)}
+.panel-chips .chip:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:3px}
+/* ---- "Woning en tuin" (2.9.3): the same section cards, option tiles and swatches as the form. ---- */
+.env-intro{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted);line-height:1.65;margin:-6px 0 18px}
+.environment-form fieldset{border:1px solid var(--line);border-radius:8px;padding:14px;margin:0 0 12px;min-width:0;background:var(--paper)}
+.environment-form legend{font-size:calc(var(--font-size) * 13 / 16);font-weight:600;color:var(--ink);padding:0 6px;margin-left:-6px}
+.env-hint{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted);margin:6px 0 0;line-height:1.6}
+.environment-form legend+.env-hint{margin:0 0 11px}
+/* A field that does not apply says so where the controls would have been, instead of sitting greyed out
+   with the reason three lines lower — a disabled control plus a distant footnote is a riddle, not an answer. */
+.env-na{font-size:calc(var(--font-size) * 11 / 16);color:var(--muted);line-height:1.65;padding:10px 12px;border-radius:5px;background:var(--soft)}
+.env-house-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.env-house-grid .house-type-icon{width:100%;height:60px}
+.env-finish-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+/* A near-white stucwerk swatch on a white tile needs its own edge to stay a sample and not a gap. */
+.env-finish-grid .material-swatch{height:42px;box-shadow:inset 0 0 0 1px rgba(32,48,44,.12)}
+.env-finish-grid .option-title,.env-house-grid .option-title{font-size:calc(var(--font-size) * 11 / 16);line-height:1.4}
+.env-house-grid .option-check,.env-finish-grid .option-check{right:8px;top:8px}
+.align-chips .alignment-icon{width:34px;height:15px}
+.align-chips .chip{height:40px;padding:0 11px;gap:7px}
+.env-width{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.env-width input[type=number]{width:96px;height:36px;padding:0 10px;border:1px solid var(--line);border-radius:4px;font-size:calc(var(--font-size) * 14 / 16);color:var(--ink);background:var(--paper);font-variant-numeric:tabular-nums}
+.env-check{display:inline-flex;align-items:center;gap:7px;font-size:calc(var(--font-size) * 12 / 16);color:var(--ink);cursor:pointer;min-height:32px}
+.env-width .env-check{margin-left:10px}
+.env-check input{width:16px;height:16px;accent-color:var(--action-ink);margin:0}
+/* The dialog scrolls, so "Klaar" stays on the glass instead of hiding under the fold. */
+.env-actions{position:sticky;bottom:0;z-index:2;display:flex;justify-content:flex-end;margin:14px -28px -28px;padding:14px 28px;background:var(--paper);border-top:1px solid var(--line)}
+.env-actions .button{min-width:120px}
+/* ---- Help panels: the process steps and the legend of the buttons over the scene. ---- */
+.help-steps{list-style:none;padding:0;margin:0}
+.help-card{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;margin-bottom:9px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.help-card>.section-index{flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(var(--font-size) * 11 / 16);font-weight:600;border:1px solid var(--action-ink);background:var(--green);color:var(--on-action)}
+.help-title{font-size:calc(var(--font-size) * 13 / 16);font-weight:600;color:var(--ink);margin:22px 0 10px}
+.help-legend{list-style:none;padding:0;margin:0;border:1px solid var(--line);border-radius:8px;background:var(--paper);overflow:hidden}
+.help-legend li{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border-top:1px solid var(--line)}
+.help-legend li:first-child{border-top:0}
+.help-legend-icon{display:inline-flex;align-items:center;justify-content:center;width:32px;height:30px;flex-shrink:0;border-radius:7px;border:1px solid var(--glass-line);background:var(--glass);color:#536157}
+.help-legend-icon .icon{width:18px;height:18px}
+.help-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.help-text strong{font-size:calc(var(--font-size) * 13 / 16);font-weight:600;color:var(--ink)}
+.help-text>span{font-size:calc(var(--font-size) * 11 / 16);line-height:1.6;color:var(--muted)}
+.help-modal .text-button{margin-top:16px}
+.help-modal>p:first-child{margin-bottom:16px}
+.help-modal .help-legend+.muted{margin-top:14px}
+@media(max-width:560px){
+ .env-finish-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ /* Three columns turn "Twee-onder-een-kap" into three cramped lines; a row per type reads in one glance. */
+ .env-house-grid{grid-template-columns:1fr;gap:7px}
+ .env-house-grid .option-card{flex-wrap:nowrap;align-items:center;gap:11px;padding:8px 11px}
+ .env-house-grid .house-type-icon{order:1;flex:none;width:92px;height:50px}
+ .env-house-grid .option-title{order:2;flex:1;width:auto;padding:0}
+ .env-house-grid .option-check{order:3;position:static}
+ .environment-form fieldset{padding:12px}
+ .env-actions{margin:12px -20px -20px;padding:12px 20px}
+ .env-actions .button{width:100%}
+ .align-chips .chip{height:38px;padding:0 9px;font-size:calc(var(--font-size) * 11 / 16)}
+ .align-chips .alignment-icon{width:30px;height:13px}
+}
+@media(max-width:800px){.panel-chips .chip{height:36px}}
+/* On phones the floor plan starts below the overlay chips instead of drawing its caption underneath them. */
+@media(max-width:800px){.prefab-plan{padding-top:56px}}
+/* Phone toolbar: since 2.10.7 only the menu button and the two view buttons sit on the scene (declared last so
+   these widths win over the ≤800 px rules above). */
+@media(max-width:480px){.preview-toolbar{gap:8px;padding-left:12px;padding-right:12px}}
+@media(max-width:380px){.preview-toolbar{padding-left:8px;padding-right:8px}.camera-tools,.view-tools{padding:2px}}
+
+/* ---- 2.10.7: drawn camera tools, the phone's fold-away tool menu, the Weergave dialog, a one-screen Woning en tuin.
+   Frequency register (CLAUDE.md §6): all of these are opened many times per visit, so no entrance animation beyond the
+   150 ms colour transitions the option tiles already use. ---- */
+/* The tools are small isometric drawings (scene_icons.js) in the rooflight tiles' palette; the button only frames them. */
+.tool-list{display:contents}
+.tool-label,.tools-toggle{display:none}
+.camera-tools .tool-list .tool-button{width:44px;height:38px}
+.tool-button .tool-icon{display:block;width:35px;height:28px;flex-shrink:0}
+.help-legend-icon{width:40px;height:34px}
+.help-legend-icon .tool-icon{width:34px;height:27px}
+/* Tablets (801–1100 px) keep every tool on the plate; the Weergave button drops its word to leave them the room. */
+@media(max-width:1100px){.strip-toggle{width:40px;padding:0;gap:0}.strip-toggle-label{display:none}}
+@media(max-width:800px){
+ /* "mobilde alt ikonların hepsi birden gözükmesin, sandviç menü gibi açılabilirler": one menu button on the scene,
+    the tools open as a labelled two-column panel BESIDE it, bottom-aligned with the plate. Beside, not above: a
+    short phone's scene is 178 px tall (the max-height:680px rule), and a panel stacked over the plate was cut off
+    by the top of the picture there (measured at 360 × 640). While it is open it covers the Weergave plate. */
+ .tools-toggle{display:inline-flex}
+ .tools-toggle .icon{width:18px;height:18px}
+ .camera-tools.open{z-index:3}
+ .camera-tools .tool-list{display:none}
+ .camera-tools.open .tool-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;position:absolute;left:calc(100% + 6px);bottom:-1px;z-index:6;width:min(300px,calc(100vw - 92px));padding:4px;background:var(--paper);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 26px rgba(32,48,44,.18)}
+ .camera-tools.open .tool-list .tool-button{width:100%;height:38px;justify-content:flex-start;gap:6px;padding:0 6px 0 2px;border-radius:7px}
+ .camera-tools.open .tool-list .tool-icon{width:32px;height:26px}
+ .camera-tools.open .tool-label{display:block;min-width:0;font-size:calc(var(--font-size) * 11.5 / 16);line-height:1.2;text-align:left;color:#3d4a43}
+ .camera-tools.open .tool-button.active .tool-label{color:var(--action-ink);font-weight:600}
+ .camera-tools.open .viewpoints{display:block}
+ /* Standpunt swaps the panel's content for the standpoint tiles instead of stacking a second popover on top of it;
+    the group titles go, so both rows of tiles fit a phone scene of ~250 px. */
+ .camera-tools.open:has(#viewpoints-menu:not([hidden])) .tool-list{display:block;padding:5px}
+ .camera-tools.open:has(#viewpoints-menu:not([hidden])) .tool-list>:not(.viewpoints),
+ .camera-tools.open:has(#viewpoints-menu:not([hidden])) .viewpoints>.tool-button{display:none}
+ .camera-tools .viewpoints-menu{position:static;width:auto;padding:0;border:0;box-shadow:none}
+ .camera-tools .viewpoints-title{display:none}
+ .camera-tools .viewpoints-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+ .camera-tools .viewpoints-title+.viewpoints-grid{margin-bottom:4px}
+ .camera-tools .viewpoints-menu button{padding:2px 1px 4px;gap:1px;font-size:calc(var(--font-size) * 10.5 / 16);white-space:nowrap}
+ .camera-tools .viewpoints-menu .viewpoint-icon{width:100%;max-height:38px}
+ .camera-tools .viewpoint-check{top:3px;right:3px}
+}
+
+/* The picture dialogs are wider than a text dialog: their tiles need the room, and the height budget is one screen. */
+dialog:has(.environment-modal){max-width:900px}
+dialog:has(.view-modal){max-width:860px}
+.env-compact .env-intro,.view-panel .env-intro{margin:-8px 0 14px}
+.env-columns,.view-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.env-column{display:flex;flex-direction:column;gap:12px;min-width:0}
+.env-compact fieldset,.view-panel fieldset{margin:0;padding:11px 13px 13px}
+.env-compact .env-house-grid .house-type-icon{height:50px}
+.env-compact .env-finish-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.env-compact .env-finish-grid .material-swatch{height:32px}
+/* Tuinafscheiding (2.12.0): three drawn boundaries, the same tile as the house types. */
+.env-fence-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.env-fence-grid .fence-icon{width:100%;height:44px}
+.env-fence-grid .option-title{font-size:calc(var(--font-size) * 11 / 16);line-height:1.3}
+.env-fence-grid .option-check{right:8px;top:8px}
+.env-compact .visual-card{padding:6px;gap:5px}
+.env-compact .visual-card .option-title{line-height:1.3;padding-bottom:1px}
+.env-compact .env-hint{margin-top:6px;line-height:1.5}
+.env-compact .env-na{padding:8px 10px;line-height:1.5}
+.env-sub{font-size:calc(var(--font-size) * 12 / 16);font-weight:600;color:var(--ink);margin:12px 0 7px}
+.env-toggle{margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+.env-toggle .env-check{min-height:26px}
+.env-compact .env-actions,.view-panel .env-actions{margin-top:14px}
+/* Weergave: floor swatches from the scanned maps, the room drawings, the quality marks. The tiles are buttons, not
+   radios, so their "chosen" state is .active (updateEnvironmentChips) and is drawn the same way as .selected. */
+.view-grid{gap:6px}
+.view-grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.view-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.view-choice{padding:6px;gap:5px;text-align:left}
+.view-choice .floor-swatch{display:block;width:100%;height:42px;border-radius:3px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(32,48,44,.12)}
+.view-choice .scenario-icon{display:block;width:100%;height:50px}
+.view-choice .quality-icon{display:block;width:100%;height:44px}
+/* A one-word name ("Woonkamer") must not break mid-word when the chosen tile turns it bold: no anywhere-wrapping. */
+.view-choice .option-title{width:100%;padding:0 2px;line-height:1.3;overflow-wrap:normal}
+.view-grid-4 .option-title{font-size:calc(var(--font-size) * 11 / 16)}
+.view-choice .option-check .icon{opacity:0}
+.view-choice.active{border-color:var(--action-ink);outline:1px solid var(--green);outline-offset:-2px;background:var(--green-soft)}
+.view-choice.active .option-title{font-weight:600;color:var(--ink)}
+.view-choice.active .option-check{background:var(--green);border-color:var(--action-ink);color:var(--on-action)}
+.view-choice.active .option-check .icon{opacity:1}
+.view-note{display:block;width:100%;padding:0 2px 1px;font-size:calc(var(--font-size) * 10.5 / 16);line-height:1.35;color:var(--muted)}
+.view-toggles{display:flex;flex-direction:column;gap:6px}
+.view-panel .scene-legend{display:block;max-width:none;margin-top:10px;padding-top:9px;border-top:1px solid var(--line);font-size:calc(var(--font-size) * 11 / 16);color:var(--muted)}
+.view-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:12px}
+.view-foot:empty{display:none}
+.view-foot .text-button{display:inline-flex;align-items:center;gap:6px;margin-left:auto}
+.view-foot .text-button .icon{width:15px;height:15px}
+.view-foot .replay-chip{height:32px}
+@media(max-width:760px){.env-columns,.view-columns{grid-template-columns:1fr}}
+/* "mobil için görünümleri sıkılaştırmalısın": on a phone the dialogs lose their generous desktop padding. */
+@media(max-width:560px){
+ .modal-head{padding:13px 16px}.modal-head h2{font-size:calc(var(--font-size) * 18 / 16)}.modal-head .icon-button{width:36px;height:36px}
+ .modal-body{padding:14px 16px 16px}
+ .env-actions{margin:12px -16px -16px;padding:10px 16px}
+ .env-compact .env-intro,.view-panel .env-intro{margin:-4px 0 10px;font-size:calc(var(--font-size) * 10.5 / 16);line-height:1.5}
+ .env-compact fieldset,.view-panel fieldset{padding:10px 11px 11px}
+ .env-columns,.view-columns,.env-column{gap:9px}
+ .view-choice{padding:5px}
+ .view-choice .quality-icon{height:36px}
+ .view-choice .floor-swatch{height:36px}
+ .view-note{display:none}
+ /* The phone form sets every tile title to 14 px; three of these tiles are 90 px wide, so they keep 11.5 px. */
+ .view-panel .view-choice .option-title{font-size:calc(var(--font-size) * 11.5 / 16)}
+ /* Four room drawings do not fit one phone row with readable names: two rows of drawing-beside-name instead. */
+ .view-grid-4{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+ .view-grid-4 .view-choice{flex-wrap:nowrap;align-items:center;padding:5px 7px}
+ .view-grid-4 .scenario-icon{flex:none;width:50px;height:30px}
+ .view-panel .view-grid-4 .option-title{width:auto;flex:1;min-width:0;padding:0}
+ .view-grid-4 .option-check{display:none}
+ .env-compact .env-house-grid .option-card{padding:5px 10px}
+ .env-compact .env-house-grid .house-type-icon{width:76px;height:40px}
+}
+
+/* ---- 2.10.9: the phone height plan (four reviews, measured with scripts/measure-form-space.mjs) and the smaller
+   accessibility fixes. Before: the form had 309-313 px (37-39 %) of a phone screen. ---- */
+.price-caption-short,.next-kicker{display:none}
+.help-card>.section-index{border-color:var(--ink);background:var(--ink);color:#fff}
+/* The focus ring over the 3D was the orange accent: ~1.2:1 against brick and 1.0:1 against grass, and it looked like a
+   selected state after a dialog closed. Ink with a white halo reads on any scene. */
+.preview-card :focus-visible{outline:2px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 4px #fff}
+/* Range labels ("2,30 – 7,50 m") were 8-9 px below 1100 px wide: 11 px is the floor. */
+@media(max-width:1100px){.field-heading>span{font-size:calc(var(--font-size) * 11 / 16)}}
+.panel-heading .scope-policy{margin-top:10px}
+/* The expand button of the compact phone preview (setPreviewCompact). */
+.preview-expand{position:absolute;right:10px;bottom:10px;z-index:3;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 13px 0 10px;border:1px solid var(--glass-line);border-radius:10px;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow);color:var(--ink);font-size:calc(var(--font-size) * 12 / 16);font-weight:500}
+.preview-expand .icon{width:15px;height:15px;transform:rotate(90deg)}
+@media(max-width:800px){
+ /* Footer in ONE row: price + "Demoprijs" on the left, the button on the right carrying the note as a small top line.
+    123 px -> ~66 px. */
+ #panel-footer{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:12px;padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px))}
+ #panel-footer>.api-error{grid-column:1/-1;margin:0 0 6px}
+ .price-peek{flex-direction:column-reverse;align-items:flex-start;justify-content:center;gap:0;margin:0;min-width:0}
+ .price-peek>div{flex-direction:row;align-items:baseline;gap:6px}
+ .price-caption{display:none}
+ .price-caption-short{display:inline;font-size:calc(var(--font-size) * 12 / 16);font-weight:600;color:var(--ink)}
+ .price-peek button{font-size:calc(var(--font-size) * 12 / 16);min-height:24px}
+ .price-value{font-size:calc(var(--font-size) * 21 / 16);line-height:1.15}
+ .step-actions{min-width:0}
+ .next-button{min-height:50px;padding:5px 12px 5px 14px}
+ /* min-width:0 down the chain, or the button's min-content (the whole unbroken label) pushes the page wider than the
+    phone — measured: a long "Naar …" label made a 360 px page 545 px wide. The label truncates instead. */
+ .next-button{min-width:0}
+ .next-text{display:flex;flex:1 1 auto;flex-direction:column;align-items:stretch;min-width:0;overflow:hidden;line-height:1.2}
+ .next-kicker{display:block;font-size:calc(var(--font-size) * 11 / 16);font-weight:500}
+ .next-label{display:block;max-width:100%;font-size:calc(var(--font-size) * 13 / 16)}
+ .next-kicker{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .back-button{min-height:50px}
+ .footer-note{display:none}
+ /* Step tabs: the "1/3 secties" line goes (its 8 px text was below any readable floor); the tab's accessible name and
+    the section ticks still carry the progress. 50 -> ~42 px. */
+ .steps .step-tab{min-height:42px;padding:8px 0}
+ .step-tab .step-count{display:none}
+ .step-tab .step-short{grid-row:1/3}
+ /* Touch targets: 44 x 44 steppers with ink icons. */
+ .counter{height:46px}
+ .counter button{width:44px;min-height:44px;color:var(--ink)}
+ .counter .icon{width:18px;height:18px}
+ .number-control{height:46px}
+ .number-control>button{width:40px;height:44px;color:var(--ink)}
+ .number-control>button .icon{width:18px;height:18px}
+ /* Words beside the two corner icons: "Camera" and "Weergave". */
+ .tools-toggle{width:auto;padding:0 12px 0 9px;gap:6px}
+ .tools-toggle-label{font-size:calc(var(--font-size) * 13 / 16);font-weight:500}
+ .strip-toggle{width:auto;padding:0 11px 0 10px;gap:6px}
+ .strip-toggle-label{display:inline;font-size:calc(var(--font-size) * 13 / 16)}
+ .camera-tools.open .tool-button.active .tool-label{color:var(--ink);font-weight:600}
+ /* Open, the button shrinks back to its cross and the panel beside it takes the rest of the row (100% = the plate). */
+ .camera-tools.open .tools-toggle{width:36px;padding:0}
+ .camera-tools.open .tools-toggle-label{display:none}
+ .camera-tools.open .tool-list{width:min(300px,calc(100vw - 100% - 34px))}
+ /* Compact preview while the form is worked in (app.js setPreviewCompact): the chip and the tool plates step aside,
+    Buiten/Binnen/Plan stays, and "Groter beeld" brings it all back. */
+ .preview-card.is-compact:not(.expanded):not(:fullscreen){height:150px;min-height:150px;max-height:150px}
+ .preview-card.is-compact .scene-heading,.preview-card.is-compact .preview-toolbar{visibility:hidden}
+ .preview-card.is-compact .preview-top{padding-top:8px}
+ .preview-card.is-compact .segmented button{min-height:34px}
+}
+@media(min-width:801px){.tools-toggle-label{display:none}}
+
+/* ---- 2.11.0: one "Buiten ▾" button and one "Opties" sheet on a phone, the way back to the website. ---- */
+.scene-modes-wrap{position:relative;display:flex;justify-content:flex-end}
+.modes-toggle{display:none}
+/* Weergave and volledig scherm carry two faces: the line icon on their own plate, the drawing + label when a phone
+   moves them into Opties (app.js placeViewTools). */
+.view-tools .tool-icon,.view-tools .tool-label{display:none}
+.tool-list .strip-toggle>.icon,.tool-list .strip-toggle-label,.tool-list .fullscreen-button>.icon{display:none}
+.brand:not([href]){cursor:default}
+.exit-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.exit-header{gap:6px}.exit-header .icon{width:15px;height:15px}
+@media(max-width:800px){
+ .exit-header>span{display:none}
+ /* "binnen/buiten/plan tek düğme olsun, tıklayınca 3 düğme gözüksün" */
+ .modes-toggle{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 10px 0 13px;border:1px solid var(--glass-line);border-radius:10px;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow);font-size:calc(var(--font-size) * 13 / 16);font-weight:600;color:var(--ink)}
+ .modes-toggle .icon{width:14px;height:14px;transform:rotate(90deg);transition:transform var(--dur-quick) var(--ease-out)}
+ .scene-modes-wrap.open .modes-toggle .icon{transform:rotate(-90deg)}
+ .scene-modes-wrap .segmented{display:none}
+ .scene-modes-wrap.open .segmented{display:flex;flex-direction:column;align-items:stretch;gap:2px;position:absolute;top:calc(100% + 6px);right:0;z-index:7;min-width:160px;padding:4px;background:var(--paper);border:1px solid var(--line);box-shadow:0 10px 26px rgba(32,48,44,.18)}
+ .scene-modes-wrap.open .segmented button{min-height:44px;justify-content:flex-start;padding:0 14px;font-size:calc(var(--font-size) * 14 / 16);text-align:left}
+ .preview-card.is-compact .modes-toggle{height:34px}
+ /* Opties opens as a SHEET from the bottom of the screen ("mobilde butonların yerleşimi ekranı kapatıyor"): it lies
+    over the form for a moment, never over the picture it controls. position:fixed only escapes the card when no
+    ancestor is a containing block, and a backdrop-filter makes one — so on a phone the plate is opaque glass. */
+ .camera-tools{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(247,249,245,.97)}
+ .preview-toolbar:has(.camera-tools.open){z-index:70}
+ .camera-tools.open .tool-list{position:fixed;left:0;right:0;top:auto;bottom:0;width:auto;z-index:70;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;background:var(--paper);box-shadow:0 -10px 30px rgba(32,48,44,.18)}
+ .camera-tools.open .tool-list .tool-button{flex-direction:column;justify-content:center;gap:4px;width:100%;height:auto;min-height:74px;padding:8px 4px;border-radius:10px}
+ .camera-tools.open .tool-list .tool-icon{width:42px;height:34px}
+ .camera-tools.open .tool-label{text-align:center;font-size:calc(var(--font-size) * 12 / 16)}
+ .camera-tools.open .viewpoints{display:block}
+ .camera-tools.open .viewpoints>.tool-button{height:100%}
+ /* Standpunt swaps the sheet's content for the seven standpoint tiles, now with the width of the screen. */
+ .camera-tools.open:has(#viewpoints-menu:not([hidden])) .tool-list{display:block;padding:12px 12px calc(14px + env(safe-area-inset-bottom,0px))}
+ .camera-tools .viewpoints-grid{gap:6px}
+ .camera-tools .viewpoints-menu .viewpoint-icon{max-height:56px}
+ .camera-tools .viewpoints-menu button{padding:4px 2px 6px;font-size:calc(var(--font-size) * 12 / 16)}
+ /* The toggle stays a plain cross while its sheet is open; the sheet no longer sits beside it. */
+ .camera-tools.open .tool-list{width:auto}
+}

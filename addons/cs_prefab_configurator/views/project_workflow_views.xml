@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Views only: templates and plans are created on confirmation or explicit setup, never on module upgrade. -->
+  <record id="view_project_prefab_workflow" model="ir.ui.view">
+    <field name="name">project.project.form.prefab.workflow</field>
+    <field name="model">project.project</field>
+    <field name="inherit_id" ref="project.edit_project"/>
+    <field name="arch" type="xml">
+      <xpath expr="//notebook" position="inside">
+        <page name="prefab_workflow" string="Prefab-werkplan" invisible="not prefab_origin_ref and not is_template">
+          <group>
+            <group><field name="prefab_origin_ref"/><field name="prefab_order_id"/><field name="prefab_workflow_initialized"/></group>
+            <group><field name="prefab_workflow_template_id"/><field name="allow_milestones"/><field name="allow_task_dependencies"/></group>
+          </group>
+          <p>De kolommen geven de werkstatus aan. Mijlpalen groeperen de uitvoeringsfasen. Taken, verantwoordelijken, afhankelijkheden en afgesproken data bewerk je in Project.</p>
+          <p invisible="not is_template">Wijzigingen in dit sjabloon worden gebruikt voor nieuwe prefab-werkplannen. Bestaande taken en behaalde mijlpalen worden niet opnieuw ingevuld.</p>
+          <button name="action_view_tasks" type="object" string="Taken en kolommen bewerken" class="btn-primary"/>
+          <separator string="Mijlpalen en uitvoeringsfasen"/>
+          <field name="milestone_ids" nolabel="1" context="{'default_project_id': id}">
+            <list editable="bottom">
+              <field name="sequence" widget="handle"/>
+              <field name="name"/>
+              <field name="prefab_phase"/>
+              <field name="deadline"/>
+              <field name="is_reached"/>
+            </list>
+          </field>
+        </page>
+      </xpath>
+    </field>
+  </record>
+  <record id="view_task_prefab_workflow" model="ir.ui.view">
+    <field name="name">project.task.form.prefab.workflow</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+      <xpath expr="//notebook" position="inside">
+        <page name="prefab_source" string="Prefab-opdracht" invisible="not prefab_order_id">
+          <p>Het werkplan is gebaseerd op de bevestigde verkooporder. De oorspronkelijke configuratie blijft beschikbaar via de aanvraag; actuele leveringsafspraken staan op de order.</p>
+          <group><field name="prefab_order_id"/><field name="prefab_request_id"/><field name="prefab_source_line_id"/><field name="prefab_scope_key"/></group>
+        </page>
+      </xpath>
+    </field>
+  </record>
+</odoo>

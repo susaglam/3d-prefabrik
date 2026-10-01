@@ -1,0 +1,2166 @@
+{
+  "generated_by": "scripts/import_site_media.py",
+  "source": "C:/Users/sukru/AppData/Local/Temp/claude/e--Projeler-cs-prefab-configurator/eb51b5bd-4fa1-4132-ae45-5df30ca3700b/scratchpad/site/assets",
+  "policy": {
+    "max_long_edge": 1600,
+    "strip_aspect": 5.0,
+    "small_enough": 1000,
+    "animation_edge": 480
+  },
+  "files": [
+    {
+      "filename": "a4-folder-prefab_partner.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "A4 folder Prefab partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "over-ons#section-5(cards)",
+        "welkom-bij-prefabpartner-nl#section-11(cards)"
+      ],
+      "original": {
+        "bytes": 70850,
+        "sha256": "6cd2f0896098dfc01801140f4e5abd2f654e576525c3c5120d5e1bafbeda8760",
+        "width": 694,
+        "height": 730
+      },
+      "shipped": {
+        "path": "static/src/media/a4-folder-prefab_partner.webp",
+        "bytes": 70850,
+        "width": 694,
+        "height": 730
+      }
+    },
+    {
+      "filename": "aanbouw-contact.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Contact",
+      "alt_source": "wordpress",
+      "used_in": [
+        "global#footer"
+      ],
+      "original": {
+        "bytes": 30596,
+        "sha256": "d51722426c5e03e56d3f8e623afcdcd46d3d5cf6659f71fce14861136a642634",
+        "width": 613,
+        "height": 800
+      },
+      "shipped": {
+        "path": "static/src/media/aanbouw-contact.webp",
+        "bytes": 30596,
+        "width": 613,
+        "height": 800
+      }
+    },
+    {
+      "filename": "aanbouw-in-5-dagen-1.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "welkom-bij-prefabpartner-nl#section-0(hero)"
+      ],
+      "original": {
+        "bytes": 27937,
+        "sha256": "58b5786f6ff01a80b7df3d7b2c85ca0a5d5cf925e6af2e1d7aa97a930325ca58",
+        "width": 500,
+        "height": 425
+      },
+      "shipped": {
+        "path": "static/src/media/aanbouw-in-5-dagen-1.jpg",
+        "bytes": 27937,
+        "width": 500,
+        "height": 425
+      }
+    },
+    {
+      "filename": "aanbouw-in-5-dagen.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "over-ons#section-6(image)"
+      ],
+      "original": {
+        "bytes": 27937,
+        "sha256": "58b5786f6ff01a80b7df3d7b2c85ca0a5d5cf925e6af2e1d7aa97a930325ca58",
+        "width": 500,
+        "height": 425
+      },
+      "duplicate_of": "aanbouw-in-5-dagen-1.jpg",
+      "shipped": null
+    },
+    {
+      "filename": "aanbouw-prefeb-1.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Aanbouw prefab",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-aanbouw#section-3(cards)"
+      ],
+      "original": {
+        "bytes": 49593,
+        "sha256": "235cf17bf316f48266b15d31b700989704113520d9e2ad1fa8bb223163120a5b",
+        "width": 600,
+        "height": 350
+      },
+      "shipped": {
+        "path": "static/src/media/aanbouw-prefeb-1.jpg",
+        "bytes": 49593,
+        "width": 600,
+        "height": 350
+      }
+    },
+    {
+      "filename": "aanbouwen-prefab-partner.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Aanbouw Prefab Partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 92034,
+        "sha256": "3133eb163020636ff9db96aed597ceb5836bd564962bac5fa1ea402e4e558d85",
+        "width": 750,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/aanbouwen-prefab-partner.webp",
+        "bytes": 92034,
+        "width": 750,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "av-prefabpartner.pdf",
+      "kind": "pdf",
+      "action": "copy",
+      "reason": "gelinkt vanaf de site; blijft bereikbaar op zijn eigen adres",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "contact#pdf-link",
+        "global#footer",
+        "nieuws#pdf-link",
+        "offerte#pdf-link",
+        "offerte-prefab-opbouw#pdf-link",
+        "onze-nieuwe-website-is-live#pdf-link",
+        "oplossingen#pdf-link",
+        "over-ons#pdf-link",
+        "partner-worden#pdf-link",
+        "prefab-aanbouw#pdf-link",
+        "prefab-dakkapel#pdf-link",
+        "prefab-opbouw#pdf-link",
+        "projecten#pdf-link",
+        "voordelen-van-een-prefab-aanbouw#pdf-link",
+        "welkom-bij-prefabpartner-nl#pdf-link"
+      ],
+      "original": {
+        "bytes": 93168,
+        "sha256": "9402b1f1036856983d88f762fd80d554427410426407b8561eee9c54c17d6837",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/pdf/av-prefabpartner.pdf",
+        "bytes": 93168
+      }
+    },
+    {
+      "filename": "badge-logo-prefab.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Badge logo Prefab Partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "global#footer",
+        "projecten#section-2(image_text)"
+      ],
+      "original": {
+        "bytes": 8390,
+        "sha256": "b7301114b89daadd6a261bb98d4e9d1dbb5071308494ea3a834f5d43f63bbe4a",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/badge-logo-prefab.svg",
+        "bytes": 8390
+      }
+    },
+    {
+      "filename": "bouw-prefab-referentie.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Bouw Prefab",
+      "alt_source": "wordpress",
+      "used_in": [
+        "offerte-prefab-opbouw#section-2(cards)",
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 134848,
+        "sha256": "3dc1c0699e813e85ad9e960b203b2f5413e209e9c575eca49ab78aea30fbf0f9",
+        "width": 1000,
+        "height": 750
+      },
+      "shipped": {
+        "path": "static/src/media/bouw-prefab-referentie.webp",
+        "bytes": 134848,
+        "width": 1000,
+        "height": 750
+      }
+    },
+    {
+      "filename": "bouwen-prefab.png",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Bouwen prefab",
+      "alt_source": "wordpress",
+      "used_in": [
+        "over-ons#section-4(image_text)"
+      ],
+      "original": {
+        "bytes": 34247,
+        "sha256": "97c30269a2ed64b03022f23198b6f6585eee42834605aa9d39548fecc2557c1f",
+        "width": 212,
+        "height": 75
+      },
+      "shipped": {
+        "path": "static/src/media/bouwen-prefab.png",
+        "bytes": 34247,
+        "width": 212,
+        "height": 75
+      }
+    },
+    {
+      "filename": "cropped-favicon.png",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "favicon",
+      "alt_source": "wordpress",
+      "used_in": [
+        "global#favicon"
+      ],
+      "original": {
+        "bytes": 10725,
+        "sha256": "96646aea594a6caba67c32e2ae970aa04da4c80bb686006a728e389b5b0a817d",
+        "width": 512,
+        "height": 512
+      },
+      "shipped": {
+        "path": "static/src/media/cropped-favicon.png",
+        "bytes": 10725,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "filename": "Dakkapel-aanbouw-home.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Dakkapel aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "nieuws#section-3(news_feed)",
+        "onze-nieuwe-website-is-live#featured",
+        "onze-nieuwe-website-is-live#section-1(post_header)"
+      ],
+      "original": {
+        "bytes": 163697,
+        "sha256": "20f2b62cdf29a8712278d01b14ce940fb118b9be3ba4d0f2440d4c51aa8cdb8d",
+        "width": 672,
+        "height": 384
+      },
+      "shipped": {
+        "path": "static/src/media/Dakkapel-aanbouw-home.jpg",
+        "bytes": 163697,
+        "width": 672,
+        "height": 384
+      }
+    },
+    {
+      "filename": "dakkapel-aanbouw-prefab-1.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Dakkapel prefab",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-dakkapel#section-3(cards)"
+      ],
+      "original": {
+        "bytes": 110440,
+        "sha256": "9a9ca9b5cbcbb11025f5e4d6928fe17e4676e0da0dceda960f312e05ec501ed5",
+        "width": 600,
+        "height": 350
+      },
+      "shipped": {
+        "path": "static/src/media/dakkapel-aanbouw-prefab-1.jpg",
+        "bytes": 110440,
+        "width": 600,
+        "height": 350
+      }
+    },
+    {
+      "filename": "Dakkapel-prefab-partner.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "binnen de bovengrens van 1600 px",
+      "alt": "Dakkapel prefab partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 53132,
+        "sha256": "8cb18b6c3f33548539b250baf11dc8577a312e4e4960ae3f21bd484a29656301",
+        "width": 1024,
+        "height": 1024
+      },
+      "shipped": {
+        "path": "static/src/media/Dakkapel-prefab-partner.webp",
+        "bytes": 53132,
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "filename": "Folder-PrefabPartner-particulier.pdf",
+      "kind": "pdf",
+      "action": "copy",
+      "reason": "gelinkt vanaf de site; blijft bereikbaar op zijn eigen adres",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "over-ons#pdf-link",
+        "welkom-bij-prefabpartner-nl#pdf-link"
+      ],
+      "original": {
+        "bytes": 2084292,
+        "sha256": "906bf37189e69273af7970fb58930a3d6566fb9dc76d84cef107c79966a7ce5c",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/pdf/Folder-PrefabPartner-particulier.pdf",
+        "bytes": 2084292
+      }
+    },
+    {
+      "filename": "Folder-PrefabPartner-zakelijk.pdf",
+      "kind": "pdf",
+      "action": "copy",
+      "reason": "gelinkt vanaf de site; blijft bereikbaar op zijn eigen adres",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "over-ons#pdf-link",
+        "welkom-bij-prefabpartner-nl#pdf-link"
+      ],
+      "original": {
+        "bytes": 1944280,
+        "sha256": "0b8cabbf2da8696f2f0efaf5647adf80b4c3d6179ccd661cf594d3de4ad4bf6d",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/pdf/Folder-PrefabPartner-zakelijk.pdf",
+        "bytes": 1944280
+      }
+    },
+    {
+      "filename": "header-home-2.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "paginabrede sierstrook; verkleinen maakt hem zichtbaar zachter",
+      "alt": "",
+      "alt_source": "decorative",
+      "used_in": [
+        "offerte-prefab-opbouw#css-background",
+        "offerte-prefab-opbouw#section-0(page_title_banner)",
+        "oplossingen#css-background",
+        "oplossingen#section-0(page_title_banner)",
+        "prefab-dakkapel#css-background",
+        "prefab-dakkapel#section-0(page_title_banner)",
+        "prefab-opbouw#css-background",
+        "prefab-opbouw#section-0(page_title_banner)"
+      ],
+      "original": {
+        "bytes": 33815,
+        "sha256": "64c470902027eda74bffc335800a3d1161d3885a18ac606a7c17e01ebb3ec69d",
+        "width": 2560,
+        "height": 250
+      },
+      "shipped": {
+        "path": "static/src/media/header-home-2.jpg",
+        "bytes": 33815,
+        "width": 2560,
+        "height": 250
+      }
+    },
+    {
+      "filename": "header-home-3.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "paginabrede sierstrook; verkleinen maakt hem zichtbaar zachter",
+      "alt": "",
+      "alt_source": "decorative",
+      "used_in": [
+        "partner-worden#section-0(page_title_banner)"
+      ],
+      "original": {
+        "bytes": 33187,
+        "sha256": "4d28b396859d74fba3c4a2abe8d1d24f7dee0d91776d10a7a243256d19c01c95",
+        "width": 2560,
+        "height": 250
+      },
+      "shipped": {
+        "path": "static/src/media/header-home-3.jpg",
+        "bytes": 33187,
+        "width": 2560,
+        "height": 250
+      }
+    },
+    {
+      "filename": "header-sub.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "paginabrede sierstrook; verkleinen maakt hem zichtbaar zachter",
+      "alt": "",
+      "alt_source": "decorative",
+      "used_in": [
+        "contact#css-background",
+        "contact#section-0(page_title_banner)",
+        "offerte#css-background",
+        "offerte#section-0(page_title_banner)",
+        "onze-nieuwe-website-is-live#css-background",
+        "onze-nieuwe-website-is-live#section-0(page_title_banner)",
+        "over-ons#css-background",
+        "over-ons#section-0(page_title_banner)",
+        "prefab-aanbouw#css-background",
+        "prefab-aanbouw#section-0(page_title_banner)",
+        "projecten#css-background",
+        "projecten#section-0(page_title_banner)",
+        "voordelen-van-een-prefab-aanbouw#css-background",
+        "voordelen-van-een-prefab-aanbouw#section-0(page_title_banner)"
+      ],
+      "original": {
+        "bytes": 53595,
+        "sha256": "9fe10a498fac1f2700fd8789da7b9e4ab6e6a1871ea5c0f74df2ba171e889faf",
+        "width": 2560,
+        "height": 250
+      },
+      "shipped": {
+        "path": "static/src/media/header-sub.jpg",
+        "bytes": 53595,
+        "width": 2560,
+        "height": 250
+      }
+    },
+    {
+      "filename": "logo-2.gif",
+      "kind": "image",
+      "action": "animate",
+      "reason": "geanimeerd logo; hercodeerd naar animated WebP",
+      "alt": "Het beeldmerk van Prefab Partner: een oranje letter P met een puntdak, staand in de zwarte omtrek van een huis. Het beeldmerk draait langzaam om zijn as.",
+      "alt_source": "written",
+      "used_in": [
+        "over-ons#section-2(image_text)"
+      ],
+      "original": {
+        "bytes": 13657634,
+        "sha256": "384d3ddcf05df944b0c20bc5a49a7e96df83eb92cc660cb298a7eee9b66518ce",
+        "width": 900,
+        "height": 900
+      },
+      "shipped": {
+        "path": "static/src/media/logo-2.webp",
+        "poster": "static/src/media/logo-2-still.webp",
+        "bytes": 220544,
+        "width": 480,
+        "height": 480,
+        "poster_bytes": 2966
+      }
+    },
+    {
+      "filename": "logo-bouwendnl.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Logo Bouwend Nederland",
+      "alt_source": "wordpress",
+      "used_in": [
+        "partner-worden#section-4(logo_strip)",
+        "welkom-bij-prefabpartner-nl#section-3(logo_strip)"
+      ],
+      "original": {
+        "bytes": 32255,
+        "sha256": "f2ed373dd77d8052b3ef3fae428e6d54eeb5099a34001fff43acfa928159975a",
+        "width": 300,
+        "height": 120
+      },
+      "shipped": {
+        "path": "static/src/media/logo-bouwendnl.jpg",
+        "bytes": 32255,
+        "width": 300,
+        "height": 120
+      }
+    },
+    {
+      "filename": "Logo-kozijntoelevering.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Logo Kozijn toelevering",
+      "alt_source": "wordpress",
+      "used_in": [
+        "partner-worden#section-4(logo_strip)",
+        "welkom-bij-prefabpartner-nl#section-3(logo_strip)"
+      ],
+      "original": {
+        "bytes": 34067,
+        "sha256": "800651ab75a91867a3fd7e7c88db035058fc67b137e20a196a8600070fa251d2",
+        "width": 300,
+        "height": 120
+      },
+      "shipped": {
+        "path": "static/src/media/Logo-kozijntoelevering.jpg",
+        "bytes": 34067,
+        "width": 300,
+        "height": 120
+      }
+    },
+    {
+      "filename": "logo-prefab_partner-wit.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Logo Prefab Partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "global#footer"
+      ],
+      "original": {
+        "bytes": 4528,
+        "sha256": "f80dd11b9dfd6032dc24b158f69a4d5887d528efbfcc83314cd331f51cd7ff8f",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/logo-prefab_partner-wit.svg",
+        "bytes": 4528
+      }
+    },
+    {
+      "filename": "logo-prefab_partner.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Logo Prefab Partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "global#header"
+      ],
+      "original": {
+        "bytes": 3903,
+        "sha256": "f2b64353355d2f4d121ae41f8580d0f8a8b28f15dc7b026443c96cfdbc5a49ea",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/logo-prefab_partner.svg",
+        "bytes": 3903
+      }
+    },
+    {
+      "filename": "Logo-terwoldebeton.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Logo Terwolde beton",
+      "alt_source": "wordpress",
+      "used_in": [
+        "partner-worden#section-4(logo_strip)",
+        "welkom-bij-prefabpartner-nl#section-3(logo_strip)"
+      ],
+      "original": {
+        "bytes": 27972,
+        "sha256": "6b196df7d643f51b51cdd5ff57f23f4f9d53c4a10f828fde91b9eacbef6c4f59",
+        "width": 300,
+        "height": 120
+      },
+      "shipped": {
+        "path": "static/src/media/Logo-terwoldebeton.jpg",
+        "bytes": 27972,
+        "width": 300,
+        "height": 120
+      }
+    },
+    {
+      "filename": "logotarion.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Logo Tarion",
+      "alt_source": "wordpress",
+      "used_in": [
+        "partner-worden#section-4(logo_strip)",
+        "welkom-bij-prefabpartner-nl#section-3(logo_strip)"
+      ],
+      "original": {
+        "bytes": 40201,
+        "sha256": "526cde4b69acd9c21a630720bc2957adde9d150fb50b2cdfe5ffbe8cba53dfc1",
+        "width": 300,
+        "height": 120
+      },
+      "shipped": {
+        "path": "static/src/media/logotarion.jpg",
+        "bytes": 40201,
+        "width": 300,
+        "height": 120
+      }
+    },
+    {
+      "filename": "ontwerp-aanbouw.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "ontwerp aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-aanbouw#section-5(cards)",
+        "prefab-dakkapel#section-5(cards)",
+        "prefab-opbouw#section-5(cards)",
+        "welkom-bij-prefabpartner-nl#section-9(cards)"
+      ],
+      "original": {
+        "bytes": 151368,
+        "sha256": "1b0f9d4fd68a587af3a625608f3c022c33461a8b93d19ef4ddafca77eb8cad23",
+        "width": 720,
+        "height": 720
+      },
+      "shipped": {
+        "path": "static/src/media/ontwerp-aanbouw.jpg",
+        "bytes": 151368,
+        "width": 720,
+        "height": 720
+      }
+    },
+    {
+      "filename": "opbouw-prefab-denhaag-1.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Opbouw prefab",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-opbouw#section-3(cards)"
+      ],
+      "original": {
+        "bytes": 111822,
+        "sha256": "987a597eed73f188b2ebbb325ac84bc8cb101b402f3553771301dd3cf48f0594",
+        "width": 600,
+        "height": 350
+      },
+      "shipped": {
+        "path": "static/src/media/opbouw-prefab-denhaag-1.jpg",
+        "bytes": 111822,
+        "width": 600,
+        "height": 350
+      }
+    },
+    {
+      "filename": "opbouw-steiger.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "opbouw steiger",
+      "alt_source": "wordpress",
+      "used_in": [
+        "over-ons#section-4(image_text)"
+      ],
+      "original": {
+        "bytes": 99504,
+        "sha256": "c89e127b37cdd48489909359ec50cdca0e847554a4b9823a0c1ce310dd2150ff",
+        "width": 750,
+        "height": 536
+      },
+      "shipped": {
+        "path": "static/src/media/opbouw-steiger.webp",
+        "bytes": 99504,
+        "width": 750,
+        "height": 536
+      }
+    },
+    {
+      "filename": "partner-worden.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Partner worden prefab",
+      "alt_source": "wordpress",
+      "used_in": [
+        "partner-worden#section-2(cards)",
+        "welkom-bij-prefabpartner-nl#section-10(cards)"
+      ],
+      "original": {
+        "bytes": 34798,
+        "sha256": "0260e3b214ab91476c8f18e73f6683e1dab7c3ae9c94b3488d6a4bccc488f884",
+        "width": 394,
+        "height": 645
+      },
+      "shipped": {
+        "path": "static/src/media/partner-worden.webp",
+        "bytes": 34798,
+        "width": 394,
+        "height": 645
+      }
+    },
+    {
+      "filename": "Prefab-aanbouw-01.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project Zoetermeer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "welkom-bij-prefabpartner-nl#section-7(gallery)"
+      ],
+      "original": {
+        "bytes": 505344,
+        "sha256": "d4c7a32746d0d7be2f72e6616c7c1ce31e610ab6b0880f14692ba68ddda6c2ea",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/Prefab-aanbouw-01.webp",
+        "bytes": 236086,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Prefab-aanbouw-02.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project Zoetermeer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 617696,
+        "sha256": "5c2265adeb21ce61abb37a41182b6764d60aac786c13a80dfc6b87cd2a7ef014",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/Prefab-aanbouw-02.webp",
+        "bytes": 285304,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "prefab-aanbouw-foto.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Prefab aanbouw foto",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 101260,
+        "sha256": "d2f52a8012f76db6bd7c0fed3597201b26574cb37d07544c80ae1f950dd5a1ca",
+        "width": 1000,
+        "height": 750
+      },
+      "shipped": {
+        "path": "static/src/media/prefab-aanbouw-foto.webp",
+        "bytes": 101260,
+        "width": 1000,
+        "height": 750
+      }
+    },
+    {
+      "filename": "prefab-aanbouw.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Prefab aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-aanbouw#section-2(image_text)",
+        "welkom-bij-prefabpartner-nl#section-1(image_row)"
+      ],
+      "original": {
+        "bytes": 204377,
+        "sha256": "16208de61d87f69e61438cc7b685a640455a50214070d31ceb428e1c18faf0bb",
+        "width": 700,
+        "height": 700
+      },
+      "shipped": {
+        "path": "static/src/media/prefab-aanbouw.jpg",
+        "bytes": 204377,
+        "width": 700,
+        "height": 700
+      }
+    },
+    {
+      "filename": "prefab-dakkapel.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Prefab Dakkapel",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-dakkapel#section-2(image_text)",
+        "welkom-bij-prefabpartner-nl#section-1(image_row)"
+      ],
+      "original": {
+        "bytes": 153556,
+        "sha256": "f45d32c1d1d01127c465a018b3c5f5a8d651beb27196bc15fafca3a9f278b87a",
+        "width": 700,
+        "height": 700
+      },
+      "shipped": {
+        "path": "static/src/media/prefab-dakkapel.jpg",
+        "bytes": 153556,
+        "width": 700,
+        "height": 700
+      }
+    },
+    {
+      "filename": "prefab-dakkapellen.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Prefab dakkapellen",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 113730,
+        "sha256": "280aab349fb5fb40397365995d609cdb60b8256c342e04adaa6c7c18986b2ffa",
+        "width": 1000,
+        "height": 750
+      },
+      "shipped": {
+        "path": "static/src/media/prefab-dakkapellen.webp",
+        "bytes": 113730,
+        "width": 1000,
+        "height": 750
+      }
+    },
+    {
+      "filename": "prefab-oplossingen.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Prefab oplossingen",
+      "alt_source": "wordpress",
+      "used_in": [
+        "over-ons#css-background",
+        "over-ons#section-3(video)",
+        "welkom-bij-prefabpartner-nl#section-1(image_row)"
+      ],
+      "original": {
+        "bytes": 133380,
+        "sha256": "9b327011f804e173a059f73fa501b6103a0f40a5ca91b12ba8413fc24eb585d3",
+        "width": 700,
+        "height": 700
+      },
+      "shipped": {
+        "path": "static/src/media/prefab-oplossingen.jpg",
+        "bytes": 133380,
+        "width": 700,
+        "height": 700
+      }
+    },
+    {
+      "filename": "prefab-partner-referentie.jpg",
+      "kind": "image",
+      "action": "recompress",
+      "reason": "afmeting klopt, bestandsgrootte niet (758 kB); opnieuw gecomprimeerd op dezelfde afmeting",
+      "alt": "Prefab partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 776437,
+        "sha256": "ac5514393cf0aa0f81ebfc46cb5df1992d12d19fd2e2387bcce0acb385e78037",
+        "width": 1000,
+        "height": 750
+      },
+      "shipped": {
+        "path": "static/src/media/prefab-partner-referentie.jpg",
+        "bytes": 204335,
+        "width": 1000,
+        "height": 750
+      }
+    },
+    {
+      "filename": "prefab-partner.mp4",
+      "kind": "video",
+      "action": "transcode",
+      "reason": "720p H.264 + WebM + posterframe",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "over-ons#section-3(video)",
+        "over-ons#video-source"
+      ],
+      "original": {
+        "bytes": 9127762,
+        "sha256": "a611e998d567c61cdf89bef9c86acad7fc67c6c8dc3512f3827be186e1d668d5",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/video/prefab-partner.mp4",
+        "poster": "static/src/video/prefab-partner-poster.jpg",
+        "bytes": 2047267,
+        "poster_bytes": 57675
+      }
+    },
+    {
+      "filename": "prefab-referentie-opbouw.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Prefab referentie opbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-opbouw#section-2(image_text)",
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 185584,
+        "sha256": "26a1478de45b16631b481091fa764658277e6942d8761243e2b9375593908ff3",
+        "width": 1000,
+        "height": 750
+      },
+      "shipped": {
+        "path": "static/src/media/prefab-referentie-opbouw.webp",
+        "bytes": 185584,
+        "width": 1000,
+        "height": 750
+      }
+    },
+    {
+      "filename": "prefabpartner-aannemer.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Prefabpartner aannemer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-3(cards)"
+      ],
+      "original": {
+        "bytes": 57942,
+        "sha256": "a6f527dd08608dd258e0f0601a2261823bd59011ff6b1fa9761eb31a94c60a1f",
+        "width": 667,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-aannemer.webp",
+        "bytes": 57942,
+        "width": 667,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-08.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Icon Prefab Partner",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1883,
+        "sha256": "cd7f96231bf1894338219d60af1b9925469680344401ee3e16ef73614e6770d9",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-08.svg",
+        "bytes": 1883
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-blauw-03.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Prefab dakkapel",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1424,
+        "sha256": "5551e021b1621054e619fb3b72f8b64e9e7ad592c0333fbca07fb585932d71e6",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-blauw-03.svg",
+        "bytes": 1424
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-blauw-04.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Prefab opbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1211,
+        "sha256": "462d6f4149367ad291f74e3e06cb06bade682e20ccdf09efdadfefe5f2d20544",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-blauw-04.svg",
+        "bytes": 1211
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-blauw-05.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Prefab aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1414,
+        "sha256": "278a6a93534f8c094f51ec33785d9275871b34e101d4ecc786cc96bb4f082b50",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-blauw-05.svg",
+        "bytes": 1414
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-rood-03.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Prefab dakkapel",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-dakkapel#section-2(image_text)"
+      ],
+      "original": {
+        "bytes": 1424,
+        "sha256": "10bd24cb227f2836eda29cb558d29af1867454b132204345f1ea5a116ae5a9ef",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-rood-03.svg",
+        "bytes": 1424
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-rood-04.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Prefab opbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-opbouw#section-2(image_text)"
+      ],
+      "original": {
+        "bytes": 1211,
+        "sha256": "689d69251dbe75228a8369a4aa6c073a8c540f661791856727d12fb4dd2b5ca3",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-rood-04.svg",
+        "bytes": 1211
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-rood-05.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Prefab aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "prefab-aanbouw#section-2(image_text)"
+      ],
+      "original": {
+        "bytes": 1414,
+        "sha256": "5f9ba2c88810a0787f4fb8c0d6baa67e9206c8b2a8118d9617b4bc7fab767eff",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-rood-05.svg",
+        "bytes": 1414
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-rood-06.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Inmeten aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-3(cards)",
+        "welkom-bij-prefabpartner-nl#section-8(cards)"
+      ],
+      "original": {
+        "bytes": 1557,
+        "sha256": "79d2b0580d55a2d39dd635d0ccecfe2f39968d7be77d156e74786943e19b348d",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-rood-06.svg",
+        "bytes": 1557
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-rood-07.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "prefab icon",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-3(cards)",
+        "welkom-bij-prefabpartner-nl#section-8(cards)"
+      ],
+      "original": {
+        "bytes": 1698,
+        "sha256": "bcc0a65ce2d6fde1e6dfcf3aaba8946dad022b7613a1f7dcc7cb6cb8195aa7dc",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-rood-07.svg",
+        "bytes": 1698
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-rood-09.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "Ontwerp je aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "oplossingen#section-3(cards)",
+        "welkom-bij-prefabpartner-nl#section-8(cards)"
+      ],
+      "original": {
+        "bytes": 1231,
+        "sha256": "7fd92d29366e2c57df58fe89decd0ffcf4bf0710bd4549c4fcf2d2adf3967de8",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-rood-09.svg",
+        "bytes": 1231
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-wit-03.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "wit icon",
+      "alt_source": "wordpress",
+      "used_in": [
+        "contact#section-4(cards)",
+        "oplossingen#section-4(cards)",
+        "partner-worden#section-3(cards)",
+        "prefab-aanbouw#section-4(cards)",
+        "prefab-dakkapel#section-4(cards)",
+        "prefab-opbouw#section-4(cards)",
+        "projecten#section-4(cards)",
+        "welkom-bij-prefabpartner-nl#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1480,
+        "sha256": "da41820587c4e3510970753a1e3daa804b0a87d8298ed9556ef90b9caf75d5f4",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-wit-03.svg",
+        "bytes": 1480
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-wit-04.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "wit icon",
+      "alt_source": "wordpress",
+      "used_in": [
+        "contact#section-4(cards)",
+        "oplossingen#section-4(cards)",
+        "partner-worden#section-3(cards)",
+        "prefab-aanbouw#section-4(cards)",
+        "prefab-dakkapel#section-4(cards)",
+        "prefab-opbouw#section-4(cards)",
+        "projecten#section-4(cards)",
+        "welkom-bij-prefabpartner-nl#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1221,
+        "sha256": "20933bbd0f36b655e862cef2d22f13f960735b7d541266ca85e8da296a706e95",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-wit-04.svg",
+        "bytes": 1221
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-wit-05.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "wit icon",
+      "alt_source": "wordpress",
+      "used_in": [
+        "contact#section-4(cards)",
+        "oplossingen#section-4(cards)",
+        "partner-worden#section-3(cards)",
+        "prefab-aanbouw#section-4(cards)",
+        "prefab-dakkapel#section-4(cards)",
+        "prefab-opbouw#section-4(cards)",
+        "projecten#section-4(cards)",
+        "welkom-bij-prefabpartner-nl#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1507,
+        "sha256": "03f86315df09386e96c379e73b7fe5adabb485bd18b543b07403a46ca2830ace",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-wit-05.svg",
+        "bytes": 1507
+      }
+    },
+    {
+      "filename": "prefabpartner-icon-wit-09.svg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "vector; schaalt zelf",
+      "alt": "wit icon",
+      "alt_source": "wordpress",
+      "used_in": [
+        "contact#section-4(cards)",
+        "oplossingen#section-4(cards)",
+        "partner-worden#section-3(cards)",
+        "prefab-aanbouw#section-4(cards)",
+        "prefab-dakkapel#section-4(cards)",
+        "prefab-opbouw#section-4(cards)",
+        "projecten#section-4(cards)",
+        "welkom-bij-prefabpartner-nl#section-2(cards)"
+      ],
+      "original": {
+        "bytes": 1229,
+        "sha256": "00b6ac06ad1cd7f252ff2a928e27d8e70ca90d610eb0a654001b2bfcaafe3aa0",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/media/prefabpartner-icon-wit-09.svg",
+        "bytes": 1229
+      }
+    },
+    {
+      "filename": "project-1.jpg",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "prefab bouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "welkom-bij-prefabpartner-nl#section-7(gallery)"
+      ],
+      "original": {
+        "bytes": 513008,
+        "sha256": "382afa7ed4f84051e9d114ee9c1cb3579d9438b1193021f722c55a715f2f5587",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-1.jpg",
+        "bytes": 265663,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-2.jpg",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "opbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 751694,
+        "sha256": "5a4ca4296ba5cc93f9e751d81ae1a3e5a63456962b0c1b4b7868923b5f4ad60e",
+        "width": 1536,
+        "height": 2048
+      },
+      "shipped": {
+        "path": "static/src/media/project-2.jpg",
+        "bytes": 249357,
+        "width": 1200,
+        "height": 1600
+      }
+    },
+    {
+      "filename": "Project-2026-01.mp4",
+      "kind": "video",
+      "action": "transcode",
+      "reason": "720p H.264 + WebM + posterframe",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "projecten#video-source"
+      ],
+      "original": {
+        "bytes": 2487848,
+        "sha256": "2413a8fe69c5c7fbf2f35da794c6e5558aa79adda74cc8927d7d89d0e908ee8b",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/video/Project-2026-01.mp4",
+        "poster": "static/src/video/Project-2026-01-poster.jpg",
+        "bytes": 1486150,
+        "poster_bytes": 91673
+      }
+    },
+    {
+      "filename": "Project-2026-02.mp4",
+      "kind": "video",
+      "action": "transcode",
+      "reason": "720p H.264 + WebM + posterframe",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "projecten#video-source"
+      ],
+      "original": {
+        "bytes": 3657667,
+        "sha256": "40b737d88543c224ffec414cac5dbe4701dbeae1ac87fd124e82c1a2fc8ab71b",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/video/Project-2026-02.mp4",
+        "poster": "static/src/video/Project-2026-02-poster.jpg",
+        "bytes": 2141406,
+        "poster_bytes": 60922
+      }
+    },
+    {
+      "filename": "Project-2026-03.mp4",
+      "kind": "video",
+      "action": "transcode",
+      "reason": "720p H.264 + WebM + posterframe",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "projecten#video-source"
+      ],
+      "original": {
+        "bytes": 4663666,
+        "sha256": "245f77934b3a374c103628113f5eeb4f441ac5509a72574117fd2ca22f052f92",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/video/Project-2026-03.mp4",
+        "poster": "static/src/video/Project-2026-03-poster.jpg",
+        "bytes": 2781855,
+        "poster_bytes": 75746
+      }
+    },
+    {
+      "filename": "Project-2026-1.jpg",
+      "kind": "image",
+      "action": "recompress",
+      "reason": "afmeting klopt, bestandsgrootte niet (521 kB); opnieuw gecomprimeerd op dezelfde afmeting",
+      "alt": "Een aanbouw met verticale houten latten in een achtertuin, met daarachter een kleiner bijgebouw in dezelfde latten.",
+      "alt_source": "written",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 533900,
+        "sha256": "d35cdd588ca726412df0dbaa764516e69f8b3750e08a291a4259203ec5b3da1a",
+        "width": 1333,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/Project-2026-1.jpg",
+        "bytes": 274734,
+        "width": 1333,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "Project-2026-2.jpg",
+      "kind": "image",
+      "action": "recompress",
+      "reason": "afmeting klopt, bestandsgrootte niet (409 kB); opnieuw gecomprimeerd op dezelfde afmeting",
+      "alt": "De aanbouw met houten latten vanuit de tuin gezien, met de woning links en een houten overkapping rechts.",
+      "alt_source": "written",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 419753,
+        "sha256": "f80a799a1e3b8b581811060c940de4946a7e99b89510e8c45724a5519038b9ad",
+        "width": 1333,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/Project-2026-2.jpg",
+        "bytes": 253832,
+        "width": 1333,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "Project-2026-3.jpg",
+      "kind": "image",
+      "action": "recompress",
+      "reason": "afmeting klopt, bestandsgrootte niet (541 kB); opnieuw gecomprimeerd op dezelfde afmeting",
+      "alt": "De afgeronde aanbouw van bovenaf: een plat dak met de randen nog afgeplakt, en een gevel van verticale houten latten.",
+      "alt_source": "written",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 554797,
+        "sha256": "05046fdfbba6c38a92bc1783cbd3817987e7fbbcc90121a611eb0867fc257d87",
+        "width": 1333,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/Project-2026-3.jpg",
+        "bytes": 293172,
+        "width": 1333,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "Project-2026-4.jpg",
+      "kind": "image",
+      "action": "recompress",
+      "reason": "afmeting klopt, bestandsgrootte niet (391 kB); opnieuw gecomprimeerd op dezelfde afmeting",
+      "alt": "Een prefab element staat vastgesjord op een dieplader in de straat, ingepakt in zwarte folie en met houten schoren erin.",
+      "alt_source": "written",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 400745,
+        "sha256": "1e5f3b0f838e103c9bbcb7c54c16825a27b593f546fa0e9df9769c77c9a41fcc",
+        "width": 1333,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/Project-2026-4.jpg",
+        "bytes": 253001,
+        "width": 1333,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "project-3.jpg",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "welkom-bij-prefabpartner-nl#section-7(gallery)"
+      ],
+      "original": {
+        "bytes": 918168,
+        "sha256": "97da666aa6413a157bba35a0c6b279d2bc1231450723275968b5c1daf8de7239",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-3.jpg",
+        "bytes": 261624,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-4.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "binnen de bovengrens van 1600 px",
+      "alt": "dakkapel aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 133563,
+        "sha256": "014bc0cc34c1db7ea217ad1b9efecfb762ae9d91836d7c30aa2d10cbf8646e1e",
+        "width": 1600,
+        "height": 901
+      },
+      "shipped": {
+        "path": "static/src/media/project-4.jpg",
+        "bytes": 133563,
+        "width": 1600,
+        "height": 901
+      }
+    },
+    {
+      "filename": "project-5.jpg",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Prefab dakkapel",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "welkom-bij-prefabpartner-nl#section-7(gallery)"
+      ],
+      "original": {
+        "bytes": 757269,
+        "sha256": "80f7a3c4d824731571d122095cfa828bc6a806080c33abc43d936f9473423184",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-5.jpg",
+        "bytes": 241077,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-6.jpg",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "prefab dakkapel",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "welkom-bij-prefabpartner-nl#section-7(gallery)"
+      ],
+      "original": {
+        "bytes": 998391,
+        "sha256": "b4cb2cb64f164ea9e8b40a59b43c3a67163a10b6adde6989b107a6b0934da871",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-6.jpg",
+        "bytes": 298391,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-7.jpg",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "prefab dakkapel",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "welkom-bij-prefabpartner-nl#section-7(gallery)"
+      ],
+      "original": {
+        "bytes": 1005776,
+        "sha256": "175afb6aaecce40c4a69f0403d351158c237a9729f81d2f03fc24761790b4c2b",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-7.jpg",
+        "bytes": 290051,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-01.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 88400,
+        "sha256": "69a7fa9caa365df68722ba37e28caeeb707c21c70c12e082a75dc10b10dda8a1",
+        "width": 1800,
+        "height": 1350
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-01.webp",
+        "bytes": 58840,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-02.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 252046,
+        "sha256": "200faf0dafe52e876977a60f7db506b14cfbc1f8ca85c7a189c73993b280c074",
+        "width": 1800,
+        "height": 1350
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-02.webp",
+        "bytes": 213082,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-03.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 618062,
+        "sha256": "68a6f3d3468eab6f342c149947fdb291dcc4d094625e83b1a4e92717526bf543",
+        "width": 1800,
+        "height": 1350
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-03.webp",
+        "bytes": 371408,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-04.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 216296,
+        "sha256": "f6401e674cf2dfa393432d3371f756a98d6f6c95a3ff262f0e899e8080184fe7",
+        "width": 1800,
+        "height": 1350
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-04.webp",
+        "bytes": 182228,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-05.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 459422,
+        "sha256": "20f565ae57378b546cd23763b21bb61b855c13b6b342d156b311ff1a97f49833",
+        "width": 1800,
+        "height": 1350
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-05.webp",
+        "bytes": 277058,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-06.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "binnen de bovengrens van 1600 px",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 99086,
+        "sha256": "0b51f871a40fd15b1b99ce0cea864db4d8a719f1cf727cbc3eb2b155bd625e78",
+        "width": 1000,
+        "height": 1333
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-06.webp",
+        "bytes": 99086,
+        "width": 1000,
+        "height": 1333
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-07.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "binnen de bovengrens van 1600 px",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 179764,
+        "sha256": "d995f8c5fa8421001bbcc44426e75737cf7ea8512278af09ae1284f5b1f57667",
+        "width": 1000,
+        "height": 1333
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-07.webp",
+        "bytes": 179764,
+        "width": 1000,
+        "height": 1333
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-08.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "binnen de bovengrens van 1600 px",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 225174,
+        "sha256": "38cfe56341869f80cab3067b81f750f5b5f3e7747199f2a689c85b187b041e91",
+        "width": 1000,
+        "height": 1333
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-08.webp",
+        "bytes": 225174,
+        "width": 1000,
+        "height": 1333
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-09.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 257076,
+        "sha256": "386d13d04d6b325ff36db5bb564a2823da77cc0ae477306af19ef9c91d4a36cf",
+        "width": 1800,
+        "height": 1350
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-09.webp",
+        "bytes": 209484,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "Project-aanbouw-denhaag-10.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "binnen de bovengrens van 1600 px",
+      "alt": "Project aanbouw in Den Haag",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 59040,
+        "sha256": "84aa808a3b717d7d5f7134ccc2fcb792d232ea0550ca2c86d12aba088980df11",
+        "width": 1000,
+        "height": 1333
+      },
+      "shipped": {
+        "path": "static/src/media/Project-aanbouw-denhaag-10.webp",
+        "bytes": 59040,
+        "width": 1000,
+        "height": 1333
+      }
+    },
+    {
+      "filename": "project-zoetermeer-01.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project Zoetermeer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 391262,
+        "sha256": "23b2594f68879018b5f806ce276a937b475f5a31c1c063b0ea0862b6b1d7cb8c",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-zoetermeer-01.webp",
+        "bytes": 218540,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-zoetermeer-02.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project Zoetermeer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 501108,
+        "sha256": "1c90b9262091487f885bb86a7983e586bdf216eeb492195adfeef1d0a59161c9",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-zoetermeer-02.webp",
+        "bytes": 246430,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-zoetermeer-03.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project Zoetermeer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)",
+        "welkom-bij-prefabpartner-nl#section-7(gallery)"
+      ],
+      "original": {
+        "bytes": 540480,
+        "sha256": "8dd524114cc8102267a80d5eabe9b1ec034cf05977975b0f879b333e47f1378c",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-zoetermeer-03.webp",
+        "bytes": 255602,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-zoetermeer-04.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project Zoetermeer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 396788,
+        "sha256": "9492b2b4bee7c7d2fa680673f3d0fc02c8f2b8576f63cc6bf8891da3410cc9a5",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-zoetermeer-04.webp",
+        "bytes": 207520,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "project-zoetermeer-05.webp",
+      "kind": "image",
+      "action": "resize",
+      "reason": "teruggebracht naar 1600 px op de lange zijde",
+      "alt": "Project Zoetermeer",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 520210,
+        "sha256": "2f515ea622f922254caf295ab487f1e830095ba16a636687e1adf47ae2b91155",
+        "width": 2048,
+        "height": 1536
+      },
+      "shipped": {
+        "path": "static/src/media/project-zoetermeer-05.webp",
+        "bytes": 246294,
+        "width": 1600,
+        "height": 1200
+      }
+    },
+    {
+      "filename": "steiger-aanbouw.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Steiger aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 102020,
+        "sha256": "731bb57d9e84bbd690deeb36e1866b5f4d64954ce70b684fb5b453607e6c4efa",
+        "width": 750,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/steiger-aanbouw.webp",
+        "bytes": 102020,
+        "width": 750,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "steiger-opbouw.webp",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Steiger opbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 139734,
+        "sha256": "f733c9fc3440db98428ea1b700bd01ae24d16d6a7fa988858614544f26982b4d",
+        "width": 750,
+        "height": 1000
+      },
+      "shipped": {
+        "path": "static/src/media/steiger-opbouw.webp",
+        "bytes": 139734,
+        "width": 750,
+        "height": 1000
+      }
+    },
+    {
+      "filename": "video-1.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Een ingepakt prefab element hangt aan de kraan boven de achtertuin, voor een rij bakstenen woningen.",
+      "alt_source": "written",
+      "used_in": [
+        "projecten#css-background",
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 50473,
+        "sha256": "ece24ce7ebd7dd790f3296c38d8bdcf5568fadce1db819ee3ce8a89b4a0d857f",
+        "width": 368,
+        "height": 591
+      },
+      "shipped": {
+        "path": "static/src/media/video-1.jpg",
+        "bytes": 50473,
+        "width": 368,
+        "height": 591
+      }
+    },
+    {
+      "filename": "video-2.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "De afgewerkte gevel van verticale houten latten, van dichtbij.",
+      "alt_source": "written",
+      "used_in": [
+        "projecten#css-background",
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 63408,
+        "sha256": "03b1d1821d4b47db58af986f7a3eaec59bda645a02aeef85844a10488170a815",
+        "width": 362,
+        "height": 598
+      },
+      "shipped": {
+        "path": "static/src/media/video-2.jpg",
+        "bytes": 63408,
+        "width": 362,
+        "height": 598
+      }
+    },
+    {
+      "filename": "video-3.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Een ingepakt prefab element hangt aan de kettingen van de kraan boven een tuinmuur met druivenrank.",
+      "alt_source": "written",
+      "used_in": [
+        "projecten#css-background",
+        "projecten#section-3(gallery)"
+      ],
+      "original": {
+        "bytes": 77497,
+        "sha256": "ef5ede366edcd9f787bb2c4d9d599b9c82fc32687fc2ff9a96d660ac4cde2544",
+        "width": 371,
+        "height": 608
+      },
+      "shipped": {
+        "path": "static/src/media/video-3.jpg",
+        "bytes": 77497,
+        "width": 371,
+        "height": 608
+      }
+    },
+    {
+      "filename": "video-prefab-partner.mp4",
+      "kind": "video",
+      "action": "transcode",
+      "reason": "achtergrondlus van de hero: 960p H.264 met bitrateplafond 300k, zonder geluid, plus 720p posterframe",
+      "alt": "",
+      "alt_source": "not_applicable",
+      "used_in": [
+        "welkom-bij-prefabpartner-nl#section-0(hero)",
+        "welkom-bij-prefabpartner-nl#video-source"
+      ],
+      "original": {
+        "bytes": 5910839,
+        "sha256": "b705b2d7705f4431b5785bc4f12859870dd4c9dece29ee37a52a2d65a21aafb7",
+        "width": null,
+        "height": null
+      },
+      "shipped": {
+        "path": "static/src/video/video-prefab-partner.mp4",
+        "poster": "static/src/video/video-prefab-partner-poster.jpg",
+        "bytes": 484439,
+        "poster_bytes": 40450
+      },
+      "generation": 2
+    },
+    {
+      "filename": "voordelen-prefab-aanbouw.jpg",
+      "kind": "image",
+      "action": "copy",
+      "reason": "al klein genoeg voor de plek waar hij staat",
+      "alt": "Voordelen prefab aanbouw",
+      "alt_source": "wordpress",
+      "used_in": [
+        "nieuws#section-3(news_feed)",
+        "voordelen-van-een-prefab-aanbouw#featured",
+        "voordelen-van-een-prefab-aanbouw#section-1(post_header)"
+      ],
+      "original": {
+        "bytes": 47088,
+        "sha256": "f2dd4972470c5d46f320f02ed42abc222bf457827f885ce34d1a4d80a5f3a3bb",
+        "width": 800,
+        "height": 533
+      },
+      "shipped": {
+        "path": "static/src/media/voordelen-prefab-aanbouw.jpg",
+        "bytes": 47088,
+        "width": 800,
+        "height": 533
+      }
+    }
+  ]
+}

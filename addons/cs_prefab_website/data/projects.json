@@ -1,0 +1,79 @@
+{
+  "source": "docs/website/content-inventory.json -> pages[projecten].sections[3].gallery (36 foto's, in de volgorde van de bron)",
+  "note": "De klant heeft de projecten nooit als benoemde items op de site gezet; hij heeft er een GALERIJ van gemaakt. Dit bestand is die galerij: 36 foto's, in exact de volgorde waarin ze op /projecten/ stonden, verdeeld over vijf reeksen omdat de foto's per bouw bij elkaar horen -- die groepering is de volgorde van de bron zelf, niet een indeling die hier is bedacht. Een reeks draagt ALLEEN wat er in de bron staat. Naam, jaartal en verhaal staan nergens op de oude site, dus die velden blijven leeg; ze bestaan op het model zodat de klant ze kan invullen. Plaats staat er twee keer wel: de alt-teksten van WordPress noemen 'Project aanbouw in Den Haag' en 'Project Zoetermeer'. Die twee blijven staan, de rest niet.",
+  "alt_note": "De alt-teksten zijn geschreven bij het bekijken van de foto zelf. Op de live site hebben vier van deze foto's helemaal geen alt, en de rest draagt de bestandsnaam-achtige waarde van WordPress ('prefab bouw', 'opbouw', 'aanbouw'), die beschrijft welk bestand het is en niet wat je ziet. Een alt-tekst is GEEN verzonnen inhoud: hij beschrijft wat er te zien is voor wie de foto niet kan zien.",
+  "order_note": "De volgorde binnen een reeks is de volgorde van de bron en niet een herschikking. Een eerdere versie zette 'het eindresultaat eerst, dan de bouw'; dat is een redactionele keuze die niemand heeft gemaakt, en de galerij van de klant is geen verhaal maar een reeks foto's.",
+  "projects": [
+    {
+      "key": "reeks_1",
+      "location": "",
+      "sequence": 10,
+      "images": [
+        ["Project-2026-4.jpg", "Een prefab element staat vastgesjord op een dieplader in de straat, ingepakt in zwarte folie en met houten schoren erin."],
+        ["Project-2026-1.jpg", "Een aanbouw met verticale houten latten in een achtertuin, met daarachter een kleiner bijgebouw in dezelfde latten."],
+        ["Project-2026-2.jpg", "De aanbouw met houten latten vanuit de tuin gezien, met de woning links en een houten overkapping rechts."],
+        ["Project-2026-3.jpg", "De afgeronde aanbouw van bovenaf: een plat dak met de randen nog afgeplakt, en een gevel van verticale houten latten."]
+      ]
+    },
+    {
+      "key": "reeks_2",
+      "location": "Den Haag",
+      "sequence": 20,
+      "images": [
+        ["Project-aanbouw-denhaag-01.webp", "De afgeronde aanbouw van binnen, met een lichtstraat in het plafond en een schuifpui naar de tuin."],
+        ["Project-aanbouw-denhaag-03.webp", "De wapening ligt in de bekisting, klaar om de vloer te storten."],
+        ["Project-aanbouw-denhaag-09.webp", "De lichtstraat op het platte dak van de aanbouw, tegen de gevel van de woning."],
+        ["Project-aanbouw-denhaag-08.webp", "Het nieuwe metselwerk rond het kozijn van de schuifpui, folie nog op de profielen."],
+        ["Project-aanbouw-denhaag-04.webp", "De betonvloer wordt met een betonpomp gestort."],
+        ["Project-aanbouw-denhaag-05.webp", "Het prefab casco staat op een dieplader voor de deur."],
+        ["Project-aanbouw-denhaag-06.webp", "Het tweede element hangt aan de kraan, over het dak heen."],
+        ["Project-aanbouw-denhaag-07.webp", "Een groot gevelelement hangt aan de kraan boven de woning."],
+        ["Project-aanbouw-denhaag-10.webp", "De lichtstraat van onderaf gezien, met de lucht erdoorheen."],
+        ["Project-aanbouw-denhaag-02.webp", "De aanbouw van buiten, met gemetselde gevel, plat dak en de lichtstraat tegen de woning aan."]
+      ]
+    },
+    {
+      "key": "reeks_3",
+      "location": "Zoetermeer",
+      "sequence": 30,
+      "images": [
+        ["Prefab-aanbouw-02.webp", "De aanbouw vanaf het terras gezien, met de houten gevel tegen de bestaande muur."],
+        ["Prefab-aanbouw-01.webp", "De afgeronde aanbouw met verticale houten gevelbekleding en een brede schuifpui naar het terras."],
+        ["project-zoetermeer-01.webp", "Een minigraver maakt de achtertuin bouwrijp voor de fundering."],
+        ["project-zoetermeer-03.webp", "Het prefab casco staat op de dieplader en wordt aangeslagen voor de kraan."],
+        ["project-zoetermeer-02.webp", "De gestorte betonvloer ligt langs de achtergevel, de bekisting is er nog."],
+        ["project-zoetermeer-04.webp", "Het element hangt aan de kraan, van onderaf gezien door de nog lege raamopeningen."],
+        ["project-zoetermeer-05.webp", "De kozijnen zitten erin, de beschermfolie zit er nog op."]
+      ]
+    },
+    {
+      "key": "reeks_4",
+      "location": "",
+      "sequence": 40,
+      "images": [
+        ["project-6.jpg", "Twee prefab dakkapellen vanaf de nok gezien; het dak is al gedekt."],
+        ["project-7.jpg", "Het dakvlak met een dakraam en een dakkapel, met de steiger langs de goot."],
+        ["project-1.jpg", "Een afgeronde woning met terras, openslaande deuren en twee dakkapellen."],
+        ["project-2.jpg", "Een dakelement hangt aan de kraan boven de verdieping."],
+        ["project-3.jpg", "Het dakvlak met dampopen folie en tengels, klaar voor de pannen."],
+        ["project-5.jpg", "De dakkapellen tijdens de bouw: folie en tengels op het dakvlak, de kozijnopeningen nog open."],
+        ["project-4.jpg", "Een afgeronde prefab dakkapel met drie ramen op een zwart pannendak."]
+      ]
+    },
+    {
+      "key": "reeks_5",
+      "location": "",
+      "sequence": 50,
+      "images": [
+        ["bouw-prefab-referentie.webp", "Twee stalen portalen staan op de verdiepingsvloer, de dakelementen liggen klaar."],
+        ["prefab-dakkapellen.webp", "Twee prefab dakkapellen naast elkaar op het schuine dak, gezien vanaf de steiger."],
+        ["aanbouwen-prefab-partner.webp", "Het dakelement van onderaf, met de sparing voor het dakraam erin."],
+        ["steiger-opbouw.webp", "Een vloerelement met een sparing hangt aan de mobiele kraan."],
+        ["steiger-aanbouw.webp", "Een vloerelement hangt aan de torenkraan boven de bouwplaats."],
+        ["prefab-partner-referentie.jpg", "Een breed schuifkozijn met roeden, gezet in de nieuwe gevel."],
+        ["prefab-referentie-opbouw.webp", "De gelegde prefab dakvloer met de randbalken eromheen."],
+        ["prefab-aanbouw-foto.webp", "Binnen op de verdieping: de wanden staan en het dakbeschot ligt erop."]
+      ]
+    }
+  ]
+}

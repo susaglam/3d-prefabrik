@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!--
+        Native, editable product pages. Each opens with its own product and route:
+        the configurator for aanbouw, personal advice for dakkapel and opbouw.
+        Existing oe_structure IDs remain stable for the owner's saved content.
+    -->
+    <template id="page_oplossingen" name="Oplossingen">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_page_wrap" tabindex="-1">
+                <div class="oe_structure" id="oe_structure_prefab_oplossingen">
+                    <section class="s_text_image o_prefab_warm_intro o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Prefab oplossingen">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center g-4 g-lg-5">
+                                <div class="col-lg-6 o_prefab_reading o_colored_level">
+                                    <h1>Prefab oplossingen</h1>
+                                    <p class="lead mt16">PrefabPartner.nl biedt een breed scala aan prefab oplossingen. Of je nu een complete aanbouw, dakkapel, opbouw of losse prefab elementen zoekt, wij hebben altijd een oplossing die bij jouw project past.</p>
+                                    <p class="mt32 mb-2">
+                                        <a href="/offerte" class="btn btn-primary btn-lg">Ontwerp je aanbouw</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_dakkapel_prefab_partner_webp_b0ef8a41/560x560/Dakkapel-prefab-partner.webp" class="img img-fluid rounded" loading="eager" decoding="async" alt="Woning met een prefab dakkapel en een aanbouw aan de achterzijde" fetchpriority="high"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_text_block o_prefab_warm_section o_cc o_cc1 pt0 pb64" data-snippet="s_text_block" data-name="Onze oplossingen">
+                        <div class="container s_allow_columns">
+                            <h2 class="mb32">Wat wij aanbieden</h2>
+                            <div class="row g-4">
+                                <div class="col-lg-4 o_colored_level">
+                                    <h3 class="h4-fs">
+                                        <a href="/oplossingen/prefab-aanbouw">Prefab aanbouw</a>
+                                    </h3>
+                                    <p>Wil je jouw woning uitbreiden met een extra kamer, kantoor of leefruimte?</p>
+                                    <a href="/oplossingen/prefab-aanbouw">Bekijk prefab aanbouw</a>
+                                </div>
+                                <div class="col-lg-4 o_colored_level">
+                                    <h3 class="h4-fs">
+                                        <a href="/oplossingen/prefab-dakkapel">Dakkapellen en serres</a>
+                                    </h3>
+                                    <p>Met een prefab dakkapel voeg je eenvoudig ruimte en licht toe aan jouw woning.</p>
+                                    <a href="/oplossingen/prefab-dakkapel">Bekijk prefab dakkapel</a>
+                                </div>
+                                <div class="col-lg-4 o_colored_level">
+                                    <h3 class="h4-fs">
+                                        <a href="/oplossingen/prefab-opbouw">Prefab opbouw</a>
+                                    </h3>
+                                    <p>Heb je behoefte aan meer woonruimte, maar geen ruimte om uit te breiden?</p>
+                                    <a href="/oplossingen/prefab-opbouw">Bekijk prefab opbouw</a>
+                                </div>
+                            </div>
+                            <p class="mt32 mb0">Ook voor prefab wanden, vloeren en kozijnen kun je <a href="/contact">contact met ons opnemen</a>.</p>
+                        </div>
+                    </section>
+                    <!-- Native process-step connector SVGs are required by the saas~19.4 builder. -->
+                    <section class="s_process_steps o_prefab_steps o_prefab_warm_section o_cc o_cc2 pt64 pb64 s_process_steps_connector_line" data-vcss="002" data-vxml="002" data-snippet="s_process_steps" data-name="Stappen">
+                        <svg class="s_process_step_svg_defs position-absolute" aria-hidden="true" focusable="false">
+                            <defs>
+                                <marker class="s_process_steps_arrow_head" markerWidth="15" markerHeight="10" refX="6" refY="6" orient="auto">
+                                    <path d="M 2,2 L10,6 L2,10 L6,6 L2,2" vector-effect="non-scaling-size"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                        <div class="container s_allow_columns">
+                            <h2 class="mb-4">Jouw aanbouw in 3 stappen</h2>
+                            <div class="row g-0">
+                                <div class="col-md-4 s_process_step position-relative pt16 pb16 o_colored_level">
+                                    <svg class="s_process_step_connector position-absolute z-index-1" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                                        <path d="M 0 10 L 100 10" vector-effect="non-scaling-stroke"/>
+                                    </svg>
+                                    <div class="s_process_step_number" data-name="Stapnummer">
+                                        <span class="mb-0">1</span>
+                                    </div>
+                                    <div class="s_process_step_content mt-3 px-2">
+                                        <h3 class="h5-fs">Ontwerp je eigen aanbouw</h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 s_process_step position-relative pt16 pb16 o_colored_level">
+                                    <svg class="s_process_step_connector position-absolute z-index-1" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                                        <path d="M 0 10 L 100 10" vector-effect="non-scaling-stroke"/>
+                                    </svg>
+                                    <div class="s_process_step_number" data-name="Stapnummer">
+                                        <span class="mb-0">2</span>
+                                    </div>
+                                    <div class="s_process_step_content mt-3 px-2">
+                                        <h3 class="h5-fs">Inmeten op locatie</h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 s_process_step position-relative pt16 pb16 o_colored_level">
+                                    <svg class="s_process_step_connector position-absolute z-index-1" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                                        <path d="M 0 10 L 100 10" vector-effect="non-scaling-stroke"/>
+                                    </svg>
+                                    <div class="s_process_step_number" data-name="Stapnummer">
+                                        <span class="mb-0">3</span>
+                                    </div>
+                                    <div class="s_process_step_content mt-3 px-2">
+                                        <h3 class="h5-fs">Binnen 5 dagen geplaatst</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mt32 mb-0">
+                                <a href="/offerte" class="btn btn-primary">Ontwerp je aanbouw</a>
+                            </p>
+                        </div>
+                    </section>
+                    <section class="s_call_to_action o_prefab_warm_section o_cc o_cc1 pt64 pb64" data-snippet="s_call_to_action" data-name="Oproep">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center">
+                                <div class="col-lg-8 o_colored_level">
+                                    <h2 class="h3-fs mb-0">Meer weten over onze prefab oplossingen?</h2>
+                                </div>
+                                <div class="col-lg-4 text-lg-end pt16 pt-lg-0 o_colored_level">
+                                    <a href="/contact" class="btn btn-secondary">Maak een afspraak</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- ============================================================== -->
+    <template id="page_prefab_aanbouw" name="Prefab aanbouw">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_page_wrap" tabindex="-1">
+                <div class="oe_structure" id="oe_structure_prefab_aanbouw">
+                    <section class="s_text_image o_prefab_warm_intro o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Prefab aanbouw">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center g-4 g-lg-5">
+                                <div class="col-lg-6 o_prefab_reading o_colored_level">
+                                    <h1>Prefab aanbouw</h1>
+                                    <p class="lead mt16">Wil je jouw woning uitbreiden met een extra kamer, kantoor of leefruimte?</p>
+                                    <p class="mt24 mb-0">
+                                        <a href="/offerte" class="btn btn-primary btn-lg">Ontwerp je aanbouw</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_prefab_aanbouw_jpg_9d1bf718/560x560/prefab-aanbouw.jpg" class="img img-fluid rounded" loading="eager" decoding="async" alt="Afgebouwde prefab aanbouw aan de achterzijde van een woning" fetchpriority="high"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_text_image o_cc o_cc2 pt64 pb64 o_prefab_warm_section" data-snippet="s_image_text" data-name="Waarom prefab aanbouw">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 pb24 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_aanbouw_prefeb_1_jpg_34a9f8d1/600x350/aanbouw-prefeb-1.jpg" class="img img-fluid rounded" loading="lazy" decoding="async" alt="Prefab aanbouw met grote schuifpui naar de tuin"/>
+                                    <p class="mt24">Daarnaast kunnen wij ook prefab mantelzorgwoningen of vakantiewoningen leveren. Deze bieden een praktische, betaalbare en duurzame oplossing voor extra woonruimte buiten jouw hoofdwoning.</p>
+                                    <p class="mb-0">
+                                        <a href="/contact" class="btn btn-secondary">Neem contact op</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6 pb24 o_prefab_reading o_colored_level">
+                                    <h2>Waarom kiezen voor prefab aanbouw?</h2>
+                                    <p class="mt24">Bij PrefabPartner.nl bieden we prefab aanbouwen in zowel houtskeletbouw als, indien gewenst, in betonprefab.</p>
+                                    <ul class="o_prefab_checklist list-unstyled mt24">
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Snelle plaatsing en minimale overlast.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Hoogwaardige materialen: keuze tussen houtskeletbouw en beton.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Perfect afgestemd op jouw wensen en woningstijl.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Uitbreiding met veelzijdige toepassingen, zoals mantelzorg- of vakantiewoningen.</span>
+                                        </li>
+                                    </ul>
+                                    <p class="mt16">Onze prefab aanbouwen worden volledig op maat gemaakt en binnen enkele dagen geplaatst. Dankzij onze efficiënte werkwijze geniet je van een snelle, duurzame en kosteneffectieve oplossing.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_text_block o_prefab_warm_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_block" data-name="Bespreek jouw aanbouw">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-7 o_colored_level o_prefab_reading">
+                                    <h2>Jouw aanbouw, jouw ontwerp</h2>
+                                    <p class="lead mt16 mb0">Kies uit diverse stijlen, materialen en afwerkingen.</p>
+                                </div>
+                                <div class="col-lg-5 o_colored_level text-lg-end">
+                                    <p class="mb16">
+                                        <a class="btn btn-primary" href="/offerte">Ontwerp je aanbouw</a>
+                                    </p>
+                                    <a href="/projecten">Bekijk onze projecten</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- ============================================================== -->
+    <template id="page_prefab_dakkapel" name="Prefab dakkapel">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_page_wrap" tabindex="-1">
+                <div class="oe_structure" id="oe_structure_prefab_dakkapel">
+                    <section class="s_text_image o_prefab_warm_intro o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Prefab dakkapel">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center g-4 g-lg-5">
+                                <div class="col-lg-6 o_prefab_reading o_colored_level">
+                                    <h1>Prefab dakkapel</h1>
+                                    <p class="lead mt16">Met een prefab dakkapel voeg je eenvoudig ruimte en licht toe aan jouw woning. Onze dakkapellen worden volledig voorbereid in onze fabriek en binnen één dag geplaatst. Kies uit diverse stijlen, materialen en afwerkingen.</p>
+                                    <p class="mt24 mb-0">
+                                        <a href="/contact" class="btn btn-primary btn-lg">Bespreek je dakkapel</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_prefab_dakkapel_jpg_c21a9924/560x560/prefab-dakkapel.jpg" class="img img-fluid rounded" loading="eager" decoding="async" alt="Geplaatste prefab dakkapel op een bestaand dak" fetchpriority="high"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_text_image o_cc o_cc2 pt64 pb64 o_prefab_warm_section" data-snippet="s_image_text" data-name="Voordelen dakkapel">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 pb24 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_dakkapel_aanbouw_prefab_1_jpg_6bea2ffc/600x350/dakkapel-aanbouw-prefab-1.jpg" class="img img-fluid rounded" loading="lazy" decoding="async" alt="Dakkapel wordt met een kraan op het dak geplaatst"/>
+                                    <p class="mt24 mb-0">Op zoek naar een eenvoudige manier om je woning te vergroten en te verlichten? Een prefab dakkapel biedt de perfecte oplossing!</p>
+                                </div>
+                                <div class="col-lg-6 pb24 o_prefab_reading o_colored_level">
+                                    <h2>Voordelen van een prefab dakkapel</h2>
+                                    <ul class="o_prefab_checklist list-unstyled mt24">
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Binnen één dag klaar.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Onderhoudsvrije en duurzame materialen.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Volledig maatwerk mogelijk.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_text_block o_prefab_warm_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_block" data-name="Bespreek jouw dakkapel">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-7 o_colored_level o_prefab_reading">
+                                    <h2>Een dakkapel voor jouw woning</h2>
+                                    <p class="lead mt16 mb0">Kies uit diverse stijlen, materialen en afwerkingen.</p>
+                                </div>
+                                <div class="col-lg-5 o_colored_level text-lg-end">
+                                    <p class="mb16">
+                                        <a class="btn btn-primary" href="/contact">Bespreek je dakkapel</a>
+                                    </p>
+                                    <a href="/projecten">Bekijk onze projecten</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- ============================================================== -->
+    <template id="page_prefab_opbouw" name="Prefab opbouw">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_page_wrap" tabindex="-1">
+                <div class="oe_structure" id="oe_structure_prefab_opbouw">
+                    <section class="s_text_image o_prefab_warm_intro o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Prefab opbouw">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center g-4 g-lg-5">
+                                <div class="col-lg-6 o_prefab_reading o_colored_level">
+                                    <h1>Prefab opbouw</h1>
+                                    <p class="lead mt16">Heb je behoefte aan meer woonruimte, maar geen ruimte om uit te breiden? Een prefab opbouw is dé oplossing. Of het nu gaat om een extra verdieping of een dakopbouw, wij realiseren jouw project snel en professioneel.</p>
+                                    <p class="mt24 mb-0">
+                                        <a href="/contact" class="btn btn-primary btn-lg">Bespreek je opbouw</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_prefab_referentie_opbouw_webp_7e400760/700x525/prefab-referentie-opbouw.webp" class="img img-fluid rounded" loading="eager" decoding="async" alt="Woning met een prefab opbouw op de eerste verdieping" fetchpriority="high"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_text_image o_cc o_cc2 pt64 pb64 o_prefab_warm_section" data-snippet="s_image_text" data-name="Waarom prefab opbouw">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 pb24 o_colored_level">
+                                    <img src="/web/image/cs_prefab_website.media_opbouw_prefab_denhaag_1_jpg_145c1d60/600x350/opbouw-prefab-denhaag-1.jpg" class="img img-fluid rounded" loading="lazy" decoding="async" alt="Prefab opbouw in aanbouw, met steiger rondom de woning"/>
+                                    <p class="mt24">Ben je toe aan meer woonruimte, maar zie je geen mogelijkheden om uit te breiden? Een prefab opbouw biedt dé ideale oplossing!</p>
+                                    <p class="mb-0">
+                                        <a href="/contact" class="btn btn-secondary">Neem contact op</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6 pb24 o_prefab_reading o_colored_level">
+                                    <h2>Waarom kiezen voor een prefab opbouw?</h2>
+                                    <ul class="o_prefab_checklist list-unstyled mt24">
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Minimale bouwtijd en overlast.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Hoogwaardige isolatie en energiezuinige materialen.</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check-square-o" aria-hidden="true"/>
+                                            <span>Volledig afgestemd op jouw woning.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_text_block o_prefab_warm_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_block" data-name="Bespreek jouw opbouw">
+                        <div class="container s_allow_columns">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-7 o_colored_level o_prefab_reading">
+                                    <h2>Een opbouw voor jouw woning</h2>
+                                    <p class="lead mt16 mb0">Voor opbouwen bieden wij maatwerk. Neem contact met ons op voor een vrijblijvend adviesgesprek over de beste oplossing voor jouw woning.</p>
+                                </div>
+                                <div class="col-lg-5 o_colored_level text-lg-end">
+                                    <p class="mb16">
+                                        <a class="btn btn-primary" href="/contact">Bespreek je opbouw</a>
+                                    </p>
+                                    <a href="/projecten">Bekijk onze projecten</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -6,9 +6,10 @@ import re
 import unicodedata
 import uuid
 
-from .catalog import get_catalog
+from .catalog import RETIRED_FIELDS, get_catalog, model_assets
 from .document_visuals import canonical_document_visuals
 from .errors import DomainError
+from .geometry_rules import apply_mounting_rules, validate_profile_selection
 
 POSTCODE = re.compile(r"^[1-9][0-9]{3}\s?[A-Z]{2}$")
 EMAIL = re.compile(r"^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$")
@@ -45,6 +46,8 @@ def canonical_config(value):
     if not isinstance(value, dict):
         raise DomainError("De configuratie moet een object zijn.", fields={"config": "Ongeldige configuratie."})
     errors = {}
+    # A browser that loaded a catalogue before an upgrade may still send a retired field; ignore it like the client does.
+    value = {key: val for key, val in value.items() if key not in RETIRED_FIELDS}
     unknown = set(value) - set(catalog["defaults"])
     if unknown:
         errors["config"] = "Onbekende configuratievelden: " + ", ".join(sorted(unknown)[:10])
@@ -63,6 +66,12 @@ def canonical_config(value):
                     config[key] = normalize_postcode(val)
                 except ValueError as exc:
                     errors[key] = str(exc)
+            elif field["type"] == "multiselect":
+                allowed = [option["id"] for option in field["options"]]
+                if not isinstance(val, list) or len(val) > field["maxSelections"] or any(type(item) is not str or item not in allowed for item in val) or len(set(val)) != len(val):
+                    errors[key] = f"Kies geldige, unieke posities voor {field['label']}."
+                else:
+                    config[key] = [item for item in allowed if item in val]
             elif not any(type(val) is type(option["id"]) and val == option["id"] for option in field["options"]):
                 errors[key] = f"Kies een geldige optie voor {field['label']}."
     if errors:
@@ -72,7 +81,83 @@ def canonical_config(value):
         if constraint["type"] == "resetWhen" and config[constraint["field"]] == constraint["equals"]:
             for key in constraint["fields"]:
                 config[key] = copy.deepcopy(catalog["defaults"][key])
+    if catalog.get("schemaVersion") != 2:
+        return config
+    opening = config["frontOpening"]
+    kind = "french" if opening.startswith("french") else "sliding-4" if opening.startswith("sliding-4") else "sliding-2" if opening.startswith("sliding-2") else "folding" if opening.startswith("folding") else "none"
+    minimum = catalog.get("openingRules", {}).get("minimumWidthCm", {}).get(kind, 150)
+    if config["width"] < minimum:
+        raise DomainError("Dit kozijn past niet binnen de gekozen breedte. Kies een smaller kozijn of vergroot de aanbouw.", fields={"width": f"Voor dit kozijn is voorlopig minimaal {minimum} cm breedte nodig."})
+    if catalog.get("geometryRules", {}).get("version") == 1:
+        validate_profile_selection(config, catalog["geometryRules"])
+    normalize_positions(config, value)
+    if not config["plaster"]:
+        config["painting"] = False
+    if config["overhang"] == "none":
+        config["overhangSpots"] = 0
+    if config["rooflight"] not in {"lean-1", "lean-2", "lean-3"}:
+        config["roofShade"] = False
+    for control, selected in (("outsideLightControl", config["outsideLight"] != "none"),
+                              ("ceilingLightControl", bool(config["ceilingPositions"])),
+                              ("spotControl", bool(config["spotPositions"])),
+                              ("wallLightControl", bool(config["wallLights"])),
+                              ("overhangSpotControl", bool(config["overhangSpots"]))):
+        if not selected:
+            config[control] = catalog["defaults"][control]
     return config
+
+
+def normalize_positions(config, supplied):
+    """Stable mounting slots, legacy count migration, and roof/radiator clearance."""
+    ceiling = ["left", "center", "right"]
+    spots = [f"r{row}c{column}" for row in range(1, 4) for column in range(1, 6)]
+    if "ceilingPositions" not in supplied:
+        config["ceilingPositions"] = ceiling[:config["ceilingLights"]]
+    if "spotPositions" not in supplied:
+        config["spotPositions"] = spots[:config["spotlights"]]
+    if "socketPositions" not in supplied:
+        config["socketPositions"] = {"none": [], "left": ["L1"], "right": ["R1"], "both": ["L1", "R1"]}[config["sockets"]]
+    if not config["interior"]:
+        for key in ("ceilingPositions", "spotPositions", "socketPositions", "wallLights"):
+            config[key] = []
+    rules = get_catalog().get("geometryRules")
+    if rules and rules.get("version") == 1:
+        apply_mounting_rules(config, rules, model_assets(config), asset_revision=get_catalog().get("assetRevision"))
+        _sync_position_counts(config)
+        return
+    roof = config["rooflight"]
+    blocked_spots = {"r2c3"} if roof != "none" else set()
+    if roof in {"lean-3", "lean-4", "lean-5", "gable-6", "gable-8", "gable-10"}:
+        blocked_spots |= {"r2c2", "r2c4"}
+    config["spotPositions"] = [p for p in config["spotPositions"] if p not in blocked_spots]
+    if roof != "none":
+        roof_kind, count = roof.split("-")
+        width, depth, wall = config["width"] / 100, config["depth"] / 100, .22
+        roof_width = min(width - .85, (int(count) / 2 if roof_kind == "gable" else int(count)) * .72 + .12)
+        roof_depth = min(depth - .85, 1.45 if roof_kind == "gable" else 1.15)
+        def inside_roof(position):
+            row, column = int(position[1]), int(position[3])
+            x = -width / 2 + wall + (width - 2 * wall) * column / 6
+            z = -depth / 2 + (depth - wall) * row / 4
+            return abs(x) < roof_width / 2 + .06 and abs(z + .08) < roof_depth / 2 + .06
+        config["spotPositions"] = [p for p in config["spotPositions"] if not inside_roof(p)]
+    if roof in {"lean-5", "gable-10"}:
+        config["ceilingPositions"] = [p for p in config["ceilingPositions"] if p == "center"]
+    blocked_wall = set()
+    if config["heating"] in {"left", "both"}:
+        blocked_wall.add("L3")
+    if config["heating"] in {"right", "both"}:
+        blocked_wall.add("R3")
+    for key in ("wallLights", "socketPositions"):
+        config[key] = [p for p in config[key] if p not in blocked_wall]
+    _sync_position_counts(config)
+
+
+def _sync_position_counts(config):
+    config["ceilingLights"] = len(config["ceilingPositions"])
+    config["spotlights"] = len(config["spotPositions"])
+    sides = {p[0] for p in config["socketPositions"]}
+    config["sockets"] = "both" if len(sides) == 2 else "left" if "L" in sides else "right" if "R" in sides else "none"
 
 
 def config_labels(config):
@@ -87,7 +172,10 @@ def config_labels(config):
             if visibility and config[visibility["field"]] != visibility["equals"]:
                 continue
             val = config[field["key"]]
-            label = next((o["label"] for o in field.get("options", []) if type(o["id"]) is type(val) and o["id"] == val), str(val))
+            if field["type"] == "multiselect":
+                label = ", ".join(o["label"] for o in field["options"] if o["id"] in val) or "Geen"
+            else:
+                label = next((o["label"] for o in field.get("options", []) if type(o["id"]) is type(val) and o["id"] == val), str(val))
             if label:
                 result.append({"key": field["key"], "label": field["label"], "value": label, "description": field.get("description", "")})
     return result
@@ -139,7 +227,7 @@ def canonical_contact(value):
 
 
 def canonical_quote_payload(payload):
-    if not isinstance(payload, dict) or set(payload) - {"config", "contact", "consent", "idempotencyKey", "visuals"}:
+    if not isinstance(payload, dict) or set(payload) - {"config", "contact", "consent", "idempotencyKey", "visuals", "catalogRevision"}:
         raise DomainError("Ongeldige offerteaanvraag.")
     if payload.get("consent") is not True:
         raise DomainError("Geef toestemming om contact op te nemen over deze aanvraag.", fields={"consent": "Toestemming is verplicht."})
@@ -157,6 +245,10 @@ def canonical_quote_payload(payload):
         raise DomainError("De postcodes van configuratie en contactgegevens verschillen.", fields={"postcode": "Gebruik dezelfde postcode voor de plaatsing."})
     config["postcode"] = contact["postcode"]
     canonical = {"config": config, "contact": contact, "consent": True}
+    if "catalogRevision" in payload:
+        if not isinstance(payload["catalogRevision"], str) or len(payload["catalogRevision"]) > 160:
+            raise DomainError("Ongeldige catalogusversie.")
+        canonical["catalogRevision"] = payload["catalogRevision"]
     # Captures may change JPEG bytes across devices or repeated renders. A retry
     # must return the original immutable quote, not create a new commercial item.
     identity = dict(canonical)

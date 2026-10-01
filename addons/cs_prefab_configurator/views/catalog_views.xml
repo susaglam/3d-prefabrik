@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_prefab_catalog_list" model="ir.ui.view">
+    <field name="name">cs.prefab.catalog.release.list</field><field name="model">cs.prefab.catalog.release</field>
+    <field name="arch" type="xml"><list decoration-success="state == 'published'" decoration-muted="state == 'retired'"><field name="name"/><field name="website_id"/><field name="price_mode"/><field name="pricebook_version"/><field name="state"/><field name="published_at"/><field name="company_id" groups="base.group_multi_company"/></list></field>
+  </record>
+  <record id="view_prefab_catalog_form" model="ir.ui.view">
+    <field name="name">cs.prefab.catalog.release.form</field><field name="model">cs.prefab.catalog.release</field>
+    <field name="arch" type="xml">
+      <form><header>
+        <button name="action_open_editor" string="Prijzen, keuzes en maten bewerken" type="object" class="oe_highlight" invisible="state != 'draft'" groups="sales_team.group_sale_manager"/>
+        <button name="action_edit_new_draft" string="Bewerken via nieuw concept" type="object" class="oe_highlight" invisible="state == 'draft'" groups="sales_team.group_sale_manager"/>
+        <button name="action_open_editor" string="Prijzen, keuzes en maten bekijken" type="object" invisible="state == 'draft'" groups="sales_team.group_sale_manager"/>
+        <button name="action_validate_draft" string="Concept controleren" type="object" invisible="state != 'draft'" groups="sales_team.group_sale_manager"/>
+        <button name="action_preview" string="3D-voorvertoning" type="object" invisible="state != 'draft'" groups="sales_team.group_sale_manager"/>
+        <button name="action_approve_commercial" string="Commercieel goedkeuren" type="object" invisible="state != 'draft' or price_mode != 'commercial'" groups="sales_team.group_sale_manager"/>
+        <button name="action_publish" string="Publiceren" type="object" invisible="state != 'draft'" groups="sales_team.group_sale_manager"/>
+        <field name="state" widget="statusbar"/>
+      </header><sheet>
+        <div class="alert alert-info" role="alert" invisible="state == 'draft'">Dit is een bewaarde publicatie. Gebruik <strong>Bewerken via nieuw concept</strong> om een volgende versie te maken. Eerdere aanvragen behouden hun oorspronkelijke prijzen en leveringsomvang.</div>
+        <div class="alert alert-info" role="alert" invisible="state != 'draft'">Dit concept is nog niet zichtbaar voor klanten. Bewerk prijzen, keuzes en maten, controleer de 3D-voorvertoning en publiceer pas wanneer de inhoud klopt.</div>
+        <h1><field name="name" readonly="state != 'draft'"/></h1>
+        <group><group><field name="company_id" readonly="state != 'draft'"/><field name="website_id" readonly="state != 'draft'"/><field name="price_mode" readonly="state != 'draft'"/></group><group><field name="commercial_approval_state"/><field name="pricebook_version"/><field name="published_at"/></group></group>
+        <group invisible="not validation_summary"><field name="validation_summary"/></group>
+        <notebook>
+          <page string="Prijsboek">
+            <p>Bedragen zijn in EUR, exclusief btw. Toegepaste optieprijzen en hun prijsgrondslag staan in de editor onder <strong>Leveringsprijzen</strong>.</p>
+            <group><field name="currency_id" invisible="1"/><field name="base_curve_summary" invisible="not base_curve_summary"/><field name="base_price_eur"/><field name="setup_price_eur"/><field name="vat_percent"/></group>
+            <field name="price_disclaimer"/>
+            <button name="action_open_editor" string="Prijsboek en leveringsprijzen openen" type="object" class="btn-primary" groups="sales_team.group_sale_manager"/>
+          </page>
+          <page string="Levering en voorbeeldmodellen">
+            <p>Voorbereiding, product, montage en aansluiting zijn afzonderlijke toezeggingen. Een voorbeeldmodel in 3D betekent niet dat het apparaat wordt geleverd. Een inbegrepen component voegt geen bedrag toe.</p>
+            <field name="option_ids" readonly="state != 'draft'">
+              <list create="0" delete="0"><field name="field_name"/><field name="choice_name"/><field name="visual_mode"/><field name="asset_key" optional="show"/></list>
+              <form><sheet>
+                <group><field name="field_name"/><field name="choice_name"/><field name="visual_mode"/><field name="asset_key"/></group>
+                <field name="component_ids"><list editable="bottom" create="0" delete="0">
+                  <field name="currency_id" column_invisible="True"/><field name="role" readonly="1"/><field name="status"/><field name="pricing_basis"/>
+                  <field name="unit_price_eur" readonly="pricing_basis in ('option', 'area')"/>
+                  <field name="package_price_count"/><button name="action_edit_prices" string="Pakketprijzen" type="object" icon="fa-eur"/>
+                </list></field>
+                <group string="Technische identificatie" groups="base.group_no_one"><field name="name"/><field name="key" readonly="1"/><field name="value_key" readonly="1"/></group>
+              </sheet></form>
+            </field>
+          </page>
+          <page string="Keuzes en maatregels">
+            <p>Keuzenamen, toelichtingen en standaardinstellingen worden als gewone velden beheerd. Maatregels gebruiken centimeters. De huidige modelgrenzen zijn indicatief en gelden niet als constructieve of productiegoedkeuring.</p>
+            <button name="action_open_editor" string="Keuzes, standaardontwerp en maatregels openen" type="object" class="btn-primary" groups="sales_team.group_sale_manager"/>
+          </page>
+          <page string="Commerciële goedkeuring" invisible="price_mode != 'commercial'">
+            <div class="alert alert-warning" role="alert">Voer eigen tarieven en voorwaarden in en controleer de volledige leveringsomvang. Goedkeuring legt deze exacte inhoud vast; iedere inhoudelijke wijziging vereist nieuwe goedkeuring.</div>
+            <group><field name="commercial_reference" readonly="state != 'draft'"/><field name="commercial_rates_confirmed" readonly="state != 'draft'"/><field name="commercial_scope_confirmed" readonly="state != 'draft'"/><field name="commercial_tax_confirmed" readonly="state != 'draft'"/></group>
+            <field name="commercial_terms" readonly="state != 'draft'"/>
+            <group><field name="approved_by_id"/><field name="approved_at"/></group>
+          </page>
+          <page string="Technische diagnose" groups="base.group_no_one">
+            <group><field name="revision"/><field name="approval_hash"/></group>
+            <field name="catalog_json" readonly="1"/><field name="pricebook_json" readonly="1"/>
+          </page>
+        </notebook>
+      </sheet></form>
+    </field>
+  </record>
+  <record id="view_prefab_catalog_option_form" model="ir.ui.view">
+    <field name="name">cs.prefab.catalog.option.form</field><field name="model">cs.prefab.catalog.option</field>
+    <field name="arch" type="xml"><form create="0" duplicate="0"><header><button name="action_back_catalog" string="Terug naar catalogus" type="object"/></header><sheet>
+      <field name="release_state" invisible="1"/><group><field name="release_id" readonly="1"/><field name="field_name"/><field name="choice_name"/><field name="visual_mode" readonly="release_state != 'draft'"/><field name="asset_key" readonly="release_state != 'draft'"/></group>
+      <p>Deze uitvoering heeft een volledige eigen leveringsregel. Wijzigingen aan de standaardregel worden niet automatisch overgenomen. Een inbegrepen component verhoogt de prijs niet.</p>
+      <field name="component_ids" readonly="release_state != 'draft'"><list editable="bottom" create="0" delete="0"><field name="currency_id" column_invisible="True"/><field name="role" readonly="1"/><field name="status"/><field name="pricing_basis"/><field name="unit_price_eur" readonly="pricing_basis in ('option', 'area')"/><field name="package_price_count"/><button name="action_edit_prices" string="Pakketprijzen" type="object" icon="fa-eur"/></list></field>
+    </sheet></form></field>
+  </record>
+  <record id="view_prefab_catalog_editor_form" model="ir.ui.view">
+    <field name="name">cs.prefab.catalog.editor.form</field><field name="model">cs.prefab.catalog.editor</field>
+    <field name="arch" type="xml">
+      <form create="0" duplicate="0"><header>
+        <button name="action_apply" string="Wijzigingen toepassen" type="object" class="oe_highlight" invisible="source_state != 'draft'"/>
+        <button name="action_back" string="Terug naar catalogus" type="object"/>
+      </header><sheet>
+        <field name="source_state" invisible="1"/><field name="currency_id" invisible="1"/>
+        <h1><field name="name"/></h1>
+        <div class="alert alert-info" role="alert" invisible="source_state != 'draft'">Wijzigingen in dit werkblad worden pas in het concept opgeslagen met <strong>Wijzigingen toepassen</strong>. Een gewijzigde catalogus vereist daarna opnieuw controle en eventuele commerciële goedkeuring.</div>
+        <div class="alert alert-info" role="alert" invisible="source_state == 'draft'">U bekijkt een bewaarde publicatie. Ga terug en kies <strong>Bewerken via nieuw concept</strong> om wijzigingen te maken.</div>
+        <notebook>
+          <page string="Basisprijzen">
+            <group><group><field name="pricebook_version" readonly="source_state != 'draft'"/><field name="vat_rate" readonly="source_state != 'draft'"/></group><group><field name="base_per_m2" readonly="source_state != 'draft'"/><field name="fixed_setup" readonly="source_state != 'draft'"/></group></group>
+            <group string="Casco volgens prijsstaffel">
+              <group><field name="use_base_curve" readonly="source_state != 'draft'"/><field name="base_curve_exponent" invisible="not use_base_curve" readonly="source_state != 'draft'" placeholder="bijv. 1.1860002"/></group>
+              <group><field name="base_curve_fixed" invisible="not use_base_curve" readonly="source_state != 'draft'"/><field name="base_curve_factor" invisible="not use_base_curve" readonly="source_state != 'draft'"/><field name="base_curve_round_to" invisible="not use_base_curve" readonly="source_state != 'draft'"/></group>
+            </group>
+            <div class="alert alert-info" role="alert" invisible="not use_base_curve">Casco = vaste basis + factor × (breedte × diepte in m²)<sup>groeifactor</sup>, afgerond. Het bedrag <strong>Casco per m² vloer</strong> wordt dan niet gebruikt. Vaste startkosten blijven een eigen regel.</div>
+            <field name="disclaimer" readonly="source_state != 'draft'"/>
+            <p>De prijsstatus en commerciële voorwaarden worden op de catalogus beheerd. Deze bedragen zijn exclusief btw.</p>
+          </page>
+          <page string="Leveringsprijzen">
+            <p>Deze prijzen horen bij de leveringsregels die de klantberekening gebruikt. Alleen <strong>Apart geprijsd</strong> voegt een bedrag toe. Bij <strong>per pakket</strong> of <strong>per m²</strong> geldt de prijs van de gekozen uitvoering; de algemene eenheidsprijs wordt dan niet gebruikt. Omvang en grondslag worden op de catalogus gewijzigd.</p>
+            <field name="scope_price_ids" readonly="source_state != 'draft'"><list editable="bottom" create="0" delete="0" limit="100">
+              <field name="currency_id" column_invisible="True"/><field name="name"/><field name="policy_name" optional="show"/><field name="role_name"/><field name="choice_name"/><field name="status_name"/><field name="unit"/><field name="amount"/><field name="allow_credit" optional="hide"/>
+            </list></field>
+          </page>
+          <page string="Keuzes en standaardontwerp">
+            <p>Open een regel om namen, toelichting en standaardkeuze te wijzigen. Bestaande technische optiewaarden blijven behouden; nieuwe producttypes vereisen een passend model en prijsregel.</p>
+            <field name="field_ids" readonly="source_state != 'draft'"><list create="0" delete="0" limit="80"><field name="group_name"/><field name="name"/><field name="default_summary"/></list>
+              <form><sheet>
+                <field name="source_state" invisible="1"/><field name="value_type" invisible="1"/>
+                <group><field name="group_name"/><field name="name" readonly="source_state != 'draft'"/><field name="description" readonly="source_state != 'draft'"/><field name="placeholder" readonly="source_state != 'draft'" invisible="value_type != 'text'"/></group>
+                <group string="Standaardontwerp">
+                  <field name="default_choice_id" invisible="value_type != 'choice'" readonly="source_state != 'draft'" options="{'no_create': True, 'no_open': True}"/>
+                  <field name="default_choice_ids" widget="many2many_tags" invisible="value_type != 'multiple'" readonly="source_state != 'draft'" options="{'no_create': True, 'no_open': True}"/>
+                  <field name="default_integer" invisible="value_type != 'integer'" readonly="source_state != 'draft'"/>
+                  <field name="default_boolean" invisible="value_type != 'boolean'" readonly="source_state != 'draft'"/>
+                  <field name="default_text" invisible="value_type != 'text'" readonly="source_state != 'draft'"/>
+                </group>
+                <field name="choice_ids" invisible="value_type not in ('choice', 'multiple')" readonly="source_state != 'draft'"><list editable="bottom" create="0" delete="0"><field name="name"/><field name="description"/></list></field>
+              </sheet></form>
+            </field>
+          </page>
+          <page string="Maten en vrije ruimte">
+            <p>Alle profielgrenzen gelden voor het huidige indicatieve model. Bereiken kunnen worden verkleind binnen de ondersteunde grenzen. Controleer ook of het standaardontwerp binnen de nieuwe grenzen past.</p>
+            <field name="number_ids" readonly="source_state != 'draft'"><list editable="bottom" create="0" delete="0" limit="120"><field name="name"/><field name="value"/><field name="unit"/></list></field>
+          </page>
+          <page string="Secties en toelichtingen">
+            <field name="text_ids" readonly="source_state != 'draft'"><list editable="bottom" create="0" delete="0"><field name="name"/><field name="value"/></list></field>
+          </page>
+          <page string="Leveringsuitzondering" invisible="source_state != 'draft'">
+            <p>Kies een uitvoering die een eigen leveringsomvang of voorbeeldmodel nodig heeft. De standaardregel wordt volledig gekopieerd; bestaande uitzonderingen worden geopend. Wijzigingen in dit werkblad worden eerst op het concept toegepast.</p>
+            <group><field name="policy_field_id" options="{'no_create': True, 'no_open': True}"/><field name="policy_choice_id" options="{'no_create': True, 'no_open': True}"/></group>
+            <button name="action_create_scope_override" string="Eigen leveringsregel openen" type="object" class="btn-primary"/>
+          </page>
+          <page string="Referentieprijzen">
+            <div class="alert alert-info" role="alert">Dit is het onderliggende referentieprijsboek. Bestaande leveringsregels hebben eigen tarieven: deze tabel wijzigen past die tarieven niet automatisch aan. Wijzig de klantprijs in <strong>Leveringsprijzen</strong>.</div>
+            <field name="reference_price_ids" readonly="source_state != 'draft'"><list editable="bottom" create="0" delete="0" limit="100"><field name="currency_id" column_invisible="True"/><field name="name"/><field name="choice_name"/><field name="unit"/><field name="amount"/></list></field>
+          </page>
+        </notebook>
+      </sheet></form>
+    </field>
+  </record>
+  <record id="action_prefab_catalog" model="ir.actions.act_window"><field name="name">Catalogus en leveringsomvang</field><field name="res_model">cs.prefab.catalog.release</field><field name="view_mode">list,form</field></record>
+  <menuitem id="menu_prefab_catalog" name="Catalogus en levering" parent="menu_prefab_root" action="action_prefab_catalog" sequence="20" groups="sales_team.group_sale_manager"/>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <!--
+            De galerij uit data/projects.json: 36 foto's, in de volgorde van de oude site,
+            gegroepeerd in vijf reeksen. Een reeks draagt alleen wat de bron draagt — dus twee
+            plaatsnamen en verder niets. Naam, jaartal en verhaal blijven leeg.
+
+            Buiten een noupdate-blok, want een <function> daarbinnen draait alleen bij de
+            allereerste installatie en daarna nooit meer — stil. De methode zelf bewaakt de
+            eenmaligheid: ze slaat elk project over dat al een ir.model.data-regel heeft, dus
+            een project dat de klant heeft verwijderd komt niet terug en foto's die ze hebben
+            omgezet blijven staan.
+
+            Draait na data/media_data.xml: de foto's worden gelezen uit dezelfde bestanden die
+            de beeldbank gebruikt, en de bytes zijn identiek — de filestore van Odoo bewaart
+            ze dus één keer, niet twee.
+        -->
+        <function model="cs.prefab.project" name="_cs_prefab_seed_projects"/>
+    </data>
+
+</odoo>

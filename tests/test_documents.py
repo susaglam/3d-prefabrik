@@ -18,7 +18,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "addons" / "cs_prefab_configurator"))
 from services.configuration import canonical_quote_payload
-from services.documents import build_proposal, quote_html, quote_pdf
+from services.documents import build_proposal, document_lines, price_status, quote_html, quote_pdf
 from services.pdf_layout import PAGE_H, PAGE_W
 from services.storage import new_snapshot
 from test_document_visuals import JPEG_BLUE, JPEG_RED, VIEW_LABELS, image_view, quote_payload
@@ -45,6 +45,18 @@ def maximum_contact():
     return {"firstName": "W" * 60, "lastName": "Ş" * 80, "address": "Straat" + "w" * 154,
             "city": "Stad" + "w" * 96, "email": "a" * 64 + "@" + "b" * 184 + ".test",
             "message": " ".join(f"regel{index:03}Ğ" for index in range(300))}
+
+
+def commercial_quote():
+    """A persisted commercial response, independent of today's active catalogue."""
+    quote = saved_quote()
+    quote["snapshot"]["price"].update(
+        priceMode="commercial", priceStatusLabel="Prijsindicatie op goedgekeurde tarieven",
+        pricebookVersion="TARIEVEN-2026-09-GOEDGEKEURD",
+        disclaimer="Vastgelegde voorwaarden: transport binnen Nederland inbegrepen; kraankosten na locatieopname.",
+        commercialApproval={"approvedBy": "INTERNAL-USER-DO-NOT-PUBLISH", "approvedAt": "2026-09-09T10:00:00Z"},
+    )
+    return quote
 
 
 def composed_text(doc):
@@ -130,7 +142,7 @@ class ProposalLayoutTests(unittest.TestCase):
         for width, depth in ((150, 100), (750, 340), (750, 100), (150, 340)):
             for views in (tuple(VIEW_LABELS), None):
                 with self.subTest(width=width, depth=depth, captured=views is not None):
-                    doc = build_proposal(saved_quote(dict(selected, width=width, depth=depth), view_ids=views))
+                    doc = build_proposal(saved_quote(dict(selected, width=width, depth=depth, frontOpening="none"), view_ids=views))
                     self.assert_layout_fits(doc)
                     text = composed_text(doc)
                     self.assertIn(f"Breedte: {width} cm", text)
@@ -140,7 +152,7 @@ class ProposalLayoutTests(unittest.TestCase):
         changes = maximum_contact()
         self.assertEqual(len(changes["message"]), 2999)
         self.assertEqual(len(changes["email"]), 254)
-        quote = saved_quote({"width": 150, "depth": 340}, contact_changes=changes)
+        quote = saved_quote({"width": 150, "depth": 340, "frontOpening": "none"}, contact_changes=changes)
         doc = build_proposal(quote)
         self.assert_layout_fits(doc)
         self.assertGreater(len(doc.pages), len(build_proposal(saved_quote()).pages))
@@ -171,6 +183,61 @@ class ProposalLayoutTests(unittest.TestCase):
                       "1,5251", "€ 123,45", "€ 188,28", "€ 12.345,67"):
             self.assertIn(value, composed_text(doc))
             self.assertIn(value, markup)
+
+    def test_commercial_documents_keep_saved_terms_and_prices_without_demo_copy_or_internal_approval(self):
+        quote = commercial_quote()
+        quote["snapshot"]["price"]["total"] = 4321098
+        before = copy.deepcopy(quote)
+        with ExitStack() as stack:
+            for target in ("services.catalog.get_catalog", "services.catalog.get_pricebook",
+                           "services.pricing.price_config", "services.storage.price_config"):
+                stack.enter_context(patch(target, side_effect=AssertionError("Saved commercial documents must not reprice")))
+            doc = build_proposal(quote)
+            outputs = [composed_text(doc), quote_html(quote).decode(),
+                       "\n".join(text for text, _ in document_lines(quote))]
+        self.assert_layout_fits(doc)
+        self.assertEqual(quote, before)
+        for output in outputs:
+            compact = " ".join(output.split())
+            for expected in (quote["snapshot"]["price"]["priceStatusLabel"],
+                             quote["snapshot"]["price"]["disclaimer"], "€ 43.210,98",
+                             "geen bindende offerte", "technische beoordeling"):
+                self.assertIn(expected, compact)
+            self.assertNotIn("demonstratie", output.lower())
+            self.assertNotIn("demoprijzen", output.lower())
+            self.assertNotIn("INTERNAL-USER-DO-NOT-PUBLISH", output)
+
+    def test_historical_demo_documents_preserve_original_status_and_wording(self):
+        for mode in (None, "demonstration"):
+            with self.subTest(priceMode=mode):
+                quote = saved_quote()
+                price = quote["snapshot"]["price"]
+                price.pop("priceStatusLabel", None)
+                if mode is None:
+                    price.pop("priceMode", None)
+                else:
+                    price["priceMode"] = mode
+                before = copy.deepcopy(quote)
+                doc = build_proposal(quote)
+                text = composed_text(doc)
+                for expected in ("DEMONSTRATIE — GEEN BINDENDE OFFERTE", "Demoprijzen.", "Prijzen zijn demonstratiebedragen."):
+                    self.assertIn(expected, text)
+                self.assertIn("DEMONSTRATIE — GEEN BINDENDE OFFERTE", quote_html(quote).decode())
+                self.assertIn(("DEMONSTRATIE — GEEN BINDENDE OFFERTE", "warning"), document_lines(quote))
+                self.assertEqual(quote, before)
+
+    def test_commercial_terms_are_escaped_and_long_terms_paginate_completely(self):
+        quote = commercial_quote()
+        terms = '<script>alert("approved")</script> & ' + " ".join(f"voorwaarde{index:03}" for index in range(420))
+        quote["snapshot"]["price"]["disclaimer"] = terms
+        doc = build_proposal(quote)
+        self.assert_layout_fits(doc)
+        text = composed_text(doc)
+        for index in range(420):
+            self.assertEqual(text.count(f"voorwaarde{index:03}"), 1)
+        markup = quote_html(quote).decode()
+        self.assertIn(html.escape(terms, quote=True), markup)
+        self.assertNotIn("script", [tag for tag, _ in HtmlInventory(markup).elements])
 
     def test_printable_html_escapes_customer_text_and_has_six_inert_images_and_tables(self):
         message = '<script>alert("x")</script> <img src=x onerror=alert(1)> & "project"'
@@ -220,8 +287,22 @@ class IndependentPdfContractTests(unittest.TestCase):
         for value in ("Şükrü Çağrı", "İstanbul, ığüşöç — €", "Breedte: 501 cm", "Diepte: 299 cm",
                       "AANTAL", "EENH.", "PRIJS / EENH.", "EXCL. BTW", "14,9799", "€ 1.350,00"):
             self.assertIn(value, text)
-        for warning in ("DEMONSTRATIE", "GEEN BINDENDE OFFERTE", "Geen constructie-", "Niet op schaal afdrukken"):
+        for warning in (price_status(quote["snapshot"]["price"]), "Geen constructie-", "Niet op schaal afdrukken"):
             self.assertIn(warning, text)
+
+    def test_commercial_pdf_extraction_retains_approved_price_status_and_nonbinding_review(self):
+        from pypdf import PdfReader
+        quote = commercial_quote()
+        parsed = PdfReader(io.BytesIO(quote_pdf(quote)), strict=True)
+        text = "\n".join(page.extract_text() for page in parsed.pages)
+        compact = " ".join(text.split())
+        self.assertIn(quote["snapshot"]["price"]["priceStatusLabel"], compact)
+        self.assertIn(quote["snapshot"]["price"]["disclaimer"], compact)
+        self.assertIn("geen bindende offerte", compact)
+        self.assertIn("technische beoordeling", compact)
+        self.assertNotIn("demonstratie", compact.lower())
+        self.assertNotIn("demoprijzen", compact.lower())
+        self.assertNotIn("INTERNAL-USER-DO-NOT-PUBLISH", compact)
 
     def test_maximum_length_message_is_complete_in_actual_pdf(self):
         from pypdf import PdfReader
@@ -239,7 +320,7 @@ class IndependentPdfRenderTests(unittest.TestCase):
     def test_actual_text_extents_and_all_pages_render_without_clipping(self):
         import pymupdf
         for views in (tuple(VIEW_LABELS), None):
-            quote = saved_quote({"width": 150, "depth": 340}, view_ids=views, contact_changes=maximum_contact())
+            quote = saved_quote({"width": 150, "depth": 340, "frontOpening": "none"}, view_ids=views, contact_changes=maximum_contact())
             with pymupdf.open(stream=quote_pdf(quote), filetype="pdf") as doc:
                 self.assertGreaterEqual(len(doc), 6)
                 for number, page in enumerate(doc, 1):

@@ -1,5 +1,6 @@
 import { Preview } from './preview.js';
 import { buildGeometry, documentPlanSvg, elevationSvg } from './geometry.js';
+import { getFeatures } from './theme.js';
 
 const BACKGROUND='#fbfaf6';
 const VIEW_SPECS=Object.freeze([
@@ -55,25 +56,44 @@ async function rasterizeSvg(svg,width,height,quality) {
  * so an orbiting camera, hidden roof or active 2D tab can never leak into the saved proposal.
  * No browser screenshot, page content, contact data or external asset is included.
  */
-export async function captureDocumentViews(config,{width=1440,height=960,quality=.88,include3D=true}={}) {
+export async function captureDocumentViews(config,{width=1440,height=960,quality=.88,include3D=true,scope=[],fixtureLayout=null,
+    environment=null,livePreview=null,surroundings=undefined,parts=undefined}={}) {
+    // Proposal images come from the same live raster pipeline the visitor sees: ambient occlusion, scanned
+    // materials, sky and shadows. The second WebGL context doubles the GPU memory in use, so the live preview
+    // gives up its post-processing targets for the duration and gets them back in the finally block.
     const snapshot=JSON.parse(JSON.stringify(config));
-    const configKey=documentConfigKey(snapshot),model=buildGeometry(snapshot),views=[],missingViews=[];
+    // Whether the proposal images stand in a garden or on their own is an ADMIN decision, so it is read here from
+    // the appearance payload (cs.prefab.appearance.document_surroundings → theme.js getFeatures) rather than passed
+    // in by the form: it is not the visitor's to make and there is no control for it. Like every flag in that
+    // object it defaults OFF, which is exactly the customer's "varsayilan gozukmesin" — a 404, a timeout or an
+    // Odoo that predates the field all leave the picture showing the aanbouw alone.
+    const showSurroundings=surroundings===undefined?getFeatures().documentSurroundings===true:surroundings===true;
+    // What stays once the omgeving has gone: the slab, the terras, the doorbraak. Same source, same reason — these
+    // are not the visitor's to decide and there is no control for them. `parts` lets a test ask for one case.
+    const showParts=parts===undefined?getFeatures().documentParts:parts;
+    const configKey=documentConfigKey(snapshot),model=buildGeometry(snapshot,{scope,fixtureLayout}),views=[],missingViews=[];
     width=Math.max(256,Math.min(2000,Math.round(Number(width)||1440)));
     height=Math.max(256,Math.min(2000,Math.round(Number(height)||960)));
     if(width*height>2500000){const reduction=Math.sqrt(2500000/(width*height));width=Math.floor(width*reduction);height=Math.floor(height*reduction);}
     quality=Math.max(.55,Math.min(.93,Number(quality)||.88));
-    let isolated,container;
+    let isolated,container,suspended=false;
     try {
         if(include3D) {
+            suspended=!!livePreview?.suspendComposer?.();
             container=document.createElement('div');container.dataset.documentCapture='true';
             container.setAttribute('aria-hidden','true');container.inert=true;
             container.style.cssText=`position:fixed;left:-20000px;top:0;width:${width}px;height:${height}px;pointer-events:none;overflow:hidden;`;
             document.body.append(container);
             try {
-                isolated=new Preview(container,{pixelRatio:1,observeResize:false,initialConfig:snapshot});
-                if(isolated.renderer&&!isolated.failed){
-                    isolated.scene.background.set(BACKGROUND);isolated.scene.fog.color.set(BACKGROUND);
-                }
+                // The visitor's "Woning & tuin" setting frames the proposal images the same way as the live preview (indicative only).
+                // The live preview already measured this device; without one the isolated Preview measures it itself
+                // (a coarse pointer on a small screen still yields the compact tier, however wide this container is).
+                isolated=new Preview(container,{pixelRatio:1,observeResize:false,initialConfig:snapshot,environment,
+                    quality:livePreview?.quality,preserveDrawingBuffer:true,documentSurroundings:showSurroundings,
+                    documentParts:showParts,gardenFence:livePreview?.gardenFence!==false}); // Vormgeving → Schutting in de tuin
+                isolated.setPlacement(fixtureLayout);
+                isolated.setScope(scope);
+                await isolated.assetsReady;
             } catch { /* The technical drawings remain available on devices without WebGL. */ }
         }
         for(const spec of VIEW_SPECS) {
@@ -81,12 +101,14 @@ export async function captureDocumentViews(config,{width=1440,height=960,quality
                 let dataUrl;
                 if(spec.kind==='3d') {
                     if(!isolated?.setDocumentView(spec.id))throw new Error('3D niet beschikbaar');
-                    // Copy the completed WebGL frame onto an opaque RGB canvas, never the live preview canvas.
+                    // Draw and read back in the same task: preserveDrawingBuffer keeps the frame, but only until the
+                    // browser composites. Copy onto an opaque RGB canvas, never the live preview canvas.
+                    isolated.render();
                     const {canvas,context}=newCanvas(width,height);
                     context.drawImage(isolated.renderer.domElement,0,0,width,height);
                     dataUrl=asJpeg(canvas,quality);
                 } else {
-                    const svg=spec.kind==='plan'?documentPlanSvg(model):elevationSvg(model,spec.id);
+                    const svg=spec.kind==='plan'?documentPlanSvg(model,{scope}):elevationSvg(model,spec.id);
                     dataUrl=await rasterizeSvg(svg,width,height,quality);
                 }
                 views.push(Object.freeze({id:spec.id,label:spec.label,width,height,dataUrl}));
@@ -96,6 +118,7 @@ export async function captureDocumentViews(config,{width=1440,height=960,quality
         }
     } finally {
         isolated?.destroy();container?.remove();
+        if(suspended)livePreview?.resumeComposer?.();
     }
     return Object.freeze({version:1,configKey,views:Object.freeze(views),missingViews:Object.freeze(missingViews)});
 }

@@ -1,6 +1,6 @@
 {
-  "startedAt": "2026-09-09T01:33:02.161Z",
-  "url": "http://127.0.0.1:8078/prefab",
+  "startedAt": "2026-09-19T15:13:14.487Z",
+  "url": "http://127.0.0.1:64639/prefab",
   "tags": [
     "wcag2a",
     "wcag2aa",
@@ -37,9 +37,9 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
+                ".scene-heading > span"
               ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "html": "<span>Aanbouw</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -47,7 +47,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -59,7 +59,7 @@
               "target": [
                 "#preview-size"
               ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "html": "<strong id=\"preview-size\">5,00 × 3,00 m</strong>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -67,7 +67,27 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-scene-view=\"interior\"]"
+              ],
+              "html": "<button data-scene-view=\"interior\" aria-pressed=\"false\">Binnen</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -79,7 +99,7 @@
               "target": [
                 "button[data-mode=\"2d\"]"
               ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\">Plan</button>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -87,7 +107,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -97,9 +117,9 @@
             },
             {
               "target": [
-                ".design-tag"
+                ".rotate-hint"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "html": "<span class=\"rotate-hint\">Sleep om te draaien · scroll om te zoomen</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -107,9 +127,67 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "8.3pt (11px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".strip-toggle-label"
+              ],
+              "html": "<span class=\"strip-toggle-label\">Weergave</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"0\"] > .step-number"
+              ],
+              "html": "<span class=\"step-number\">1</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"0\"] > .step-count"
+              ],
+              "html": "<span class=\"step-count\">1/3 secties</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "6.8pt (9px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -138,12 +216,14 @@
         "form-field-multiple-labels",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "label",
         "link-name",
         "meta-viewport",
         "nested-interactive",
         "role-img-alt",
-        "scrollable-region-focusable"
+        "scrollable-region-focusable",
+        "summary-name"
       ]
     },
     {
@@ -175,9 +255,9 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
+                ".scene-heading > span"
               ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "html": "<span>Aanbouw</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -185,7 +265,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -197,7 +277,7 @@
               "target": [
                 "#preview-size"
               ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "html": "<strong id=\"preview-size\">5,00 × 3,00 m</strong>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -205,7 +285,27 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-scene-view=\"perspective\"]"
+              ],
+              "html": "<button data-scene-view=\"perspective\" class=\"\" aria-pressed=\"false\">Buiten</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -217,7 +317,7 @@
               "target": [
                 "button[data-mode=\"2d\"]"
               ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\">Plan</button>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -225,7 +325,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -235,9 +335,9 @@
             },
             {
               "target": [
-                ".design-tag"
+                ".rotate-hint"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "html": "<span class=\"rotate-hint\">Sleep om te draaien · scroll om te zoomen</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -245,9 +345,48 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "8.3pt (11px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".strip-toggle-label"
+              ],
+              "html": "<span class=\"strip-toggle-label\">Weergave</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"1\"] > .step-number"
+              ],
+              "html": "<span class=\"step-number\">2</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -272,425 +411,17 @@
         "bypass",
         "color-contrast",
         "document-title",
+        "duplicate-id-aria",
         "form-field-multiple-labels",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "label",
         "link-name",
         "meta-viewport",
         "nested-interactive",
         "role-img-alt",
-        "scrollable-region-focusable"
-      ]
-    },
-    {
-      "name": "desktop-step-3",
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "violations": [],
-      "incomplete": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": [
-                ".live-label"
-              ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "#preview-size"
-              ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "button[data-mode=\"2d\"]"
-              ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                ".design-tag"
-              ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "passes": [
-        "aria-allowed-attr",
-        "aria-conditional-attr",
-        "aria-deprecated-role",
-        "aria-hidden-body",
-        "aria-hidden-focus",
-        "aria-prohibited-attr",
-        "aria-required-attr",
-        "aria-roles",
-        "aria-valid-attr-value",
-        "aria-valid-attr",
-        "avoid-inline-spacing",
-        "button-name",
-        "bypass",
-        "color-contrast",
-        "document-title",
-        "form-field-multiple-labels",
-        "html-has-lang",
-        "html-lang-valid",
-        "label",
-        "link-name",
-        "meta-viewport",
-        "nested-interactive",
-        "role-img-alt",
-        "scrollable-region-focusable"
-      ]
-    },
-    {
-      "name": "desktop-step-4",
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "violations": [],
-      "incomplete": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": [
-                ".live-label"
-              ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "#preview-size"
-              ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "button[data-mode=\"2d\"]"
-              ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                ".design-tag"
-              ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "passes": [
-        "aria-allowed-attr",
-        "aria-conditional-attr",
-        "aria-deprecated-role",
-        "aria-hidden-body",
-        "aria-hidden-focus",
-        "aria-prohibited-attr",
-        "aria-required-attr",
-        "aria-roles",
-        "aria-valid-attr-value",
-        "aria-valid-attr",
-        "avoid-inline-spacing",
-        "button-name",
-        "bypass",
-        "color-contrast",
-        "document-title",
-        "form-field-multiple-labels",
-        "html-has-lang",
-        "html-lang-valid",
-        "label",
-        "link-name",
-        "meta-viewport",
-        "nested-interactive",
-        "role-img-alt",
-        "scrollable-region-focusable"
-      ]
-    },
-    {
-      "name": "desktop-step-5",
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "violations": [],
-      "incomplete": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": [
-                ".live-label"
-              ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "#preview-size"
-              ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "button[data-mode=\"2d\"]"
-              ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                ".design-tag"
-              ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "passes": [
-        "aria-allowed-attr",
-        "aria-conditional-attr",
-        "aria-deprecated-role",
-        "aria-hidden-body",
-        "aria-hidden-focus",
-        "aria-prohibited-attr",
-        "aria-required-attr",
-        "aria-roles",
-        "aria-valid-attr-value",
-        "aria-valid-attr",
-        "avoid-inline-spacing",
-        "button-name",
-        "bypass",
-        "color-contrast",
-        "document-title",
-        "form-field-multiple-labels",
-        "html-has-lang",
-        "html-lang-valid",
-        "label",
-        "link-name",
-        "meta-viewport",
-        "nested-interactive",
-        "role-img-alt"
+        "summary-name"
       ]
     },
     {
@@ -722,9 +453,9 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
+                ".scene-heading > span"
               ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "html": "<span>Aanbouw</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -732,7 +463,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -744,7 +475,7 @@
               "target": [
                 "#preview-size"
               ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "html": "<strong id=\"preview-size\">5,00 × 3,00 m</strong>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -752,7 +483,27 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-scene-view=\"perspective\"]"
+              ],
+              "html": "<button data-scene-view=\"perspective\" class=\"\" aria-pressed=\"false\">Buiten</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -764,7 +515,7 @@
               "target": [
                 "button[data-mode=\"2d\"]"
               ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\">Plan</button>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -772,7 +523,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -782,9 +533,9 @@
             },
             {
               "target": [
-                ".design-tag"
+                ".rotate-hint"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "html": "<span class=\"rotate-hint\">Sleep om te draaien · scroll om te zoomen</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -792,9 +543,286 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "8.3pt (11px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".strip-toggle-label"
+              ],
+              "html": "<span class=\"strip-toggle-label\">Weergave</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"1\"] > .step-number"
+              ],
+              "html": "<span class=\"step-number\">2</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"1\"] > .step-count"
+              ],
+              "html": "<span class=\"step-count\">4/4 secties</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "6.8pt (9px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-command-name",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-roles",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "avoid-inline-spacing",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "image-alt",
+        "label",
+        "link-name",
+        "meta-viewport",
+        "nested-interactive",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "summary-name"
+      ]
+    },
+    {
+      "name": "desktop-step-3",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".scene-heading > span"
+              ],
+              "html": "<span>Aanbouw</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#preview-size"
+              ],
+              "html": "<strong id=\"preview-size\">5,00 × 3,00 m</strong>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-scene-view=\"perspective\"]"
+              ],
+              "html": "<button data-scene-view=\"perspective\" class=\"\" aria-pressed=\"false\">Buiten</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-mode=\"2d\"]"
+              ],
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\">Plan</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".rotate-hint"
+              ],
+              "html": "<span class=\"rotate-hint\">Sleep om te draaien · scroll om te zoomen</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".strip-toggle-label"
+              ],
+              "html": "<span class=\"strip-toggle-label\">Weergave</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"2\"] > .step-number"
+              ],
+              "html": "<span class=\"step-number\">3</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"2\"] > .step-count"
+              ],
+              "html": "<span class=\"step-count\">1/1 secties</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "6.8pt (9px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -823,16 +851,18 @@
         "form-field-multiple-labels",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "label",
         "link-name",
         "meta-viewport",
         "nested-interactive",
         "role-img-alt",
-        "scrollable-region-focusable"
+        "scrollable-region-focusable",
+        "summary-name"
       ]
     },
     {
-      "name": "desktop-step-6",
+      "name": "desktop-step-4",
       "viewport": {
         "width": 1440,
         "height": 1000
@@ -860,9 +890,9 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
+                ".scene-heading > span"
               ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "html": "<span>Aanbouw</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -870,7 +900,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -882,7 +912,7 @@
               "target": [
                 "#preview-size"
               ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "html": "<strong id=\"preview-size\">5,00 × 3,00 m</strong>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -890,7 +920,27 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-scene-view=\"perspective\"]"
+              ],
+              "html": "<button data-scene-view=\"perspective\" class=\"\" aria-pressed=\"false\">Buiten</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -902,7 +952,7 @@
               "target": [
                 "button[data-mode=\"2d\"]"
               ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
+              "html": "<button data-mode=\"2d\" aria-pressed=\"false\">Plan</button>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -910,7 +960,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -920,9 +970,9 @@
             },
             {
               "target": [
-                ".design-tag"
+                ".rotate-hint"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "html": "<span class=\"rotate-hint\">Sleep om te draaien · scroll om te zoomen</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -930,84 +980,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "passes": [
-        "aria-allowed-attr",
-        "aria-conditional-attr",
-        "aria-deprecated-role",
-        "aria-hidden-body",
-        "aria-hidden-focus",
-        "aria-prohibited-attr",
-        "aria-required-attr",
-        "aria-roles",
-        "aria-valid-attr-value",
-        "aria-valid-attr",
-        "avoid-inline-spacing",
-        "button-name",
-        "bypass",
-        "color-contrast",
-        "document-title",
-        "form-field-multiple-labels",
-        "html-has-lang",
-        "html-lang-valid",
-        "label",
-        "link-name",
-        "meta-viewport",
-        "nested-interactive",
-        "role-img-alt",
-        "scrollable-region-focusable"
-      ]
-    },
-    {
-      "name": "desktop-step-7",
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "violations": [],
-      "incomplete": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": [
-                ".live-label"
-              ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "8.3pt (11px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1017,9 +990,9 @@
             },
             {
               "target": [
-                "#preview-size"
+                ".strip-toggle-label"
               ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "html": "<span class=\"strip-toggle-label\">Weergave</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1027,7 +1000,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1037,39 +1010,18 @@
             },
             {
               "target": [
-                "button[data-mode=\"2d\"]"
+                "button[data-step=\"3\"] > .step-number"
               ],
-              "html": "<button data-mode=\"2d\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 3h16v18H4ZM4 15h5v6M14 3v7h6\"></path></svg>2D</button>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "html": "<span class=\"step-number\">4</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
               "checks": [
                 {
                   "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
+                  "message": "Element's background color could not be determined due to a pseudo element",
                   "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "8.3pt (11px)",
                     "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                ".design-tag"
-              ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
+                    "messageKey": "pseudoContent",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -1096,13 +1048,16 @@
         "definition-list",
         "dlitem",
         "document-title",
+        "duplicate-id-aria",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "link-name",
         "meta-viewport",
         "nested-interactive",
         "role-img-alt",
-        "scrollable-region-focusable"
+        "scrollable-region-focusable",
+        "summary-name"
       ]
     },
     {
@@ -1112,7 +1067,49 @@
         "height": 1000
       },
       "violations": [],
-      "incomplete": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "#modal-title"
+              ],
+              "html": "<h2 id=\"modal-title\">Maak je persoonlijke voorstel</h2>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it is overlapped by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "16.5pt (22px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "passes": [
         "aria-allowed-attr",
         "aria-conditional-attr",
@@ -1154,7 +1151,8 @@
         "form-field-multiple-labels",
         "label",
         "meta-viewport",
-        "nested-interactive"
+        "nested-interactive",
+        "scrollable-region-focusable"
       ]
     },
     {
@@ -1186,9 +1184,9 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
+                ".scene-heading > span"
               ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
+              "html": "<span>Aanbouw</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1196,7 +1194,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1208,7 +1206,7 @@
               "target": [
                 "#preview-size"
               ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
+              "html": "<strong id=\"preview-size\">5,00 × 3,00 m</strong>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1216,7 +1214,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "10.5pt (14px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1226,9 +1224,9 @@
             },
             {
               "target": [
-                "button[data-mode=\"3d\"]"
+                "button[data-scene-view=\"perspective\"]"
               ],
-              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
+              "html": "<button data-scene-view=\"perspective\" class=\"\" aria-pressed=\"false\">Buiten</button>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1236,7 +1234,27 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-scene-view=\"interior\"]"
+              ],
+              "html": "<button data-scene-view=\"interior\" aria-pressed=\"false\" class=\"\">Binnen</button>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because element contains an image node",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1266,7 +1284,7 @@
             },
             {
               "target": [
-                "text[fill=\"#4d6153\"]"
+                "text[y=\"0\"]"
               ],
               "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
@@ -1286,29 +1304,9 @@
             },
             {
               "target": [
-                "text[y=\"2.18\"]"
+                ".rotate-hint"
               ],
-              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because it is overlapped by another element",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "text[x=\"-3.08\"]"
-              ],
-              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "html": "<span class=\"rotate-hint\">Plattegrond op schaal</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1316,7 +1314,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
+                    "fontSize": "8.3pt (11px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1326,9 +1324,9 @@
             },
             {
               "target": [
-                ".design-tag"
+                ".strip-toggle-label"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
+              "html": "<span class=\"strip-toggle-label\">Weergave</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1336,9 +1334,47 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"0\"] > .step-number"
+              ],
+              "html": "<span class=\"step-number\">1</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"0\"] > .step-count"
+              ],
+              "html": "<span class=\"step-count\">1/3 secties</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "6.8pt (9px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -1367,12 +1403,14 @@
         "form-field-multiple-labels",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "label",
         "link-name",
         "meta-viewport",
         "nested-interactive",
+        "role-img-alt",
         "scrollable-region-focusable",
-        "svg-img-alt"
+        "summary-name"
       ]
     },
     {
@@ -1404,66 +1442,6 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
-              ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "5.3pt (7px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "#preview-size"
-              ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.8pt (9px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "button[data-mode=\"3d\"]"
-              ],
-              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
                 "text[y=\"-.24\"]"
               ],
               "html": "<text x=\"0\" y=\"-.24\" text-anchor=\"middle\" font-size=\".16\" fill=\"#626d59\" font-family=\"system-ui,sans-serif\">BESTAANDE WONING</text>",
@@ -1484,7 +1462,7 @@
             },
             {
               "target": [
-                "text[fill=\"#4d6153\"]"
+                "text[y=\"0\"]"
               ],
               "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
@@ -1504,29 +1482,9 @@
             },
             {
               "target": [
-                "text[y=\"2.18\"]"
+                ".tools-toggle-label"
               ],
-              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because it is overlapped by another element",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "text[x=\"-3.08\"]"
-              ],
-              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "html": "<span class=\"tools-toggle-label\">Opties</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1534,7 +1492,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1544,19 +1502,37 @@
             },
             {
               "target": [
-                ".design-tag"
+                "button[data-step=\"0\"] > .step-number"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "html": "<span class=\"step-number\">1</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
               "checks": [
                 {
                   "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
+                  "message": "Element's background color could not be determined due to a pseudo element",
                   "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "7.5pt (10px)",
                     "fontWeight": "normal",
-                    "messageKey": "imgNode",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"0\"] > .step-short"
+              ],
+              "html": "<span class=\"step-short\">Buiten</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -1585,11 +1561,14 @@
         "form-field-multiple-labels",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "label",
         "link-name",
         "meta-viewport",
         "nested-interactive",
-        "svg-img-alt"
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "summary-name"
       ]
     },
     {
@@ -1621,66 +1600,6 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
-              ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "5.3pt (7px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "#preview-size"
-              ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.8pt (9px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "button[data-mode=\"3d\"]"
-              ],
-              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
                 "text[y=\"-.24\"]"
               ],
               "html": "<text x=\"0\" y=\"-.24\" text-anchor=\"middle\" font-size=\".16\" fill=\"#626d59\" font-family=\"system-ui,sans-serif\">BESTAANDE WONING</text>",
@@ -1701,7 +1620,7 @@
             },
             {
               "target": [
-                "text[fill=\"#4d6153\"]"
+                "text[y=\"0\"]"
               ],
               "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
@@ -1721,29 +1640,9 @@
             },
             {
               "target": [
-                "text[y=\"2.18\"]"
+                ".tools-toggle-label"
               ],
-              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because it is overlapped by another element",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "text[x=\"-3.08\"]"
-              ],
-              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "html": "<span class=\"tools-toggle-label\">Opties</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1751,7 +1650,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1761,19 +1660,37 @@
             },
             {
               "target": [
-                ".design-tag"
+                "button[data-step=\"0\"] > .step-number"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "html": "<span class=\"step-number\">1</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
               "checks": [
                 {
                   "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
+                  "message": "Element's background color could not be determined due to a pseudo element",
                   "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "7.5pt (10px)",
                     "fontWeight": "normal",
-                    "messageKey": "imgNode",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"0\"] > .step-short"
+              ],
+              "html": "<span class=\"step-short\">Buiten</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -1802,11 +1719,14 @@
         "form-field-multiple-labels",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "label",
         "link-name",
         "meta-viewport",
         "nested-interactive",
-        "svg-img-alt"
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "summary-name"
       ]
     },
     {
@@ -1838,66 +1758,6 @@
           "nodes": [
             {
               "target": [
-                ".live-label"
-              ],
-              "html": "<div class=\"live-label\"><span></span> JOUW ONTWERP <small id=\"preview-size\">5,00 × 3,00 m</small></div>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "5.3pt (7px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "#preview-size"
-              ],
-              "html": "<small id=\"preview-size\">5,00 × 3,00 m</small>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "6.8pt (9px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "button[data-mode=\"3d\"]"
-              ],
-              "html": "<button data-mode=\"3d\" class=\"\" aria-pressed=\"false\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8Zm0 19V12M3 8l9 4 9-4M7 5l9 5\"></path></svg>3D</button>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "7.5pt (10px)",
-                    "fontWeight": "normal",
-                    "messageKey": "imgNode",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
                 "text[y=\"-.24\"]"
               ],
               "html": "<text x=\"0\" y=\"-.24\" text-anchor=\"middle\" font-size=\".16\" fill=\"#626d59\" font-family=\"system-ui,sans-serif\">BESTAANDE WONING</text>",
@@ -1918,7 +1778,7 @@
             },
             {
               "target": [
-                "text[fill=\"#4d6153\"]"
+                "text[y=\"0\"]"
               ],
               "html": "<text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"#4d6153\" font-family=\"system-ui,sans-serif\" font-size=\".32\" font-weight=\"500\">15 m²</text>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
@@ -1938,29 +1798,9 @@
             },
             {
               "target": [
-                "text[y=\"2.18\"]"
+                ".tools-toggle-label"
               ],
-              "html": "<text x=\"0\" y=\"2.18\">500 cm</text>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element",
-              "checks": [
-                {
-                  "id": "color-contrast",
-                  "message": "Element's background color could not be determined because it is overlapped by another element",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  }
-                }
-              ]
-            },
-            {
-              "target": [
-                "text[x=\"-3.08\"]"
-              ],
-              "html": "<text x=\"-3.08\" y=\"0\" transform=\"rotate(-90 -3.08 0)\">300 cm</text>",
+              "html": "<span class=\"tools-toggle-label\">Opties</span>",
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
               "checks": [
                 {
@@ -1968,7 +1808,7 @@
                   "message": "Element's background color could not be determined because element contains an image node",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "0.1pt (0.18px)",
+                    "fontSize": "9.8pt (13px)",
                     "fontWeight": "normal",
                     "messageKey": "imgNode",
                     "expectedContrastRatio": "4.5:1"
@@ -1978,19 +1818,137 @@
             },
             {
               "target": [
-                ".design-tag"
+                "button[data-step=\"1\"] > .step-number"
               ],
-              "html": "<span class=\"design-tag\"><svg class=\"icon \" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 3C8 2 1 9 5 16s16 3 15-13ZM4 21l10-12\"></path></svg> Jouw prefab aanbouw</span>",
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "html": "<span class=\"step-number\">2</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
               "checks": [
                 {
                   "id": "color-contrast",
-                  "message": "Element's background color could not be determined because element contains an image node",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "7.5pt (10px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "button[data-step=\"1\"] > .step-short"
+              ],
+              "html": "<span class=\"step-short\">Binnen</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined due to a pseudo element",
+                  "data": {
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#step-title"
+              ],
+              "html": "<h1 tabindex=\"-1\" id=\"step-title\">Richt de binnenzijde in</h1>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "6.0pt (8px)",
+                    "fontSize": "16.5pt (22px)",
                     "fontWeight": "normal",
-                    "messageKey": "imgNode",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".panel-heading > p"
+              ],
+              "html": "<p>Kies de afwerking en de plaatsen voor verwarming en elektra. De leveringsomvang staat bij iedere voorziening.</p>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                ".scope-short"
+              ],
+              "html": "<span class=\"scope-short\">Alles inbegrepen, tenzij anders vermeld</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "#interior-label"
+              ],
+              "html": "<span id=\"interior-label\">Aanbouw binnen</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "11.3pt (15px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  }
+                }
+              ]
+            },
+            {
+              "target": [
+                "fieldset[data-field=\"interior\"] > .field-description"
+              ],
+              "html": "<p class=\"field-description\">Neem de binnenafwerking en aansluitpunten mee in je ontwerp.</p>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "checks": [
+                {
+                  "id": "color-contrast",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
                     "expectedContrastRatio": "4.5:1"
                   }
                 }
@@ -2019,11 +1977,14 @@
         "form-field-multiple-labels",
         "html-has-lang",
         "html-lang-valid",
+        "image-alt",
         "label",
         "link-name",
         "meta-viewport",
         "nested-interactive",
-        "svg-img-alt"
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "summary-name"
       ]
     },
     {
@@ -2069,24 +2030,6 @@
       "foreground": "rgb(77, 97, 83)",
       "background": "#e5e0d3",
       "contrastRatio": 5.058,
-      "required": 4.5,
-      "passed": true,
-      "method": "Computed SVG text fill against its explicit scene background rectangle; WCAG relative luminance."
-    },
-    {
-      "text": "500 cm",
-      "foreground": "rgb(52, 75, 66)",
-      "background": "#f1f0e9",
-      "contrastRatio": 8.238,
-      "required": 4.5,
-      "passed": true,
-      "method": "Computed SVG text fill against its explicit scene background rectangle; WCAG relative luminance."
-    },
-    {
-      "text": "300 cm",
-      "foreground": "rgb(52, 75, 66)",
-      "background": "#f1f0e9",
-      "contrastRatio": 8.238,
       "required": 4.5,
       "passed": true,
       "method": "Computed SVG text fill against its explicit scene background rectangle; WCAG relative luminance."
@@ -3352,11 +3295,11 @@
     }
   },
   "summary": {
-    "scanCount": 15,
+    "scanCount": 12,
     "violationCount": 0,
-    "explicitContrastCount": 4,
+    "explicitContrastCount": 2,
     "explicitContrastFailures": 0,
     "byRule": {}
   },
-  "finishedAt": "2026-09-09T01:33:18.332Z"
+  "finishedAt": "2026-09-19T15:13:37.607Z"
 }

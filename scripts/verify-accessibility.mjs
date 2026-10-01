@@ -76,7 +76,7 @@ async function persist(){
 
 try{
     const executable=process.env.CHROMIUM_PATH||[
-        join(homedir(),'.cache/ms-playwright/chromium-1234/chrome-linux64/chrome'),
+        join(homedir(),'AppData/Local/ms-playwright/chromium-1217/chrome-win64/chrome.exe'),join(homedir(),'.cache/ms-playwright/chromium-1234/chrome-linux64/chrome'),
         join(homedir(),'.cache/ms-playwright/chromium-1217/chrome-linux64/chrome'),
     ].find(existsSync);
     const env={...process.env},lib='/tmp/cs-psk-browser-libs/extracted/usr/lib/x86_64-linux-gnu';
@@ -92,9 +92,9 @@ try{
     await page.goto(`${base}/prefab`);await page.waitForSelector('#preview-scene canvas');
     await expect(page.locator('.price-value')).not.toHaveClass(/pending/);
     const step=async number=>{await page.locator(`.step-tab[data-step="${number}"]`).click();await expect(page.locator('#step-title')).toBeVisible();};
-    for(let number=0;number<7;number++){
+    for(let number=0;number<4;number++){
         await step(number);await scan(page,`desktop-step-${number+1}`);
-        if(number===4){await page.locator('input[name="interior"][value="true"]').locator('..').click();await scan(page,'desktop-interior-options');}
+        if(number===1){await page.locator('input[name="interior"][value="true"]').locator('..').click();for(const group of await page.locator('.choice-group').all())if(await group.getAttribute('open')===null)await group.locator(':scope > summary').click();await scan(page,'desktop-interior-options');}
     }
     await page.locator('[data-action="contact"]').click();await expect(page.locator('#quote-form')).toBeVisible();
     await scan(page,'desktop-contact-modal');
@@ -102,11 +102,11 @@ try{
     await expect(page.locator('#contact-firstName')).toHaveAttribute('aria-invalid','true');
     await scan(page,'desktop-contact-validation');
     await page.keyboard.press('Escape');
-    await page.locator('[data-mode="2d"]').click();await step(0);await scan(page,'desktop-2d-plan');await checkSvgContrast(page);
+    await step(0);await page.locator('[data-mode="2d"]').click();await expect(page.locator('.prefab-plan')).toBeVisible();await scan(page,'desktop-2d-plan');await checkSvgContrast(page);
     await page.setViewportSize({width:390,height:844});await scan(page,'mobile390-initial');
-    await step(2);await scan(page,'mobile390-opening-options');
-    await step(4);await scan(page,'mobile390-interior-options');
-    await step(6);await page.locator('[data-action="contact"]').click();await scan(page,'mobile390-contact-modal');
+    await step(0);await page.locator('details[data-group=facade]').evaluate(el=>el.open=true);await scan(page,'mobile390-opening-options');
+    await step(1);for(const group of await page.locator('.choice-group').all())if(await group.getAttribute('open')===null)await group.locator(':scope > summary').click();await scan(page,'mobile390-interior-options');
+    await step(3);await page.locator('[data-action="contact"]').click();await scan(page,'mobile390-contact-modal');
     results.finishedAt=new Date().toISOString();await persist();
     console.log(JSON.stringify({scans:results.summary.scanCount,violations:results.summary.violationCount,
         explicitContrastChecks:results.summary.explicitContrastCount,explicitContrastFailures:results.summary.explicitContrastFailures,

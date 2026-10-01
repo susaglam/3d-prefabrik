@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Prefab Partner</title>
+  <desc id="desc">Een prefab aanbouw met plat dak, gevelpanelen en een brede glazen pui.</desc>
+  <rect x="8" y="8" width="112" height="112" rx="22" fill="#1a1a1a"/>
+  <path d="M25 43 36 33h56l11 10H25Z" fill="#fff6ed"/>
+  <path d="M25 48h65v46H25V48Z" fill="#fff6ed"/>
+  <path d="M95 48h8v46h-8V48Z" fill="#e9521d"/>
+  <path d="M35 58h45v36H35V58Z" fill="#1a1a1a"/>
+  <path d="M55 58h5v36h-5V58Z" fill="#fff6ed"/>
+  <path d="M25 94h78v5H25v-5Z" fill="#e9521d"/>
+</svg>

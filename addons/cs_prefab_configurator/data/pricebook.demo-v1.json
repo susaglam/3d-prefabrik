@@ -1,5 +1,5 @@
 {
-  "pricebookVersion": "DEMO-2026-09-v1",
+  "pricebookVersion": "DEMO-2026-09-v2",
   "currency": "EUR",
   "priceMode": "demonstration",
   "disclaimer": "Demonstratieprijzen, geen commercieel aanbod. Bedragen zijn indicatief inclusief 21% btw. Definitieve prijs na inmeting, constructieve beoordeling en controle van bereikbaarheid. Vergunningen, leges, aansluiting op bestaande installaties en aanvullend herstel zijn niet inbegrepen.",
@@ -29,7 +29,8 @@
     },
     "roofEdge": {
       "aluminium": 0,
-      "anthracite": 25000
+      "anthracite": 25000,
+      "zinc": 45000
     },
     "frontOpening": {
       "none": 0,
@@ -52,7 +53,10 @@
       "lean-4": 385000,
       "gable-4": 450000,
       "gable-6": 570000,
-      "gable-8": 690000
+      "gable-8": 690000,
+      "lean-5": 455000,
+      "gable-2": 280000,
+      "gable-10": 810000
     },
     "outsideLight": {
       "none": 0,
@@ -63,20 +67,27 @@
     "outsideSocket": {
       "none": 0,
       "left": 15000,
-      "right": 15000
+      "right": 15000,
+      "both": 28000,
+      "double-left": 20000,
+      "double-right": 20000,
+      "double-both": 38000
     },
     "outsideTap": {
       "none": 0,
       "left": 45000,
-      "right": 45000
+      "right": 45000,
+      "both": 85000
     },
     "drainMaterial": {
       "pvc": 0,
-      "zinc": 45000
+      "zinc": 45000,
+      "pvc-black": 18000
     },
     "drainSide": {
       "left": 0,
-      "right": 0
+      "right": 0,
+      "both": 18000
     },
     "plaster": {
       "false": 0,
@@ -99,7 +110,8 @@
     "ceilingLights": {
       "0": 0,
       "1": 15000,
-      "2": 28000
+      "2": 28000,
+      "3": 42000
     },
     "switches": {
       "0": 0,
@@ -119,7 +131,10 @@
       "9": 76500,
       "10": 85000,
       "11": 93500,
-      "12": 102000
+      "12": 102000,
+      "13": 110500,
+      "14": 119000,
+      "15": 127500
     },
     "sockets": {
       "none": 0,
@@ -140,12 +155,47 @@
       "3": 270000,
       "4": 350000,
       "6": 510000
+    },
+    "greenRoof": {
+      "false": 0,
+      "true": 12000
+    },
+    "overhang": {
+      "none": 0,
+      "pvc-white": 185000,
+      "pvc-anthracite": 195000,
+      "wood-white": 205000
+    },
+    "roofShade": {
+      "false": 0,
+      "true": 85000
+    },
+    "painting": {
+      "false": 0,
+      "true": 9500
+    },
+    "openingMaterial": {
+      "unspecified": 0,
+      "pvc": 0,
+      "aluminium": 75000,
+      "wood": 65000
+    },
+    "overhangSpots": {
+      "0": 0,
+      "1": 8500,
+      "2": 17000,
+      "3": 25500,
+      "4": 34000,
+      "5": 42500,
+      "6": 51000
     }
   },
   "perM2": [
     "facade",
     "plaster",
     "screed",
-    "underfloorHeating"
+    "underfloorHeating",
+    "greenRoof",
+    "painting"
   ]
 }

@@ -14,7 +14,7 @@ test('centimetres become metres once, with consistent garden-facing coordinates'
 });
 
 test('an opening removes front wall solids throughout its clear area',()=>{
-    for(const type of ['french-black','sliding-2-white','sliding-4-black','folding-white']){
+    for(const type of ['none','french-black','sliding-2-white','sliding-4-black','folding-white']){
         const m=buildGeometry({frontOpening:type,width:500});const o=m.opening;
         for(const wall of m.walls.filter(w=>w.key.startsWith('front'))){
             const intersectsX=overlaps(wall.center[0]-wall.size[0]/2,wall.center[0]+wall.size[0]/2,-o.width/2,o.width/2);
@@ -24,10 +24,22 @@ test('an opening removes front wall solids throughout its clear area',()=>{
     }
 });
 
-test('no front opening is an uninterrupted front wall and no door panels',()=>{
-    const m=buildGeometry({frontOpening:'none'});
-    assert.equal(m.panels.length,0);assert.equal(m.opening.kind,'none');
-    assert.ok(m.walls.some(w=>w.key==='front'));
+test('"geen kozijn" is a skeleton opening: a real aperture, no leaves, sized like the 2-leaf schuifpui',()=>{
+    // The customer fits their own frame later, so the extension keeps the rough opening a sliding-2 would get here.
+    for(const [width,expected] of [[150,.6],[230,1.4],[410,3.2],[500,3.2],[750,3.2]]){
+        const m=buildGeometry({width,frontOpening:'none'}),sliding=buildGeometry({width:Math.max(width,230),frontOpening:'sliding-2-black'});
+        assert.equal(m.opening.kind,'none');assert.equal(m.opening.skeleton,true);
+        assert.equal(m.panels.length,0);assert.equal(m.opening.panelCount,0);
+        assert.ok(Math.abs(m.opening.width-expected)<1e-9,`${width}: ${m.opening.width} != ${expected}`);
+        assert.equal(m.opening.height,2.3);assert.equal(m.opening.bottom,.07);
+        if(width>=230)assert.ok(Math.abs(m.opening.width-sliding.opening.width)<1e-9,`${width} matches sliding-2`);
+        // The front wall is piers plus a header, never one closed panel; both piers keep the 45 cm minimum.
+        assert.deepEqual(m.walls.map(w=>w.key).sort(),['front-header','front-left','front-right','left','right']);
+        for(const key of ['front-left','front-right'])assert.ok(m.walls.find(w=>w.key===key).size[0]>=.45-1e-9,key);
+    }
+    // A fitted kozijn stays exactly where it was: same span table, same pier minimum.
+    assert.equal(buildGeometry({width:500,frontOpening:'french-black'}).opening.width,2.2);
+    assert.equal(buildGeometry({width:500,frontOpening:'sliding-2-black'}).opening.skeleton,false);
 });
 
 test('door panel families preserve counts, span and selected colour/grid',()=>{
@@ -60,6 +72,9 @@ test('minimum valid 150 by 100 cm is neither enlarged nor priced as a different 
         assert.ok(m.walls.every(w=>w.size.every(n=>Number.isFinite(n)&&n>0)));
         assert.ok(m.roof.every(w=>w.size.every(n=>Number.isFinite(n)&&n>0)));
         assert.ok(m.panels.every(p=>p.width>0));
+        // Even at the narrowest extension the aperture is real (60 cm between two 45 cm piers) and never negative.
+        assert.ok(m.opening.width>0&&m.opening.width<=1.5-.9+1e-9,`${frontOpening}: ${m.opening.width}`);
+        assert.equal(m.panels.length,frontOpening==='none'?0:m.opening.panelCount);
         assert.match(planSvg(m),/150 cm/);assert.match(planSvg(m),/100 cm/);
     }
 });
@@ -85,7 +100,8 @@ test('gable has two opposing slopes and a common ridge; lean has one slope',()=>
         assert.ok(p.points.some(point=>Math.abs(point[2]-g.z)<1e-9&&Math.abs(point[1]-(g.baseY+g.rise))<1e-9));
     }
     const lean=buildGeometry({rooflight:'lean-3'}).rooflight;
-    assert.ok(lean.panels.every(p=>p.points[2][1]>p.points[0][1]));
+    // Lean-to glass is high against the house (back, -z) and falls toward the garden.
+    assert.ok(lean.panels.every(p=>p.points[0][1]>p.points[2][1]&&p.points[0][2]<p.points[2][2]));
 });
 
 test('drain and exterior conduit positions reflect explicit garden-facing sides',()=>{

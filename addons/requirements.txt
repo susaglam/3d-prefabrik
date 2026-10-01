@@ -1,0 +1,2 @@
+# The supplied Coolify image reads this root file at container startup.
+-r cs_prefab_configurator/requirements.txt

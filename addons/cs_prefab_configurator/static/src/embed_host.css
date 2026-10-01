@@ -1,0 +1,56 @@
+/* The host page's frame box. Loaded by the page that embeds the configurator, not by the
+   configurator itself, and deliberately NOT part of any Odoo asset bundle: bundles are per
+   instance, so a bundle entry would be downloaded and parsed on every page of every website on
+   this Odoo in order to be used on two of them.
+
+   This file, not the script, is what makes the embed work. The postMessage channel only ever
+   raises `min-height`; if the script is blocked, fails or is served to a browser that cannot run
+   it, the heights below are what the visitor gets, and they are chosen to be workable on their
+   own rather than to be a placeholder until JavaScript arrives.
+
+   Why a clamp and not a reported content height: the configurator is a viewport application.
+   `body` is `overflow:hidden`, the workspace is `height:100%` and the choices panel scrolls inside
+   itself, so the page has no natural height to report — it fills whatever box it is given. A frame
+   sized from `scrollHeight` therefore either collapses or oscillates against the layout's own dvh
+   rules. The host page owns the height; the frame only advises a floor.
+
+   The numbers:
+     620px  the two-column desktop workspace with more than the panel heading visible
+     100dvh the visitor's real viewport, dvh rather than vh so a phone's collapsing URL bar
+            does not leave a frame taller than the screen
+     140px  the sticky site header (96px, the same value prefab_site.scss uses for
+            scroll-padding-top) plus 44px of air above the frame
+     980px  beyond this the frame stops growing; a configurator taller than this on a very tall
+            monitor is all whitespace inside the preview
+      96px  the mobile subtraction: header only, because on a phone the frame should take the
+            screen it is given
+     560px  the stacked phone layout with the preview at 35dvh and a usable panel under it */
+
+.o_prefab_embed {
+    position: relative;
+}
+
+.o_prefab_embed iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+    height: clamp(620px, calc(100dvh - 140px), 980px);
+    /* A frame whose src is still loading is otherwise a white rectangle with no edges. */
+    background-color: #F4F4F2;
+}
+
+@media (max-width: 900px) {
+    .o_prefab_embed iframe {
+        height: calc(100dvh - 96px);
+        min-height: 560px;
+    }
+}
+
+/* The way out of the frame: for anyone whose browser refuses to render it, for a screen reader
+   user who would rather have the configurator as its own document, and as the honest answer to
+   "the embed is broken on my device". */
+.o_prefab_embed_escape {
+    display: block;
+    margin-top: .75rem;
+    font-size: .875rem;
+}

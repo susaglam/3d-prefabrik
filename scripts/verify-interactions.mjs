@@ -8,7 +8,7 @@ import {homedir} from 'node:os';
 import {join} from 'node:path';
 
 const origin=process.env.PREFAB_TEST_ORIGIN||'http://127.0.0.1:8078';
-const executablePath=process.env.CHROMIUM_PATH||process.env.PREFAB_CHROMIUM||[join(homedir(),'.cache/ms-playwright/chromium-1234/chrome-linux64/chrome'),join(homedir(),'.cache/ms-playwright/chromium-1217/chrome-linux64/chrome')].find(existsSync);
+const executablePath=process.env.CHROMIUM_PATH||process.env.PREFAB_CHROMIUM||[join(homedir(),'AppData/Local/ms-playwright/chromium-1217/chrome-win64/chrome.exe'),join(homedir(),'.cache/ms-playwright/chromium-1234/chrome-linux64/chrome'),join(homedir(),'.cache/ms-playwright/chromium-1217/chrome-linux64/chrome')].find(existsSync);
 const output=new URL('../docs/verification/',import.meta.url);await mkdir(output,{recursive:true});
 const sourceFiles=['app.js','model.js','geometry.js'];
 async function hashes(){return Object.fromEntries(await Promise.all(sourceFiles.map(async name=>[name,createHash('sha256').update(await readFile(new URL(`../addons/cs_prefab_configurator/static/src/${name}`,import.meta.url))).digest('hex')])));}
@@ -29,7 +29,7 @@ async function loaded(page,path='/prefab') {
  await page.goto(`${origin}${path}`);await page.waitForFunction(()=>window.__prefabPreview,{timeout:20000});
  await page.locator('.price-value:not(.pending)').waitFor({timeout:15000});
 }
-async function contactForm(page){await page.locator('nav [data-step="6"]').click();await page.locator('[data-action="contact"]:not([disabled])').click();}
+async function contactForm(page){await page.locator('nav [data-step="3"]').click();await page.locator('[data-action="contact"]:not([disabled])').click();}
 async function fillContact(page) {
  const values={firstName:'Audit',lastName:'Review',email:'audit@example.test',phone:'+31612345678',address:'Voorbeeldstraat',houseNumber:'12',postcode:'1234 AB',city:'Utrecht'};
  for(const[key,value]of Object.entries(values))await page.locator(`#contact-${key}`).fill(value);
@@ -37,15 +37,15 @@ async function fillContact(page) {
 }
 try{
  await check('native radio arrows and counters keep focus after rerender',async page=>{
-  await loaded(page);await page.locator('nav [data-step="1"]').click();
+  await loaded(page);await page.locator('nav [data-step="0"]').click();
   await page.locator('input[name=facade]').first().focus();await page.keyboard.press('ArrowRight');
   let focus=await page.evaluate(()=>({name:document.activeElement.name,value:document.activeElement.value}));assert.deepEqual(focus,{name:'facade',value:'brick-black'});
   await page.keyboard.press('ArrowRight');focus=await page.evaluate(()=>({name:document.activeElement.name,value:document.activeElement.value}));assert.deepEqual(focus,{name:'facade',value:'brick-white'});
-  await page.locator('nav [data-step="4"]').click();await page.locator('input[name=interior][value=true]').check();
-  await page.locator('[data-count=spotlights][data-delta="1"]').click();assert.equal(await page.locator('#spotlights').inputValue(),'1');
-  const counter=await page.evaluate(()=>({key:document.activeElement.dataset.count,delta:document.activeElement.dataset.delta}));assert.deepEqual(counter,{key:'spotlights',delta:'1'});
-  await page.keyboard.press('Enter');assert.equal(await page.locator('#spotlights').inputValue(),'2');
-  return {radio:focus,counter,spotlights:2};
+  await page.locator('nav [data-step="1"]').click();await page.locator('input[name=interior][value=true]').check();
+  await page.locator('details[data-group=wall] > summary').click();await page.locator('[data-count=switches][data-delta="1"]').click();assert.equal(await page.locator('#switches').inputValue(),'1');
+  const counter=await page.evaluate(()=>({key:document.activeElement.dataset.count,delta:document.activeElement.dataset.delta}));assert.deepEqual(counter,{key:'switches',delta:'1'});
+  await page.keyboard.press('Enter');assert.equal(await page.locator('#switches').inputValue(),'2');
+  return {radio:focus,counter,switches:2};
  });
  await check('edited shared design survives reload as a private local draft',async page=>{
   await loaded(page);
@@ -77,17 +77,17 @@ try{
   return {failedStateVisible:true,recoveredWidth:620,priceRestored:true};
  });
  await check('review summary edit links return to the selected section',async page=>{
-  await loaded(page);await page.locator('nav [data-step="6"]').click();
-  await page.locator('.summary-section [data-step="1"]').click();
-  assert.equal(await page.locator('nav [aria-current=step]').getAttribute('data-step'),'1');
+  await loaded(page);await page.locator('nav [data-step="3"]').click();
+  await page.locator('.summary-section [data-step="0"]').click();
+  assert.equal(await page.locator('nav [aria-current=step]').getAttribute('data-step'),'0');
   assert.ok(await page.locator('input[name=facade]').count()>0);
-  return {targetStep:1,facadeChoicesVisible:true};
+  return {targetStep:0,facadeChoicesVisible:true};
  });
  await check('malformed draft is sanitized and smallest valid geometry matches the price dimensions',async(page,context)=>{
-  await context.addInitScript(version=>localStorage.setItem('cs-prefab-design-v1',JSON.stringify({version,config:{width:150,depth:100,piles:5,postcode:'1234 AB',contact:{email:'hidden@example.test'},facade:'<img src=x>'}})),schemaVersion);
+  await context.addInitScript(version=>localStorage.setItem('cs-prefab-design-v1',JSON.stringify({version,config:{width:150,depth:100,frontOpening:'none',piles:5,postcode:'1234 AB',contact:{email:'hidden@example.test'},facade:'<img src=x>'}})),schemaVersion);
   await loaded(page);assert.equal(await page.locator('#width').inputValue(),'150');assert.equal(await page.locator('#depth').inputValue(),'100');
   const geometry=await page.evaluate(()=>window.__prefabPreview.getSceneInfo());assert.equal(geometry.width,1.5);assert.equal(geometry.depth,1);assert.equal(geometry.area,1.5);
-  await page.locator('nav [data-step="5"]').click();assert.equal(await page.locator('input[name=piles]:checked').inputValue(),'3');
+  await page.locator('nav [data-step="2"]').click();assert.equal(await page.locator('input[name=piles]:checked').inputValue(),'3');
   assert.match(await page.locator('.price-value').innerText(),/€/);
   return {width:1.5,depth:1,area:1.5,invalidPilesRestoredToDefault:3};
  });

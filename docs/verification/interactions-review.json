@@ -1,15 +1,15 @@
 {
   "ok": true,
-  "origin": "http://127.0.0.1:8079",
+  "origin": "http://127.0.0.1:8078",
   "sourceHashesBefore": {
-    "app.js": "9320099c0377c946486371bb385c2dee14869a1369a8f347f306969b43209d1a",
-    "model.js": "35a02cf71128e4fc1d6d5db65a8deb7b508d249455aebd035f17eb3e2820a8a4",
-    "geometry.js": "b981d6b690a4cdbdd268ccc2ea29ac6567096d321d7e4f55fb6d6306e5de217b"
+    "app.js": "d92669606e3da8e9de761cbdeb30cc4420750fdd67cd02da9b57b33f8044ba23",
+    "model.js": "d1420eff6eb0fe3dde143bc11309a91e8db20e0ab85ce7e828525a2398c3a4ac",
+    "geometry.js": "e24e106dd5feb2fb562a88d59effd43d0a55de526a225a2fb1851cb7761613bf"
   },
   "sourceHashesAfter": {
-    "app.js": "9320099c0377c946486371bb385c2dee14869a1369a8f347f306969b43209d1a",
-    "model.js": "35a02cf71128e4fc1d6d5db65a8deb7b508d249455aebd035f17eb3e2820a8a4",
-    "geometry.js": "b981d6b690a4cdbdd268ccc2ea29ac6567096d321d7e4f55fb6d6306e5de217b"
+    "app.js": "d92669606e3da8e9de761cbdeb30cc4420750fdd67cd02da9b57b33f8044ba23",
+    "model.js": "d1420eff6eb0fe3dde143bc11309a91e8db20e0ab85ce7e828525a2398c3a4ac",
+    "geometry.js": "e24e106dd5feb2fb562a88d59effd43d0a55de526a225a2fb1851cb7761613bf"
   },
   "sourceStable": true,
   "checks": [
@@ -22,10 +22,10 @@
           "value": "brick-white"
         },
         "counter": {
-          "key": "spotlights",
+          "key": "switches",
           "delta": "1"
         },
-        "spotlights": 2
+        "switches": 2
       }
     },
     {
@@ -60,7 +60,7 @@
       "name": "review summary edit links return to the selected section",
       "ok": true,
       "details": {
-        "targetStep": 1,
+        "targetStep": 0,
         "facadeChoicesVisible": true
       }
     },
