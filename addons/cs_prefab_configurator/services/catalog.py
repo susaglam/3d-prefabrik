@@ -66,6 +66,9 @@ def _mentions_retired(bundle):
         prices = ((bundle.get("pricebook") or {}).get("optionPrices") or {}).get(key) or {}
         if retired.keys() & prices.keys():
             return True
+    for constraint in catalog.get("constraints") or []:
+        if constraint.get("field") in RETIRED_FIELDS or RETIRED_FIELDS & set(constraint.get("fields") or ()):
+            return True
     return any(field.get("key") in RETIRED_FIELDS or (field.get("visibleWhen") or {}).get("field") in RETIRED_FIELDS
                or any(option.get("id") in RETIRED_VALUES.get(field.get("key"), {}) for option in field.get("options") or [])
                for group in catalog.get("groups") or [] for field in group.get("fields") or [])
@@ -74,9 +77,9 @@ def _mentions_retired(bundle):
 def retire_legacy_fields(bundle):
     """Return the release without retired fields, so an older publication needs no admin republication.
 
-    Removes the default, the field itself, any visibleWhen link to it, its option prices and its supply policy. The
-    stored revision is kept: the content served under it merely loses a choice the application no longer supports.
-    Bundles without retired fields are returned untouched (no copy).
+    Removes the default, the field itself, any visibleWhen link to it, its name inside a dependent-choice rule, its
+    option prices and its supply policy. The stored revision is kept: the content served under it merely loses a
+    choice the application no longer supports. Bundles without retired fields are returned untouched (no copy).
     """
     if not _mentions_retired(bundle):
         return bundle
@@ -95,6 +98,23 @@ def retire_legacy_fields(bundle):
         if choices:
             for value in retired:
                 choices.pop(value, None)
+    # Dependent-choice rules name fields too, and validate_release() compares the constraint list for EQUALITY
+    # against the shipped baseline. Leaving a retired name inside a rule is therefore not cosmetic: it makes an
+    # older publication unpublishable. Measured on production 2026-10-02 -- the live catalogue's single resetWhen
+    # rule still listed wallLights and wallLightControl, and that one difference refused the republication.
+    # A rule whose own trigger field is retired, or whose reset list empties out, goes with it.
+    if "constraints" in catalog:
+        kept = []
+        for constraint in catalog["constraints"]:
+            if constraint.get("field") in RETIRED_FIELDS:
+                continue
+            if "fields" in constraint:
+                fields = [key for key in constraint["fields"] if key not in RETIRED_FIELDS]
+                if not fields:
+                    continue
+                constraint = dict(constraint, fields=fields)
+            kept.append(constraint)
+        catalog["constraints"] = kept
     for group in catalog.get("groups") or []:
         group["fields"] = [field for field in group.get("fields") or [] if field.get("key") not in RETIRED_FIELDS]
         for field in group["fields"]:

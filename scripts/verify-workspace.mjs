@@ -31,7 +31,7 @@ try{
  const step=async value=>page.locator(`nav [data-step="${value}"]`).click();
  await load();
  const moduleRequests=await page.evaluate(()=>performance.getEntriesByType('resource').map(entry=>entry.name).filter(url=>url.includes('/static/src/')&&/\.js(?:\?|$)/.test(url)));
- expect(moduleRequests.filter(url=>new URL(url).searchParams.get('v')!=='2.16.0')).toEqual([]);
+ expect(moduleRequests.filter(url=>new URL(url).searchParams.get('v')!=='2.16.2')).toEqual([]);
  record('Every loaded source module uses the current release cache version');
 
  await select('outsideTap','left');await expect(page.locator('.price-value')).not.toHaveClass(/pending/);

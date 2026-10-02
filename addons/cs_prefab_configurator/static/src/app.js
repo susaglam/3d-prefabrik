@@ -335,6 +335,19 @@ function stepProgress(index){const list=visibleGroups(index);return {done:list.f
 /** Keeps one id per step in expandedGroups (other code adds ids freely) and counts the open section as visited. */
 function resolveOpenGroup(index=step){const ids=visibleGroups(index).map(group=>group.id),open=openGroupId(expandedGroups,ids);for(const id of ids)if(id!==open)expandedGroups.delete(id);if(open)visited().add(open);return open;}
 function refreshSectionStatus(){for(const group of visibleGroups()){const node=$('[data-group="'+group.id+'"] > summary .section-status');if(node)node.outerHTML=statusMarkup(group);}updateTabs();}
+/**
+ * The choices on the card that is OPEN are being looked at: the visitor either opened it themselves or the cursor
+ * walked them there and scrolled it to the top. The IntersectionObserver cannot see that on a phone — its root margin
+ * discounts the bottom 25% of a panel only ~376 px tall, so a field on the open card never counted as read and the
+ * cursor kept pointing at the card the visitor was already standing on. Measured live, kozijn card open:
+ * 390 px said "nog 9 keuzes · Naar Kozijn" where 1440 px said "nog 8 · Naar Daklicht". The flow may not depend on
+ * screen size; the observer still earns its keep on a tall panel where several cards are visible at once.
+ */
+function markOpenGroupSeen(id){
+ const group=visibleGroups().find(entry=>entry.id===id);
+ if(!group)return;
+ for(const key of groupKeys(group))if(choiceVisible(key))markSeen(key);
+}
 /** Opening a section closes the others of the step; the clicked header stays where the finger was. */
 function openSection(details,open){
  const id=details.dataset.group;expandedGroups.delete(id);
@@ -343,7 +356,7 @@ function openSection(details,open){
  const summary=details.querySelector(':scope > summary'),panel=$('#panel-content'),top=summary?.getBoundingClientRect().top;
  for(const other of document.querySelectorAll('details.choice-group[open]'))if(other!==details)other.open=false;
  if(panel&&summary&&Number.isFinite(top))panel.scrollTop+=summary.getBoundingClientRect().top-top;
- refreshSectionStatus();
+ refreshSectionStatus();markOpenGroupSeen(id);
 }
 /**
  * THE CURSOR. The footer's primary button walks the visitor to their next CHOICE and only becomes "verder naar
@@ -488,6 +501,7 @@ function openChoiceSection(id){
  target.open=true;expandedGroups.delete(id);expandedGroups.add(id);visited().add(id);refreshSectionStatus();
  tweenPanelTo(panel.scrollTop+summary.getBoundingClientRect().top-panel.getBoundingClientRect().top-12);
  summary.focus({preventScroll:true});
+ markOpenGroupSeen(id);
  return true;
 }
 /** Focus moves with preventScroll because the tween owns the scrolling; a named <fieldset>/role=group IS the announcement, so there is no toast and no extra live region. */
@@ -530,7 +544,10 @@ function renderStep(focus=false) {
  const policy=step<3?scopeNote('policy',SCOPE_POLICY,true):''; // the "Inbegrepen" rule, once per choice step
  $('#panel-content').innerHTML='<div class="panel-heading"><h1 tabindex="-1" id="step-title">'+esc(item.title)+'</h1><p>'+esc(item.description)+'</p>'+policy+'</div><div class="panel-fields">'+content+'</div>';
  $('#panel-content').scrollTop=0;
- renderFooter();observeChoices();
+ // The open card counts as seen the moment the step is on screen, for the same reason it does when the visitor opens
+ // one: at load nothing fires a toggle event, so on a phone the very first press of the forward button was spent
+ // marking the card already open ("Naar Gevelbekleding" while Gevelbekleding was open, measured live at 390 px).
+ renderFooter();observeChoices();markOpenGroupSeen(currentOpenGroup());
  document.querySelectorAll('[data-focus-option],[data-action="material-detail"]').forEach(button=>button.disabled=currentMode==='2d');
  if(focus)$('#step-title').focus({preventScroll:true});
 }
@@ -1010,7 +1027,7 @@ function renderErrors(){
 function refreshFields(keys){
  preservePanelPosition(()=>{for(const key of keys){const field=$('[data-field="'+CSS.escape(key)+'"]');if(field)field.outerHTML=renderField(key);}});
  document.querySelectorAll('[data-focus-option],[data-action="material-detail"]').forEach(button=>button.disabled=currentMode==='2d');
- observeChoices(); // The replaced nodes are new elements; the old ones were being watched.
+ observeChoices();markOpenGroupSeen(currentOpenGroup()); // The replaced nodes are new elements; the old ones were being watched.
 }
 function updateResolvedScope() {
  preview?.setScope?.(!pricePending&&!priceError?price?.scope||[]:[]);

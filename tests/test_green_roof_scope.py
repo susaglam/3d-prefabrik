@@ -9,6 +9,7 @@ Two things can break silently when the green roof is re-modelled in the browser 
    manifest; this proves the same manifest from the other side, in the language that ships the addon, and adds the
    licence rule the JS test cannot state: no asset without a recorded origin and licence URL.
 """
+import copy
 import json
 from pathlib import Path
 import re
@@ -16,7 +17,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "addons" / "cs_prefab_configurator"))
-from services.catalog import get_catalog
+from services.catalog import default_release, get_catalog, make_release, retire_legacy_fields, validate_release
 from services.pricing import price_config
 
 ADDON = Path(__file__).resolve().parents[1] / "addons" / "cs_prefab_configurator"
@@ -41,6 +42,39 @@ class GreenRoofScopeTests(unittest.TestCase):
         result = price_config({"greenRoof": True, "roofShade": True})
         self.assertEqual([item for item in result["scope"] if item["key"] in {"greenRoof", "roofShade"}], [])
         self.assertNotIn("greenRoof", result["config"])
+
+    def test_a_dependent_choice_rule_that_still_names_a_retired_field_is_cleaned_and_publishes(self):
+        """Measured on production, 2026-10-02: republishing the live catalogue was REFUSED with
+        "wijzigingen in afhankelijke keuzes vereisen een aangepaste modelversie".
+
+        validate_release compares `catalog["constraints"]` for equality against the shipped baseline, and the live
+        catalogue's single resetWhen rule still listed `wallLights` and `wallLightControl` among the fields it wipes
+        when the interior is not configured. retire_legacy_fields cleaned defaults, fields, visibleWhen, prices and
+        policies — but not the rule — so the mismatch stood and the administrator could not publish so much as a new
+        default. Both halves are under test here: a bundle whose ONLY retired residue is inside a rule must be
+        detected as needing retirement at all, and the rule must come back without those names.
+        """
+        legacy = copy.deepcopy(default_release())
+        rule = legacy["catalog"]["constraints"][0]
+        self.assertEqual(rule["type"], "resetWhen")
+        rule["fields"] = rule["fields"] + ["wallLights", "wallLightControl"]
+        cleaned = make_release(legacy["catalog"], legacy["pricebook"], legacy["policies"])
+        self.assertEqual(cleaned["catalog"]["constraints"], default_release()["catalog"]["constraints"],
+                         "the rule must come back exactly as the shipped one")
+        validate_release(cleaned)  # raises DomainError if it would be refused
+
+    def test_a_rule_whose_own_trigger_or_whole_reset_list_is_retired_goes_with_it(self):
+        """The two cases the field-by-field cleaning above cannot express: a rule nobody can trigger any more, and a
+        rule with nothing left to reset. Both are dropped, because a rule naming only retired fields is dead weight
+        that would also keep the constraint list from matching the baseline.
+        """
+        legacy = copy.deepcopy(default_release())
+        legacy["catalog"]["constraints"] = [
+            {"type": "resetWhen", "field": "greenRoof", "equals": False, "fields": ["plaster"], "message": "x"},
+            {"type": "resetWhen", "field": "interior", "equals": False, "fields": ["wallLights"], "message": "y"},
+        ]
+        cleaned = retire_legacy_fields(legacy)
+        self.assertEqual(cleaned["catalog"]["constraints"], [])
 
     def test_no_green_roof_scope_row_when_the_option_is_off(self):
         result = price_config({"greenRoof": False})

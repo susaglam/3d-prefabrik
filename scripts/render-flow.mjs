@@ -34,8 +34,14 @@ try {
     // Walk three choices with the primary button, then read what "back" offers.
     const walk = [];
     for (let i = 0; i < 3; i++) {
+      const before = (await open()).card;
       await page.click('.step-actions .button:last-child');
-      await page.waitForTimeout(450);
+      // Wait for the card to actually change, not for a guess at how long it takes. A fixed 450 ms
+      // read the phone one tick early and recorded the PREVIOUS step's button ("nog 9 keuzes · Naar
+      // Kozijn" while kozijn was already open) -- a capture that lags makes a wrong flow look right.
+      await page.waitForFunction(card => document.querySelector('details.choice-group[open]')?.dataset.group !== card,
+                                 before, {timeout: 15000});
+      await page.waitForTimeout(250);  // the label under the button follows the card by one frame
       walk.push(await open());
     }
     await page.screenshot({path: join(out, `third-choice-${tag}.png`)});
