@@ -133,10 +133,14 @@ export function buildFixture(fixture,appearance,material) {
         for(const x of [-.16,.16])cylinder(.012,.06,x,centre-height/2-.03,.052,metal);
         cylinder(.02,.055,.16,centre-height/2-.035,.078,metal,[Math.PI/2,0,0]);
     }else if(fixture.kind==='tap'){
-        cylinder(.041,.025,0,0,.015,metal,[Math.PI/2,0,0]);
-        tube([[0,0,.02],[0,0,.085],[0,-.015,.13],[0,-.08,.14]],.013);
-        cylinder(.016,.065,0,.033,.072,metal);
-        cylinder(.01,.09,0,.071,.072,metal,[0,0,Math.PI/2]);
+        // 2.16.0: a modern wall tap — a slim round rose, a straight spout and a single lever, instead of the old
+        // cross-handle garden cock. Nothing is sold here (the customer does not supply taps); it is the connection
+        // that is being shown, so it should read as the tap somebody would actually put on a new wall.
+        cylinder(.032,.014,0,0,.009,metal,[Math.PI/2,0,0]);
+        cylinder(.026,.052,0,0,.04,metal,[Math.PI/2,0,0]);
+        tube([[0,0,.062],[0,-.004,.10],[0,-.05,.115],[0,-.105,.118]],.011);
+        cylinder(.013,.028,0,.034,.052,metal);
+        box(.016,.011,.085,0,.045,.082,metal);
     }else if(fixture.kind==='socket'||fixture.kind==='switch'){
         const count=fixture.double?2:1;
         box(count*.08,.083,.016,0,0,.018);

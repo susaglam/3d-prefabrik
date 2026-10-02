@@ -28,6 +28,9 @@ const SHOTS = {
   'base-front': (b, H) => [[b.left + 1.1, .5, b.front + 1.9], [b.left + .4, -.02, b.front]],
   // Where the house's own facade meets the grass beside the aanbouw: the corner the customer circled.
   'base-house': (b, H) => [[b.left - 1.7, .5, b.front + .7], [b.left - .5, -.05, b.back - .1]],
+  // The rollaag over the opening, and the outdoor tap on the side wall (2.16.0).
+  'rollaag': (b, H) => [[.7, H - .2, b.front + 2.6], [0, H - .45, b.front]],
+  'tap': (b, H) => [[b.right - .15, .92, b.front + 1.05], [b.right - .55, .62, b.front]],
   'house-corner': (b, H) => [[b.right + 2.2, 2.3, b.front + 3.2], [b.right + .4, 2.2, b.back]],
   'house-roof': (b, H) => [[b.right + 1.5, H + 3.2, b.front + 5.5], [0, H + 2.4, b.back - 1.5]],
   'wide': (b, H) => [[b.right + 4.5, 3.4, b.front + 7.5], [0, 1.6, b.back + .8]],
@@ -36,7 +39,8 @@ const rows = [];
 try {
   const context = await browser.newContext({viewport: {width: 1200, height: 800}});
   await context.addInitScript(({config, version, environment}) => { localStorage.setItem('cs-prefab-design-v1', JSON.stringify({version, config})); localStorage.setItem('cs-prefab-environment-v1', JSON.stringify(environment)); },
-    {config: {...catalog.defaults, width: 500, depth: 300, overhang, drainSide: 'right', ...(process.env.ROOF_EDGE ? {roofEdge: process.env.ROOF_EDGE} : {})}, version: catalog.schemaVersion, environment: {houseType}});
+    // ROOF_CONFIG='{"outsideTap":"right"}' overrides any catalogue field for the shot.
+    {config: {...catalog.defaults, width: 500, depth: 300, overhang, drainSide: 'right', ...(process.env.ROOF_EDGE ? {roofEdge: process.env.ROOF_EDGE} : {}), ...JSON.parse(process.env.ROOF_CONFIG || '{}')}, version: catalog.schemaVersion, environment: {houseType}});
   const page = await context.newPage();
   await page.goto(`${origin}/prefab`, {waitUntil: 'networkidle', timeout: 90000});
   await page.waitForFunction(() => window.__prefabPreview?.renderer);

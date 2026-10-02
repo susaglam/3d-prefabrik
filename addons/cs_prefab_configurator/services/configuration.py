@@ -6,7 +6,7 @@ import re
 import unicodedata
 import uuid
 
-from .catalog import RETIRED_FIELDS, get_catalog, model_assets
+from .catalog import RETIRED_FIELDS, RETIRED_VALUES, get_catalog, model_assets
 from .document_visuals import canonical_document_visuals
 from .errors import DomainError
 from .geometry_rules import apply_mounting_rules, validate_profile_selection
@@ -48,6 +48,9 @@ def canonical_config(value):
     errors = {}
     # A browser that loaded a catalogue before an upgrade may still send a retired field; ignore it like the client does.
     value = {key: val for key, val in value.items() if key not in RETIRED_FIELDS}
+    # A saved design or an older browser may still carry a retired VALUE of a field that stayed (2.16.0: the double
+    # outdoor socket). It becomes the single socket on the same side rather than an error the visitor cannot act on.
+    value = {key: RETIRED_VALUES.get(key, {}).get(val, val) if isinstance(val, str) else val for key, val in value.items()}
     unknown = set(value) - set(catalog["defaults"])
     if unknown:
         errors["config"] = "Onbekende configuratievelden: " + ", ".join(sorted(unknown)[:10])
@@ -78,9 +81,14 @@ def canonical_config(value):
         raise DomainError("Controleer de aangegeven configuratievelden.", fields=errors)
     # Validate all supplied values first, then erase options hidden by branch logic.
     for constraint in catalog["constraints"]:
+        # A constraint may name a field the catalogue no longer offers (RETIRED_FIELDS): it resets what is still there
+        # and skips the rest, instead of failing over a choice nobody can make any more.
+        if constraint["field"] not in config:
+            continue
         if constraint["type"] == "resetWhen" and config[constraint["field"]] == constraint["equals"]:
             for key in constraint["fields"]:
-                config[key] = copy.deepcopy(catalog["defaults"][key])
+                if key in config:
+                    config[key] = copy.deepcopy(catalog["defaults"][key])
     if catalog.get("schemaVersion") != 2:
         return config
     opening = config["frontOpening"]
@@ -95,14 +103,14 @@ def canonical_config(value):
         config["painting"] = False
     if config["overhang"] == "none":
         config["overhangSpots"] = 0
-    if config["rooflight"] not in {"lean-1", "lean-2", "lean-3"}:
+    if "roofShade" in config and config["rooflight"] not in {"lean-1", "lean-2", "lean-3"}:
         config["roofShade"] = False
     for control, selected in (("outsideLightControl", config["outsideLight"] != "none"),
                               ("ceilingLightControl", bool(config["ceilingPositions"])),
                               ("spotControl", bool(config["spotPositions"])),
-                              ("wallLightControl", bool(config["wallLights"])),
+                              ("wallLightControl", bool(config.get("wallLights"))),
                               ("overhangSpotControl", bool(config["overhangSpots"]))):
-        if not selected:
+        if not selected and control in config:
             config[control] = catalog["defaults"][control]
     return config
 
@@ -119,7 +127,8 @@ def normalize_positions(config, supplied):
         config["socketPositions"] = {"none": [], "left": ["L1"], "right": ["R1"], "both": ["L1", "R1"]}[config["sockets"]]
     if not config["interior"]:
         for key in ("ceilingPositions", "spotPositions", "socketPositions", "wallLights"):
-            config[key] = []
+            if key in config:
+                config[key] = []
     rules = get_catalog().get("geometryRules")
     if rules and rules.get("version") == 1:
         apply_mounting_rules(config, rules, model_assets(config), asset_revision=get_catalog().get("assetRevision"))
@@ -149,7 +158,8 @@ def normalize_positions(config, supplied):
     if config["heating"] in {"right", "both"}:
         blocked_wall.add("R3")
     for key in ("wallLights", "socketPositions"):
-        config[key] = [p for p in config[key] if p not in blocked_wall]
+        if key in config:
+            config[key] = [p for p in config[key] if p not in blocked_wall]
     _sync_position_counts(config)
 
 

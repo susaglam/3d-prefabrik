@@ -42,14 +42,13 @@ class GeometryProfileTests(unittest.TestCase):
         release["policies"]["heating"]["assetKey"] = "heating-panel"
         release["policies"]["ceilingLights"]["assetKey"] = "ceiling-dome"
         validate_release(release)
-        config = {"interior": True, "heating": "left", "socketPositions": ["L3"], "wallLights": ["L3"], "ceilingPositions": ["center"]}
+        config = {"interior": True, "heating": "left", "socketPositions": ["L3"], "ceilingPositions": ["center"]}
         vertical = price_config(config)
         self.assertEqual(vertical["config"]["socketPositions"], [])
         with release_context(release):
             panel = price_config(config)
             shallow = price_config(dict(config, depth=230))
         self.assertEqual(panel["config"]["socketPositions"], ["L3"])
-        self.assertEqual(panel["config"]["wallLights"], ["L3"])
         radiator = next(i for i in panel["scope"] if i["key"] == "heating")
         self.assertEqual(radiator["assetKey"], "heating-panel")
         self.assertFalse(radiator["productIncluded"])

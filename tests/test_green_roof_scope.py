@@ -16,6 +16,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "addons" / "cs_prefab_configurator"))
+from services.catalog import get_catalog
 from services.pricing import price_config
 
 ADDON = Path(__file__).resolve().parents[1] / "addons" / "cs_prefab_configurator"
@@ -24,16 +25,22 @@ MATERIALS = ADDON / "static" / "src" / "assets" / "materials"
 
 
 class GreenRoofScopeTests(unittest.TestCase):
-    def test_the_priced_scope_row_and_the_scene_agree_on_the_greenRoof_key(self):
-        result = price_config({"greenRoof": True})
-        row = next(item for item in result["scope"] if item["key"] == "greenRoof")
-        self.assertEqual(row["assetKey"], "greenRoof")
-        self.assertEqual(row["value"], "Sedumdak")
-        self.assertTrue(row["components"], "the option is priced")
-        source = PREVIEW.read_text(encoding="utf-8")
-        body = source[source.index("makeGreenRoof(m) {"):source.index("buildRoofEdge(m,facade){")]
-        self.assertIn("mesh.userData.scopeKey='greenRoof'", body,
-                      "every build-up layer must carry the scope key the priced row is keyed on")
+    def test_the_green_roof_is_retired_from_the_offer_and_from_the_price(self):
+        """2.16.0, the customer: "geen groen dak". The option is not offered, not priced, and a design that still
+        asks for one is served without it instead of being refused — services/catalog.py RETIRED_FIELDS.
+
+        The build-up itself (preview.js makeGreenRoof, its scopeKey and its textures) is left in place, dormant: it
+        costs a retired release nothing and a later customer who does want a sedum roof gets it back by name.
+        """
+        catalog = get_catalog()
+        self.assertNotIn("greenRoof", catalog["defaults"], "no default for a choice that cannot be made")
+        offered = {field["key"] for group in catalog["groups"] for field in group["fields"]}
+        self.assertNotIn("greenRoof", offered)
+        self.assertNotIn("roofShade", offered, "zonwering went with it")
+        self.assertNotIn("wallLights", offered, "and so did wall lighting")
+        result = price_config({"greenRoof": True, "roofShade": True})
+        self.assertEqual([item for item in result["scope"] if item["key"] in {"greenRoof", "roofShade"}], [])
+        self.assertNotIn("greenRoof", result["config"])
 
     def test_no_green_roof_scope_row_when_the_option_is_off(self):
         result = price_config({"greenRoof": False})

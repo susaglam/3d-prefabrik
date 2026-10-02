@@ -1262,6 +1262,21 @@ export class Preview {
         if(!m.screed){const joint=this.material('floor-joint',{color:'#6d6e69',roughness:1});for(let x=b.left+m.wall+.6;x<b.right-m.wall;x+=1.2)this.box(this.root,[.004,.002,m.depth-m.wall],[x,.093,-m.wall/2],joint,{shadow:false});}
         // "Geen rollaag wit/zwart": the wall above the frame is itself the panel — flush, touching the frame — not a plate.
         const panel=this.rollaagPanel(m);
+        // A masonry rollaag is a course of bricks standing on end over the opening, in the same facade as the rest of
+        // the wall, and the wall above it carries on as before (2.16.0: "tam kapı üstündeki kısımda tuğlalar 1 sıra
+        // dikey olarak yerleştiriliyor, dikine, seçilen yüzey materyali ile aynı renkte"). Until now it was drawn as
+        // ordinary brickwork, so the customer paid for something that was nowhere in the picture. The course is the
+        // facade material with its UVs turned a quarter: the same brick, on end, with its own joints.
+        if(!panel&&m.opening.width>0&&m.facade.startsWith('brick')){
+            const o=m.opening,course=.21,at=[0,o.bottom+o.height+course/2,m.bounds.front+.014];
+            const stand=this.box(this.root,[o.width+.02,course,.028],at,facade);
+            const {periodX,periodY}=this.facadePeriods(m.facade);
+            metricUVs(stand.geometry,at,periodY,periodX);
+            const uv=stand.geometry.attributes.uv;
+            for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getY(i),uv.getX(i));
+            uv.needsUpdate=true;
+            stand.name='rollaag-course';stand.userData={surface:'rollaag',scopeKey:'rollaag'};
+        }
         for(const wall of m.walls){
             if(wall.key==='front-header'&&panel)this.box(this.root,wall.size,wall.center,panel).userData={surface:'rollaag',scopeKey:'rollaag'};
             // A masonry rollaag has no panel: the strip above the frame is brickwork. It is still the rollaag choice,
@@ -1317,7 +1332,9 @@ export class Preview {
         // The room across the doorbraak gets its own bounce inside makeExistingRoom, where the room depth is known.
         this.houseFill=null;
         // A real rectangular opening remains between the four roof solids.
-        if(m.rooflight.panelCount)this.makeRooflight(m,frame,this.materials.get('glass-rooflight'),white);
+        // 2.16.0: the lessenaar and the lichtkoepel are white, always — they are a different product from the pui and
+        // followed its colour only because they were handed the same material ("kleur van de lessenaars niet aanpassen").
+        if(m.rooflight.panelCount)this.makeRooflight(m,this.material('rooflight-frame',{color:'#eeece5',roughness:.45,metalness:.12}),this.materials.get('glass-rooflight'),white);
         if(m.greenRoof)this.makeGreenRoof(m);
         this.buildRoofEdge(m,facade);
         const pipe=this.material(`pipe:${m.drain.material}`,{color:m.drain.material==='zinc'?'#a6aaa3':m.drain.material==='pvc-black'?'#303638':'#777b77',metalness:m.drain.material==='zinc'?.72:.05,roughness:.4});
@@ -3019,23 +3036,15 @@ export class Preview {
             total:+(((this.hoverCost?.total||0)+cost)).toFixed(3),max:Math.max(this.hoverCost?.max||0,+cost.toFixed(3))};
         this.setHighlight(pick);
     }
-    /** One reusable outline box on the scene (never on `root`, which buildScene releases wholesale). */
-    ensureHighlight() {
-        if(this.highlight)return this.highlight;
-        const unit=new THREE.BoxGeometry(1,1,1);
-        const fill=new THREE.Mesh(unit,new THREE.MeshBasicMaterial({color:'#f2c48a',transparent:true,opacity:.085,depthTest:false,depthWrite:false,toneMapped:false,side:THREE.DoubleSide}));
-        const edges=new THREE.LineSegments(new THREE.EdgesGeometry(unit),new THREE.LineBasicMaterial({color:'#e8a34e',transparent:true,opacity:.8,depthTest:false,depthWrite:false,toneMapped:false}));
-        const group=new THREE.Group();group.name='scene-highlight';group.visible=false;
-        fill.renderOrder=60;edges.renderOrder=61;group.add(fill,edges);
-        fill.userData.ownedMaterial=true;edges.userData.ownedMaterial=true;
-        // Never part of the picture the customer is judging: out of the AO G-buffer, out of the raycast.
-        group.userData={noPick:true,excludeFromAO:true};
-        this.scene.add(group);this.highlight=group;return group;
-    }
-    /** Drop the highlight without drawing: the object it framed is about to be disposed by a rebuild. */
+    /**
+     * What the visitor is told about the part under the cursor (2.16.0, the customer: "objelerin üstüne geldiğimizde
+     * çıkan sarımsı obje seçim belirteci olmasın"). The amber box that used to be drawn around it is gone: it sat in
+     * front of the very material somebody was judging and turned a brick wall orange. The pointer cursor stays — that
+     * is the affordance that says "this opens a choice" — and `hoverKey` still travels to the form, which highlights
+     * the field instead. Nothing is drawn in the picture any more.
+     */
     clearHighlight() {
         this.hoverCarrier=null;this.hoverKey=null;
-        if(this.highlight)this.highlight.visible=false;
         if(this.renderer?.domElement)this.renderer.domElement.style.cursor='';
     }
     setHighlight(pick) {
@@ -3043,13 +3052,7 @@ export class Preview {
         if(carrier===this.hoverCarrier&&key===this.hoverKey)return;
         this.hoverCarrier=carrier;this.hoverKey=key;
         if(this.renderer?.domElement)this.renderer.domElement.style.cursor=carrier?'pointer':'';
-        if(!carrier){if(this.highlight)this.highlight.visible=false;this.render();return;}
-        const group=this.ensureHighlight(),box=new THREE.Box3().setFromObject(carrier);
-        if(box.isEmpty()){group.visible=false;this.render();return;}
-        const size=box.getSize(new THREE.Vector3()),centre=box.getCenter(new THREE.Vector3());
-        group.position.copy(centre);
-        group.scale.set(Math.max(size.x,.012)+.024,Math.max(size.y,.012)+.024,Math.max(size.z,.012)+.024);
-        group.visible=true;this.render();
+        this.render();
     }
     setDecorVisible(value){this.decorVisible=!!value;if(this.decorGroup)this.decorGroup.visible=this.decorVisible;this.shadowsDirty=true;this.render();}
     /**

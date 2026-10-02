@@ -88,7 +88,7 @@ def _legacy_mounting_state(config, rules, assets=None):
     width, depth, wall = config["width"], config["depth"], rules["wallThicknessCm"]
     back, front = -depth / 2, depth / 2
     gap, edge, roof_gap = (rules["clearanceCm"][key] for key in ("fixture", "wallEdge", "roof"))
-    allowed = {"ceilingPositions": list(CEILING), "spotPositions": list(SPOTS), "wallLights": list(WALL), "socketPositions": list(WALL), "heating": ["none", "left", "right", "both"]}
+    allowed = {key: value for key, value in {"ceilingPositions": list(CEILING), "spotPositions": list(SPOTS), "wallLights": list(WALL), "socketPositions": list(WALL), "heating": ["none", "left", "right", "both"]}.items() if key in config or key == "heating"}
     issues = []
     def exclude(field, position, code, message):
         if position in allowed[field]:
@@ -132,7 +132,7 @@ def _legacy_mounting_state(config, rules, assets=None):
     heating_sides = set()
     if config["heating"] in allowed["heating"]:
         heating_sides = {"L", "R"} if config["heating"] == "both" else {"L"} if config["heating"] == "left" else {"R"} if config["heating"] == "right" else set()
-    for field, half_width, center_y, half_height in (("socketPositions", 4.2, 35, 4.2), ("wallLights", 3.75, 185, 8.5)):
+    for field, half_width, center_y, half_height in [entry for entry in (("socketPositions", 4.2, 35, 4.2), ("wallLights", 3.75, 185, 8.5)) if entry[0] in allowed]:
         for position in WALL:
             z = wall_z[position]
             if not (back + edge <= z - half_width and z + half_width <= front - wall - edge):
@@ -141,7 +141,8 @@ def _legacy_mounting_state(config, rules, assets=None):
                 exclude(field, position, "radiator_clearance", "Deze positie overlapt de radiator of zijn vrije montageruimte.")
     if not config["interior"]:
         for field in ("ceilingPositions", "spotPositions", "socketPositions", "wallLights"):
-            allowed[field] = []
+            if field in allowed:
+                allowed[field] = []
         allowed["heating"] = ["none"]
     return {"allowedPositions": allowed, "positionIssues": issues}
 
@@ -253,7 +254,7 @@ def mounting_state(config, rules, assets=None, *, asset_revision=None):
     width, depth, height, wall = config["width"], config["depth"], config.get("height", 280), rules["wallThicknessCm"]
     left, right, back, front = -width / 2, width / 2, -depth / 2, depth / 2
     gap, edge, roof_gap = (rules["clearanceCm"][key] for key in ("fixture", "wallEdge", "roof"))
-    allowed = {"ceilingPositions": list(CEILING), "spotPositions": list(SPOTS), "wallLights": list(WALL), "socketPositions": list(WALL), "heating": ["none", "left", "right", "both"]}
+    allowed = {key: value for key, value in {"ceilingPositions": list(CEILING), "spotPositions": list(SPOTS), "wallLights": list(WALL), "socketPositions": list(WALL), "heating": ["none", "left", "right", "both"]}.items() if key in config or key == "heating"}
     issues = []
     def exclude(field, position, code, message):
         if position in allowed[field]:
@@ -271,7 +272,7 @@ def mounting_state(config, rules, assets=None, *, asset_revision=None):
     if config["heating"] not in allowed["heating"]:
         heating_sides = set()
     radiator_half_width, radiator_half_height, radiator_center = radiator_envelope((assets or {}).get("heating"))
-    for field, point_key, half_width, half_height in (("socketPositions", "socket", 4.2, 4.2), ("wallLights", "light", 3.75, 8.5)):
+    for field, point_key, half_width, half_height in [entry for entry in (("socketPositions", "socket", 4.2, 4.2), ("wallLights", "light", 3.75, 8.5)) if entry[0] in allowed]:
         for position in WALL:
             _, y, z = layout["wallPositions"][position][point_key]
             if not (back + edge <= z - half_width and z + half_width <= front - wall - edge and edge <= y - half_height and y + half_height <= height - edge):
@@ -331,7 +332,8 @@ def mounting_state(config, rules, assets=None, *, asset_revision=None):
                 exclude(field, value, "exterior_space", "Er is onvoldoende vrije gevelruimte voor deze buitenvoorziening.")
     if not config["interior"]:
         for field in ("ceilingPositions", "spotPositions", "socketPositions", "wallLights"):
-            allowed[field] = []
+            if field in allowed:
+                allowed[field] = []
         allowed["heating"] = ["none"]
     return {"allowedPositions": allowed, "positionIssues": issues, "fixtureLayout": layout}
 
@@ -341,7 +343,8 @@ def apply_mounting_rules(config, rules, assets=None, *, asset_revision=None):
     if config["heating"] not in state["allowedPositions"]["heating"]:
         config["heating"] = "none"
     for field in ("ceilingPositions", "spotPositions", "socketPositions", "wallLights"):
-        config[field] = [position for position in config[field] if position in state["allowedPositions"][field]]
+        if field in config and field in state["allowedPositions"]:
+            config[field] = [position for position in config[field] if position in state["allowedPositions"][field]]
     for field in ("outsideLight", "outsideSocket", "outsideTap"):
         if field in state["allowedPositions"] and config[field] not in state["allowedPositions"][field]:
             config[field] = "none"

@@ -49,11 +49,11 @@ class ModelPolicyRetryTests(unittest.TestCase):
                 release = default_release()
                 release["catalog"]["assetRevision"] = revision
                 release["policies"]["heating"]["assetKey"] = "heating-panel"
-                request = payload({"interior": True, "heating": "left", "socketPositions": ["L3"], "wallLights": ["L3"]})
+                request = payload({"interior": True, "heating": "left", "socketPositions": ["L3"]})
                 with release_context(release), patch("services.storage.new_snapshot", historical_snapshot):
                     original = self.repo.create_quote(request)
                 self.assertEqual(original["price"]["config"]["socketPositions"], ["L3"])
-                self.assertEqual(original["price"]["config"]["wallLights"], ["L3"])
+                self.assertEqual(original["price"]["config"]["socketPositions"], ["L3"])
                 self.assertNotIn("modelPolicies", self.repo.get_quote(original["token"])["snapshot"])
                 self.assert_retry_unchanged(request, original)
                 changed = copy.deepcopy(request)
@@ -66,7 +66,7 @@ class ModelPolicyRetryTests(unittest.TestCase):
         release["policies"]["heating"]["choices"] = {
             "right": dict(copy.deepcopy(release["policies"]["heating"]), assetKey="heating")}
         release["policies"]["ceilingLights"]["assetKey"] = "ceiling-dome"
-        request = payload({"interior": True, "heating": "left", "socketPositions": ["L3"], "wallLights": ["L3"]})
+        request = payload({"interior": True, "heating": "left", "socketPositions": ["L3"]})
         with release_context(release):
             original = self.repo.create_quote(request)
         frozen = self.repo.get_quote(original["token"])["snapshot"]
@@ -79,7 +79,7 @@ class ModelPolicyRetryTests(unittest.TestCase):
         changed_release["pricebook"]["basePerM2"] += 10000
         with release_context(changed_release):
             self.assert_retry_unchanged(request, original)
-            for field, value in (("heating", "right"), ("width", 501), ("wallLights", [])):
+            for field, value in (("heating", "right"), ("width", 501), ("socketPositions", [])):
                 changed = copy.deepcopy(request)
                 changed["config"][field] = value
                 self.assert_conflict(changed)

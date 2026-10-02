@@ -319,12 +319,12 @@
     },
     {
      "id": "outsideSocket",
-     "label": "Buiten stopcontact · Voorbereiding: Dubbel links en rechts",
+     "label": "Buiten stopcontact · Voorbereiding: Enkel links en rechts",
      "quantity": 1.0,
      "role": "preparation",
-     "total": 38000,
+     "total": 28000,
      "unit": "post",
-     "unitPrice": 38000
+     "unitPrice": 28000
     },
     {
      "id": "outsideTap",
@@ -453,15 +453,6 @@
      "unitPrice": 510000
     },
     {
-     "id": "greenRoof",
-     "label": "Groen dak · Product: Sedumdak",
-     "quantity": 25.5,
-     "role": "product",
-     "total": 306000,
-     "unit": "m²",
-     "unitPrice": 12000
-    },
-    {
      "id": "overhang",
      "label": "Overstek · Product: Hout wit gegrond",
      "quantity": 1.0,
@@ -496,15 +487,6 @@
      "total": 34000,
      "unit": "post",
      "unitPrice": 34000
-    },
-    {
-     "id": "wallLights",
-     "label": "Posities wandlicht · Voorbereiding: Links 1, Rechts 1",
-     "quantity": 2.0,
-     "role": "preparation",
-     "total": 30000,
-     "unit": "stuk",
-     "unitPrice": 15000
     }
    ],
    "scope": [
@@ -636,13 +618,13 @@
        "role": "preparation",
        "status": "extra",
        "statusLabel": "Apart geprijsd",
-       "total": 38000,
+       "total": 28000,
        "unit": "post",
-       "unitPrice": 38000
+       "unitPrice": 28000
       },
       {
        "label": "Product",
-       "quantity": 4.0,
+       "quantity": 2.0,
        "role": "product",
        "status": "excluded",
        "statusLabel": "Niet inbegrepen",
@@ -652,7 +634,7 @@
       },
       {
        "label": "Montage",
-       "quantity": 4.0,
+       "quantity": 2.0,
        "role": "installation",
        "status": "excluded",
        "statusLabel": "Niet inbegrepen",
@@ -662,7 +644,7 @@
       },
       {
        "label": "Aansluiting",
-       "quantity": 4.0,
+       "quantity": 2.0,
        "role": "connection",
        "status": "excluded",
        "statusLabel": "Niet inbegrepen",
@@ -1097,21 +1079,6 @@
      "components": [
       {
        "label": "Product",
-       "quantity": 25.5,
-       "role": "product",
-       "status": "extra",
-       "statusLabel": "Apart geprijsd",
-       "total": 306000,
-       "unit": "m²",
-       "unitPrice": 12000
-      }
-     ],
-     "key": "greenRoof"
-    },
-    {
-     "components": [
-      {
-       "label": "Product",
        "quantity": 1.0,
        "role": "product",
        "status": "extra",
@@ -1197,56 +1164,11 @@
       }
      ],
      "key": "overhangSpots"
-    },
-    {
-     "components": [
-      {
-       "label": "Voorbereiding",
-       "quantity": 2.0,
-       "role": "preparation",
-       "status": "extra",
-       "statusLabel": "Apart geprijsd",
-       "total": 30000,
-       "unit": "stuk",
-       "unitPrice": 15000
-      },
-      {
-       "label": "Product",
-       "quantity": 2.0,
-       "role": "product",
-       "status": "excluded",
-       "statusLabel": "Niet inbegrepen",
-       "total": 0,
-       "unit": "stuk",
-       "unitPrice": 0
-      },
-      {
-       "label": "Montage",
-       "quantity": 2.0,
-       "role": "installation",
-       "status": "excluded",
-       "statusLabel": "Niet inbegrepen",
-       "total": 0,
-       "unit": "stuk",
-       "unitPrice": 0
-      },
-      {
-       "label": "Aansluiting",
-       "quantity": 2.0,
-       "role": "connection",
-       "status": "excluded",
-       "statusLabel": "Niet inbegrepen",
-       "total": 0,
-       "unit": "stuk",
-       "unitPrice": 0
-      }
-     ],
-     "key": "wallLights"
     }
    ],
-   "subtotal": 8017750,
-   "total": 9701478,
-   "vat": 1683728
+   "subtotal": 7671750,
+   "total": 9282818,
+   "vat": 1611068
   },
   "odd-501x299": {
    "config": {
@@ -1650,5 +1572,5 @@
    "vat": 192852
   }
  },
- "revision": "local-c7f1fe7fac7cd1e5bd35"
+ "revision": "local-065c92272054c7fe319e"
 }

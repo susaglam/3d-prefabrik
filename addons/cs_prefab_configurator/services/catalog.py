@@ -18,7 +18,15 @@ STATUS_LABELS = {"excluded": "Niet inbegrepen", "included": "Inbegrepen in casco
 SUPPORTED_ASSETS = {"heating": {"heating", "heating-panel"}, "ceilingLights": {"ceilingLights", "ceiling-dome"}}
 # Fields retired by a newer application version. 2.8.1 dropped the separate rollaag toggle: the three finishes are the
 # complete choice. Catalogues published (and quote snapshots stored) by earlier versions still carry such fields.
-RETIRED_FIELDS = frozenset({"rollaagEnabled"})
+# Fields the application no longer offers. A release that still carries one is served without it
+# (retire_legacy_fields), so retiring costs no catalogue republication and no administrator action. 2.16.0 adds the
+# three the customer struck from the product: a green roof, sun shading over the daklicht, and wall lighting inside
+# ("geen groen dak", "geen zonwering optie", "wandverlichting n.v.t.").
+RETIRED_FIELDS = frozenset({"rollaagEnabled", "greenRoof", "roofShade", "wallLights", "wallLightControl"})
+# Values retired inside a field that stays. The double outdoor socket goes the same way (2.16.0, "buitenstopcontact
+# alleen enkel aanbieden, rechts en links"); a design that still carries one falls back to the single socket on the
+# same side, which is what it becomes in the price list too. Keys are field keys, values map retired → replacement.
+RETIRED_VALUES = {"outsideSocket": {"double-left": "left", "double-right": "right", "double-both": "both"}}
 # Optional casco price curve (2.10.4): casco = fixed + factor × (floor m²)^exponent, rounded to a multiple of roundTo.
 # Money in integer eurocents; the exponent a decimal STRING, so it hashes and computes the same everywhere. A pricebook
 # without the key prices exactly as before (area × basePerM2), which every release published before 2.10.4 relies on.
@@ -54,7 +62,12 @@ def _mentions_retired(bundle):
     catalog = bundle.get("catalog") or {}
     if RETIRED_FIELDS & set(catalog.get("defaults") or ()) or RETIRED_FIELDS & set(bundle.get("policies") or ()) or RETIRED_FIELDS & set((bundle.get("pricebook") or {}).get("optionPrices") or ()):
         return True
+    for key, retired in RETIRED_VALUES.items():
+        prices = ((bundle.get("pricebook") or {}).get("optionPrices") or {}).get(key) or {}
+        if retired.keys() & prices.keys():
+            return True
     return any(field.get("key") in RETIRED_FIELDS or (field.get("visibleWhen") or {}).get("field") in RETIRED_FIELDS
+               or any(option.get("id") in RETIRED_VALUES.get(field.get("key"), {}) for option in field.get("options") or [])
                for group in catalog.get("groups") or [] for field in group.get("fields") or [])
 
 
@@ -73,11 +86,23 @@ def retire_legacy_fields(bundle):
         (catalog.get("defaults") or {}).pop(key, None)
         (bundle.get("policies") or {}).pop(key, None)
         ((bundle.get("pricebook") or {}).get("optionPrices") or {}).pop(key, None)
+    for key, retired in RETIRED_VALUES.items():
+        prices = ((bundle.get("pricebook") or {}).get("optionPrices") or {}).get(key)
+        if prices:
+            for value in retired:
+                prices.pop(value, None)
+        choices = ((bundle.get("policies") or {}).get(key) or {}).get("choices")
+        if choices:
+            for value in retired:
+                choices.pop(value, None)
     for group in catalog.get("groups") or []:
         group["fields"] = [field for field in group.get("fields") or [] if field.get("key") not in RETIRED_FIELDS]
         for field in group["fields"]:
             if (field.get("visibleWhen") or {}).get("field") in RETIRED_FIELDS:
                 field.pop("visibleWhen")
+            retired = RETIRED_VALUES.get(field.get("key"))
+            if retired and field.get("options"):
+                field["options"] = [option for option in field["options"] if option.get("id") not in retired]
     return bundle
 
 

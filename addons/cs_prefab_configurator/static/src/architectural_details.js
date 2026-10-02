@@ -56,7 +56,7 @@ export const TRIM_REACH = .09;
  * Downpipe dimensions: an 80 mm pipe (the scene has always drawn it 75 mm across), bends of 70 mm, and a 45° uitloop
  * ("borunun 45'lik dirsek bağlantı kısmı yuvarlak olmalı") of 140 mm from the corner, whose corner stands 20 cm up.
  */
-export const DOWNPIPE = Object.freeze({radius: .0375, bend: .07, shoe: .14, shoeY: .2});
+export const DOWNPIPE = Object.freeze({radius: .0375, bend: .07, shoe: .14, shoeY: .2, ground: -.28});
 
 /**
  * One downpipe as a polyline, top to bottom. Without an overstek it leaves the wall at the roof outlet, turns down
@@ -64,9 +64,12 @@ export const DOWNPIPE = Object.freeze({radius: .0375, bend: .07, shoe: .14, shoe
  * 45° uitloop, pointing into the garden. `drain` is a geometry.js drain (x, z, height), `front` the facade plane.
  */
 export function downpipeRoute(drain, front, overhangDepth) {
-    const {x, z} = drain, corner = DOWNPIPE.shoeY, reach = DOWNPIPE.shoe * Math.SQRT1_2;
+    // 2.16.0, the customer: "HWA buizen komen in de grond". The pipe no longer spits onto the paving through a 45°
+    // shoe; it runs straight down past the terras into the ground, where the rainwater drain is. What stays visible is
+    // one clean vertical line against the facade, which is what a finished aanbouw looks like.
+    const {x, z} = drain;
     const top = overhangDepth ? [[x, drain.height + .02, z]] : [[x, drain.height, front - .03], [x, drain.height, z]];
-    return [...top, [x, corner, z], [x, corner - reach, z + reach]];
+    return [...top, [x, DOWNPIPE.ground, z]];
 }
 
 /**

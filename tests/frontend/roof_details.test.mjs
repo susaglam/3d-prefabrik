@@ -50,7 +50,7 @@ test('the downpipe runs through rounded bends, tangent to both legs, and leaves 
       const tag = `${overhang}/${drain.side}`;
       assert.equal(parts[0].kind, 'line', `${tag}: starts straight`);
       assert.equal(parts.at(-1).kind, 'line', `${tag}: the open end is straight`);
-      assert.equal(parts.filter(p => p.kind === 'bend').length, m.overhangDepth ? 1 : 2, `${tag}: one bend per corner`);
+      assert.equal(parts.filter(p => p.kind === 'bend').length, m.overhangDepth ? 0 : 1, `${tag}: one bend per corner — and with an overstek the pipe is one straight line`);
       for (let i = 1; i < parts.length; i++) {
         const before = parts[i - 1], part = parts[i];
         assert.deepEqual(part.from, before.to, `${tag}: part ${i} starts where the previous one ends`);
@@ -59,9 +59,10 @@ test('the downpipe runs through rounded bends, tangent to both legs, and leaves 
           assert.ok(parallel(direction(part.corner, part.to), direction(parts[i + 1].from, parts[i + 1].to)), `${tag}: bend ${i} is tangent to the leg after`);
         }
       }
+      // 2.16.0, the customer: "HWA buizen komen in de grond" — straight down past the paving, no 45° shoe.
       const [dx, dy, dz] = direction(parts.at(-1).from, parts.at(-1).to);
-      assert.ok(near(dx, 0) && dy < 0 && dz > 0 && near(-dy, dz), `${tag}: 45° down and out, got ${[dx, dy, dz]}`);
-      assert.ok(parts.at(-1).to[1] > .05, `${tag}: the uitloop ends above the paving`);
+      assert.ok(near(dx, 0) && near(dz, 0) && near(dy, -1), `${tag}: straight down, got ${[dx, dy, dz]}`);
+      assert.ok(parts.at(-1).to[1] < -.15, `${tag}: it ends in the ground, under the paving (${parts.at(-1).to[1]})`);
       if (!m.overhangDepth) assert.ok(parts[0].from[2] < m.bounds.front, `${tag}: the pipe comes out of the wall`);
     }
   }
@@ -87,7 +88,7 @@ test('in the scene: a rounded pipe and an outlet per drain, on the membrane that
     const drains = m.drains.length, slabTop = m.height + m.roofThickness / 2;
     const tubes = meshes(p.root, o => o.name === 'downpipe');
     assert.ok(tubes.every(o => o.geometry.type === 'TubeGeometry'), `${tag}: the pipe is a tube`);
-    assert.equal(tubes.filter(o => o.geometry.parameters.path.isQuadraticBezierCurve3).length, drains * (overhang === 'none' ? 2 : 1), `${tag}: every bend is a curve`);
+    assert.equal(tubes.filter(o => o.geometry.parameters.path.isQuadraticBezierCurve3).length, drains * (overhang === 'none' ? 1 : 0), `${tag}: every bend is a curve`);
     assert.ok(tubes.every(o => o.geometry.parameters.radialSegments >= 14), `${tag}: round, not a hexagon`);
     assert.equal(meshes(p.root, o => o.name === 'downpipe-uitloop').length, drains, `${tag}: one open uitloop per pipe`);
     const outlets = meshes(p.roofGroup, o => o.name === 'roof-outlet');

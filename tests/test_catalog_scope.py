@@ -165,7 +165,7 @@ class PlacementTests(unittest.TestCase):
     def test_roof_radiator_and_branch_constraints_are_canonicalized(self):
         result = canonical_config({"interior": True, "rooflight": "gable-10", "heating": "both",
             "ceilingPositions": ["left", "center", "right"], "spotPositions": ["r2c2", "r2c3", "r2c4", "r1c1"],
-            "wallLights": ["L1", "L3", "R3"], "socketPositions": ["L3", "R2", "R3"],
+            "socketPositions": ["L3", "R2", "R3"],
             "roofShade": True, "painting": True, "overhangSpots": 6})
         self.assertEqual(result["ceilingPositions"], ["left", "center", "right"])
         layout = price_config(result)["fixtureLayout"]
@@ -176,12 +176,11 @@ class PlacementTests(unittest.TestCase):
             self.assertGreaterEqual(z - 15, layout["roofBounds"][3] + 5)
             self.assertLessEqual(z + 15, result["depth"] / 2 - 22 - 8)
         self.assertEqual(result["spotPositions"], [])
-        # The radiator is an EXAMPLE and a customer may fit a very low one, so since 2.10.0 it no longer blocks the
-        # 185 cm wall lights above it (customer report 2026-09-18: "radyatör ... lambaları engellemesi mantıksız").
-        # The sockets at 35 cm on the same slot still clash with it and are still removed.
-        self.assertEqual(result["wallLights"], ["L1", "L3", "R3"])
+        # The sockets at 35 cm clash with the radiator on the same slot and are removed. (Wall lighting used to be
+        # checked here too; it is not part of the product any more — services/catalog.py RETIRED_FIELDS.)
+        self.assertNotIn("wallLights", result, "wall lighting is retired, not merely empty")
         self.assertEqual(result["socketPositions"], ["R2"])
-        self.assertFalse(result["roofShade"])
+        self.assertNotIn("roofShade", result, "zonwering is retired too")
         self.assertFalse(result["painting"])
         self.assertEqual(result["overhangSpots"], 0)
         self.assertEqual(canonical_config(dict(result, interior=False))["socketPositions"], [])
