@@ -26,8 +26,18 @@ try {
     const row = {viewport: `${width}×${height}`, header: await box('.site-header'), preview: await box('.preview-card'), tabs: await box('.steps'),
       footer: await box('#panel-footer'), priceRow: await box('.price-peek'), button: await box('.step-actions'), note: await box('.footer-note'), form: await box('#panel-content')};
     row.formShare = Math.round(row.form / height * 100) + '%';
-    // A count field with its scope note: open the roof section (it holds the overhang), then press + and watch the note.
-    await page.evaluate(() => { const summary = document.querySelector('details[data-group="roof"] > summary'); if (summary && !summary.parentElement.open) summary.click(); });
+    // A count field with its scope note: open the card that HOLDS the counter, then press + and watch the note.
+    // 2.16.0 put one choice per card, so the overhang counter moved out of a "roof" section into its own `overstek`
+    // card. The card is found from the control upwards instead of by name, so the next regrouping cannot silently
+    // hide the control again — a hidden control made this script fail with a click timeout, not with a measurement.
+    await page.evaluate(() => {
+      const control = document.querySelector('[data-count="overhangSpots"][data-delta="1"]');
+      const closed = [];
+      for (let node = control?.parentElement; node; node = node.parentElement) {
+        if (node.tagName === 'DETAILS' && !node.open) closed.unshift(node);
+      }
+      for (const card of closed) card.querySelector(':scope > summary')?.click();  // outermost first
+    });
     await page.waitForTimeout(300);
     const counter = page.locator('[data-count="overhangSpots"][data-delta="1"]');
     if (await counter.count()) {

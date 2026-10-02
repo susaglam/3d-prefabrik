@@ -1,7 +1,7 @@
 {
     "name": "CS Prefab Configurator",
     "summary": "Prefab configurator met catalogusbeheer, CRM, verkoopofferte en project",
-    "version": "saas~19.4.2.15.2",
+    "version": "saas~19.4.2.16.0",
     "category": "Website",
     "license": "LGPL-3",
     "author": "Codesnap",

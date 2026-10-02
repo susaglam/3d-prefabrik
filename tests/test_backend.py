@@ -326,7 +326,10 @@ class HttpTests(unittest.TestCase):
         # garden_fence.js in 2.12.0 for the garden boundary styles). Browser acceptance also verifies that the real module graph executes — a module missing from the
         # map would load unversioned and verify-workspace fails, and a hash that did not match the script it
         # authorises would make Chromium block the map outright, so every browser gate would go red at once.
-        self.assertEqual(script_policy, "script-src 'self' 'sha256-Q8wFnVa2O04cTIVDccRyca+q+NrMGyh9Dozu30OrBlk='")
+        # Reissued in 2.16.0: the hash covers the map TEXT, so every release that moves the ?v=
+        # stamp changes it. Recomputed with serve.importmap_csp_sources over the shipped
+        # index.html, never by hand.
+        self.assertEqual(script_policy, "script-src 'self' 'sha256-kU47ERe57CfhMi/8IKG+m5TLbhqxLdE2faPtRicWRuA='")
         self.assertNotIn("unsafe-inline", script_policy)
         self.assertEqual(server_module.importmap_csp_sources(body.replace(b"\r\n", b"\n")),
                          server_module.importmap_csp_sources(body.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")))
@@ -404,7 +407,7 @@ class OdooStaticTests(unittest.TestCase):
     def test_all_xml_parses_and_manifest_files_exist(self):
         import ast
         manifest = ast.literal_eval((ADDON / "__manifest__.py").read_text())
-        self.assertEqual(manifest["version"], "saas~19.4.2.15.2")
+        self.assertEqual(manifest["version"], "saas~19.4.2.16.0")
         for relative in manifest["data"]:
             path = ADDON / relative
             self.assertTrue(path.exists(), relative)
