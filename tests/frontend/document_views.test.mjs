@@ -361,7 +361,8 @@ test('grass only on the plot: the island covers the house, the buren while shown
  assert.ok(plot.x1-plot.x0<16&&plot.z1-plot.z0<24,'and the lawn stops there instead of running to the horizon');
  const rect=detached.plotUniforms.plotRect.value;
  assert.deepEqual([rect.x,rect.y,rect.z,rect.w].map(v=>+v.toFixed(3)),[(plot.x0+plot.x1)/2,(plot.z0+plot.z1)/2,(plot.x1-plot.x0)/2,(plot.z1-plot.z0)/2].map(v=>+v.toFixed(3)));
- const terraced=documentHarness({width:661,depth:302},{environment:{houseType:'terraced'}});
+ // Shown on purpose: since 2.16.0 the buurhuizen start hidden, and this is the case where they are switched on.
+ const terraced=documentHarness({width:661,depth:302},{environment:{houseType:'terraced',renderNeighbours:true}});
  const wide=terraced.updatePlotFade();
  assert.ok(wide.x1-wide.x0>plot.x1-plot.x0+8,'shown buren widen the island so they never stand in the haze');
  terraced.environment={...terraced.environment,renderNeighbours:false};

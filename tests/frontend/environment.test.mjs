@@ -6,10 +6,10 @@ import * as THREE from '../../addons/cs_prefab_configurator/static/vendor/three.
 
 const ids=list=>list.map(item=>item.id);
 
-test('defaults describe the terraced house with red brick, laminate, the living-room scenario and the neighbours shown in the live view',()=>{
+test('defaults describe the terraced house with red brick, laminate, the living-room scenario and the neighbours hidden',()=>{
  // showHouseOpenings joined in 2.9.6: the example windows and door on the street elevation are the visitor's to
  // switch, exactly like the neighbours, and the same store carries both.
- assert.deepEqual(defaultEnvironment(),{houseType:'terraced',facadeWidth:null,alignment:'center',facadeFinish:'brick-red',floorFinish:'laminate',scenario:'living',renderNeighbours:true,showHouseOpenings:true,fenceStyle:'modern'});
+ assert.deepEqual(defaultEnvironment(),{houseType:'terraced',facadeWidth:null,alignment:'center',facadeFinish:'brick-red',floorFinish:'laminate',scenario:'living',renderNeighbours:false,showHouseOpenings:true,fenceStyle:'modern'});
  assert.deepEqual(ids(HOUSE_TYPES),['terraced','semi','detached']);
  // Since 2.9.6 the existing house is offered ALL FOUR scanned bricks, not just red and yellow: the customer asked
  // for it and preview.js could already build any of them (see finishes.test.mjs for the colour side of the same move).
@@ -19,8 +19,9 @@ test('defaults describe the terraced house with red brick, laminate, the living-
  assert.equal(ENVIRONMENT_STORAGE_KEY,'cs-prefab-environment-v1');
 });
 
-test('the neighbour toggle is a live-view setting: "Buren tonen", default on, with a phone-oriented hint',()=>{
- assert.deepEqual(NEIGHBOUR_TOGGLE,{name:'renderNeighbours',label:'Buren tonen',help:'Zet uit om de buurhuizen te verbergen; sneller op telefoons.',defaultOn:true});
+test('the neighbour toggle is a live-view setting: "Buren tonen", default OFF since 2.16.0',()=>{
+ // The customer asked for the street out of the picture; the visitor can still put it back under Woning en tuin.
+ assert.deepEqual(NEIGHBOUR_TOGGLE,{name:'renderNeighbours',label:'Buren tonen',help:'Zet aan om de buurhuizen erbij te tekenen. Uit staat de aanbouw tegen je eigen woning, zonder de straat eromheen.',defaultOn:false});
  assert.ok(Object.isFrozen(NEIGHBOUR_TOGGLE));
  assert.equal(defaultEnvironment()[NEIGHBOUR_TOGGLE.name],NEIGHBOUR_TOGGLE.defaultOn,'the default follows the declared copy');
  assert.doesNotMatch(NEIGHBOUR_TOGGLE.label+NEIGHBOUR_TOGGLE.help,/realistisch|path|berekening/i,'no wording left over from the removed render step');
@@ -30,8 +31,10 @@ test('normalisation drops unknown keys, replaces invalid values and validates th
  const full={houseType:'detached',facadeWidth:640,alignment:'right',facadeFinish:'render-grey',floorFinish:'concrete',scenario:'bedroom',renderNeighbours:false,showHouseOpenings:false,fenceStyle:'hedge'};
  assert.deepEqual(normalizeEnvironment({...full,extra:'x',postcode:'1234 AB'}),full);
  assert.deepEqual(normalizeEnvironment({houseType:'castle',alignment:'middle',facadeFinish:'gold',floorFinish:'marble',scenario:'office',renderNeighbours:'no',showHouseOpenings:'no',fenceStyle:'barbed-wire'}),defaultEnvironment());
- for(const flag of ['renderNeighbours','showHouseOpenings'])
-  for(const [raw,expected] of [[true,true],[false,false],[undefined,true],[null,true],['false',true],[0,true],[1,true]])assert.equal(normalizeEnvironment({[flag]:raw})[flag],expected,`${flag} ${raw}`);
+ for(const flag of ['renderNeighbours','showHouseOpenings']){
+  const fallback=flag==='renderNeighbours'?false:true;   // 2.16.0: the buurhuizen start hidden
+  for(const [raw,expected] of [[true,true],[false,false],[undefined,fallback],[null,fallback],['false',fallback],[0,fallback],[1,fallback]])assert.equal(normalizeEnvironment({[flag]:raw})[flag],expected,`${flag} ${raw}`);
+ }
  for(const input of [null,undefined,'semi',42,['semi'],()=>{}])assert.deepEqual(normalizeEnvironment(input),defaultEnvironment(),String(input));
  for(const [raw,expected] of [[null,null],[undefined,null],['',null],[400,400],[1500,1500],['450',450],[399,null],[1501,null],[450.5,null],['abc',null],[NaN,null],[Infinity,null],[-500,null]])
   assert.equal(normalizeEnvironment({facadeWidth:raw}).facadeWidth,expected,`facadeWidth ${raw}`);
@@ -264,7 +267,9 @@ test('render() spends one shadow pass per changed scene and none on a camera mov
  assert.deepEqual([p.shadowPasses,drawn.length],[0,2],'two frames of an unchanged scene reuse the shadow map');
  // Every structural, visibility or light change raises the flag; the next frame consumes it exactly once.
  for(const change of [()=>p.setDecorVisible(false),()=>p.setExamplesVisible(false),()=>p.applyNeighbourVisibility()]){
-  p.shadowsDirty=false;p.environment={...p.environment,renderNeighbours:!p.environment.renderNeighbours};
+  // The flip has to be a real change: this harness builds the group visible, so aim at the group, not at the flag
+  // (since 2.16.0 the flag itself starts off, and flipping it to "on" would ask for nothing).
+  p.shadowsDirty=false;p.environment={...p.environment,renderNeighbours:!(p.neighbourGroup?.visible??true)};
   const before=p.shadowPasses;
   change();
   assert.equal(p.shadowsDirty||p.shadowPasses>before,true,`${change} asks for a shadow pass`);

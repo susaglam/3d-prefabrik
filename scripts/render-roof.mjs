@@ -30,6 +30,7 @@ const SHOTS = {
   'base-house': (b, H) => [[b.left - 1.7, .5, b.front + .7], [b.left - .5, -.05, b.back - .1]],
   // The rollaag over the opening, and the outdoor tap on the side wall (2.16.0).
   'rollaag': (b, H) => [[.7, H - .2, b.front + 2.6], [0, H - .45, b.front]],
+  'pui': (b, H) => [[.2, 1.5, b.front + 3.4], [0, 1.45, b.front]],
   'tap': (b, H) => [[b.right - .15, .92, b.front + 1.05], [b.right - .55, .62, b.front]],
   'house-corner': (b, H) => [[b.right + 2.2, 2.3, b.front + 3.2], [b.right + .4, 2.2, b.back]],
   'house-roof': (b, H) => [[b.right + 1.5, H + 3.2, b.front + 5.5], [0, H + 2.4, b.back - 1.5]],

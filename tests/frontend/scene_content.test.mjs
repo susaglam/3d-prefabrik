@@ -48,7 +48,8 @@ test('the three states differ for every one of the five: available, default, and
  }
  // 'off' is the middle value that a boolean could not express: the extra exists, the control exists, the picture
  // just starts without it. Proven per extra against the state a first-time visitor is seeded with.
- assert.deepEqual(sceneDefaults({}),{fixtures:true,garden:true,renderNeighbours:true,scenario:'living',showHouseOpenings:true});
+ // 2.16.0: the buurhuizen start hidden (environment.js defaultEnvironment).
+ assert.deepEqual(sceneDefaults({}),{fixtures:true,garden:true,renderNeighbours:false,scenario:'living',showHouseOpenings:true});
  assert.deepEqual(sceneDefaults({fixtures:'off',garden:'off',neighbours:'off',interior:'off',houseOpenings:'off'}),
   {fixtures:false,garden:false,renderNeighbours:false,scenario:'none',showHouseOpenings:false});
  assert.deepEqual(sceneDefaults({fixtures:'hidden',garden:'hidden',neighbours:'hidden',interior:'hidden',houseOpenings:'hidden'}),

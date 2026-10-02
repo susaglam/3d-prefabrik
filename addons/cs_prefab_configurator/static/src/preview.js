@@ -201,7 +201,11 @@ const RIG={hemi:.25,sun:4.4,fill:.5,ambient:1,environment:1,interiorFill:.55,hou
  * with the swatch read-back probe (docs/verification/2.9) — the exterior lands the facade swatches on their catalogue
  * hex, the interior lifts a room that receives no direct sun.
  */
-const VIEW_EXPOSURE={perspective:.9,'perspective-right':.9,'perspective-left':.9,front:.9,top:.92,interior:1.6,ceiling:1.3,cutaway:1.15};
+// 2.16.0, the customer: "render biraz sanki koyu". Measured against their own reference render
+// (kozijn/render-Buitenzijde-nieuw-brick.jpg): the paving and the lawn already matched it within a few percent, but
+// sunny brick came out at luma 81 against the reference's 118. The exterior views go up a step and the brick gets
+// its own lift (facade(), envMapIntensity), which is where the difference actually was.
+const VIEW_EXPOSURE={perspective:1.02,'perspective-right':1.02,'perspective-left':1.02,front:1.02,top:1.02,interior:1.6,ceiling:1.3,cutaway:1.2};
 /**
  * Proposal images are taken at one fixed focal length, whatever the live camera was doing a moment earlier.
  * The same 40° the exterior preview uses: wide enough for a 750 cm aanbouw, narrow enough that the facade
@@ -1075,7 +1079,7 @@ export class Preview {
             // Roughness: the brick map averages .53 and the deck map .44, so the factors land the wall at .49 (matte
             // fired clay) and the boards at .40 (oiled timber, a little sheen at grazing sun, never a gloss).
             const scale=brick?.45:.3;
-            this.materials.set(key,new THREE.MeshStandardMaterial({map:texture,normalMap,normalScale:new THREE.Vector2(scale,scale),bumpMap:brick&&!scanned?texture:null,bumpScale:.002,roughnessMap,roughness:brick?.93:.9,color:'#ffffff'}));
+            this.materials.set(key,new THREE.MeshStandardMaterial({map:texture,normalMap,normalScale:new THREE.Vector2(scale,scale),bumpMap:brick&&!scanned?texture:null,bumpScale:.002,roughnessMap,roughness:brick?.93:.9,envMapIntensity:brick?2.15:1,color:'#ffffff'}));
         }
         return this.materials.get(key);
     }
@@ -1789,7 +1793,10 @@ export class Preview {
 
     makeOpening(m,frame,glass) {
         if(!m.opening.panelCount&&!m.opening.skeleton)return;
-        const o=m.opening,z=o.z+.016,f=.055,group=new THREE.Group();group.name='opening';group.userData.scopeKey='frontOpening';this.root.add(group);
+        // 2.16.0, the customer: "kozijn çerçeveleri daha kalın olmalı". 75 mm on a hinged leaf and 58 mm on a
+        // sliding one, against 55 and 42 before — the proportions of the reference renders (kozijn/*.png), where the
+        // frame reads as a real aluminium section instead of a drawn line. The glass loses what the frame gains.
+        const o=m.opening,z=o.z+.016,f=.075,group=new THREE.Group();group.name='opening';group.userData.scopeKey='frontOpening';this.root.add(group);
         const rubber=this.material('window-gasket',{color:'#222625',roughness:.92}),steel=this.material('window-hardware',{color:'#bdc2c1',metalness:.92,roughness:.22});
         const track=this.material('window-track',{color:'#454948',metalness:.55,roughness:.5}),grille=this.material('window-grille',{color:'#1b1e1d',roughness:.9});
         // A profile drawn in the FRAME material is the kozijn itself, so it answers to "Materiaal kozijn"; panes,
@@ -1806,7 +1813,7 @@ export class Preview {
         for(const side of [-1,1])profile([f,o.height,.11],[side*o.width/2,o.height/2+y0,z]);
         if(o.skeleton)return;
         // One glazed section: stiles, rails, gaskets and the pane; `dz` stands it proud of the frame plane (sliding leaves on the outer track).
-        const section=({x,width,bottom=y0,ceiling=top,stile=f,rail=f,bottomRail=f,dz=0,depth=.072})=>{
+        const section=({x,width,bottom=y0,ceiling=top,stile=f,rail=f,bottomRail=f,dz=0,depth=.092})=>{
             const pz=z+dz,height=ceiling-bottom,gx=width-2*stile,gh=height-rail-bottomRail,gy=bottom+bottomRail+gh/2;
             const pane=this.box(group,[gx+.02,gh+.02,.006],[x,gy,pz],glass,{shadow:false});pane.name='clear-glazing';
             for(const side of [-1,1]){profile([stile,height,depth],[x+side*(width-stile)/2,bottom+height/2,pz]);this.box(group,[.008,gh,.041],[x+side*(gx/2+.004),gy,pz],rubber,{shadow:false});}
@@ -1814,8 +1821,22 @@ export class Preview {
             for(const [yy,dir] of [[bottom+bottomRail,1],[ceiling-rail,-1]])this.box(group,[gx,.008,.041],[x,yy+dir*.004,pz],rubber,{shadow:false});
             return {x,width,pz,gx,gh,gy,depth};
         };
-        // Ventilation strip (rooster) under the top rail, four roedes per leaf, lever / pull handles on both faces and hinge knuckles outside.
-        const rooster=s=>this.box(group,[s.gx-.12,.03,.016],[s.x,s.gy+s.gh/2-.028,s.pz+.011],grille,{shadow:false});
+        // Ventilation grille (ventilatierooster) across the top of the glazing, as on the reference renders: a housing
+        // in the frame colour with four louvre blades, built on BOTH faces of the leaf (2.16.0, the customer: "camlarda
+        // havalandırmalar içerden ve dışarıdan bunlar gözükmeli"). It used to be a single 3 cm dark strip on the outer
+        // face only, which disappeared at any distance and was invisible from the room it ventilates.
+        const rooster=s=>{
+            const width=Math.max(.2,s.gx-.02),band=.085,y=s.gy+s.gh/2-band/2-.006;
+            for(const side of [-1,1]){
+                const zz=s.pz+side*(s.depth/2-.004);
+                const housing=this.box(group,[width,band,.014],[s.x,y,zz],frame,{shadow:false});
+                housing.name='window-rooster';housing.userData.scopeKey='frontOpening';
+                for(let k=0;k<4;k++){
+                    const blade=this.box(group,[width-.022,.009,.008],[s.x,y+band/2-.016-k*.019,zz+side*.008],grille,{shadow:false});
+                    blade.name='window-rooster-blade';blade.userData.scopeKey='frontOpening';
+                }
+            }
+        };
         const roedes=s=>{for(let k=1;k<5;k++)for(const side of [-1,1])profile([s.gx+.012,.018,.014],[s.x,s.gy-s.gh/2+s.gh*k/5,s.pz+side*.01]);};
         const lever=(s,hx,dir)=>{for(const side of [-1,1]){profile([.024,.17,.016],[hx,1.10,s.pz+side*(s.depth/2+.008)]);profile([.014,.014,.05],[hx,1.11,s.pz+side*(s.depth/2+.04)],steel);profile([.12,.016,.018],[hx+dir*.05,1.11,s.pz+side*(s.depth/2+.062)],steel);}};
         const pull=(s,hx)=>{for(const side of [-1,1]){profile([.02,.30,.02],[hx,1.2,s.pz+side*(s.depth/2+.05)],steel);for(const y of [1.09,1.31])profile([.016,.016,.05],[hx,y,s.pz+side*(s.depth/2+.025)],steel);}};
@@ -1828,13 +1849,15 @@ export class Preview {
         }
         else if(kind.startsWith('sliding')){
             // Schuifpui: slim profiles, fixed panes in the frame plane, sliding leaves proud on their own track between a bottom and a head track.
-            const lap=.06,slim=.042,fixed=m.panels.length===2?[0]:[0,3];
+            const lap=.06,slim=.058,fixed=m.panels.length===2?[0]:[0,3];
             profile([o.width-.01,.022,.05],[0,y0+.011,z+proud],track);profile([o.width-.01,.03,.05],[0,top-.015,z+proud],track);
             for(const p of m.panels){
                 if(fixed.includes(p.index)){rooster(section({x:p.x,width:p.width,stile:slim,rail:slim,bottomRail:slim}));continue;}
+                // A sliding leaf is ventilated as well; the grille travels with it on its own track.
                 // The leaf overlaps its fixed neighbour by an interlock; the pull handle sits on the stile facing the centre.
                 const lapDir=p.index===2?1:-1,toCentre=p.x<0?1:-1;
-                const s=section({x:p.x+lapDir*lap/2,width:p.width+lap,bottom:y0+.022,ceiling:top-.03,stile:slim,rail:slim,bottomRail:.05,dz:proud,depth:.06});
+                const s=section({x:p.x+lapDir*lap/2,width:p.width+lap,bottom:y0+.022,ceiling:top-.03,stile:slim,rail:slim,bottomRail:.066,dz:proud,depth:.074});
+                rooster(s);
                 pull(s,s.x+toCentre*(s.width/2-slim/2));
             }
         }
@@ -1843,9 +1866,10 @@ export class Preview {
             const w=o.width/5,at=i=>-o.width/2+(i+.5)*w;
             profile([o.width,.04,.06],[0,top-.02,z+.055],track);profile([o.width,.012,.03],[0,y0+.006,z+.05],track);
             for(let i=0;i<5;i++){
-                const s=section({x:at(i),width:w,bottom:y0+.012,ceiling:top-.04,stile:.05,rail:.05,bottomRail:.07});
+                const s=section({x:at(i),width:w,bottom:y0+.012,ceiling:top-.04,stile:.066,rail:.066,bottomRail:.086});
+                rooster(s);
                 if(i<4)hinges(s,at(i)-w/2+(i?0:.012));
-                else{rooster(s);hinges(s,at(i)+w/2-.012);lever(s,at(i)-w/2+.025,1);}
+                else{hinges(s,at(i)+w/2-.012);lever(s,at(i)-w/2+.025,1);}
             }
         }
     }
@@ -2840,7 +2864,10 @@ export class Preview {
         // 2.10.7, the customer: "mevcut kadraj uzak kalıyor" — the opening frame was 1.08 × the fitted distance,
         // leaving the aanbouw small in a sea of garden. Now .92: the whole aanbouw still fits with a narrow margin (.84 was
         // measured to cut its far wall off at 1440 px), and the floor of 5.4 m keeps a small aanbouw from filling it all.
-        let distance=Math.max(span/(2*Math.tan(Math.min(vertical,horizontal)/2))*(compact?.76:this.view==='front'?.9:.92),5.4);
+        // 2.16.0, the customer: "daha yakın çekim istiyor, komşu binalar, binanın çatısı vesaire gözükmesin". .82
+        // against .92 brings the aanbouw forward until the woning's roof and the neighbours are out of frame; the
+        // floor comes down with it, so a small aanbouw is not pushed away to fill a picture it cannot fill.
+        let distance=Math.max(span/(2*Math.tan(Math.min(vertical,horizontal)/2))*(compact?.70:this.view==='front'?.82:.82),4.6);
         const target=new THREE.Vector3(0,m.height*.48,-.2);
         // "varsayılan konum soldan değil sağdan olsun": the opening standpoint looks in from the garden's right-hand
         // side; 'perspective-left' keeps the old one reachable, 'perspective-right' stays an alias for saved links.

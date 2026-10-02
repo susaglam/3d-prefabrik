@@ -38,7 +38,7 @@ export const FACADE_WIDTH_MIN=400,FACADE_WIDTH_MAX=1500,FACADE_WIDTH_EXTRA=110;
  * neighbouring houses (`neighbourGroup`) in the live 3D view without a rebuild, which is cheaper on phones.
  * The storage key and the property name `renderNeighbours` are kept so stored settings keep working.
  */
-export const NEIGHBOUR_TOGGLE=Object.freeze({name:'renderNeighbours',label:'Buren tonen',help:'Zet uit om de buurhuizen te verbergen; sneller op telefoons.',defaultOn:true});
+export const NEIGHBOUR_TOGGLE=Object.freeze({name:'renderNeighbours',label:'Buren tonen',help:'Zet aan om de buurhuizen erbij te tekenen. Uit staat de aanbouw tegen je eigen woning, zonder de straat eromheen.',defaultOn:false});
 
 /**
  * Copy for the street-elevation toggle, added in 2.9.6 beside the neighbour toggle and for the same reason: both
@@ -56,7 +56,9 @@ export const HOUSE_OPENINGS_TOGGLE=Object.freeze({name:'showHouseOpenings',label
  * showHouseOpenings (default on) shows the example windows and door on the street elevation.
  * fenceStyle (2.12.0) is the garden boundary: the website's default until the visitor picks one in Woning en tuin.
  */
-export function defaultEnvironment(){return {houseType:'terraced',facadeWidth:null,alignment:'center',facadeFinish:'brick-red',floorFinish:'laminate',scenario:'living',renderNeighbours:true,showHouseOpenings:true,fenceStyle:DEFAULT_FENCE_STYLE};}
+// 2.16.0: the buurhuizen start hidden. The visitor can still switch them on under Woning en tuin, but the first
+// picture is of the aanbouw and the house it is built against — the customer asked for the street out of it.
+export function defaultEnvironment(){return {houseType:'terraced',facadeWidth:null,alignment:'center',facadeFinish:'brick-red',floorFinish:'laminate',scenario:'living',renderNeighbours:false,showHouseOpenings:true,fenceStyle:DEFAULT_FENCE_STYLE};}
 
 /**
  * Unknown keys are dropped and any invalid value falls back to its default, so a stale or edited store can never
