@@ -100,9 +100,13 @@ class DomainTests(unittest.TestCase):
 
     def test_independent_default_price_and_decimal_rounding(self):
         result = price_config({})
-        expected_net = 15 * 135000 + 325000 + 15 * 18000 + 285000 + 25000 + 65000 + 270000
+        # 2.16.0: the design opens with "geen kozijn" (the customer: "başlangıçta geen deur seçili olmalı"), so the
+        # 2-delige schuifpui's EUR 2.850 is no longer in the opening price. Everything else is unchanged.
+        expected_net = 15 * 135000 + 325000 + 15 * 18000 + 25000 + 65000 + 270000
         self.assertEqual(result["subtotal"], expected_net)
-        self.assertEqual(result["total"], expected_net + 685650)
+        self.assertEqual(result["total"], expected_net + int(expected_net * 0.21))
+        self.assertEqual(price_config({"frontOpening": "sliding-2-black"})["subtotal"], expected_net + 285000,
+                         "choosing the schuifpui adds exactly its price")
         fractional = price_config({"width": 151, "depth": 101, "frontOpening": "none"})
         base = next(line for line in fractional["lines"] if line["id"] == "base")
         self.assertEqual(base["total"], 205889)  # 1.5251 m2 * EUR 1350, half-up cents

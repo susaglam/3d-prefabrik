@@ -4,20 +4,44 @@
  * The section cards per step, in the order the panel renders them, and the fields each step renders BEFORE its
  * cards. Data rather than markup, and it lives here rather than in app.js so the cursor's decisions can be tested
  * against the real steps instead of against a copy that drifts.
+ *
+ * 2.16.0, the customer: "kullanıcı her seferinde tek seçenek görsün". One card is one CHOICE now, titled after the
+ * thing being chosen, instead of three cards that each held a handful of fields and had to be scrolled. The panel
+ * machinery is unchanged — one card open per step, the cursor walking to the next — so what used to be "scroll
+ * through Gevel & voorpui" is now "answer Gevelbekleding, then Rollaag, then Kozijn".
+ *
+ * Two cards deliberately hold more than one field, because they are one decision:
+ *  - Kozijn: the material and the door set, exactly as the customer put it ("kozijn materyali plastik, alüminyum
+ *    seçeneğinden sonra kozijn aynı grupta olabilir").
+ *  - Any choice with its own positions and its own switch (plafondlamp, spots, elektra, overstek, buitenlicht,
+ *    regenpijp): asking "how many spots" on one screen and "where" on the next is one decision split in two.
  */
 export const STEP_SECTIONS=[
  [
-  {id:'facade',title:'Gevel & voorpui',keys:['facade','rollaag','openingMaterial','frontOpening']},
-  {id:'roof',title:'Dak & daglicht',keys:['rooflight','roofShade','greenRoof','roofEdge','overhang','overhangSpots','overhangSpotControl']},
-  {id:'outside',title:'Voorzieningen buiten',keys:['outsideLight','outsideLightControl','outsideSocket','outsideTap','drainMaterial','drainSide']},
+  {id:'facade',title:'Gevelbekleding',keys:['facade']},
+  {id:'rollaag',title:'Rollaag',keys:['rollaag']},
+  {id:'kozijn',title:'Kozijn',keys:['openingMaterial','frontOpening']},
+  {id:'daglicht',title:'Daklicht',keys:['rooflight']},
+  {id:'daktrim',title:'Daktrim',keys:['roofEdge']},
+  {id:'overstek',title:'Overstek',keys:['overhang','overhangSpots','overhangSpotControl']},
+  {id:'buitenlicht',title:'Buitenlicht',keys:['outsideLight','outsideLightControl']},
+  {id:'buitenstopcontact',title:'Buiten stopcontact',keys:['outsideSocket']},
+  {id:'buitenkraan',title:'Buiten kraan',keys:['outsideTap']},
+  {id:'regenpijp',title:'Regenpijp',keys:['drainMaterial','drainSide']},
  ],
  [
-  {id:'finish',title:'Wanden & vloer',keys:['plaster','painting','screed']},
-  {id:'heating',title:'Verwarming',keys:['underfloorHeating','heating']},
-  {id:'ceiling',title:'Plafondverlichting',keys:['ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl']},
-  {id:'wall',title:'Wandverlichting & elektra',keys:['wallLights','wallLightControl','socketPositions','sockets','switches']},
+  {id:'stucwerk',title:'Stucwerk',keys:['plaster','painting']},
+  {id:'afwerkvloer',title:'Afwerkvloer',keys:['screed']},
+  {id:'verwarming',title:'Verwarming',keys:['underfloorHeating','heating']},
+  {id:'plafondlamp',title:'Plafondlamp',keys:['ceilingLights','ceilingPositions','ceilingLightControl']},
+  {id:'spots',title:'Inbouwspots',keys:['spotlights','spotPositions','spotControl']},
+  {id:'elektra',title:'Stopcontacten & schakelaars',keys:['sockets','socketPositions','switches']},
  ],
- [{id:'site',title:'Situatie ter plaatse',keys:['demolition','access','piles']}],
+ [
+  {id:'doorbraak',title:'Geveldoorbraak',keys:['demolition']},
+  {id:'achterom',title:'Bereikbaarheid',keys:['access']},
+  {id:'heipalen',title:'Heipalen',keys:['piles']},
+ ],
  [],
 ];
 export const STEP_LEAD_KEYS=[['width','depth'],['interior'],[],[]];

@@ -168,7 +168,10 @@ test('legacy counts migrate to placements only when the new placement array is a
 
 test('dependent product choices clear while view preferences cannot enter a commercial draft', () => {
  const restored=normalizedDraft({interior:true,plaster:false,painting:true,overhang:'none',overhangSpots:5,rooflight:'none',roofShade:true,examplesVisible:false,scope:[{productIncluded:true}]},catalog);
- assert.equal(restored.painting,false);assert.equal(restored.overhangSpots,0);assert.equal(restored.roofShade,false);
+ assert.equal(restored.painting,false);assert.equal(restored.overhangSpots,0);
+ // 2.16.0: zonwering is retired, so a draft that still carries one loses the key altogether rather than
+ // keeping a false that no field can show (services/catalog.py RETIRED_FIELDS).
+ assert.equal(Object.hasOwn(restored,'roofShade'),false);
  assert.equal(Object.hasOwn(restored,'examplesVisible'),false);assert.equal(Object.hasOwn(restored,'scope'),false);
  assert.equal(fieldIsVisible('painting',restored,fields),false);assert.equal(fieldIsVisible('ceilingLights',restored,fields),false);
  assert.equal(fieldIsVisible('socketPositions',restored,fields),true);

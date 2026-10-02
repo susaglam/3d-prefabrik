@@ -6,12 +6,11 @@ export const preciseMoney = cents => new Intl.NumberFormat('nl-NL', {style:'curr
 export const metric = cm => new Intl.NumberFormat('nl-NL', {minimumFractionDigits:2,maximumFractionDigits:2}).format(cm / 100);
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, x => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 export const STEPS = [
- {label:'Buitenzijde',short:'Buiten',title:'Stel je aanbouw samen',description:'Begin met de buitenmaten. Kies daarna de materialen en de verbinding met je tuin.',icon:'home',fields:['width','depth','facade','rollaag','openingMaterial','frontOpening','rooflight','roofShade','greenRoof','roofEdge','overhang','overhangSpots','overhangSpotControl','outsideLight','outsideLightControl','outsideSocket','outsideTap','drainMaterial','drainSide']},
- {label:'Binnenzijde',short:'Binnen',title:'Richt de binnenzijde in',description:'Kies de afwerking en de plaatsen voor verwarming en elektra. De leveringsomvang staat bij iedere voorziening.',icon:'floor',fields:['interior','plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','wallLights','wallLightControl','socketPositions','sockets','switches']},
+ {label:'Buitenzijde',short:'Buiten',title:'Stel je aanbouw samen',description:'Begin met de buitenmaten. Kies daarna de materialen en de verbinding met je tuin.',icon:'home',fields:['width','depth','facade','rollaag','openingMaterial','frontOpening','rooflight','roofEdge','overhang','overhangSpots','overhangSpotControl','outsideLight','outsideLightControl','outsideSocket','outsideTap','drainMaterial','drainSide']},
+ {label:'Binnenzijde',short:'Binnen',title:'Richt de binnenzijde in',description:'Kies de afwerking en de plaatsen voor verwarming en elektra. De leveringsomvang staat bij iedere voorziening.',icon:'floor',fields:['interior','plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','socketPositions','sockets','switches']},
  {label:'Situatie & levering',short:'Situatie',title:'De aansluiting op je woning',description:'Geef de situatie ter plaatse aan en controleer wat er bij je keuzes wordt geleverd.',icon:'shield',fields:['demolition','access','piles']},
- {label:'Jouw voorstel',short:'Voorstel',title:'Controleer je ontwerp',description:'Je keuzes, de leveringsomvang en de voorbeeldberekening op één plek.',icon:'list',fields:[]},
-];
-export const INTERIOR_FIELDS = ['plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','wallLights','wallLightControl','socketPositions','sockets','switches'];
+ {label:'Jouw voorstel',short:'Voorstel',title:'Controleer je ontwerp',description:'Je keuzes, de leveringsomvang en de voorbeeldberekening op één plek.',icon:'list',fields:[]}];
+export const INTERIOR_FIELDS = ['plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','socketPositions','sockets','switches'];
 /**
  * The aanbouw's thirteen "Gevelbekleding" chips: {color, type} per catalog facade code, in catalog.json's order.
  * The colours themselves live in finishes.js — one table for the aanbouw chip, the house chip and the wall the
@@ -47,11 +46,10 @@ export function normalizeInterior(config, defaults) {
  if(!result.interior) for(const key of INTERIOR_FIELDS) if(Object.hasOwn(defaults,key))result[key]=Array.isArray(defaults[key])?[...defaults[key]]:defaults[key];
  if(!result.plaster&&Object.hasOwn(defaults,'painting'))result.painting=false;
  if(result.overhang==='none'){result.overhangSpots=0;if(Object.hasOwn(defaults,'overhangSpotControl'))result.overhangSpotControl=defaults.overhangSpotControl;}
- if(!['lean-1','lean-2','lean-3'].includes(result.rooflight)&&Object.hasOwn(defaults,'roofShade'))result.roofShade=false;
  if(Array.isArray(result.ceilingPositions))result.ceilingLights=result.ceilingPositions.length;
  if(Array.isArray(result.spotPositions))result.spotlights=result.spotPositions.length;
  if(Array.isArray(result.socketPositions)){const left=result.socketPositions.some(p=>p.startsWith('L')),right=result.socketPositions.some(p=>p.startsWith('R'));result.sockets=left&&right?'both':left?'left':right?'right':'none';}
- for(const [key,active] of [['outsideLightControl',result.outsideLight!=='none'],['ceilingLightControl',result.ceilingLights>0],['spotControl',result.spotlights>0],['wallLightControl',result.wallLights?.length>0]])if(!active&&Object.hasOwn(defaults,key))result[key]=defaults[key];
+ for(const [key,active] of [['outsideLightControl',result.outsideLight!=='none'],['ceilingLightControl',result.ceilingLights>0],['spotControl',result.spotlights>0]])if(!active&&Object.hasOwn(defaults,key))result[key]=defaults[key];
  return result;
 }
 export function labelFor(fields,key,value) {
@@ -64,13 +62,11 @@ export function labelFor(fields,key,value) {
 export function fieldIsVisible(key,config,fields) {
  if(INTERIOR_FIELDS.includes(key)&&!config.interior)return false;
  if(key==='painting')return !!config.plaster;
- if(key==='roofShade')return ['lean-1','lean-2','lean-3'].includes(config.rooflight);
  if(['overhangSpots','overhangSpotControl'].includes(key)&&config.overhang==='none')return false;
  if(key==='overhangSpotControl')return config.overhangSpots>0;
  if(key==='outsideLightControl')return config.outsideLight!=='none';
  if(key==='ceilingLightControl')return config.ceilingLights>0;
  if(key==='spotControl')return config.spotlights>0;
- if(key==='wallLightControl')return config.wallLights?.length>0;
  if(key==='ceilingLights'&&fields.ceilingPositions)return false;
  if(key==='spotlights'&&fields.spotPositions)return false;
  if(key==='sockets'&&fields.socketPositions)return false;

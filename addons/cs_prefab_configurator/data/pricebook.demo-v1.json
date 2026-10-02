@@ -68,10 +68,7 @@
       "none": 0,
       "left": 15000,
       "right": 15000,
-      "both": 28000,
-      "double-left": 20000,
-      "double-right": 20000,
-      "double-both": 38000
+      "both": 28000
     },
     "outsideTap": {
       "none": 0,
@@ -156,19 +153,11 @@
       "4": 350000,
       "6": 510000
     },
-    "greenRoof": {
-      "false": 0,
-      "true": 12000
-    },
     "overhang": {
       "none": 0,
       "pvc-white": 185000,
       "pvc-anthracite": 195000,
       "wood-white": 205000
-    },
-    "roofShade": {
-      "false": 0,
-      "true": 85000
     },
     "painting": {
       "false": 0,

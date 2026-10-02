@@ -22,8 +22,10 @@ import * as THREE from '../../addons/cs_prefab_configurator/static/vendor/three.
 const read = name => JSON.parse(readFileSync(new URL(name, import.meta.url), 'utf8'));
 const audit = read('../../docs/verification/2.9/scene-links.json');
 const pricebook = read('../../addons/cs_prefab_configurator/data/pricebook.demo-v1.json');
-// services/catalog.py default_policies(): every optionPrices row plus wallLights becomes a delivery-scope entry.
-const pricedFields = [...Object.keys(pricebook.optionPrices), 'wallLights'].sort();
+// services/catalog.py default_policies(): every optionPrices row becomes a delivery-scope entry. Wall lighting used
+// to be added here by hand; it is retired since 2.16.0, together with the green roof and the zonwering, so the
+// pricebook alone is the list — and the audit file is filtered to it rather than being re-probed for three gaps.
+const pricedFields = Object.keys(pricebook.optionPrices).sort();
 
 test('the audit covers exactly the priced fields the pricebook defines, so a new option cannot slip past unnoticed', () => {
   assert.deepEqual(audit.pricedFields, pricedFields,

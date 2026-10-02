@@ -49,15 +49,6 @@
      "unitPrice": 25000
     },
     {
-     "id": "frontOpening",
-     "label": "Kozijn · Product: 2-delige schuifpui zwart",
-     "quantity": 1.0,
-     "role": "product",
-     "total": 285000,
-     "unit": "post",
-     "unitPrice": 285000
-    },
-    {
      "id": "piles",
      "label": "Aantal heipalen · Product: 3 heipalen",
      "quantity": 1.0,
@@ -112,21 +103,6 @@
       }
      ],
      "key": "roofEdge"
-    },
-    {
-     "components": [
-      {
-       "label": "Product",
-       "quantity": 1.0,
-       "role": "product",
-       "status": "extra",
-       "statusLabel": "Apart geprijsd",
-       "total": 285000,
-       "unit": "post",
-       "unitPrice": 285000
-      }
-     ],
-     "key": "frontOpening"
     },
     {
      "components": [
@@ -204,9 +180,9 @@
      "key": "openingMaterial"
     }
    ],
-   "subtotal": 3265000,
-   "total": 3950650,
-   "vat": 685650
+   "subtotal": 2980000,
+   "total": 3605800,
+   "vat": 625800
   },
   "large-750x340-full": {
    "config": {
@@ -1572,5 +1548,5 @@
    "vat": 192852
   }
  },
- "revision": "local-065c92272054c7fe319e"
+ "revision": "local-cef81bf3e794480df51a"
 }

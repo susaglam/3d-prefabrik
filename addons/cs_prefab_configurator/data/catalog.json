@@ -11,7 +11,7 @@
     "depth": 300,
     "height": 280,
     "facade": "brick-red",
-    "frontOpening": "sliding-2-black",
+    "frontOpening": "none",
     "rooflight": "none",
     "roofEdge": "anthracite",
     "rollaag": "masonry",
@@ -33,20 +33,16 @@
     "access": "normal",
     "piles": 3,
     "postcode": "",
-    "greenRoof": false,
     "overhang": "none",
     "overhangSpots": 0,
-    "roofShade": false,
     "painting": false,
     "openingMaterial": "unspecified",
     "ceilingPositions": [],
     "spotPositions": [],
-    "wallLights": [],
     "socketPositions": [],
     "outsideLightControl": "switched-left",
     "ceilingLightControl": "switched-left",
     "spotControl": "switched-left",
-    "wallLightControl": "switched-left",
     "overhangSpotControl": "switched"
   },
   "dimensions": {
@@ -392,22 +388,6 @@
           ]
         },
         {
-          "key": "greenRoof",
-          "label": "Groen dak",
-          "description": "Belasting en afwatering worden technisch gecontroleerd.",
-          "type": "boolean",
-          "options": [
-            {
-              "id": false,
-              "label": "Geen groen dak"
-            },
-            {
-              "id": true,
-              "label": "Sedumdak"
-            }
-          ]
-        },
-        {
           "key": "overhang",
           "label": "Overstek",
           "description": "",
@@ -428,22 +408,6 @@
             {
               "id": "wood-white",
               "label": "Hout wit gegrond"
-            }
-          ]
-        },
-        {
-          "key": "roofShade",
-          "label": "Zonwering daklicht",
-          "description": "Beschikbaar bij 1, 2 of 3 vaks lessenaar.",
-          "type": "boolean",
-          "options": [
-            {
-              "id": false,
-              "label": "Geen zonwering"
-            },
-            {
-              "id": true,
-              "label": "Daklicht zonwering"
             }
           ]
         }
@@ -514,18 +478,6 @@
             {
               "id": "both",
               "label": "Enkel links en rechts"
-            },
-            {
-              "id": "double-left",
-              "label": "Dubbel links"
-            },
-            {
-              "id": "double-right",
-              "label": "Dubbel rechts"
-            },
-            {
-              "id": "double-both",
-              "label": "Dubbel links en rechts"
             }
           ]
         },
@@ -1159,43 +1111,6 @@
           "maxSelections": 15
         },
         {
-          "key": "wallLights",
-          "label": "Posities wandlicht",
-          "description": "Lampen en armaturen niet inbegrepen.",
-          "type": "multiselect",
-          "options": [
-            {
-              "id": "L1",
-              "label": "Links 1"
-            },
-            {
-              "id": "L2",
-              "label": "Links 2"
-            },
-            {
-              "id": "L3",
-              "label": "Links 3"
-            },
-            {
-              "id": "R1",
-              "label": "Rechts 1"
-            },
-            {
-              "id": "R2",
-              "label": "Rechts 2"
-            },
-            {
-              "id": "R3",
-              "label": "Rechts 3"
-            }
-          ],
-          "visibleWhen": {
-            "field": "interior",
-            "equals": true
-          },
-          "maxSelections": 6
-        },
-        {
           "key": "socketPositions",
           "label": "Posities wandcontactdozen",
           "description": "Leidingvoorbereiding; eindmateriaal niet inbegrepen.",
@@ -1263,34 +1178,6 @@
         {
           "key": "spotControl",
           "label": "Bediening spots",
-          "description": "Bediening van de voorbereide lichtgroep.",
-          "type": "select",
-          "options": [
-            {
-              "id": "switched-left",
-              "label": "Geschakeld links"
-            },
-            {
-              "id": "switched-right",
-              "label": "Geschakeld rechts"
-            },
-            {
-              "id": "dimmed-left",
-              "label": "Gedimd links"
-            },
-            {
-              "id": "dimmed-right",
-              "label": "Gedimd rechts"
-            }
-          ],
-          "visibleWhen": {
-            "field": "interior",
-            "equals": true
-          }
-        },
-        {
-          "key": "wallLightControl",
-          "label": "Bediening wandlicht",
           "description": "Bediening van de voorbereide lichtgroep.",
           "type": "select",
           "options": [
@@ -1427,11 +1314,9 @@
         "painting",
         "ceilingPositions",
         "spotPositions",
-        "wallLights",
         "socketPositions",
         "ceilingLightControl",
-        "spotControl",
-        "wallLightControl"
+        "spotControl"
       ],
       "message": "Binnenopties worden gewist als de binnenzijde niet wordt samengesteld."
     }

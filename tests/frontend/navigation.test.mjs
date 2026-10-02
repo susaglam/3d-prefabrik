@@ -51,46 +51,44 @@ test('a step lists its lead fields first, then its sections in document order, a
 
 test('the interior step opens up the moment "Aanbouw binnen" is chosen', () => {
   const keys = keysOf({...defaults(), interior: true}, 1);
-  assert.deepEqual(keys, ['interior', 'plaster', 'screed', 'underfloorHeating', 'heating', 'ceilingPositions', 'spotPositions', 'wallLights', 'socketPositions', 'switches']);
+  assert.deepEqual(keys, ['interior', 'plaster', 'screed', 'underfloorHeating', 'heating', 'ceilingPositions', 'spotPositions', 'socketPositions', 'switches']);
   assert.ok(!keys.includes('painting'), 'schilderwerk stays hidden until stucwerk is chosen');
   assert.ok(!keys.includes('ceilingLightControl'), 'bediening stays hidden while the count is zero');
   assert.ok(!keys.includes('ceilingLights'), 'the count field yields to the position grid that drives it');
-  assert.equal(keys.length, 10, 'ten choices behind one gate — the whole reason this step is skipped today');
+  assert.equal(keys.length, 9, 'nine choices behind one gate — the whole reason this step is skipped today');
 });
 
-test('STATE 1 — an unseen choice inside the OPEN section: the button names the field and targets the field', () => {
-  const config = defaults(), seen = new Set(['width', 'depth', 'facade']);
-  const action = footerAction(config, 0, seen, 'facade');
-  assert.equal(action.label, 'Naar Rollaag');
+test('STATE 1 — an unseen choice inside the OPEN card: the button names the field and targets the field', () => {
+  // Since 2.16.0 a card IS a choice, so this state only arises on the two cards that hold one decision in two
+  // fields. Kozijn is the one the customer named: the material and the door set, together.
+  const config = defaults(), seen = new Set(['width', 'depth', 'facade', 'rollaag', 'openingMaterial']);
+  const action = footerAction(config, 0, seen, 'kozijn');
+  assert.equal(action.label, 'Naar Kozijn');
   assert.equal(action.action, 'goto-choice');
   assert.equal(action.kind, 'field');
-  assert.equal(action.target, 'rollaag');
-  seen.add('rollaag');
-  assert.equal(footerAction(config, 0, seen, 'facade').label, 'Naar Materiaal kozijn');
-  seen.add('openingMaterial');
-  assert.equal(footerAction(config, 0, seen, 'facade').label, 'Naar Kozijn');
+  assert.equal(action.target, 'frontOpening');
 });
 
-test('STATE 2 — an unseen choice in a CLOSED section: the button names the section and targets the section', () => {
+test('STATE 2 — an unseen choice in a CLOSED card: the button names the card and targets the card', () => {
   const config = defaults(), seen = new Set(['width', 'depth', 'facade', 'rollaag', 'openingMaterial', 'frontOpening']);
-  const action = footerAction(config, 0, seen, 'facade');
-  assert.equal(action.label, 'Naar Dak & daglicht', 'the card header is the landmark, not the first field inside it');
+  const action = footerAction(config, 0, seen, 'kozijn');
+  assert.equal(action.label, 'Naar Daklicht', 'the card header is the landmark — and now it carries the choice name');
   assert.equal(action.kind, 'section');
-  assert.equal(action.target, 'roof');
+  assert.equal(action.target, 'daglicht');
   assert.equal(action.key, 'rooflight', 'the cursor is still the field; only the destination is the header');
-  // The same cursor, once that section is the open one, becomes the field itself.
+  // The same cursor, once that card is the open one, becomes the field itself.
   assert.deepEqual(
-    (a => [a.label, a.kind, a.target])(footerAction(config, 0, seen, 'roof')),
+    (a => [a.label, a.kind, a.target])(footerAction(config, 0, seen, 'daglicht')),
     ['Naar Daklicht', 'field', 'rooflight'],
   );
 });
 
 test('STATE 3 — nothing unseen left: the button reverts to today\'s step text, character for character', () => {
   const config = defaults();
-  assert.equal(footerAction(config, 0, new Set(keysOf(config, 0)), 'outside').label, 'Verder naar binnen');
-  assert.equal(footerAction(config, 0, new Set(keysOf(config, 0)), 'outside').action, 'next');
+  assert.equal(footerAction(config, 0, new Set(keysOf(config, 0)), 'regenpijp').label, 'Verder naar binnen');
+  assert.equal(footerAction(config, 0, new Set(keysOf(config, 0)), 'regenpijp').action, 'next');
   assert.equal(footerAction(config, 1, new Set(keysOf(config, 1)), null).label, 'Verder naar situatie');
-  assert.equal(footerAction(config, 2, new Set(keysOf(config, 2)), 'site').label, 'Verder naar voorstel');
+  assert.equal(footerAction(config, 2, new Set(keysOf(config, 2)), 'heipalen').label, 'Verder naar voorstel');
 });
 
 test('STATE 4 — step 1 with the interior gate off has one choice, so the footer behaves exactly as it does today', () => {
@@ -111,37 +109,36 @@ test('STATE 5/6/7 — the review step is untouched: the cursor is permanently nu
 });
 
 test('STATE 8 — a choice the visitor reveals is genuinely new, so the cursor re-arms for exactly one press', () => {
-  const config = defaults();
-  const seen = new Set(keysOf(config, 0));
-  assert.equal(footerAction(config, 0, seen, 'roof').action, 'next', 'retired');
-  // Picking a lessenaar-daklicht reveals "Zonwering daklicht" — a field that has never been on screen.
-  const revealed = {...config, rooflight: 'lean-2'};
-  seen.add('rooflight');
-  const action = footerAction(revealed, 0, seen, 'roof');
-  assert.equal(action.label, 'Naar Zonwering daklicht');
-  assert.equal(action.key, 'roofShade');
+  const config = {...defaults(), interior: true};
+  const seen = new Set(keysOf(config, 1));
+  assert.equal(footerAction(config, 1, seen, 'stucwerk').action, 'next', 'retired');
+  // Choosing stucwerk reveals "Schilderwerk" — a field that has never been on screen.
+  const revealed = {...config, plaster: true};
+  const action = footerAction(revealed, 1, seen, 'stucwerk');
+  assert.equal(action.label, 'Naar Schilderwerk');
+  assert.equal(action.key, 'painting');
   // One press and it retires again — this is not a loop.
-  seen.add('roofShade');
-  assert.equal(footerAction(revealed, 0, seen, 'roof').action, 'next');
+  seen.add('painting');
+  assert.equal(footerAction(revealed, 1, seen, 'stucwerk').action, 'next');
 });
 
 test('STATE 8 — an overstek reveals its spots, and a spot count reveals its bediening, one press each', () => {
   const config = {...defaults(), overhang: 'full'};
   const seen = new Set(keysOf(defaults(), 0));
-  assert.equal(footerAction(config, 0, seen, 'roof').key, 'overhangSpots');
+  assert.equal(footerAction(config, 0, seen, 'overstek').key, 'overhangSpots');
   seen.add('overhangSpots');
-  assert.equal(footerAction(config, 0, seen, 'roof').action, 'next', 'a count of zero reveals no bediening');
+  assert.equal(footerAction(config, 0, seen, 'overstek').action, 'next', 'a count of zero reveals no bediening');
   const withSpots = {...config, overhangSpots: 2};
-  assert.equal(footerAction(withSpots, 0, seen, 'roof').key, 'overhangSpotControl');
+  assert.equal(footerAction(withSpots, 0, seen, 'overstek').key, 'overhangSpotControl');
   seen.add('overhangSpotControl');
-  assert.equal(footerAction(withSpots, 0, seen, 'roof').action, 'next');
+  assert.equal(footerAction(withSpots, 0, seen, 'overstek').action, 'next');
 });
 
 test('STATE 9 — going back to change an answer cannot trap the visitor, because seen is never un-set', () => {
   const config = defaults();
   const seen = new Set(keysOf(config, 0));
-  assert.equal(footerAction(config, 0, seen, 'outside').action, 'next');
-  // Scroll back, re-open the first section, change the facade, change the rollaag: all already seen.
+  assert.equal(footerAction(config, 0, seen, 'regenpijp').action, 'next');
+  // Scroll back, re-open the first card, change the facade, change the rollaag: all already seen.
   for (const key of ['facade', 'rollaag', 'frontOpening']) {
     seen.add(key); // what changeConfig() does — add, never delete
     assert.equal(footerAction(config, 0, seen, 'facade').action, 'next', 're-visiting ' + key + ' must not re-arm the cursor');
@@ -155,10 +152,10 @@ test('STATE 10 — jumping ahead leaves the skipped choice armed, and the label 
   const keys = keysOf(config, 0);
   // The visitor taps the last section and works through it, never having read the rollaag.
   const seen = new Set(keys.filter(key => key !== 'rollaag'));
-  const action = footerAction(config, 0, seen, 'outside');
-  assert.equal(action.label, 'Naar Gevel & voorpui', 'a backward jump names its destination, so no arrow is needed');
+  const action = footerAction(config, 0, seen, 'regenpijp');
+  assert.equal(action.label, 'Naar Rollaag', 'a backward jump names its destination, so no arrow is needed');
   assert.equal(action.kind, 'section');
-  assert.equal(action.target, 'facade');
+  assert.equal(action.target, 'rollaag');
   assert.equal(action.remaining, 1);
 });
 
@@ -167,8 +164,8 @@ test('STATES 11/12/13 — the footer note counts CHOICES while armed and returns
   const keys = keysOf(config, 0);
   assert.equal(footerNote(footerAction(config, 0, new Set(), 'facade'), 0), 'Nog ' + keys.length + ' keuzes in deze stap');
   const oneLeft = new Set(keys.slice(0, -1));
-  assert.equal(footerNote(footerAction(config, 0, oneLeft, 'outside'), 0), 'Nog 1 keuze in deze stap', 'singular, one press ahead of retirement');
-  assert.equal(footerNote(footerAction(config, 0, new Set(keys), 'outside'), 0), 'Je ontwerp wordt automatisch op dit apparaat bewaard');
+  assert.equal(footerNote(footerAction(config, 0, oneLeft, 'regenpijp'), 0), 'Nog 1 keuze in deze stap', 'singular, one press ahead of retirement');
+  assert.equal(footerNote(footerAction(config, 0, new Set(keys), 'regenpijp'), 0), 'Je ontwerp wordt automatisch op dit apparaat bewaard');
   assert.equal(footerNote(footerAction(config, 3, new Set(), null), 3), 'Met je contactgegevens · geen bestelling of betaling');
 });
 
@@ -215,14 +212,19 @@ test('nextChoice and remainingChoices agree, and both are null-safe on an exhaus
 test('a choice that belongs to no section is always reached as a field', () => {
   const sections = STEP_SECTIONS[0];
   assert.deepEqual(choiceDestination('width', sections, 'facade', label), {kind: 'field', id: 'width', label: 'Breedte'});
-  assert.deepEqual(choiceDestination('interior', STEP_SECTIONS[1], 'finish', label), {kind: 'field', id: 'interior', label: 'Aanbouw binnen'});
+  assert.deepEqual(choiceDestination('interior', STEP_SECTIONS[1], 'stucwerk', label), {kind: 'field', id: 'interior', label: 'Aanbouw binnen'});
 });
 
-test('nextGroupId survives the removal of the in-panel "Volgende sectie" buttons', () => {
+test('one card per choice, in the order the visitor answers them', () => {
+  // 2.16.0: "kullanıcı her seferinde tek seçenek görsün". Every card carries one decision, except the two that
+  // hold one decision in two fields — Kozijn (material + door set) and anything with its own positions/bediening.
   const ids = STEP_SECTIONS[0].map(section => section.id);
-  assert.deepEqual(ids, ['facade', 'roof', 'outside']);
-  assert.equal(nextGroupId(ids, 'facade'), 'roof');
-  assert.equal(nextGroupId(ids, 'outside'), null);
+  assert.deepEqual(ids, ['facade', 'rollaag', 'kozijn', 'daglicht', 'daktrim', 'overstek', 'buitenlicht', 'buitenstopcontact', 'buitenkraan', 'regenpijp']);
+  assert.equal(nextGroupId(ids, 'facade'), 'rollaag');
+  assert.equal(nextGroupId(ids, 'regenpijp'), null);
+  const singles = STEP_SECTIONS.flat().filter(section => section.keys.length === 1).length;
+  assert.ok(singles >= 10, 'most cards are a single question');
+  assert.deepEqual(STEP_SECTIONS[0].find(section => section.id === 'kozijn').keys, ['openingMaterial', 'frontOpening']);
 });
 
 test('the step sections still cover every field the step claims, so no choice can fall through the cursor', () => {

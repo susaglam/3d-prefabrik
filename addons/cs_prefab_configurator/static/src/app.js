@@ -361,6 +361,25 @@ function choiceLabel(key){return catalog?.dimensions?.[key]?.label||fieldLabel(k
 function currentOpenGroup(){return openGroupId(expandedGroups,visibleGroups().map(group=>group.id));} // resolveOpenGroup() with its side effects left out: the footer only reads.
 function choiceNode(key){return $('[data-field="'+CSS.escape(key)+'"],[data-dimension="'+CSS.escape(key)+'"]');}
 
+/**
+ * Where "back" goes, and what it is called (2.16.0: "geri butonu da isim ile bir önceki seçime dönebilsin"). Inside a
+ * step that is the previous CHOICE, by name — now that a card is a choice, "vorige stap" was the wrong grain and an
+ * unlabelled arrow said nothing about what it would undo. At the first choice of a step it is the step before it.
+ */
+function backDestination(){
+ const list=visibleGroups(),open=currentOpenGroup();
+ const index=list.findIndex(group=>group.id===open);
+ if(index>0)return {action:'goto-group',id:list[index-1].id,label:list[index-1].title};
+ if(step>0)return {action:'previous',label:STEPS[step-1].short};
+ return null;
+}
+function backButton(){
+ const destination=backDestination();
+ if(!destination)return '';
+ const group=destination.action==='goto-group'?' data-group="'+esc(destination.id)+'"':'';
+ return '<button class="button back-button" data-action="'+destination.action+'"'+group+' aria-label="Terug naar '+esc(destination.label)+'">'
+  +icon('back')+'<span class="back-label">'+esc(destination.label)+'</span></button>';
+}
 /** What the primary button is right now: its label, its data-action and the number the footer note carries. */
 function footerAction(){
  if(step===STEPS.length-1)return {action:'contact',label:adminPreview?'Alleen conceptcontrole':'Persoonlijk voorstel maken',remaining:0};
@@ -389,6 +408,13 @@ function footerKicker(action){
 /** The cursor moves on every scroll, so the button and the note are patched in place — rebuilding the footer ~28 times per design would fight the aria-live price element. */
 function updateFooterAction(){
  const button=$('#panel-footer .next-button');if(!button)return;
+ // The way back follows the open card (2.16.0), so it is refreshed here rather than only on a full footer render:
+ // walking to the next choice changes what "terug" means, and the button has to say so.
+ const actions=$('#panel-footer .step-actions'),back=actions?.querySelector('.back-button'),wanted=backButton();
+ if(actions&&(back?back.outerHTML:'')!==wanted){
+  if(back)back.remove();
+  if(wanted)actions.insertAdjacentHTML('afterbegin',wanted);
+ }
  const action=footerAction(),label=button.querySelector('.next-label'),note=$('#panel-footer .footer-note'),text=footerNote(action);
  if(label&&label.textContent!==action.label)label.textContent=action.label;
  const kicker=button.querySelector('.next-kicker'),kick=footerKicker(action);if(kicker&&kicker.textContent!==kick)kicker.textContent=kick;
@@ -518,7 +544,7 @@ function renderFooter() {
  const caption=price?.priceStatusLabel||(demoPricing()?'Voorbeeldprijs incl. btw':'Prijsindicatie incl. btw');
  $('#panel-footer').innerHTML='<div class="price-peek"><div><span class="price-caption">'+esc(caption)+'</span><span class="price-caption-short" title="'+esc(caption)+'">'+(demoPricing()?'Demoprijs':'Incl. btw')+'</span><button data-action="pricing">Prijsopbouw</button></div><strong class="price-value '+(pricePending?'pending':'')+(pricePending&&price?' refreshing':'')+'" aria-live="polite">'+(pricePending?(price?money(price.total):'Berekenen…'):priceError?'Niet beschikbaar':price?money(price.total):'—')+'</strong></div>'+
  (priceError?'<p class="api-error" role="alert">'+(catalogChanged?'Het aanbod is bijgewerkt.':Object.keys(errors).length?'Controleer de gemarkeerde keuzes.':'Berekening niet beschikbaar.')+' <button data-action="'+(catalogChanged?'reload-catalog':'retry-price')+'">'+(catalogChanged?'Nieuwe versie bekijken':'Opnieuw proberen')+'</button></p>':'')+
- '<div class="step-actions">'+(step>0?'<button class="button back-button" data-action="previous" aria-label="Vorige stap">'+icon('back')+'</button>':'')+primaryButton(action)+'</div><p class="footer-note">'+esc(footerNote(action))+'</p>';
+ '<div class="step-actions">'+backButton()+primaryButton(action)+'</div><p class="footer-note">'+esc(footerNote(action))+'</p>';
 }
 function renderScope() {
  if(pricePending&&!price)return '<p class="scope-loading" role="status">De leveringsomvang wordt berekend…</p>'; // first load only; later the last list stays
@@ -1327,6 +1353,7 @@ document.addEventListener('click',async e=>{
  case 'close-material':closeMaterialCallout();setSceneView(step===1?'interior':'perspective');$('[data-action="material-detail"]')?.focus({preventScroll:true});break;
  case 'next':goStep(step+1);break;case 'previous':goStep(step-1);break;
  case 'goto-choice':goToChoice(button.dataset.choice);break;
+ case 'goto-group':openChoiceSection(button.dataset.group);renderFooter();break;
  case 'save':if(config){toast(persist()?'Je ontwerp is op dit apparaat bewaard. Je kunt hier later verder.':'Bewaren is in deze browser niet beschikbaar. Gebruik Delen om je ontwerp te bewaren.');}break;
  case 'share':await share();break;case 'contact':contactForm();break;case 'pricing':priceBreakdown();break;case 'retry-price':schedulePrice(true);break;
  case 'close-modal':closeModal();break;case 'privacy':privacy();break;case 'privacy-inline':privacy(true);break;
