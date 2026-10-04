@@ -32,6 +32,15 @@ const SHOTS = {
   'rollaag': (b, H) => [[.7, H - .2, b.front + 2.6], [0, H - .45, b.front]],
   'pui': (b, H) => [[.2, 1.5, b.front + 3.4], [0, 1.45, b.front]],
   'tap': (b, H) => [[b.right - .15, .92, b.front + 1.05], [b.right - .55, .62, b.front]],
+  // 2.17.0: the daklicht's broad frame profiles on their membrane kerb, from the garden and from close by; and the
+  // downpipe's hopper head under the daktrim, from the garden corner and from above the roof edge.
+  'rooflight': (b, H) => [[b.right + 1.2, H + 1.55, b.front + 2.4], [0, H + .3, -.1]],
+  'rooflight-close': (b, H) => [[1.5, H + .95, b.front + .7], [.2, H + .28, -.1]],
+  'rooflight-ridge': (b, H) => [[.9, H + .75, .55], [.1, H + .35, -.25]],
+  'rooflight-under': (b, H) => [[.3, 1.35, b.front - .4], [0, H + .3, -.1]],
+  'hopper': (b, H) => [[b.right + .75, H - .25, b.front + 1.15], [b.right - .2, H - .2, b.front + .04]],
+  'hopper-above': (b, H) => [[b.right + .25, H + .85, b.front + .75], [b.right - .2, H + .02, b.front + .02]],
+  'hopper-front': (b, H) => [[b.right - .55, H - .45, b.front + 1.6], [b.right - .2, H - .3, b.front]],
   'house-corner': (b, H) => [[b.right + 2.2, 2.3, b.front + 3.2], [b.right + .4, 2.2, b.back]],
   'house-roof': (b, H) => [[b.right + 1.5, H + 3.2, b.front + 5.5], [0, H + 2.4, b.back - 1.5]],
   'wide': (b, H) => [[b.right + 4.5, 3.4, b.front + 7.5], [0, 1.6, b.back + .8]],

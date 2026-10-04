@@ -10,8 +10,22 @@ test('commercial or position changes preserve the structural scene; facade selec
  const config={width:500,depth:300,facade:'brick-red',heating:'left'};
  assert.equal(sceneChange(config,{...config,postcode:'1234 AB'}),'none');
  assert.equal(sceneChange(config,{...config,heating:'both'}),'fixtures');
- assert.equal(sceneChange(config,{...config,facade:'wood-vertical',heating:'both'}),'material');
+ // A swap between two finishes that are not brick only re-skins the walls.
+ assert.equal(sceneChange({...config,facade:'pvc-black'},{...config,facade:'wood-vertical',heating:'both'}),'material');
  assert.equal(sceneChange(config,{...config,width:600,facade:'wood-vertical'}),'structure');
+});
+
+test('a facade change that involves brick rebuilds, because the masonry rollaag is a course of THAT brick',()=>{
+ // 2.17.0, measured on the live 2.16.2 site while chasing "rollaag ayarları ilk seçtiğim yerde güncellenmiyor": the
+ // soldier course over the opening exists on a brick facade only and wears that facade's own brick (2.16.0). A
+ // facade swap took the material-only path, which re-skins surface 'facade' and never touches the course, so red ->
+ // black left a RED course over the opening, yellow -> wood left a yellow-brick course on a timber wall, and render ->
+ // brick had no course at all — until some later click happened to rebuild the scene.
+ const config={width:500,depth:300,facade:'brick-red',rollaag:'masonry'};
+ for(const [from,to] of [['brick-red','brick-black'],['brick-red','brick-yellow'],['brick-yellow','wood-horizontal'],['render','brick-black'],['pvc-cream','brick-white']])
+  assert.equal(sceneChange({...config,facade:from},{...config,facade:to}),'structure',`${from} -> ${to}`);
+ for(const [from,to] of [['wood-vertical','pvc-green'],['render','open-horizontal']])
+  assert.equal(sceneChange({...config,facade:from},{...config,facade:to}),'material',`${from} -> ${to}: no brick on either side, the fast path stays`);
 });
 
 function sceneHarness(config,scope=[]){

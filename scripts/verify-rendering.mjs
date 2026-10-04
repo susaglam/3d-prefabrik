@@ -165,7 +165,9 @@ try {
 
     // facade: photographic scan mean (the texture's own measured average, not the small flat UI picker-card colour -
     // see .data/b2_swatch.mjs and its brick_ref.py note). frame/daktrim: the single hex geometry.js/preview.js both hardcode.
-    const references = {facade: '#6a534b', frame: '#efede6', daktrim: '#3a3f3d'};
+    // 2.17.0: "Baksteen rood" loads brick_red_diffuse.jpg, the lighter recolour (provenance meanSRGB 165.5/135/122);
+    // the scan's #6a534b is now only the derivation source.
+    const references = {facade: '#a5877a', frame: '#efede6', daktrim: '#3a3f3d'};
     const rows = [];
     for (const material of report.materials) {
       const want = references[material.name]; if (!want) continue;

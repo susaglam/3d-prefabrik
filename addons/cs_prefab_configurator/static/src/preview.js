@@ -2,10 +2,10 @@ import * as THREE from '../vendor/three.module.js';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { HDRLoader } from '../vendor/HDRLoader.js';
 import { EffectComposer, RenderPass, GTAOPass, OutputPass } from '../vendor/render-addons.module.js';
-import { buildGeometry, planSvg } from './geometry.js';
+import { buildGeometry, planSvg, DAKTRIM_FACE, HOPPER } from './geometry.js';
 import { buildFixture, fixtureAppearance, buildPreparation, buildUnderfloorHeating, underfloorAppearance } from './fixtures.js';
 import { sceneChange, canonicalFixtureKey, visibleLightEffectCount, renderTier } from './render_state.js';
-import { profileGeometry, metricUVs, softPad, ROOF_RECESS, TRIM_REACH, DOWNPIPE, downpipeRoute, roundedRoute, pipeGeometries, roofOutlet } from './architectural_details.js';
+import { profileGeometry, metricUVs, softPad, ROOF_RECESS, TRIM_REACH, DOWNPIPE, downpipeRoute, roundedRoute, pipeGeometries, roofOutlet, SPOUT } from './architectural_details.js';
 import { FENCE_STYLE_IDS, DEFAULT_FENCE_STYLE, FENCE_HEIGHT, HEDGE, fencePanels, mergedBoxes, modernPanelParts, hedgeLeaves, classicPanelParts, occludingPanels, seeded } from './garden_fence.js';
 import { normalizeEnvironment, sceneEnvironmentKey, houseLayout } from './environment.js';
 import { finishColor, shadeHex } from './finishes.js';
@@ -22,7 +22,8 @@ const FACADE_SCANS = {
 };
 
 const PALETTE = {
-    'brick-red':['#9d6852','#b47b61','#875440','#bd896c'],
+    // Shown until the scan arrives: tones of the lighter red clay (2.17.0), so the wall does not jump when it loads.
+    'brick-red':['#b4877a','#c49686','#a07465','#cba091'],
     'brick-black':['#494b44','#55574f','#41443e','#66635b'],
     'brick-white':['#dfdbcf','#eae6dd','#d6d2c7','#d0cbbb'],
     'brick-yellow':['#c8ae76','#d4bc88','#bda06a','#d7c494'],
@@ -278,6 +279,12 @@ const FOOTING=.05;
  * flange all take this one material, so the membrane reads as one sheet dressed up the edge.
  */
 const ROOF_MEMBRANE=Object.freeze({color:'#474b49',roughness:.78,envMapIntensity:.9});
+/**
+ * The glazing profile of a daklicht: a broad, flat aluminium bar. 9 cm across is what a lichtstraat's rafter cap
+ * measures against a 72 cm bay in the owner's reference photographs (about an eighth of the bay). It stands 5 cm
+ * high, 12 mm of which lies under the glass line, so the pane reads as set into the frame rather than laid on it.
+ */
+const ROOFLIGHT_BAR=Object.freeze({width:.09,height:.05,sink:.012});
 function attachPlotFade(material,uniforms){
     // Mixed after the fog, with the fog's own colour and its own colour-space handling: the haze therefore meets the
     // fogged far ground, the sky's horizon and the studio paper without a seam, whichever backdrop is active.
@@ -428,9 +435,21 @@ function extrudedPrism(profile,axis,from,to) {
     return geometry;
 }
 
+/**
+ * The fittings that hang on the garden front. Choosing one shows the WHOLE front, not a close-up of one pier
+ * (2.17.0, the owner: "buitenlicht seçiminde sol sağ focus yapmasın, hepsini bir kerede göstersin; musluk ve
+ * dışarıdaki prizlerde de aynı şekilde"): the choice moves the fitting, and left, right and both are one picture.
+ */
+const FRONT_FITTINGS=Object.freeze(['outsideLight','outsideSocket','outsideTap']);
+/** The front of the aanbouw as camera subjects: both piers, foot to roof edge, out to the overstek when there is one. */
+function frontFacadeSubjects(model) {
+    const b=model.bounds,top=model.height+model.roofThickness/2,reach=b.front+(model.overhangDepth||0);
+    return [b.left,b.right].flatMap(x=>[[x,0,b.front],[x,top,reach]]).map(position=>({kind:'facade',position,rotation:0,room:'outside'}));
+}
+
 /** Fit the selected fittings with surrounding wall/ceiling context, using their real mounting side. */
-function fixtureCameraFrame(fixtures,model,aspect,automatic=false) {
-    const box=new THREE.Box3(),padding=automatic?.65:.35;
+function fixtureCameraFrame(fixtures,model,aspect,automatic=false,{padding=automatic?.65:.35}={}) {
+    const box=new THREE.Box3();
     for(const fixture of fixtures){
         const p=new THREE.Vector3(...fixture.position),radiator=fixture.kind==='radiator',pendant=fixture.kind==='pendant';
         const extent=new THREE.Vector3(radiator?.54:.15,radiator?.97:.18,radiator?.54:.15);
@@ -981,7 +1000,9 @@ export class Preview {
         // The wood albedo is the wood_floor_deck scan retoned from varnished floor to oiled cladding — that keeps it
         // registered pixel for pixel with the normal and roughness maps of the same scan, which already shipped.
         // [key, file, sRGB colour map?, AO map?]
-        const entries=[['brickColor','red_brick_03_diffuse.jpg',true],['brickNormal','red_brick_03_nor_gl.jpg'],['brickRough','red_brick_03_rough.jpg'],
+        // 2.17.0: "Baksteen rood" is the lighter salmon recolour too (the owner's reference brick); the scan itself
+        // stays on disk as the source of all four and is no longer fetched.
+        const entries=[['brickColor','brick_red_diffuse.jpg',true],['brickNormal','red_brick_03_nor_gl.jpg'],['brickRough','red_brick_03_rough.jpg'],
             ['brickBlackColor','brick_black_diffuse.jpg',true],['brickWhiteColor','brick_white_diffuse.jpg',true],['brickYellowColor','brick_yellow_diffuse.jpg',true],
             ['woodColor','wood_facade_diffuse.jpg',true],['woodNormal','wood_floor_deck_nor_gl.jpg'],['woodRough','wood_floor_deck_rough.jpg'],
             // The modern fence's hardwood slats (2.12.0): the deck scan's own warm albedo, registered with the two maps above.
@@ -1079,7 +1100,11 @@ export class Preview {
             // Roughness: the brick map averages .53 and the deck map .44, so the factors land the wall at .49 (matte
             // fired clay) and the boards at .40 (oiled timber, a little sheen at grazing sun, never a gloss).
             const scale=brick?.45:.3;
-            this.materials.set(key,new THREE.MeshStandardMaterial({map:texture,normalMap,normalScale:new THREE.Vector2(scale,scale),bumpMap:brick&&!scanned?texture:null,bumpScale:.002,roughnessMap,roughness:brick?.93:.9,envMapIntensity:brick?2.15:1,color:'#ffffff'}));
+            // The 2.16.0 lift (2.15) brightened DARK clay by the environment. The red brick now carries its lightness
+            // in the albedo itself (2.17.0), and stacked on a light albedo that lift overshoots into pink — measured
+            // #ce9f9b against the reference's #b5857a at 1.0 — so the red is lit like any wall and the others keep it.
+            const lift=code==='brick-red'?1:brick?2.15:1;
+            this.materials.set(key,new THREE.MeshStandardMaterial({map:texture,normalMap,normalScale:new THREE.Vector2(scale,scale),bumpMap:brick&&!scanned?texture:null,bumpScale:.002,roughnessMap,roughness:brick?.93:.9,envMapIntensity:lift,color:'#ffffff'}));
         }
         return this.materials.get(key);
     }
@@ -1150,9 +1175,16 @@ export class Preview {
         this.buildCladding();
     }
 
-    /** Panel material for "geen rollaag wit/zwart" (frame colour); null when the facade continues (rollaag). */
+    /**
+     * Panel material for "geen rollaag wit/zwart" (frame colour); null when the facade continues (rollaag).
+     * The panel belongs to the HOLE, not to the door in it: until 2.17.0 it waited for a kozijn with leaves
+     * (opening.panelCount), which was invisible while a sliding door was the default and became a bug the day "Geen
+     * deur" became the starting choice — the Rollaag card comes before the Kozijn card, so the owner chose a panel
+     * and the picture kept its brick until the next card was touched. "Geen kozijn" still leaves the hole and its
+     * outer frame (geometry.js: every kozijn leaves a real hole), and that is all the panel needs.
+     */
     rollaagPanel(m){
-        if(m.rollaag==='masonry'||!m.opening.panelCount)return null;
+        if(m.rollaag==='masonry'||!(m.opening.width>0))return null;
         return this.material(`rollaag:${m.rollaag}`,{color:m.rollaag==='panel-white'?'#efede6':'#303432',roughness:.5});
     }
 
@@ -1355,7 +1387,9 @@ export class Preview {
             const parts=roundedRoute(downpipeRoute(drain,b.front,m.overhangDepth),DOWNPIPE.bend),end=parts.pop();
             for(const geometry of pipeGeometries(parts,DOWNPIPE.radius)){const tube=new THREE.Mesh(geometry,pipe);tube.castShadow=true;tube.name='downpipe';drainPart(tube);}
             const mouth=lineBetween(end.from,end.to,pipe,2*DOWNPIPE.radius,{hollow:bore});mouth.name='downpipe-uitloop';drainPart(mouth);
-            this.buildRoofOutlet(m,drain,pipe,bore);
+            // Without an overstek the water leaves through the roof EDGE into a hopper under the daktrim (2.17.0); with
+            // one it drops through the overstek floor, so the outlet on the roof stays where the pipe is under it.
+            if(drain.hopper)this.buildHopper(m,drain,pipe,bore,drainPart);else this.buildRoofOutlet(m,drain,pipe,bore);
             for(const y of [.5,1.8])this.tag(this.box(this.root,[.095,.034,.035],[drain.x,y,drain.z+.007],pipe),'drainMaterial');
         }
         this.buildFixtures();
@@ -1494,15 +1528,17 @@ export class Preview {
             // the finished roof ("daktrim iç tarafında biraz daha derinlik"). 5 mm short of the outer face, so it never
             // shares a plane with the facade band or the boeiboord.
             put(TRIM_REACH,-.005,ROOF_RECESS+.003,slabTop+.001-(ROOF_RECESS+.003)/2,{material:membrane,key:null});
-            // The trim's top leg on the kantplank, then the visible edge profile.
+            // The trim's top leg on the kantplank, then the visible edge profile — its face is DAKTRIM_FACE
+            // (geometry.js), which is also where the downpipe's hopper hangs from.
             put(TRIM_REACH,.01,.014,slabTop+.008);
+            const face=DAKTRIM_FACE[m.roofEdge]||DAKTRIM_FACE.anthracite,faceHeight=face.top-face.bottom,faceY=slabTop+(face.top+face.bottom)/2;
             if(m.roofEdge==='zinc'){
                 // The zinc roll runs corner centre to corner centre and a ball of the same radius turns each corner.
                 const roll=new THREE.Mesh(new THREE.CylinderGeometry(.028,.028,run.axis==='x'?2*edgeSide:edgeFront-b.back,18),edge);
                 roll.rotation.set(run.axis==='x'?0:Math.PI/2,0,run.axis==='x'?Math.PI/2:0);roll.position.set(run.center[0],slabTop+.004,run.center[1]);
                 roll.castShadow=true;this.roofGroup.add(roll);this.tag(roll,'roofEdge');
-                put(0,.012,.03,slabTop-.035);
-            } else put(0,.018,.05,slabTop-.01);
+                put(0,.012,faceHeight,faceY);
+            } else put(0,.018,faceHeight,faceY);
         }
         if(m.roofEdge==='zinc')for(const side of [-1,1]){
             const ball=new THREE.Mesh(new THREE.SphereGeometry(.028,18,12),edge);ball.position.set(side*edgeSide,slabTop+.004,edgeFront);
@@ -1519,9 +1555,64 @@ export class Preview {
     }
 
     /**
+     * The roof drains through its EDGE (2.17.0, the owner with photographs: "dak trim yandan dışarı çıkıntısı yok ama
+     * borunun hizasında çıkıntısı var ve boru duvara değil bu daktrim çıkıntısına bağlanıp suyu oradan topluyor;
+     * üstten bakıldığında tavanda bir delik değil, iç kısımdan dışa taşan daktrimden boruya bağlantı var").
+     *
+     * Three parts, the way a Dutch roofer builds it: a kiezelbak on the membrane with its rectangular zijuitloop in the
+     * inner face of the roof edge; that 80 x 60 mm tube running out under the uninterrupted daktrim, through the
+     * facade; and an open vergaarbak screwed to the facade directly under the trim, the tube entering its back. The
+     * pipe hangs from the hopper's floor (geometry.js drain.hopper), so there is no elbow and no hole in the roof.
+     * Everything answers to "Regenbuis" like the pipe; the kiezelbak lies in the roof group and leaves with the roof.
+     */
+    buildHopper(m,drain,pipe,bore,drainPart){
+        const b=m.bounds,h=drain.hopper,back=b.front+.003,[wTop,dTop]=HOPPER.top,[wBottom,dBottom]=HOPPER.bottom;
+        // A prismoid between two rectangles, flat back against the wall, the front and sides leaning in toward the outlet.
+        const outline=(y,w,d,inset=0)=>[[drain.x-w/2+inset,y,back+inset],[drain.x+w/2-inset,y,back+inset],[drain.x+w/2-inset,y,back+d-inset],[drain.x-w/2+inset,y,back+d-inset]];
+        const shell=(top,bottom,{inward=false,capBottom=true}={})=>{
+            const positions=[],centre=[0,1,2].map(i=>(top.concat(bottom)).reduce((sum,p)=>sum+p[i],0)/8);
+            const triangle=(a,b2,c)=>{
+                const n=[(b2[1]-a[1])*(c[2]-a[2])-(b2[2]-a[2])*(c[1]-a[1]),(b2[2]-a[2])*(c[0]-a[0])-(b2[0]-a[0])*(c[2]-a[2]),(b2[0]-a[0])*(c[1]-a[1])-(b2[1]-a[1])*(c[0]-a[0])];
+                const out=[0,1,2].map(i=>(a[i]+b2[i]+c[i])/3-centre[i]),facing=n[0]*out[0]+n[1]*out[1]+n[2]*out[2];
+                if((facing<0)!==inward)positions.push(...a,...c,...b2);else positions.push(...a,...b2,...c);
+            };
+            for(let i=0;i<4;i++){const j=(i+1)%4;triangle(top[i],top[j],bottom[j]);triangle(top[i],bottom[j],bottom[i]);}
+            if(capBottom){triangle(bottom[0],bottom[1],bottom[2]);triangle(bottom[0],bottom[2],bottom[3]);}
+            const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.computeVertexNormals();return geometry;
+        };
+        const part=(geometry,material,name)=>{const mesh=new THREE.Mesh(geometry,material);mesh.name=name;mesh.castShadow=name==='downpipe-hopper';mesh.receiveShadow=true;drainPart(mesh);return mesh;};
+        // Outside; inside (seen from above, through the open top, 4 mm under the rim); and the rim that closes the
+        // gap between the two, so the wall of the hopper has a thickness rather than a slit.
+        const wall=.003,rimDrop=.004;
+        part(shell(outline(h.top,wTop,dTop),outline(h.bottom,wBottom,dBottom)),pipe,'downpipe-hopper');
+        part(shell(outline(h.top-rimDrop,wTop,dTop,wall),outline(h.bottom+.01,wBottom,dBottom,wall),{inward:true}),bore,'downpipe-hopper-inside');
+        const outer=outline(h.top,wTop,dTop),inner=outline(h.top-rimDrop,wTop,dTop,wall),rim=[];
+        // Wound so every rim triangle faces up (outer, inner-next, outer-next): one-sided, in the pipe's own material.
+        for(let i=0;i<4;i++){const j=(i+1)%4;rim.push(...outer[i],...inner[j],...outer[j],...outer[i],...inner[i],...inner[j]);}
+        const rimGeometry=new THREE.BufferGeometry();rimGeometry.setAttribute('position',new THREE.Float32BufferAttribute(rim,3));rimGeometry.computeVertexNormals();
+        part(rimGeometry,pipe,'downpipe-hopper');
+        // The outlet collar under the floor, where the pipe is pushed in.
+        const collar=new THREE.Mesh(new THREE.CylinderGeometry(DOWNPIPE.radius+.004,DOWNPIPE.radius+.004,.03,18),pipe);
+        collar.position.set(drain.x,h.bottom-.015,drain.z);collar.name='downpipe-hopper';collar.castShadow=true;drainPart(collar);
+        // The zijuitloop: from inside the wall, through the facade, into the back of the hopper — just under its rim.
+        const lead=this.material('downpipe-spout',{color:'#6b6e72',roughness:.7,metalness:.3});
+        const spoutTop=h.top-.02,spoutLength=SPOUT.into+SPOUT.reach;
+        const spout=this.box(this.root,[SPOUT.width,SPOUT.height,spoutLength],[drain.x,spoutTop-SPOUT.height/2,b.front-SPOUT.into+spoutLength/2],lead);
+        spout.name='downpipe-spout';this.tag(spout,'drainMaterial');
+        // On the roof: the kiezelbak plate on the membrane and the dark mouth of the tube in the inner face of the edge.
+        const slabTop=m.height+m.roofThickness/2,surface=slabTop-ROOF_RECESS,innerFace=b.front-TRIM_REACH;
+        const plate=this.box(this.roofGroup,[.16,.004,.16],[drain.x,surface+.002,innerFace-.08],lead,{shadow:false});
+        plate.name='roof-scupper';this.tag(plate,'drainMaterial');
+        // 2 mm proud of the inner face of the kantplank and 8 mm into it, so it reads as the tube's mouth from the roof.
+        const mouth=this.box(this.roofGroup,[SPOUT.width,.034,.01],[drain.x,surface+.017,innerFace+.003],bore,{shadow:false});
+        mouth.name='roof-scupper';this.tag(mouth,'drainMaterial');
+    }
+
+    /**
      * The roof outlet (2.13.0, "çatıdaki suyun akacağı yerde delik olmalı, boruya bağlanan"): where the water leaves
      * the membrane for the downpipe. A membrane flange pressed on the roof, a metal ring and a dark bore — from above,
-     * a hole with the pipe under it. It lies in the roof group, so it leaves with the roof, and answers like the pipe.
+     * a hole with the pipe under it. Since 2.17.0 only for an overstek: the pipe stands under the overstek floor, so
+     * that is where the water goes down. Without one the roof drains through its edge (buildHopper).
      */
     buildRoofOutlet(m,drain,pipe,bore){
         const ovh=m.overhangDepth||0,o=roofOutlet(drain,m.bounds.front+ovh,m.width/2+(ovh?.006:0)),y=m.height+m.roofThickness/2-ROOF_RECESS;
@@ -1879,19 +1970,36 @@ export class Preview {
         // Opstand, kerb, cheeks, glass and its frame lines are the daklicht; the zonwering under the glass is tagged
         // separately below, so a click from inside lands on the blind and a click from outside on the rooflight.
         const firstPart=this.roofGroup.children.length;
-        const kerb=this.material(`rooflight-kerb:${m.opening.frame}`,{color:m.opening.frame,roughness:.42,metalness:m.openingMaterial==='aluminium'?.55:.08,side:THREE.DoubleSide});
-        // Closed upstand: inner lining, an outer kerb in the frame colour up to the glass base, and a capping that
-        // closes the ledge between the glass edge and the outer kerb face on all four sides.
-        for(const side of [-1,1])this.box(this.roofGroup,[.065,.24,r.depth+.10],[side*(r.width/2+.03),m.height+.06,r.z],inside);
-        for(const side of [-1,1])this.box(this.roofGroup,[r.width,.24,.065],[0,m.height+.06,r.z+side*(r.depth/2+.03)],inside);
-        // The kerb stands on the membrane, which lies ROOF_RECESS under the slab top.
+        // The upstand is the roofer's work: the roof membrane dressed up the kerb, whatever colour the kozijn has
+        // (2.17.0, the owner's photographs — a dark kerb under a white frame). It used to take the kozijn colour, so a
+        // white kozijn gave a white box on the roof and the frame on top of it had nothing to stand out against.
+        const kerb=this.surface('roof-membrane',ROOF_MEMBRANE);
+        // The kerb stands on the membrane, which lies ROOF_RECESS under the slab top, and a capping closes its top
+        // between the glass edge and the outer kerb face on all four sides. The capping starts AT the glass edge:
+        // when it reached 2 cm in under the glass it showed through as a white ledge running round inside the shaft
+        // (the owner's red crosses, 2.17.0 — "daklichtte koymuş olduğun bu iç destek profillerini kaldır").
         const kerbFoot=m.height+.08-ROOF_RECESS;
-        for(const side of [-1,1])this.box(this.roofGroup,[.05,baseY-kerbFoot,r.depth+.20],[side*(r.width/2+.085),(baseY+kerbFoot)/2,r.z],kerb);
-        for(const side of [-1,1])this.box(this.roofGroup,[r.width+.22,baseY-kerbFoot,.05],[0,(baseY+kerbFoot)/2,r.z+side*(r.depth/2+.085)],kerb);
+        for(const side of [-1,1])this.box(this.roofGroup,[.05,baseY-kerbFoot,r.depth+.20],[side*(r.width/2+.085),(baseY+kerbFoot)/2,r.z],kerb).name='rooflight-kerb';
+        for(const side of [-1,1])this.box(this.roofGroup,[r.width+.22,baseY-kerbFoot,.05],[0,(baseY+kerbFoot)/2,r.z+side*(r.depth/2+.085)],kerb).name='rooflight-kerb';
         for(const side of [-1,1]){
-            this.box(this.roofGroup,[lip+.02,.025,r.depth+2*lip],[side*(r.width/2+lip/2-.01),baseY-.0125,r.z],kerb);
-            this.box(this.roofGroup,[r.width+2*lip,.025,lip+.02],[0,baseY-.0125,r.z+side*(r.depth/2+lip/2-.01)],kerb);
+            this.box(this.roofGroup,[lip,.025,r.depth+2*lip],[side*(r.width/2+lip/2),baseY-.0125,r.z],kerb).name='rooflight-capping';
+            this.box(this.roofGroup,[r.width+2*lip,.025,lip],[0,baseY-.0125,r.z+side*(r.depth/2+lip/2)],kerb).name='rooflight-capping';
         }
+        // The shaft is lined in the room's own wall finish right up to the glass, on all four sides, so from the room
+        // you look up past plain walls into the sky and from outside you look down onto the same plain walls. Until
+        // 2.17.0 the lining stopped 13 cm under the glass and the gap showed the kerb behind it; corner posts and a
+        // ledge stood in front of that — the "inner supports" the owner asked to take out. 8 mm inside the glass
+        // line, so the lining is the first surface the room sees, not the cheek behind it.
+        const foot=m.height-.06,high=baseY+rise,t=.008;
+        const lining=mesh=>{mesh.name='rooflight-lining';mesh.castShadow=false;mesh.receiveShadow=true;this.roofGroup.add(mesh);return mesh;};
+        const sideProfile=r.kind==='gable'
+            ?[[o.back,foot],[o.back,baseY],[r.z,high],[o.front,baseY],[o.front,foot]]
+            :[[o.back,foot],[o.back,high],[o.front,baseY],[o.front,foot]];
+        lining(new THREE.Mesh(extrudedPrism(sideProfile,'x',o.left,o.left+t),inside));
+        lining(new THREE.Mesh(extrudedPrism(sideProfile,'x',o.right-t,o.right),inside));
+        const backTop=r.kind==='lean'?high:baseY;
+        lining(this.box(this.roofGroup,[r.width,backTop-foot,t],[0,(backTop+foot)/2,o.back+t/2],inside,{shadow:false}));
+        lining(this.box(this.roofGroup,[r.width,baseY-foot,t],[0,(baseY+foot)/2,o.front-t/2],inside,{shadow:false}));
         // Closed ends: solid cheeks from the glass edge out to the kerb face, so no side, back or front stays open.
         const solid=(profile,axis,from,to)=>{const mesh=new THREE.Mesh(extrudedPrism(profile,axis,from,to),kerb);mesh.castShadow=true;mesh.receiveShadow=true;mesh.name='rooflight-cheek';this.roofGroup.add(mesh);};
         if(r.kind==='lean'){
@@ -1905,18 +2013,48 @@ export class Preview {
             const end=[[o.back-lip,baseY-.01],[o.front+lip,baseY-.01],[o.front+lip,baseY],[o.front,baseY],[r.z,baseY+rise],[o.back,baseY],[o.back-lip,baseY]];
             solid(end,'x',o.left-lip,o.left);solid(end,'x',o.right,o.right+lip);
         }
-        const uniqueEdges=new Set();
         for(const panel of r.panels) {
             const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(panel.points.flat(),3));
             geometry.setIndex([0,1,2,0,2,3]);geometry.computeVertexNormals();
-            const mesh=new THREE.Mesh(geometry,glass);this.roofGroup.add(mesh);
-            for(let i=0;i<4;i++){const a=panel.points[i],b=panel.points[(i+1)%4],key=[a.join(','),b.join(',')].sort().join('|');if(uniqueEdges.has(key))continue;uniqueEdges.add(key);this.roofGroup.add(lineBetween(a,b,frame,.043));}
+            this.roofGroup.add(new THREE.Mesh(geometry,glass));
         }
-        for(const x of [o.left,o.right])for(const z of [o.back,o.front]) {
-            const top=r.kind==='lean'&&z===o.back?baseY+r.rise:baseY;
-            this.roofGroup.add(lineBetween([x,m.height+.08,z],[x,top,z],frame,.035));
+        // The glazing profiles (2.17.0, the owner: "bizdeki daklicht çerçeveleri boru gibi duruyor, örnek görseldeki gibi
+        // kalın çerçeveleri olsun"). Every line of the frame used to be a 43 mm CYLINDER between two pane corners —
+        // literally a pipe. A lichtstraat is glazed in broad, flat aluminium profiles that stand proud of the glass:
+        // one per rafter, one along each eaves, one along the high edge or the ridge. Each lies in the plane of its
+        // own slope, sunk a little under the glass line so the pane reads as set INTO the frame.
+        const bar=(from,to,normal,{width=ROOFLIGHT_BAR.width,height=ROOFLIGHT_BAR.height,sink=ROOFLIGHT_BAR.sink,offset=[0,0,0],overrun=0}={})=>{
+            const a=new THREE.Vector3(...from),b=new THREE.Vector3(...to),along=b.clone().sub(a),length=along.length();
+            along.normalize();
+            const up=new THREE.Vector3(...normal);up.addScaledVector(along,-up.dot(along)).normalize();
+            const mesh=new THREE.Mesh(new THREE.BoxGeometry(width,height,length+2*overrun),frame);
+            mesh.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(new THREE.Vector3().crossVectors(up,along),up,along));
+            mesh.position.copy(a).add(b).multiplyScalar(.5).addScaledVector(up,height/2-sink).add(new THREE.Vector3(...offset));
+            mesh.castShadow=true;mesh.receiveShadow=true;mesh.name='rooflight-bar';this.roofGroup.add(mesh);
+        };
+        // The profiles round the outside are broader: from half a bar inside the glass edge out over the kerb, 1 cm
+        // past its face, so from the garden the frame is the whole top of the daklicht and the kerb is what it stands
+        // on. `shift` is how far such a profile's centre lies outside the glass edge.
+        const reach=lip+.01,edge=ROOFLIGHT_BAR.width/2+reach,shift=(reach-ROOFLIGHT_BAR.width/2)/2;
+        // A lean-to is one slope, high against the house; a zadeldak is two, meeting on a ridge parallel to the house.
+        const perSide=r.kind==='gable'?r.panelCount/2:r.panelCount;
+        const slopes=r.kind==='gable'?[{low:o.back,top:r.z},{low:o.front,top:r.z}]:[{low:o.front,top:o.back}];
+        for(const slope of slopes){
+            const run=slope.low-slope.top,out=Math.sign(run),normal=[0,Math.abs(run),rise*out];
+            // Rafters lie in the plane of their slope; the two end ones are edge profiles, over the cheeks.
+            for(let i=0;i<=perSide;i++){
+                const x=o.left+i*r.width/perSide,end=i===0?-1:i===perSide?1:0;
+                bar([x,high,slope.top],[x,baseY,slope.low],normal,end?{width:edge,offset:[end*shift,0,0]}:{});
+            }
+            // The eaves profile is a level sill ON the kerb, not a tilted one cutting through it: tilted, its outer
+            // half dips under the kerb's own top (3 cm on a zadeldak) and the two surfaces fight for the same pixels.
+            bar([o.left,baseY,slope.low],[o.right,baseY,slope.low],[0,1,0],{width:edge,height:.045,sink:0,offset:[0,0,out*shift],overrun:reach});
+            // The high edge of a lean-to stands on the upstand against the house, reaching down to cover the glass.
+            if(r.kind==='lean')bar([o.left,high,slope.top],[o.right,high,slope.top],[0,1,0],{width:edge,height:.055,sink:.015,offset:[0,0,-out*shift],overrun:reach});
         }
-        if(r.kind==='gable')for(const x of [o.left,o.right])this.roofGroup.add(lineBetween([x,baseY,r.z],[x,baseY+r.rise,r.z],frame,.035));
+        // The ridge cap of a zadeldak covers both top edges, which fall away from it on either side. Nothing stands
+        // under it: the frame carries itself on the kerb, and the gable ends are closed by the cheeks outside the glass.
+        if(r.kind==='gable')bar([o.left,high,r.z],[o.right,high,r.z],[0,1,0],{width:.11,height:.068,sink:.03,overrun:reach});
         for(let i=firstPart;i<this.roofGroup.children.length;i++)this.tag(this.roofGroup.children[i],'rooflight');
         if(m.roofShade){
             const fabric=this.material('roof-shade',{color:'#e5e0d1',roughness:1,side:THREE.DoubleSide});
@@ -3128,10 +3266,13 @@ export class Preview {
     focusOption(key,{automatic=false}={}){
         if(!this.model||!this.camera||this.failed)return false;
         if(key==='underfloorHeating'){this.mode='3d';this.applyMode();if(this.view!=='interior')this.setView('interior');this.playUnderfloorAnimation();return true;}
-        if(['rooflight','roofShade','overhang'].includes(key)){
-            const m=this.model,points=key==='overhang'&&m.overhang!=='none'
-                ?[m.bounds.left,m.bounds.right].flatMap(x=>[[x,m.height-.3,m.bounds.front],[x,m.height+.1,m.bounds.front+m.overhangDepth+.35]])
-                :key!=='overhang'?m.rooflight.panels.flatMap(panel=>panel.points):[];
+        // An overstek is a band round the whole roof edge: it is judged from the standing view on the right, the one
+        // "geen overstek" leaves in place (2.17.0, the owner: "overstek tıklamalarında önizleme 45 izometrik sağdan
+        // olsun"). It used to swing the camera up over the LEFT corner, so comparing the four choices meant watching
+        // the picture jump between two standpoints.
+        if(key==='overhang'){this.mode='3d';this.applyMode();this.setView('perspective');return true;}
+        if(['rooflight','roofShade'].includes(key)){
+            const m=this.model,points=m.rooflight.panels.flatMap(panel=>panel.points);
             if(!points.length){this.mode='3d';this.applyMode();this.setView('perspective');return true;}
             this.applyCameraFrame(fixtureCameraFrame(points.map(position=>({kind:'roof-detail',position,room:'outside'})),m,this.camera.aspect,automatic));
             this.cameraFocus={kind:'structure',key,automatic};this.cameraTouched=false;return true;
@@ -3139,6 +3280,15 @@ export class Preview {
         const aliases={ceilingPositions:'ceilingLights',spotPositions:'spotlights',socketPositions:'sockets'};
         const fixtures=this.model.fixtures.filter(item=>item.key===(aliases[key]||key)||item.id===key);
         if(!fixtures.length){if(['facade','painting','plaster'].includes(key))return this.focusMaterial(key,{automatic});this.mode='3d';this.applyMode();this.setView(['ceilingPositions','ceilingLights','spotPositions','spotlights'].includes(key)?'ceiling':'front');return true;}
+        // A CHOICE of outside light, socket or tap shows the whole front, the same picture for left, right and both;
+        // the explicit "3D bekijken" still walks up to the fitting itself. When an oversized wall-edge clearance has
+        // moved the services to a side wall the front would not show them, so those are followed round as before.
+        // The frame is fitted to the front itself with no padding beyond the subjects' own extent: "mümkün olduğu
+        // kadar prefabrik kısma odaklansın, dış kısımları çok fazla göstermeye gerek yok".
+        if(automatic&&FRONT_FITTINGS.includes(key)&&fixtures.every(fixture=>(fixture.surface||'front')==='front')){
+            this.applyCameraFrame(fixtureCameraFrame(frontFacadeSubjects(this.model),this.model,this.camera.aspect,true,{padding:0}));
+            this.cameraFocus={kind:'structure',key,automatic};this.cameraTouched=false;return true;
+        }
         this.applyCameraFrame(fixtureCameraFrame(fixtures,this.model,this.camera.aspect,automatic));
         this.cameraFocus={kind:'option',key,automatic,fixtureIds:fixtures.map(f=>f.id)};this.cameraTouched=false;return true;
     }

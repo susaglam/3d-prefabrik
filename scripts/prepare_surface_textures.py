@@ -61,7 +61,7 @@ ROLES = {"Diffuse": "diffuse", "nor_gl": "nor_gl", "Rough": "rough", "AO": "ao"}
 LADDER_KINDS = ("diffuse", "nor_gl", "rough")
 # Owned by another generator, ladder included - see ladder_sources().
 FLOOR_PREFIXES = ("laminate_floor_", "parquet_herringbone_")
-FACADE_PREFIXES = ("brick_black_", "brick_white_", "brick_yellow_", "wood_facade_")
+FACADE_PREFIXES = ("brick_red_", "brick_black_", "brick_white_", "brick_yellow_", "wood_facade_")
 OWNED_ELSEWHERE = FLOOR_PREFIXES + FACADE_PREFIXES
 
 SETS = (

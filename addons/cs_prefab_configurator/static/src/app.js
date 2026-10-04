@@ -1114,7 +1114,9 @@ function changeConfig(key,value,{rerender=true}={}) {
  if(rerender)preservePanelPosition(()=>renderStep());
  else {refreshFields(['frontOpening','rooflight']);renderErrors();}
  // Exterior choices frame what changed; the interior camera stays put — "3D bekijken" is the explicit way to zoom in.
- if(currentMode==='3d'&&['facade','frontOpening','rooflight','roofShade','overhang','outsideLight','outsideSocket','outsideTap'].includes(key)&&value!==false&&value!=='none'){
+ // "Geen overstek" is one of the four pictures being compared (2.17.0: every overstek choice from the same standing
+ // view), so it frames like the others instead of leaving the camera wherever the previous card had put it.
+ if(currentMode==='3d'&&['facade','frontOpening','rooflight','roofShade','overhang','outsideLight','outsideSocket','outsideTap'].includes(key)&&(key==='overhang'||(value!==false&&value!=='none'))){
   // Comparing facades from close up is the whole point of the close-up: picking the next one must not pull the
   // camera back out. The rebuild re-applies the same frame (preview.refreshCameraFocus), so only the name changes.
   if(materialCloseUp&&key==='facade')updateMaterialCallout();

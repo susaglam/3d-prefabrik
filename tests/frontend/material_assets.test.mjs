@@ -251,7 +251,7 @@ test('the four bricks are one wall in four clay colours, mapped at the period pr
   assert.ok(period, 'preview.js facadePeriods() still declares a single brick period');
   assert.equal(Number(period[1]), Number(period[2]), 'the brick scan is mapped square');
   const red = recorded.get('red_brick_03_diffuse.jpg');
-  for (const prefix of ['red_brick_03', 'brick_black', 'brick_white', 'brick_yellow']) {
+  for (const prefix of ['red_brick_03', 'brick_red', 'brick_black', 'brick_white', 'brick_yellow']) {
     for (const row of rows.filter(row => row.file.startsWith(`${prefix}_`))) {
       assert.equal(row.physicalSizeM, Number(period[1]),
         `${row.file}: mapped at the period preview.js uses (0,88 m puts the scan's 14 courses at Dutch waalformaat)`);
@@ -261,13 +261,27 @@ test('the four bricks are one wall in four clay colours, mapped at the period pr
     }
   }
   // The recolour is derived from the shipped bytes: if the red scan is ever re-downloaded or re-graded without
-  // re-running scripts/prepare_facade_textures.py, the other three would silently stop being the same wall.
-  for (const prefix of ['brick_black', 'brick_white', 'brick_yellow']) {
+  // re-running scripts/prepare_facade_textures.py, the others would silently stop being the same wall. Since 2.17.0
+  // "Baksteen rood" is one of them too: the scan stays on disk as the SOURCE, untouched.
+  for (const prefix of ['brick_red', 'brick_black', 'brick_white', 'brick_yellow']) {
     const row = recorded.get(`${prefix}_diffuse.jpg`);
     assert.match(row.derived, /recoloured from red_brick_03_diffuse\.jpg/, `${prefix}: records what was done`);
     assert.match(row.derived, /mask = saturation x height-from-normal/, `${prefix}: records how clay and mortar were split`);
     assert.ok(row.derived.includes(red.sha256), `${prefix}: was derived from the red scan that ships (re-run the generator)`);
   }
+});
+
+test('"Baksteen rood" is the lighter salmon-red brick of the owner\'s reference, loaded instead of the dark scan', () => {
+  // 2.17.0, the owner: "bizdeki tuğla rengini biraz da açık renkli tuğla rengi yapabilir miyiz", pointing at a
+  // reference render whose brick measures #c79b8e on the sunlit face with thin DARK joints (#564843). The scan's own
+  // clay averages rgb(106,84,75); the lighter wall is recoloured from it like the other three, and the loader asks for
+  // the recolour — the scan stays on disk only as the derivation source.
+  const [r, g, b] = recorded.get('brick_red_diffuse.jpg').meanSRGB;
+  assert.ok(r > g && g > b, `still a red clay, warm: ${[r, g, b]}`);
+  assert.ok(0.2126 * r + 0.7152 * g + 0.0722 * b >= 120, `clearly lighter than the scan (luma 88): ${[r, g, b]}`);
+  assert.ok(r - b >= 30 && r - b <= 70, `salmon, not orange and not pink: ${[r, g, b]}`);
+  assert.match(previewSource, /\['brickColor','brick_red_diffuse\.jpg',true\]/, 'the loader fetches the lighter recolour');
+  assert.doesNotMatch(previewSource, /\['brickColor','red_brick_03_diffuse\.jpg'/, 'and no longer the dark scan');
 });
 
 test('the three recoloured bricks hit real Dutch facade colours and none of them is still red', () => {

@@ -27,9 +27,10 @@ export const FINISHES = Object.freeze({
  // ---- Aanbouw AND existing house: the four scanned bricks ---------------------------------------------------
  // brick-red was #926557 (a leftover from before red_brick_03 shipped): sampled against the actual scanned wall it
  // was the one swatch clearly out of family (dE76 ~14-16 vs the rendered brick, double every other finish's ~2-9).
- // #765a53 is the same front-lit clay colour brightened for chip legibility by the same amount the other three
- // bricks already carry (dE76 ~4 vs albedo, ~7 vs the lit wall — in line with brick-white/brick-yellow).
- 'brick-red':Object.freeze({color:'#765a53',type:'brick'}),
+ // #765a53 was the same front-lit clay colour brightened for chip legibility by the same amount the other three
+ // bricks already carry. 2.17.0 made "Baksteen rood" the owner's lighter salmon brick (brick_red_diffuse.jpg, the lit
+ // front face renders #c79b8d against the reference's #c79b8e), so the chip follows it: a shade above the lit wall.
+ 'brick-red':Object.freeze({color:'#c4958c',type:'brick'}),
  'brick-black':Object.freeze({color:'#454241',type:'brick'}),
  'brick-white':Object.freeze({color:'#dedbd1',type:'brick'}),
  'brick-yellow':Object.freeze({color:'#b79b6c',type:'brick'}),

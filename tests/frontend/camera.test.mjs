@@ -94,6 +94,69 @@ test('rooflight and overhang inspection keeps the inspected roof visible',()=>{
  }
 });
 
+/** The four corners of the front of the aanbouw, foot to roof edge — what "the whole front" means to a camera. */
+const frontCorners=m=>[m.bounds.left,m.bounds.right].flatMap(x=>[0,m.height+m.roofThickness/2].map(y=>({id:`front ${x<0?'left':'right'} ${y?'roof edge':'foot'}`,position:[x,y,m.bounds.front]})));
+const viewDirection=p=>p.camera.position.clone().sub(p.controls.target).normalize().toArray().map(value=>Math.round(value*1e6)/1e6);
+
+test('every overstek choice is shown from the standing view on the right, the one "geen overstek" leaves in place',()=>{
+ // 2.17.0, the owner: "overstek tıklamalarında önizleme 45 izometrik sağdan olsun. geen overstek'te kullanılan açıyı
+ // diğer seçeneklere de verirsen tamamdır". Until now an overstek choice swung the camera up over the LEFT corner
+ // (the roof-detail frame), while "geen overstek" left it where it stood.
+ const standing=cameraHarness({width:500,depth:300,height:280,overhang:'none'},1.6);
+ standing.roofGroup=new THREE.Group();standing.ceilingGroup=new THREE.Group();
+ standing.setView('perspective');
+ assert.ok(standing.camera.position.x>0&&standing.camera.position.z>standing.model.bounds.front,'the standing view looks in from the garden, on the right');
+ for(const overhang of ['pvc-white','pvc-anthracite','wood-white']){
+  const p=cameraHarness({width:500,depth:300,height:280,overhang},1.6);
+  p.roofGroup=new THREE.Group();p.ceilingGroup=new THREE.Group();
+  p.setView('front');                                  // the visitor arrives from another card's picture
+  p.focusOption('overhang',{automatic:true});
+  assert.equal(p.view,'perspective',`${overhang}: the standing view`);
+  assert.deepEqual(viewDirection(p),viewDirection(standing),`${overhang}: the same angle as "geen overstek"`);
+  assert.equal(p.camera.fov,standing.camera.fov,`${overhang}: and the same lens`);
+  assert.equal(p.cameraFocus,null,`${overhang}: a standing view, not a detail the next rebuild re-frames`);
+ }
+});
+
+test('an outside light, socket or tap shows the whole front at once: one picture for left, right and both',()=>{
+ // 2.17.0, the owner: "buitenlicht seçiminde sol sağ focus yapmasın, hepsini bir kerede göstersin. sağ sol seçiminde
+ // sadece ilgili yerde ışık gözüksün yeter. musluk ve dışarıdaki prizlerde de aynı şekilde olsun. mümkün olduğu kadar
+ // prefabrik kısma odaklansın görüntü". The choice moves the FITTING; the camera stays on the front of the aanbouw.
+ for(const aspect of [1.6,.9])for(const key of ['outsideLight','outsideSocket','outsideTap']){
+  const poses={};
+  for(const side of ['left','right','both']){
+   const p=cameraHarness({width:500,depth:300,height:280,frontOpening:'sliding-2-black',[key]:side},aspect),m=p.model;
+   const fittings=m.fixtures.filter(f=>f.key===key);
+   assert.ok(fittings.length&&fittings.every(f=>(f.surface||'front')==='front'),`${key}/${side}: the fitting is on the front wall`);
+   p.focusOption(key,{automatic:true});
+   assertVisible(p,[...frontCorners(m),...fittings]);
+   assert.ok(Math.abs(p.camera.position.x)<1e-9&&p.camera.position.z>m.bounds.front,`${key}/${side}: straight in front, not off to one side (${p.camera.position.x})`);
+   // "Focus on the prefab": the front fills the frame. The wider of the two fits decides; it leaves a margin, not a garden.
+   const reach=frontCorners(m).map(corner=>new THREE.Vector3(...corner.position).project(p.camera));
+   const fill=Math.max(...reach.map(point=>Math.max(Math.abs(point.x),Math.abs(point.y))));
+   assert.ok(fill>.82&&fill<1,`${key}/${side} @${aspect}: the front fills the frame (${fill.toFixed(3)})`);
+   poses[side]=pose(p);
+  }
+  assert.deepEqual(poses.left,poses.both,`${key} @${aspect}: left is the same picture as both`);
+  assert.deepEqual(poses.right,poses.both,`${key} @${aspect}: right is the same picture as both`);
+ }
+});
+
+test('"3D bekijken" still walks up to the fitting itself, and a fitting moved to a side wall is still followed there',()=>{
+ // The whole-front picture is what a CHOICE gets. The explicit button keeps its close-up, and when an oversized
+ // wall-edge clearance relocates the services to a side wall the front would not show them at all.
+ const p=cameraHarness({width:500,depth:300,height:280,frontOpening:'sliding-2-black',outsideLight:'left'},1.6);
+ p.focusOption('outsideLight',{automatic:true});const whole=p.camera.position.distanceTo(p.controls.target);
+ p.focusOption('outsideLight');
+ assert.ok(p.controls.target.x<-.5,'the explicit close-up centres on the left-hand light');
+ assert.ok(p.camera.position.distanceTo(p.controls.target)<whole,'and stands closer than the whole-front picture');
+ const side=cameraHarness({width:230,depth:300,height:280,frontOpening:'french-black',outsideSocket:'left',drainSide:'both'},1.5,{clearanceCm:{wallEdge:20}});
+ const [socket]=side.model.fixtures.filter(f=>f.key==='outsideSocket');
+ assert.equal(socket.surface,'left');
+ side.focusOption('outsideSocket',{automatic:true});assertVisible(side,[socket]);
+ assert.ok(side.camera.position.x<side.model.bounds.left,'the camera goes round to the side wall the socket is on');
+});
+
 test('the interior view stands far enough back to show both corners where the walls meet the house',()=>{
  // "iç mekanda kamera konumunu daha geriye al, duvarların kesişme noktası bu şekilde görülmeli" — both vertical
  // corners at the back of the side walls must be inside the frame, with a margin, at every width the catalogue sells.

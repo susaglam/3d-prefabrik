@@ -154,14 +154,17 @@ test('underfloor schematic follows shared floor geometry and obeys preparation, 
     assert.equal(JSON.stringify(scope),before);
 });
 
-test('rollaag panel sits only above the front frame and is omitted for masonry or without an opening',()=>{
+test('rollaag panel sits only above the front frame, is omitted for masonry, and does not wait for a kozijn',()=>{
     const omitted=buildGeometry({rollaag:'masonry'});
     const legacy=buildGeometry({rollaag:'panel-black',rollaagEnabled:false});
     assert.equal(Object.hasOwn(legacy,'rollaagEnabled'),false,'the retired toggle no longer reaches the geometry model');assert.equal(legacy.rollaag,'panel-black');
     for(const view of ['front','side'])assert.doesNotMatch(elevationSvg(omitted,view),/data-rollaag=/);
     assert.match(elevationSvg(legacy,'front'),/data-rollaag="panel-black"/);
     assert.doesNotMatch(elevationSvg(legacy,'side'),/data-rollaag=/,'A panel above the frame is not visible on the side facade');
-    assert.doesNotMatch(elevationSvg(buildGeometry({rollaag:'panel-black',frontOpening:'none'}),'front'),/data-rollaag=/);
+    // 2.17.0: "geen kozijn" still leaves the hole and its outer frame, and since 2.16.0 it is the choice the design
+    // STARTS on — with the Rollaag card before the Kozijn card. Until now the panel waited for a door with leaves, so
+    // the owner chose "geen rollaag wit" and the drawing kept showing brick until the next card was touched.
+    assert.match(elevationSvg(buildGeometry({rollaag:'panel-black',frontOpening:'none'}),'front'),/data-rollaag="panel-black"/);
     const panel=/<rect x="([\d.]+)" y="[\d.]+" width="([\d.]+)"[^>]*data-rollaag/.exec(elevationSvg(legacy,'front'));
     const frame=/<rect x="([\d.]+)" y="[\d.]+" width="([\d.]+)"[^>]*fill="#dce8e4"/.exec(elevationSvg(legacy,'front'));
     assert.ok(panel&&frame,'panel and frame rectangles are drawn');
@@ -180,11 +183,12 @@ test('the daktrim caps a flush roof, while an overstek band carries the roof 20 
     const front=withLight.roof.find(part=>part.key==='roof-front'),left=withLight.roof.find(part=>part.key==='roof-left');
     assert.ok(Math.abs((front.center[2]+front.size[2]/2)-(withLight.bounds.front+.165))<1e-9);
     assert.ok(left.center[0]-left.size[0]/2>withLight.bounds.left,'side parts stay inside the side walls');
-    // Spots hang from the soffit of the band; the downpipe ends in the soffit, or through the wall under the daktrim.
+    // Spots hang from the soffit of the band; the downpipe ends in the soffit, or (2.17.0) in its hopper under the daktrim.
     const spot=extended.fixtures.find(f=>f.key==='overhangSpots');
     assert.ok(Math.abs(spot.position[1]-(extended.height+.08-.32-.004))<1e-9);assert.ok(Math.abs(spot.position[2]-(extended.bounds.front+.10))<1e-9);
     assert.equal(plain.fixtures.filter(f=>f.key==='overhangSpots').length,0);
-    assert.ok(Math.abs(extended.drain.height-(extended.height+.08-.32))<1e-9);assert.ok(Math.abs(plain.drain.height-(plain.height-.02))<1e-9);
+    assert.ok(Math.abs(extended.drain.height-(extended.height+.08-.32))<1e-9);assert.ok(Math.abs(plain.drain.height-plain.drain.hopper.bottom)<1e-9);
+    assert.ok(plain.drain.hopper.bottom>2,'the hopper hangs well above the wall light (top 1,985 m)');
     for(const view of ['front','side']){
         assert.match(elevationSvg(extended,view),/data-overhang="pvc-white"/);assert.match(elevationSvg(extended,view),/data-roof-edge=/);
         assert.doesNotMatch(elevationSvg(plain,view),/data-overhang=/);assert.match(elevationSvg(plain,view),/data-roof-edge=/);

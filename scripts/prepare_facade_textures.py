@@ -99,6 +99,21 @@ MASK = {"satLow": 0.18, "satHigh": 0.55, "heightLow": 0.30, "heightHigh": 0.62, 
 # Real Dutch facing bricks: a dark anthracite that is never flat black, a chalky white, a warm sand yellow.
 BRICKS = (
     {
+        # 2.17.0, the owner: "bizdeki tuğla rengini biraz da açık renkli tuğla rengi yapabilir miyiz", with a reference
+        # render whose brick measures #c79b8e on the sunlit face and #906969 in the shade, with thin DARK joints
+        # (#564843) — light salmon clay, not a light mortar. The scan stays the source; this is its lighter recolour,
+        # pointed a shade DARKER than the scan's own grey so the joint reads under the brick as it does in the reference.
+        "name": "brick_red",
+        "label": "Baksteen rood",
+        # First pass ('#8a5a4e', '#b98576', '#dcb09f') rendered the sunlit face #c68f82 against the reference's #c79b8e:
+        # the right value but 6 points too saturated, reading pink. Green and blue raised x1.085 on all three anchors.
+        "ramp": ("#8a6255", "#b99080", "#dcbfad"),
+        "contrast": 1.0,
+        "chroma": 0.35,
+        "mortar": {"mode": "grey", "lShift": -6.0, "chroma": 0.45},
+        "note": "light salmon-red facing brick (genuanceerd rood), joint a shade darker than the clay",
+    },
+    {
         "name": "brick_black",
         "label": "Baksteen zwart",
         "ramp": ("#1f1f1d", "#3d3c37", "#615d54"),

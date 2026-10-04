@@ -4,7 +4,10 @@ const FITTINGS=['heating','outsideLight','outsideSocket','outsideTap','ceilingLi
 const equal=(a,b,keys)=>keys.every(key=>JSON.stringify(a[key])===JSON.stringify(b[key]));
 export function sceneChange(previous,next){
     if(!previous||!equal(previous,next,SHELL))return 'structure';
-    if(previous.facade!==next.facade)return 'material';
+    // A masonry rollaag is a course of the facade's own brick over the opening (2.16.0): it exists on a brick facade
+    // only and wears that brick, so a change that involves brick on either side changes the STRUCTURE. The material
+    // path re-skins surface 'facade' and never touched the course (2.17.0: a red course on a black or a timber wall).
+    if(previous.facade!==next.facade)return [previous.facade,next.facade].some(code=>String(code).startsWith('brick'))?'structure':'material';
     if(!equal(previous,next,FITTINGS))return 'fixtures';
     return 'none';
 }

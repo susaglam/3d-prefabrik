@@ -59,18 +59,20 @@ export const TRIM_REACH = .09;
 export const DOWNPIPE = Object.freeze({radius: .0375, bend: .07, shoe: .14, shoeY: .2, ground: -.28});
 
 /**
- * One downpipe as a polyline, top to bottom. Without an overstek it leaves the wall at the roof outlet, turns down
- * in front of the facade and runs to the uitloop; with one it drops straight out of the soffit. The last leg is the
- * 45° uitloop, pointing into the garden. `drain` is a geometry.js drain (x, z, height), `front` the facade plane.
+ * One downpipe as a polyline, top to bottom: ONE plumb line. Without an overstek it hangs from its hopper under the
+ * daktrim (geometry.js HOPPER, drain.height is the hopper's outlet); with one it drops straight out of the soffit.
+ * `drain` is a geometry.js drain (x, z, height); `front` is kept in the signature for callers, the route no longer
+ * enters the wall.
  */
 export function downpipeRoute(drain, front, overhangDepth) {
-    // 2.16.0, the customer: "HWA buizen komen in de grond". The pipe no longer spits onto the paving through a 45°
-    // shoe; it runs straight down past the terras into the ground, where the rainwater drain is. What stays visible is
-    // one clean vertical line against the facade, which is what a finished aanbouw looks like.
+    // 2.16.0, the customer: "HWA buizen komen in de grond" — straight down past the terras into the ground, no 45° shoe.
+    // 2.17.0, the owner: no elbow into the wall under the roof edge either; the water reaches the pipe through a hopper.
     const {x, z} = drain;
-    const top = overhangDepth ? [[x, drain.height + .02, z]] : [[x, drain.height, front - .03], [x, drain.height, z]];
-    return [...top, [x, DOWNPIPE.ground, z]];
+    return [[x, drain.height + (overhangDepth ? .02 : 0), z], [x, DOWNPIPE.ground, z]];
 }
+
+/** The zijuitloop (stadsuitloop): a rectangular tube through the roof edge into the back of the hopper, 80 x 60 mm. */
+export const SPOUT = Object.freeze({width: .08, height: .06, into: .03, reach: .07});
 
 /**
  * A polyline as straight runs and rounded bends. Each interior corner becomes a quadratic bend from `bend` metres

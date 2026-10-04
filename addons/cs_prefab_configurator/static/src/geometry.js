@@ -18,6 +18,21 @@ export const openingApertureCm = (kind, widthCm) => Math.min(widthCm - PIER_MINI
 export const EXTERIOR_HEIGHTS_CM=Object.freeze({light:190,socket:105,tap:65});
 /** Every radiator is anchored at 108 cm on its wall slot; services/geometry_rules.py RADIATOR_ANCHOR_CM is the same. */
 export const RADIATOR_ANCHOR_CM=108;
+/**
+ * The visible face of the daktrim, in metres relative to the top of the roof slab: the coated aluminium profile is a
+ * 5 cm face, the zinc roll hangs a skirt down to 5 cm under the slab top. preview.js buildRoofEdge draws exactly these
+ * faces; the hopper below hangs from the lower edge, so both read the same numbers from here.
+ */
+export const DAKTRIM_FACE=Object.freeze({anthracite:Object.freeze({top:.015,bottom:-.035}),aluminium:Object.freeze({top:.015,bottom:-.035}),zinc:Object.freeze({top:-.02,bottom:-.05})});
+/**
+ * The vergaarbak (hopper head) of a downpipe on an aanbouw without overstek (2.17.0, the owner with photographs: the
+ * pipe does not turn into the wall under the roof edge; a zijuitloop leaves the roof through the EDGE, under the
+ * uninterrupted daktrim, into an open hopper screwed to the facade directly under the trim). Sized from the owner's
+ * reference render (measured: 1.46 x the pipe wide, 1.66 x deep, 2.45 x tall, open top, flat back, tapered front and
+ * sides) against Dutch catalogue parts (Wavin model 2: 198 x 148 x 252 mm; zinc "junior": 185 x 145 x 200 mm).
+ * top / bottom are [width along the wall, depth out of it] in metres; gap is the air under the trim.
+ */
+export const HOPPER=Object.freeze({height:.20,top:Object.freeze([.13,.16]),bottom:Object.freeze([.105,.14]),gap:.004});
 
 export function openingSpec(kind, widthCm, heightCm = 280) {
     return {kind, width: openingApertureCm(kind, widthCm), height: Math.min(230, heightCm - 35), bottom: 7,
@@ -205,9 +220,14 @@ export function buildGeometry(config = {}, {fixtureLayout=null,scope=[],geometry
     for (const side of positions(config.sockets)) markers.push({type:'interior-socket-conduit',side,
         position:[side === 'left' ? bounds.left + wall + .025 : bounds.right - wall - .025,.45,depth * .15]});
     const drainSide = config.drainSide === 'left' ? 'left' : 'right';
-    // The downpipe always ends in the roof edge: through the wall just under the daktrim, or up into the overstek soffit.
+    // The downpipe always takes its water at the roof edge. Without an overstek it hangs from a hopper directly under
+    // the daktrim (HOPPER), fed by a zijuitloop through the edge; with one it goes straight up into the soffit, where a
+    // roof outlet drops the water down to it. `height` is the top of the PIPE in both cases.
+    const trimBottom = height + roofThickness / 2 + (DAKTRIM_FACE[config.roofEdge] || DAKTRIM_FACE.anthracite).bottom;
+    const hopper = overhang === 'none' ? {top: trimBottom - HOPPER.gap, bottom: trimBottom - HOPPER.gap - HOPPER.height} : null;
     const drain = {side:drainSide,material:['zinc','pvc-black'].includes(config.drainMaterial) ? config.drainMaterial : 'pvc',
-        x:drainSide === 'left' ? bounds.left + .12 : bounds.right - .12,z:bounds.front + .1,height:overhang === 'none' ? height - .02 : height + roofThickness / 2 - fasciaHeight};
+        x:drainSide === 'left' ? bounds.left + .12 : bounds.right - .12,z:bounds.front + .1,hopper,
+        height:hopper ? hopper.bottom : height + roofThickness / 2 - fasciaHeight};
     const drains=config.drainSide==='both'?[-1,1].map(sign=>({...drain,side:sign<0?'left':'right',x:sign*(width/2-.12)})):[drain];
     const fixtures=[];
     const add=(id,key,kind,position,rotation=0,room='interior',extra={})=>fixtures.push({id,key,kind,position,rotation,room,...extra});
@@ -403,7 +423,7 @@ export function elevationSvg(model,view='front') {
     const overhang=m.overhangDepth||0,edgeLeft=X(0),roofSpan=span+(front?0:overhang);
     if(overhang)content+=rect(edgeLeft-2,Y(slabTop),roofSpan*s+4,m.fasciaHeight*s,`data-overhang="${esc(m.overhang)}" fill="${m.overhang==='pvc-anthracite'?'#3d4443':'#ecebe4'}" stroke="#4c6052" stroke-width="2"`);
     content+=rect(edgeLeft-2,Y(slabTop),roofSpan*s+4,.05*s,`data-roof-edge="${esc(m.roofEdge)}" fill="${m.roofEdge==='anthracite'?'#3a3f3d':m.roofEdge==='zinc'?'#a9b1ae':'#c7cec7'}" stroke="#4c6052" stroke-width="2"`);
-    if(front&&m.rollaag!=='masonry'&&m.opening.panelCount){
+    if(front&&m.rollaag!=='masonry'&&m.opening.width>0){
         // Panel from directly above the frame up to the daktrim (or the underside of the overstek band).
         const o=m.opening,frameTop=o.bottom+o.height,panelTop=overhang?slabTop-m.fasciaHeight:slabTop-.05;
         content+=rect(X((m.width-o.width)/2),Y(panelTop),o.width*s,(panelTop-frameTop)*s,`data-rollaag="${esc(m.rollaag)}" fill="${m.rollaag==='panel-white'?'#edece5':'#2f3533'}"`);
@@ -436,12 +456,20 @@ export function elevationSvg(model,view='front') {
         }
     }
     if(front) {
-        for(const drain of m.drains||[m.drain]){const drainX=X(drain.x+m.width/2);
-        content+=`<path data-drain-side="${drain.side}" d="M${drainX} ${Y(drain.height)}V${Y(.12)}l10 8" fill="none" stroke="${drain.material==='zinc'?'#9ba99d':'#6b7b6d'}" stroke-width="8"/>`;}
+        // The pipe runs into the ground (2.16.0, "HWA buizen komen in de grond") — the 45° shoe this drawing still carried
+        // was retired from the 3D then — and without an overstek it hangs from its hopper under the daktrim (2.17.0).
+        for(const drain of m.drains||[m.drain]){const drainX=X(drain.x+m.width/2),stroke=drain.material==='zinc'?'#9ba99d':'#6b7b6d';
+        content+=`<path data-drain-side="${drain.side}" d="M${drainX} ${Y(drain.height)}V${Y(0)}" fill="none" stroke="${stroke}" stroke-width="8"/>`;
+        if(drain.hopper){const [top,bottom]=[HOPPER.top[0]/2*s,HOPPER.bottom[0]/2*s];
+            content+=`<path data-drain-hopper="${drain.side}" d="M${drainX-top} ${Y(drain.hopper.top)}H${drainX+top}L${drainX+bottom} ${Y(drain.hopper.bottom)}H${drainX-bottom}Z" fill="${stroke}" stroke="#4c6052" stroke-width="2"/>`;}}
         for(const marker of m.markers.filter(item=>!item.type.startsWith('interior')&&!item.type.startsWith('heating')))content+=`<circle data-connection="${marker.type}" cx="${X(marker.position[0]+m.width/2)}" cy="${Y(marker.position[1])}" r="6" fill="#bd9463" stroke="#6a765d" stroke-width="2"/>`;
     } else {
         content+=`<path d="M${left-12} ${base}V${Y(m.height+.62)}" stroke="#99aa9e" stroke-width="4" stroke-dasharray="12 8"/><text x="${left-37}" y="${Y(m.height/2)}" text-anchor="middle" transform="rotate(-90 ${left-37} ${Y(m.height/2)})" fill="#8a9b8e" font-size="23" letter-spacing="1">BESTAANDE WONING</text>`;
-        if((m.drains||[m.drain]).some(d=>d.side==='right'))content+=`<path d="M${X(span)+9} ${Y(m.drain.height)}V${Y(.12)}" stroke="#7b8c7d" stroke-width="8"/>`;
+        if((m.drains||[m.drain]).some(d=>d.side==='right')){
+            content+=`<path d="M${X(span)+9} ${Y(m.drain.height)}V${Y(0)}" stroke="#7b8c7d" stroke-width="8"/>`;
+            // Seen from the side the hopper shows its depth: from the facade line out over the pipe.
+            if(m.drain.hopper)content+=`<path data-drain-hopper="side" d="M${X(span)} ${Y(m.drain.hopper.top)}H${X(span)+HOPPER.top[1]*s}L${X(span)+HOPPER.bottom[1]*s} ${Y(m.drain.hopper.bottom)}H${X(span)}Z" fill="#7b8c7d" stroke="#4c6052" stroke-width="2"/>`;
+        }
     }
     content+=drawingDimension(left,base,X(span),base,centimetres(span),front&&m.opening.width>0?142:87)+drawingDimension(left,Y(m.height),left,base,centimetres(m.height),-100);
     const title=front?'Voorgevel vanuit de tuin':'Rechter zijgevel';
