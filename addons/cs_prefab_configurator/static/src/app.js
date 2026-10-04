@@ -348,6 +348,17 @@ function markOpenGroupSeen(id){
  if(!group)return;
  for(const key of groupKeys(group))if(choiceVisible(key))markSeen(key);
 }
+/**
+ * What the visitor has in front of them the moment a step is on screen: the open card, and the step's lead
+ * DIMENSIONS (breedte, diepte), which head the panel and are repeated on the 3D label at all times. In a landscape
+ * phone the panel is 66 px tall and shows neither, so the observer never retired the dimensions and the first press
+ * said "Naar Breedte" and did nothing (2.16.2 live audit, 844 x 390). A lead FIELD (the interior gate of step 2)
+ * is a decision, not a measurement, and keeps being walked to.
+ */
+function markStepStartSeen(){
+ markOpenGroupSeen(currentOpenGroup());
+ for(const key of STEP_LEAD_KEYS[step]||[])if(catalog?.dimensions?.[key])markSeen(key);
+}
 /** Opening a section closes the others of the step; the clicked header stays where the finger was. */
 function openSection(details,open){
  const id=details.dataset.group;expandedGroups.delete(id);
@@ -357,6 +368,9 @@ function openSection(details,open){
  for(const other of document.querySelectorAll('details.choice-group[open]'))if(other!==details)other.open=false;
  if(panel&&summary&&Number.isFinite(top))panel.scrollTop+=summary.getBoundingClientRect().top-top;
  refreshSectionStatus();markOpenGroupSeen(id);
+ // Always, not only when a choice was newly seen: re-opening an answered card by its header must give the back button
+ // THIS card's predecessor. The 2.16.2 live audit caught it naming the card after it ("Daklicht" with Rollaag open).
+ updateFooterAction();
 }
 /**
  * THE CURSOR. The footer's primary button walks the visitor to their next CHOICE and only becomes "verder naar
@@ -409,7 +423,7 @@ function footerNote(action){
 }
 function primaryButton(action){
  const last=step===STEPS.length-1;
- return '<button class="button primary next-button" data-action="'+action.action+'"'+(action.key?' data-choice="'+esc(action.key)+'"':'')+' '+((pricePending||priceError||adminPreview)&&last?'disabled':'')+'><span class="next-text"><span class="next-kicker">'+esc(footerKicker(action))+'</span><span class="next-label">'+esc(action.label)+'</span></span>'+icon('arrow')+'</button>';
+ return '<button class="button primary next-button" data-action="'+action.action+'"'+(action.key?' data-choice="'+esc(action.key)+'"':'')+' '+((pricePending||priceError||adminPreview)&&last?'disabled':'')+'><span class="next-text"><span class="next-kicker">'+footerKickerHtml(action)+'</span><span class="next-label">'+footerLabelHtml(action)+'</span></span>'+icon('arrow')+'</button>';
 }
 /** The phone's one-row footer has no room for the note line; its gist rides on the button as a small top line. */
 function footerKicker(action){
@@ -417,6 +431,20 @@ function footerKicker(action){
  if(step===STEPS.length-1)return 'Geen bestelling of betaling';
  if(action.action==='goto-choice')return 'Volgende · nog '+action.remaining+' keuze'+(action.remaining===1?'':'s');
  return 'Deze stap is klaar';
+}
+/** The label as markup: on a phone the "Naar " lead gives way to the arrow, so the destination itself fits (styles.css). */
+function footerLabelHtml(action){
+ const text=action.label,lead='Naar ';
+ return text.startsWith(lead)?'<span class="next-label-lead">'+esc(lead)+'</span>'+esc(text.slice(lead.length)):esc(text);
+}
+/**
+ * The kicker as markup, in a long and a phone form (styles.css shows one): the phone keeps the count and drops what the
+ * arrow already says, so "Volgende · nog 10 keuzes" reads "nog 10 keuzes" and "Deze stap is klaar" reads "klaar".
+ */
+function footerKickerHtml(action){
+ const text=footerKicker(action);
+ const short=text.startsWith('Volgende · ')?text.slice('Volgende · '.length):text==='Deze stap is klaar'?'klaar':text==='Geen bestelling of betaling'?'geen betaling':text;
+ return short===text?esc(text):'<span class="next-kicker-long">'+esc(text)+'</span><span class="next-kicker-short">'+esc(short)+'</span>';
 }
 /** The cursor moves on every scroll, so the button and the note are patched in place — rebuilding the footer ~28 times per design would fight the aria-live price element. */
 function updateFooterAction(){
@@ -429,8 +457,8 @@ function updateFooterAction(){
   if(wanted)actions.insertAdjacentHTML('afterbegin',wanted);
  }
  const action=footerAction(),label=button.querySelector('.next-label'),note=$('#panel-footer .footer-note'),text=footerNote(action);
- if(label&&label.textContent!==action.label)label.textContent=action.label;
- const kicker=button.querySelector('.next-kicker'),kick=footerKicker(action);if(kicker&&kicker.textContent!==kick)kicker.textContent=kick;
+ const labelHtml=footerLabelHtml(action);if(label&&label.innerHTML!==labelHtml)label.innerHTML=labelHtml;
+ const kicker=button.querySelector('.next-kicker'),kick=footerKickerHtml(action);if(kicker&&kicker.innerHTML!==kick)kicker.innerHTML=kick;
  if(button.dataset.action!==action.action)button.dataset.action=action.action;
  if(action.key)button.dataset.choice=action.key;else delete button.dataset.choice;
  if(note&&note.textContent!==text)note.textContent=text;
@@ -515,7 +543,9 @@ function goToChoice(key){
  for(let attempt=0;key&&attempt<4;attempt++){
   if(choiceKeys().includes(key)){
    const destination=choiceDestination(key,visibleGroups(),currentOpenGroup(),choiceLabel);
-   if(destination.kind==='section'?openChoiceSection(destination.id):(node=>node?(focusChoice(node),true):false)(choiceNode(key)))return;
+   // A choice outside the cards (a lead field) is retired by the press that brings it into view, as a card's choices
+   // are by opening it: the observer cannot be relied on in a panel too short for its reading area (844 x 390).
+   if(destination.kind==='section'?openChoiceSection(destination.id):(node=>node?(focusChoice(node),markSeen(key),true):false)(choiceNode(key)))return;
    markSeen(key);
   }
   key=nextChoice(choiceKeys(),seen());
@@ -547,7 +577,7 @@ function renderStep(focus=false) {
  // The open card counts as seen the moment the step is on screen, for the same reason it does when the visitor opens
  // one: at load nothing fires a toggle event, so on a phone the very first press of the forward button was spent
  // marking the card already open ("Naar Gevelbekleding" while Gevelbekleding was open, measured live at 390 px).
- renderFooter();observeChoices();markOpenGroupSeen(currentOpenGroup());
+ renderFooter();observeChoices();markStepStartSeen();
  document.querySelectorAll('[data-focus-option],[data-action="material-detail"]').forEach(button=>button.disabled=currentMode==='2d');
  if(focus)$('#step-title').focus({preventScroll:true});
 }
@@ -1027,7 +1057,7 @@ function renderErrors(){
 function refreshFields(keys){
  preservePanelPosition(()=>{for(const key of keys){const field=$('[data-field="'+CSS.escape(key)+'"]');if(field)field.outerHTML=renderField(key);}});
  document.querySelectorAll('[data-focus-option],[data-action="material-detail"]').forEach(button=>button.disabled=currentMode==='2d');
- observeChoices();markOpenGroupSeen(currentOpenGroup()); // The replaced nodes are new elements; the old ones were being watched.
+ observeChoices();markStepStartSeen(); // The replaced nodes are new elements; the old ones were being watched.
 }
 function updateResolvedScope() {
  preview?.setScope?.(!pricePending&&!priceError?price?.scope||[]:[]);

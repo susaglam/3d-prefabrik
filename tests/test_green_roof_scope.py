@@ -76,6 +76,21 @@ class GreenRoofScopeTests(unittest.TestCase):
         cleaned = retire_legacy_fields(legacy)
         self.assertEqual(cleaned["catalog"]["constraints"], [])
 
+    def test_the_browser_maps_retired_values_exactly_like_the_server(self):
+        """Two tables, one truth: services/catalog.py RETIRED_VALUES and static/src/model.js RETIRED_VALUES.
+
+        The browser normalises a saved design BEFORE the server sees it, so a value only the server knows how to map is
+        a value the browser throws away — the 2.16.2 live audit caught 'double-both' arriving as 'none'. This reads the
+        JavaScript table out of the source and holds it equal to the Python one, key for key.
+        """
+        from services.catalog import RETIRED_VALUES
+        source = (ADDON / "static" / "src" / "model.js").read_text(encoding="utf-8")
+        block = re.search(r"export const RETIRED_VALUES = Object\.freeze\(\{(.*?)\}\);\n", source, re.S)
+        self.assertIsNotNone(block, "model.js no longer declares RETIRED_VALUES the way this test reads it")
+        browser = {field: dict(re.findall(r"'([^']+)': '([^']+)'", body))
+                   for field, body in re.findall(r"(\w+): Object\.freeze\(\{(.*?)\}\)", block.group(1))}
+        self.assertEqual(browser, RETIRED_VALUES)
+
     def test_no_green_roof_scope_row_when_the_option_is_off(self):
         result = price_config({"greenRoof": False})
         self.assertEqual([item for item in result["scope"] if item["key"] == "greenRoof"], [])

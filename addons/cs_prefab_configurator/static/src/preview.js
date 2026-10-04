@@ -2892,10 +2892,18 @@ export class Preview {
         if(this.controls.target.y<CAMERA_FLOOR.target){this.controls.target.y=CAMERA_FLOOR.target;moved=true;}
         const room=this.cameraRoomBox();
         if(room){
+            // A pan moves the orbit point itself, and the eye with it (2.16.2 live audit: a 350 px right-drag put the
+            // visitor 0,8 m beyond the side wall; three, 7,7 m out on the lawn — and the hold below assumes the orbit
+            // point is in the room). So the orbit point is held in the room first, across and along it, and the eye
+            // travels by the same amount: the view keeps its direction. Its height is left alone — the ceiling view
+            // aims at the ceiling itself, and the eye's own ceiling is held below.
+            const target=this.controls.target;
+            const held=new THREE.Vector3(THREE.MathUtils.clamp(target.x,room.left,room.right),target.y,THREE.MathUtils.clamp(target.z,room.back,room.front));
+            if(!held.equals(target)){this.camera.position.add(held.clone().sub(target));target.copy(held);moved=true;}
             // Indoors the visitor stays in the room: back wall, both side walls and the ceiling (2.14.1, "yan
             // duvarların da dışına çıkamasın"). The eye is drawn back along its own line of sight until it is inside
             // again, so the wheel and the orbit only lose distance — the picture never swings to some other wall.
-            const eye=this.camera.position,target=this.controls.target;
+            const eye=this.camera.position;
             const offset=eye.clone().sub(target);
             let share=1;
             const hold=(from,step,least,most)=>{

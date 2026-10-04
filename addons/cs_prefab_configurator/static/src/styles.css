@@ -686,6 +686,8 @@ dialog:has(.view-modal){max-width:860px}
 /* ---- 2.10.9: the phone height plan (four reviews, measured with scripts/measure-form-space.mjs) and the smaller
    accessibility fixes. Before: the form had 309-313 px (37-39 %) of a phone screen. ---- */
 .price-caption-short,.next-kicker{display:none}
+/* The phone form of the kicker exists only inside the phone footer (the max-width:800px block shows it). */
+.next-kicker-short{display:none}
 .help-card>.section-index{border-color:var(--ink);background:var(--ink);color:#fff}
 /* The focus ring over the 3D was the orange accent: ~1.2:1 against brick and 1.0:1 against grass, and it looked like a
    selected state after a dialog closed. Ink with a white halo reads on any scene. */
@@ -718,6 +720,20 @@ dialog:has(.view-modal){max-width:860px}
  .next-kicker{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
  .back-button{min-height:50px}
  .footer-note{display:none}
+ /* The way FORWARD wins the row (2.17.0). Price, back and forward share ~360 px; the back button named its card in
+    full and left the forward button 0-93 px, so "Naar Kozijn" and its count were cut to nothing at 360-430 px (the
+    2.16.2 live audit). The forward button now keeps at least 58 % of the actions, the back button keeps its arrow
+    and as much of its name as fits, and the count drops its "Volgende ·" lead — the arrow says "next" already. */
+ #panel-footer{column-gap:10px;padding-left:12px;padding-right:12px}
+ .step-actions{display:flex;gap:6px}
+ .step-actions .back-button{flex:0 1 auto;max-width:42%;min-width:44px;padding:10px 9px;gap:5px;overflow:hidden}
+ .step-actions .back-button .icon{flex:none}
+ .back-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:calc(var(--font-size) * 12 / 16)}
+ .step-actions .next-button{flex:1 0 58%;padding:5px 9px 5px 11px;gap:6px}
+ /* The arrow says "next": the leads give way, the count and the name stay — the name on up to two lines. */
+ .next-label-lead,.next-kicker-long{display:none}
+ .next-kicker-short{display:inline}
+ .next-label{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;line-height:1.15;overflow:hidden;overflow-wrap:break-word}
  /* Step tabs: the "1/3 secties" line goes (its 8 px text was below any readable floor); the tab's accessible name and
     the section ticks still carry the progress. 50 -> ~42 px. */
  .steps .step-tab{min-height:42px;padding:8px 0}
@@ -787,4 +803,10 @@ dialog:has(.view-modal){max-width:860px}
  .camera-tools .viewpoints-menu button{padding:4px 2px 6px;font-size:calc(var(--font-size) * 12 / 16)}
  /* The toggle stays a plain cross while its sheet is open; the sheet no longer sits beside it. */
  .camera-tools.open .tool-list{width:auto}
+}
+/* The narrowest phones (2.17.0): the back button gives up a little more of the row and the destination steps down
+   to 12 px, so "Buiten stopcontact" and "nog 10 keuzes" still read in full at 360 px. */
+@media(max-width:380px){
+ .step-actions .back-button{max-width:36%}
+ .next-label{font-size:calc(var(--font-size) * 12 / 16)}
 }

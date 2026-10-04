@@ -271,6 +271,29 @@ test('inside, the visitor stays between the side walls and under the ceiling as 
  }
 });
 
+test('inside, a PAN cannot carry the visitor through a wall either: the orbit point is held in the room', ()=>{
+ // The 2.16.2 live audit: orbit and wheel stopped on the limits, but a pan (right mouse, Shift/Ctrl+left, two fingers)
+ // moves the orbit point itself — a 350 px right-drag put the eye 0,8 m beyond the side wall, three of them 7,7 m
+ // out on the lawn, and once outside the wheel and the orbit left it there. A pan translates eye and target together,
+ // so that is what this does, in every direction, and then lets the clamp have its say.
+ for(const width of [230,500,750]){
+  const p=cameraHarness({width,depth:300,height:280,interior:true});p.environment=environment;p.view='interior';
+  p.camera.aspect=1.5;p.fitCamera();
+  const room=p.cameraRoomBox(),framed={eye:p.camera.position.clone(),target:p.controls.target.clone()};
+  for(const shift of [[3,0,0],[-3,0,0],[9,0,0],[0,0,-6],[0,0,6],[2.5,0,-4]]){
+   p.camera.position.copy(framed.eye).add(new THREE.Vector3(...shift));p.controls.target.copy(framed.target).add(new THREE.Vector3(...shift));
+   const direction=p.camera.position.clone().sub(p.controls.target).normalize();
+   p.clampCamera();
+   const eye=p.camera.position,target=p.controls.target,tag=`${width} cm, pan ${shift}`;
+   for(const [name,point] of [['eye',eye],['orbit point',target]]){
+    assert.ok(point.x>=room.left-1e-9&&point.x<=room.right+1e-9,`${tag}: the ${name} stays between the side walls (${point.x.toFixed(2)})`);
+    assert.ok(point.z>=room.back-1e-9&&point.z<=room.front+1e-9,`${tag}: the ${name} stays between the back wall and the pui (${point.z.toFixed(2)})`);
+   }
+   assert.ok(eye.clone().sub(target).normalize().dot(direction)>.999,`${tag}: the visitor still looks the way they were looking`);
+  }
+ }
+});
+
 test('every standpoint the visitor can pick stays inside the limits, and free rondkijken lifts them',()=>{
  const p=cameraHarness({width:620,depth:340,height:280,interior:true});p.environment=environment;
  for(const view of ['perspective','perspective-left','front','top','cutaway','interior','ceiling']){

@@ -178,6 +178,18 @@ test('dependent product choices clear while view preferences cannot enter a comm
  assert.equal(labelFor(fields,'socketPositions',['L1','R2']),fields.socketPositions.options.find(o=>o.id==='L1').label+', '+fields.socketPositions.options.find(o=>o.id==='R2').label);
 });
 
+test('a saved double outside socket comes back as the single socket on the same side, not as none', () => {
+ // 2.16.0 retired the double sockets ("dışarıda tek priz") and promised that a saved double becomes the single one on
+ // its own side — services/catalog.py RETIRED_VALUES does exactly that on the server. The live audit of 2.16.2 found
+ // the browser dropping 'double-both' to the default 'none' BEFORE the price request: the socket vanished from the
+ // design and the server's mapping never got the chance to run.
+ for(const [saved,single] of [['double-left','left'],['double-right','right'],['double-both','both']]){
+  assert.equal(normalizedDraft({outsideSocket:saved},catalog).outsideSocket,single,`${saved} -> ${single}`);
+ }
+ assert.equal(normalizedDraft({outsideSocket:'right'},catalog).outsideSocket,'right','a current value is kept as it is');
+ assert.equal(normalizedDraft({outsideSocket:'double-sideways'},catalog).outsideSocket,catalog.defaults.outsideSocket,'an unknown value still falls back');
+});
+
 test('the rollaag toggle is retired: old drafts drop it, keep their finish, and the field is always shown', () => {
  const legacy=normalizedDraft({rollaagEnabled:false,rollaag:'panel-black'},catalog);
  assert.equal(Object.hasOwn(legacy,'rollaagEnabled'),false,'the retired key never reaches the server');assert.equal(legacy.rollaag,'panel-black');

@@ -19,12 +19,19 @@ export const INTERIOR_FIELDS = ['plaster','painting','screed','underfloorHeating
  */
 export const MATERIALS = Object.freeze(Object.fromEntries(PREFAB_FACADES.map(code => [code, FINISHES[code]])));
 export function fieldsOf(catalog) { return Object.fromEntries(catalog.groups.flatMap(g => g.fields).map(f => [f.key, f])); }
+/**
+ * Values retired by a newer application version and what a saved design that still carries one becomes. The mirror
+ * of services/catalog.py RETIRED_VALUES: the server maps these too, but the browser normalises the draft first, and
+ * without this table it dropped a saved double socket to "none" before the server ever saw it (2.16.2 live audit).
+ */
+export const RETIRED_VALUES = Object.freeze({outsideSocket: Object.freeze({'double-left': 'left', 'double-right': 'right', 'double-both': 'both'})});
 export function normalizedDraft(input, catalog) {
   const result = structuredClone(catalog.defaults);
  if (!input || typeof input !== 'object' || Array.isArray(input)) return result;
  const fields = fieldsOf(catalog);
- for (const [key, value] of Object.entries(input)) {
+ for (const [key, saved] of Object.entries(input)) {
    if (!(key in result) || key === 'postcode') continue;
+   const value = Object.hasOwn(RETIRED_VALUES[key] || {}, saved) ? RETIRED_VALUES[key][saved] : saved;
    const dimension = catalog.dimensions[key];
    if (dimension) {if (typeof value === 'number' && Number.isInteger(value) && value>=dimension.min && value<=dimension.max) result[key]=value;continue;}
    const field=fields[key]; if(!field) continue;
