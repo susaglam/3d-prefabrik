@@ -53,7 +53,9 @@ export const HOPPER=Object.freeze({height:.20,top:Object.freeze([.13,.16]),botto
  * preview.js makeOpening builds the 3D from these numbers and elevationSvg draws with them, so the two agree.
  */
 export const KOZIJN=Object.freeze({
-    sliding:Object.freeze({head:.056,jamb:.055,lip:.014,sill:'#40372f',sillFace:.042,sillProud:.01,stile:.095,rail:.088,bottomRail:.125,
+    // An independent re-measurement (docs/verification/kozijn-ref/, check) settled the head at 52-54, the lip at 15
+    // and the dorpel face at 40 mm, a dark warm grey in both colours.
+    sliding:Object.freeze({head:.053,jamb:.055,lip:.015,sill:'#3b3532',sillFace:.04,sillProud:.01,stile:.095,rail:.088,bottomRail:.125,
         sash:.071,fixedBack:.005,slidingBack:.075,frameDepth:.16}),
     folding:Object.freeze({head:.087,jamb:.068,threshold:'#eae8e6',stile:.087,rail:.088,bottomRail:.104,doorBottomRail:.111,
         sash:.06,back:.05,frameDepth:.14}),
@@ -63,8 +65,9 @@ export const KOZIJN=Object.freeze({
     // rail measures 91; it is held at the grille's 89 so a door's pane starts where a side light's does.
     frenchBars:Object.freeze({head:.079,jamb:.066,lightSill:.088,rail:.089,bottomRail:.088}),
     frenchAluminium:Object.freeze({head:.054,jamb:.032,mullion:.059,lightSill:.04,bottomRail:.09}),
-    grille:Object.freeze({height:.089,slot:.017,pitch:.037,below:.0565,divider:.007}),
-    pull:Object.freeze({width:.058,height:.11,proud:.012,y:.92,foldingY:.93}),
+    // Slots about 33 x 18 mm at a 37 mm pitch behind 4-5 mm dividers; pulls 57-62 x 105-110 mm round a 40 x 82 pocket.
+    grille:Object.freeze({height:.089,slot:.018,pitch:.037,below:.0565,divider:.0045}),
+    pull:Object.freeze({width:.058,height:.108,proud:.012,y:.92,foldingY:.93}),
     lever:Object.freeze({y:.879,cylinder:.814,rose:.022,proud:.004,length:.132,height:.016,reach:.049,color:'#dcdbd8'}),
     bars:3,
 });

@@ -1969,7 +1969,7 @@ export class Preview {
                 for(const [side,faceZ] of [[1,s.front],[-1,s.rear]]){
                     const zz=faceZ+side*p.proud/2;
                     s.parts.push(profile([p.width,p.height,p.proud],[hx,y,zz],frame,'window-pull'));
-                    const pocket=this.box(group,[p.width-.016,p.height-.027,.003],[hx,y,zz+side*(p.proud/2+.0005)],recess,{shadow:false});pocket.name='window-pull-recess';s.parts.push(pocket);
+                    const pocket=this.box(group,[p.width-.018,p.height-.026,.003],[hx,y,zz+side*(p.proud/2+.0005)],recess,{shadow:false});pocket.name='window-pull-recess';s.parts.push(pocket);
                 }
             } else {
                 const l=KOZIJN.lever,steel=this.material('window-lever',{color:l.color,metalness:.6,roughness:.32});
