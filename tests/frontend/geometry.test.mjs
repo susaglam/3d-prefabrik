@@ -37,18 +37,86 @@ test('"geen kozijn" is a skeleton opening: a real aperture, no leaves, sized lik
         assert.deepEqual(m.walls.map(w=>w.key).sort(),['front-header','front-left','front-right','left','right']);
         for(const key of ['front-left','front-right'])assert.ok(m.walls.find(w=>w.key===key).size[0]>=.45-1e-9,key);
     }
-    // A fitted kozijn stays exactly where it was: same span table, same pier minimum.
-    assert.equal(buildGeometry({width:500,frontOpening:'french-black'}).opening.width,2.2);
+    // A fitted kozijn keeps its own span and the pier minimum: openslaande deuren span 440 since 2.17.0 (two doors
+    // between two side lights, the customer's reference), so at 500 cm the piers decide.
+    assert.equal(buildGeometry({width:500,frontOpening:'french-black'}).opening.width,4.1);
     assert.equal(buildGeometry({width:500,frontOpening:'sliding-2-black'}).opening.skeleton,false);
 });
 
 test('door panel families preserve counts, span and selected colour/grid',()=>{
-    for(const [frontOpening,count] of [['french-bars-white',2],['sliding-2-black',2],['sliding-4-white',4],['folding-black',4]]){
+    for(const [frontOpening,count] of [['sliding-2-black',2],['sliding-4-white',4],['folding-black',5]]){
         const m=buildGeometry({frontOpening});assert.equal(m.panels.length,count);
         assert.ok(Math.abs(m.panels.reduce((sum,p)=>sum+p.width,0)-m.opening.width)<1e-9);
         assert.equal(m.opening.bars,frontOpening.includes('bars'));
         assert.equal(m.opening.frame,frontOpening.endsWith('white')?'#efede6':'#303432');
         assert.ok(m.opening.width<=m.width-.9+1e-9);
+    }
+});
+
+/*
+ * 2.17.0, the owner, with the reference renders of every kozijn (kozijn/*.png): "kapıları tam olarak istediğim gibi
+ * yapmamışsın; olmayacak her yere havalandırma koymuşsun; kapı kollarını kendin uydurmuşsun; sürgülüleri dışarıdan
+ * sürgülüymüş gibi göstermişsin, içeriden olmalıydı". The references were rectified to a front elevation and measured
+ * (docs/verification/kozijn-ref/). These tests hold the LAYOUT each product is built from — the one table the 3D,
+ * the option icons and the drawings now all read.
+ */
+const roles=m=>m.panels.map(p=>p.role);
+test('a 2-delige schuifpui is a sliding leaf on the LEFT and a fixed pane on the right, the grille on the fixed pane only',()=>{
+    for(const frontOpening of ['sliding-2-black','sliding-2-white']){
+        const m=buildGeometry({width:500,frontOpening});
+        assert.deepEqual(roles(m),['sliding','fixed'],frontOpening);
+        assert.deepEqual(m.panels.map(p=>p.grille),[false,true],'the ventilatierooster sits on the FIXED pane');
+        const [leaf,fixed]=m.panels;
+        assert.deepEqual(leaf.handle,{type:'pull',edge:'left'},'a flush pull on the free stile at the jamb, not a long bar');
+        assert.equal(leaf.opens,'right','it slides right, behind the fixed pane');
+        assert.equal(fixed.handle,null);
+        assert.ok(Math.abs(leaf.width-fixed.width)<1e-9,'two halves');
+    }
+});
+test('a 4-delige schuifpui has fixed panes outside and two sliding leaves in the middle, opening OUTWARD',()=>{
+    const m=buildGeometry({width:500,frontOpening:'sliding-4-white'});
+    assert.deepEqual(roles(m),['fixed','sliding','sliding','fixed']);
+    assert.deepEqual(m.panels.map(p=>p.grille),[true,false,false,true],'grilles on the fixed panes, none on the sliding leaves');
+    assert.deepEqual(m.panels.map(p=>p.handle),[null,{type:'pull',edge:'right'},{type:'pull',edge:'left'},null],'pulls on the two centre stiles');
+    assert.deepEqual(m.panels.map(p=>p.opens),[null,'left','right',null],'each leaf parks behind its own fixed pane');
+});
+test('a harmonicapui is four folding leaves and a loopdeur, the grille on the loopdeur only, no lever anywhere',()=>{
+    for(const frontOpening of ['folding-black','folding-white']){
+        const m=buildGeometry({width:500,frontOpening});
+        assert.deepEqual(roles(m),['folding','folding','folding','folding','door'],frontOpening);
+        assert.deepEqual(m.panels.map(p=>p.grille),[false,false,false,false,true]);
+        assert.deepEqual(m.panels.map(p=>p.handle),[null,null,null,{type:'pull',edge:'right'},{type:'pull',edge:'left'}],'two flush pulls where the door meets the folding set');
+        assert.equal(m.panels[4].hinge,'right','the loopdeur hangs on the right jamb');
+        assert.ok(m.panels.every(p=>p.handle?.type!=='lever'),'no deurkruk on a harmonicapui');
+        const width=m.opening.width/5;
+        assert.ok(m.panels.every(p=>Math.abs(p.width-width)<1e-9),'five equal leaves');
+    }
+});
+test('openslaande deuren are two doors between two side lights, the deurkruk on the right door, grilles on the side lights',()=>{
+    for(const frontOpening of ['french-white','french-bars-black']){
+        const m=buildGeometry({width:600,frontOpening});
+        assert.equal(m.opening.width,4.4,'the 440 cm span of the reference');
+        assert.deepEqual(roles(m),['fixed','door','door','fixed'],frontOpening);
+        assert.deepEqual(m.panels.map(p=>p.grille),[true,false,false,true],'no grille on a door you open');
+        assert.deepEqual(m.panels.map(p=>p.handle),[null,null,{type:'lever',edge:'left'},null],'one deurkruk, on the meeting stile of the active door');
+        assert.deepEqual(m.panels.map(p=>p.hinge),[null,'left','right',null]);
+        assert.ok(m.panels.filter(p=>p.role==='door').every(p=>Math.abs(p.width-.9)<1e-9&&p.opens==='out'),'90 cm doors, opening outward');
+        assert.ok(Math.abs(m.panels[0].width-1.3)<1e-9&&Math.abs(m.panels[3].width-1.3)<1e-9,'the side lights share the rest');
+    }
+    // A narrower aanbouw keeps the doors and narrows the side lights down to 35 cm; below that, only the two doors.
+    const narrow=width=>buildGeometry({width,frontOpening:'french-white'});
+    assert.deepEqual(roles(narrow(400)),['fixed','door','door','fixed']);
+    assert.ok(narrow(400).panels.filter(p=>p.role==='door').every(p=>Math.abs(p.width-.9)<1e-9),'310 cm: still 90 cm doors');
+    assert.deepEqual(roles(narrow(280)),['fixed','door','door','fixed'],'190 cm: 60 cm doors and 35 cm side lights (the floating-point edge)');
+    assert.deepEqual(roles(narrow(270)),['door','door']);
+    assert.deepEqual(narrow(210).panels.map(p=>p.handle?.type??null),[null,'lever']);
+});
+test('the panel model is the product: count, span and the skeleton stay consistent',()=>{
+    for(const [frontOpening,count] of [['sliding-2-black',2],['sliding-4-white',4],['folding-black',5],['none',0]]){
+        const m=buildGeometry({width:500,frontOpening});
+        assert.equal(m.panels.length,count,frontOpening);assert.equal(m.opening.panelCount,count,`${frontOpening}: panelCount follows the layout`);
+        if(count)assert.ok(Math.abs(m.panels.reduce((sum,p)=>sum+p.width,0)-m.opening.width)<1e-9,`${frontOpening}: the sections fill the aperture`);
+        let x=-m.opening.width/2;for(const p of m.panels){assert.ok(Math.abs(p.x-p.width/2-x)<1e-9,`${frontOpening}: sections side by side, left to right`);x+=p.width;}
     }
 });
 

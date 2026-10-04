@@ -17,8 +17,25 @@ MIN_OPENINGS = {"none": 150, "french": 210, "sliding-2": 230, "sliding-4": 370, 
 # "Geen kozijn" is a SKELETON opening, not a closed wall: the customer fits their own frame later, so the extension
 # shows exactly the rough opening a 2-leaf schuifpui would get at this width (hence the shared 320) with only the
 # outer frame built - no leaves, no glass, no hardware. Mirrored value for value in static/src/geometry.js.
-OPENING_SPAN_CM = {"french": 220, "sliding-2": 320, "sliding-4": 440, "folding": 440, "none": 320}
+# Openslaande deuren span 440 since 2.17.0: the customer's reference is two doors between two wide side lights.
+OPENING_SPAN_CM = {"french": 440, "sliding-2": 320, "sliding-4": 440, "folding": 440, "none": 320}
 PIER_MINIMUM_CM = 90
+# Sections per kozijn (geometry.js OPENING_LAYOUTS): a 2-delige schuifpui is a sliding leaf and a fixed pane, a
+# 4-delige two fixed panes around two sliding leaves, a harmonicapui four folding leaves and a loopdeur.
+OPENING_SECTIONS = {"none": 0, "sliding-2": 2, "sliding-4": 4, "folding": 5}
+# Openslaande deuren (geometry.js FRENCH_DOORS), in cm: each door a door's width, the side lights the rest but never
+# less than side_min; where that leaves a door narrower than min there are no side lights and the two doors share it.
+FRENCH_DOORS = {"door": 90, "min": 60, "side_min": 35}
+
+
+def opening_section_count(kind, aperture_cm):
+    """How many sections the kozijn of `kind` has in an aperture of `aperture_cm`; mirrors geometry.js::openingLayout."""
+    if aperture_cm <= 0:
+        return 0
+    if kind != "french":
+        return OPENING_SECTIONS[kind]
+    door = min(FRENCH_DOORS["door"], (aperture_cm - 2 * FRENCH_DOORS["side_min"]) / 2)
+    return 4 if door >= FRENCH_DOORS["min"] else 2
 
 
 def default_geometry_rules():
@@ -67,8 +84,9 @@ def opening_aperture_cm(kind, width_cm):
 
 def opening_spec(kind, width_cm, height_cm=280):
     """Aperture plus leaf count for one kozijn, in cm; mirrors geometry.js::openingSpec."""
-    return {"kind": kind, "width": opening_aperture_cm(kind, width_cm), "height": min(230, height_cm - 35), "bottom": 7,
-            "panelCount": 0 if kind == "none" else 2 if kind in ("french", "sliding-2") else 4, "skeleton": kind == "none"}
+    width = opening_aperture_cm(kind, width_cm)
+    return {"kind": kind, "width": width, "height": min(230, height_cm - 35), "bottom": 7,
+            "panelCount": opening_section_count(kind, width), "skeleton": kind == "none"}
 
 
 def validate_profile_selection(config, rules):

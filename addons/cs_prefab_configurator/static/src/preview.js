@@ -2,7 +2,7 @@ import * as THREE from '../vendor/three.module.js';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { HDRLoader } from '../vendor/HDRLoader.js';
 import { EffectComposer, RenderPass, GTAOPass, OutputPass } from '../vendor/render-addons.module.js';
-import { buildGeometry, planSvg, DAKTRIM_FACE, HOPPER } from './geometry.js';
+import { buildGeometry, planSvg, DAKTRIM_FACE, HOPPER, KOZIJN, kozijnProfile, sectionMembers } from './geometry.js';
 import { buildFixture, fixtureAppearance, buildPreparation, buildUnderfloorHeating, underfloorAppearance } from './fixtures.js';
 import { sceneChange, canonicalFixtureKey, visibleLightEffectCount, renderTier } from './render_state.js';
 import { profileGeometry, metricUVs, softPad, ROOF_RECESS, TRIM_REACH, DOWNPIPE, downpipeRoute, roundedRoute, pipeGeometries, roofOutlet, SPOUT } from './architectural_details.js';
@@ -1884,85 +1884,134 @@ export class Preview {
 
     makeOpening(m,frame,glass) {
         if(!m.opening.panelCount&&!m.opening.skeleton)return;
-        // 2.16.0, the customer: "kozijn çerçeveleri daha kalın olmalı". 75 mm on a hinged leaf and 58 mm on a
-        // sliding one, against 55 and 42 before — the proportions of the reference renders (kozijn/*.png), where the
-        // frame reads as a real aluminium section instead of a drawn line. The glass loses what the frame gains.
-        const o=m.opening,z=o.z+.016,f=.075,group=new THREE.Group();group.name='opening';group.userData.scopeKey='frontOpening';this.root.add(group);
-        const rubber=this.material('window-gasket',{color:'#222625',roughness:.92}),steel=this.material('window-hardware',{color:'#bdc2c1',metalness:.92,roughness:.22});
-        const track=this.material('window-track',{color:'#454948',metalness:.55,roughness:.5}),grille=this.material('window-grille',{color:'#1b1e1d',roughness:.9});
+        const o=m.opening,group=new THREE.Group();group.name='opening';group.userData.scopeKey='frontOpening';this.root.add(group);
+        const rubber=this.material('window-gasket',{color:'#222625',roughness:.92});
+        const slots=this.material('window-grille',{color:'#1b1e1d',roughness:.9});
         // A profile drawn in the FRAME material is the kozijn itself, so it answers to "Materiaal kozijn"; panes,
         // rails, hardware and tracks keep the group's own "Kozijn". Both controls live in the card Gevel & voorpui.
         // With "geen kozijn" the outer profile IS the rough opening, so it keeps the group's own "Kozijn" tag: the
         // customer who clicks it wants to choose a pui, not the material of a frame that is not being delivered.
-        const profile=(size,at,mat=frame)=>{const mesh=new THREE.Mesh(profileGeometry(...size),mat);mesh.position.set(...at);mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);if(mat===frame&&!o.skeleton)this.tag(mesh,'openingMaterial');return mesh;};
-        const kind=o.kind,proud=.035,y0=o.bottom,top=o.bottom+o.height;
-        // Fixed outer frame in the frame plane: sill, head and jambs. "Geen kozijn" is exactly this and nothing else —
-        // the customer's own frame goes in later, so the sill is the anthracite outer profile too, not the grey
-        // aluminium schuifpui sill, and the aperture stays open: no leaves, no glass, no hardware.
-        profile([o.width+.11,.045,.30],[0,.067,z],o.skeleton?frame:this.material('sill',{color:'#8b8d86',roughness:.75}));
-        profile([o.width+.05,f,.11],[0,top,z]);
-        for(const side of [-1,1])profile([f,o.height,.11],[side*o.width/2,o.height/2+y0,z]);
-        if(o.skeleton)return;
-        // One glazed section: stiles, rails, gaskets and the pane; `dz` stands it proud of the frame plane (sliding leaves on the outer track).
-        const section=({x,width,bottom=y0,ceiling=top,stile=f,rail=f,bottomRail=f,dz=0,depth=.092})=>{
-            const pz=z+dz,height=ceiling-bottom,gx=width-2*stile,gh=height-rail-bottomRail,gy=bottom+bottomRail+gh/2;
-            const pane=this.box(group,[gx+.02,gh+.02,.006],[x,gy,pz],glass,{shadow:false});pane.name='clear-glazing';
-            for(const side of [-1,1]){profile([stile,height,depth],[x+side*(width-stile)/2,bottom+height/2,pz]);this.box(group,[.008,gh,.041],[x+side*(gx/2+.004),gy,pz],rubber,{shadow:false});}
-            profile([width,rail,depth],[x,ceiling-rail/2,pz]);profile([width,bottomRail,depth],[x,bottom+bottomRail/2,pz]);
-            for(const [yy,dir] of [[bottom+bottomRail,1],[ceiling-rail,-1]])this.box(group,[gx,.008,.041],[x,yy+dir*.004,pz],rubber,{shadow:false});
-            return {x,width,pz,gx,gh,gy,depth};
+        const profile=(size,at,mat=frame,name=null)=>{const mesh=new THREE.Mesh(profileGeometry(...size),mat);mesh.position.set(...at);mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);if(mat===frame&&!o.skeleton)this.tag(mesh,'openingMaterial');if(name)mesh.name=name;return mesh;};
+        const y0=o.bottom,top=o.bottom+o.height;
+        if(o.skeleton){
+            // "Geen kozijn" is the rough opening and nothing else — the customer's own frame goes in later, so the sill
+            // is the anthracite outer profile too and the aperture stays open: no leaves, no glass, no hardware.
+            const f=.075,z=o.z+.016;
+            profile([o.width+.11,.045,.30],[0,.067,z],frame);
+            profile([o.width+.05,f,.11],[0,top,z],frame,'frame-head');
+            for(const side of [-1,1])profile([f,o.height,.11],[side*o.width/2,o.height/2+y0,z],frame,'frame-jamb');
+            return;
+        }
+        // 2.17.0: every kozijn is built from the customer's reference renders (geometry.js KOZIJN, kozijnProfile) and
+        // from the one layout the option icons and the drawings read too (openingLayout). The frame sits IN the
+        // aperture — jambs and head inside it — and the sections share the clear width between the jambs.
+        const spec=kozijnProfile(o.kind,{bars:o.bars,material:m.openingMaterial}),family=spec.family;
+        const face=o.z+.016+.055,frameZ=face-spec.frameDepth/2,clear=o.width-2*spec.jamb,scale=clear/o.width;
+        profile([o.width,spec.head,spec.frameDepth],[0,top-spec.head/2,frameZ],frame,'frame-head');
+        for(const side of [-1,1])profile([spec.jamb,o.height,spec.frameDepth],[side*(o.width/2-spec.jamb/2),y0+o.height/2,frameZ],frame,'frame-jamb');
+        let bottom=y0;
+        if(spec.threshold){
+            // A harmonicapui stands on a light threshold in both colours, 34 mm out in front of the frame and 214 mm
+            // behind it, with no frame member at its foot.
+            this.box(group,[o.width+.04,.03,.248],[0,y0-.015,face-.09],this.material('kozijn-threshold',{color:spec.threshold,roughness:.6,metalness:.2})).name='kozijn-threshold';
+        } else {
+            // A schuifpui and openslaande deuren stand on a frame-colour onderdorpel over a DARK drempel of their own,
+            // the same in both colours.
+            this.box(group,[o.width+.04,spec.sillFace,.24],[0,y0-spec.sillFace/2,face+spec.sillProud-.12],this.material(`kozijn-sill:${spec.sill}`,{color:spec.sill,roughness:.7,metalness:.15})).name='kozijn-threshold';
+            profile([clear,spec.lip,spec.frameDepth],[0,y0+spec.lip/2,frameZ],frame,'frame-lip');
+            bottom=y0+spec.lip;
+        }
+        const ceiling=top-spec.head;
+        // The sections' left and right edges in the clear width. Openslaande deuren put a kozijnstijl between a side
+        // light and a door, and a hairline where the two doors meet.
+        const edges=m.panels.map(section=>[(section.x-section.width/2)*scale,(section.x+section.width/2)*scale]);
+        if(family==='french')m.panels.slice(0,-1).forEach((section,i)=>{
+            const boundary=edges[i][1],gap=section.role===m.panels[i+1].role?spec.meeting:spec.mullion;
+            if(gap===spec.mullion)profile([spec.mullion,ceiling-bottom,spec.frameDepth],[boundary,(bottom+ceiling)/2,frameZ],frame,'frame-mullion');
+            edges[i][1]-=gap/2;edges[i+1][0]+=gap/2;
+        });
+        // The pane of one section, shortened by its grille, with the black gasket line every reference shows on both
+        // faces, the grille and the roedes. `s` is the glazing: its x, width gx, glass plane pz, and the front and rear
+        // faces of the member around it.
+        const glaze=s=>{
+            const grille=s.section.grille?KOZIJN.grille.height:0,paneTop=s.glassTop-grille,gh=paneTop-s.glassBottom,gy=s.glassBottom+gh/2;
+            const pane=this.box(group,[s.gx+.02,gh+.02,.006],[s.x,gy,s.pz],glass,{shadow:false});pane.name='clear-glazing';s.parts.push(pane);
+            for(const side of [-1,1])s.parts.push(this.box(group,[.008,gh,.014],[s.x+side*(s.gx/2-.004),gy,s.pz],rubber,{shadow:false}));
+            for(const [yy,dir] of [[s.glassBottom,1],[paneTop,-1]])s.parts.push(this.box(group,[s.gx,.008,.014],[s.x,yy+dir*.004,s.pz],rubber,{shadow:false}));
+            if(grille)rooster(s,paneTop);
+            // Roedes (met roedes): KOZIJN.bars bars at equal parts of the pane, 21 mm faces standing 30 mm off the
+            // glass on both sides, as on the reference. The panes line up across the front, so the bars do too.
+            if(o.bars)for(let k=1;k<=KOZIJN.bars;k++)for(const side of [-1,1])
+                s.parts.push(profile([s.gx,.021,.027],[s.x,s.glassBottom+gh*k/(KOZIJN.bars+1),s.pz+side*.0165],frame,'roede'));
         };
-        // Ventilation grille (ventilatierooster) across the top of the glazing, as on the reference renders: a housing
-        // in the frame colour with four louvre blades, built on BOTH faces of the leaf (2.16.0, the customer: "camlarda
-        // havalandırmalar içerden ve dışarıdan bunlar gözükmeli"). It used to be a single 3 cm dark strip on the outer
-        // face only, which disappeared at any distance and was invisible from the room it ventilates.
-        const rooster=s=>{
-            const width=Math.max(.2,s.gx-.02),band=.085,y=s.gy+s.gh/2-band/2-.006;
-            for(const side of [-1,1]){
-                const zz=s.pz+side*(s.depth/2-.004);
-                const housing=this.box(group,[width,band,.014],[s.x,y,zz],frame,{shadow:false});
-                housing.name='window-rooster';housing.userData.scopeKey='frontOpening';
-                for(let k=0;k<4;k++){
-                    const blade=this.box(group,[width-.022,.009,.008],[s.x,y+band/2-.016-k*.019,zz+side*.008],grille,{shadow:false});
-                    blade.name='window-rooster-blade';blade.userData.scopeKey='frontOpening';
+        // The ventilatierooster of the references: a housing in the frame colour across the whole pane directly under
+        // the top rail (or the head), ONE row of dark slots in its lower half, seen from both faces (it ventilates the
+        // room it is seen from too, 2.16.0) — one half-block per face. Only where the layout puts one.
+        const rooster=(s,paneTop)=>{
+            const g=KOZIJN.grille,y=paneTop+g.height/2,front=s.front-.01,rear=s.rear+.01,middle=(front+rear)/2,run=s.gx-.06,count=Math.max(1,Math.floor(run/g.pitch));
+            for(const [side,faceZ] of [[1,front],[-1,rear]]){
+                const housing=this.box(group,[s.gx,g.height,Math.abs(faceZ-middle)],[s.x,y,(faceZ+middle)/2],frame,{shadow:false});housing.name='window-rooster';housing.userData.scopeKey='frontOpening';s.parts.push(housing);
+                const zz=faceZ+side*.001,sy=y+g.height/2-g.below;
+                const slot=this.box(group,[run,g.slot,.002],[s.x,sy,zz],slots,{shadow:false});slot.name='window-rooster-slots';slot.userData.scopeKey='frontOpening';s.parts.push(slot);
+                const dividers=new THREE.InstancedMesh(new THREE.BoxGeometry(g.divider,g.slot,.004),frame,count),at=new THREE.Matrix4();
+                for(let k=0;k<count;k++){at.makeTranslation(s.x-run/2+(k+.5)*run/count,sy,zz+side*.001);dividers.setMatrixAt(k,at);}
+                dividers.name='window-rooster-dividers';dividers.userData.scopeKey='frontOpening';group.add(dividers);s.parts.push(dividers);
+            }
+        };
+        // The handles of the references, on the stile the layout names and on both faces: the small flush pull of a
+        // schuifpui and a harmonicapui (a rim around a dark pocket, in the frame colour), and the deurkruk of an
+        // openslaande deur — a satin-silver lever on a round rosette pointing to the hinge side, a cylinder rosette
+        // under it, the same on the white and the anthracite door.
+        const handle=s=>{
+            const edge=s.section.handle.edge==='left'?-1:1,hx=s.x+edge*(s.width/2-s.edgeStile(edge)/2);
+            if(s.section.handle.type==='pull'){
+                const p=KOZIJN.pull,y=y0+(family==='folding'?p.foldingY:p.y),recess=this.material('window-pull-recess',{color:'#1c1f1e',roughness:.8});
+                for(const [side,faceZ] of [[1,s.front],[-1,s.rear]]){
+                    const zz=faceZ+side*p.proud/2;
+                    s.parts.push(profile([p.width,p.height,p.proud],[hx,y,zz],frame,'window-pull'));
+                    const pocket=this.box(group,[p.width-.016,p.height-.027,.003],[hx,y,zz+side*(p.proud/2+.0005)],recess,{shadow:false});pocket.name='window-pull-recess';s.parts.push(pocket);
+                }
+            } else {
+                const l=KOZIJN.lever,steel=this.material('window-lever',{color:l.color,metalness:.6,roughness:.32});
+                const disc=(r,depth,at,name)=>{const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r,r,depth,28),steel);mesh.rotation.x=Math.PI/2;mesh.position.set(...at);mesh.castShadow=true;mesh.name=name;group.add(mesh);s.parts.push(mesh);return mesh;};
+                for(const [side,faceZ] of [[1,s.front],[-1,s.rear]]){
+                    disc(l.rose,l.proud,[hx,y0+l.y,faceZ+side*l.proud/2],'window-lever-rose');
+                    disc(.007,l.reach,[hx,y0+l.y,faceZ+side*l.reach/2],'window-lever');
+                    const grip=new THREE.Mesh(profileGeometry(l.length,l.height,l.height),steel);grip.position.set(hx-edge*(l.length/2-.008),y0+l.y,faceZ+side*(l.reach-l.height/2));
+                    grip.castShadow=true;grip.name='window-lever';group.add(grip);s.parts.push(grip);
+                    disc(l.rose,l.proud,[hx,y0+l.cylinder,faceZ+side*l.proud/2],'window-cylinder');
                 }
             }
         };
-        const roedes=s=>{for(let k=1;k<5;k++)for(const side of [-1,1])profile([s.gx+.012,.018,.014],[s.x,s.gy-s.gh/2+s.gh*k/5,s.pz+side*.01]);};
-        const lever=(s,hx,dir)=>{for(const side of [-1,1]){profile([.024,.17,.016],[hx,1.10,s.pz+side*(s.depth/2+.008)]);profile([.014,.014,.05],[hx,1.11,s.pz+side*(s.depth/2+.04)],steel);profile([.12,.016,.018],[hx+dir*.05,1.11,s.pz+side*(s.depth/2+.062)],steel);}};
-        const pull=(s,hx)=>{for(const side of [-1,1]){profile([.02,.30,.02],[hx,1.2,s.pz+side*(s.depth/2+.05)],steel);for(const y of [1.09,1.31])profile([.016,.016,.05],[hx,y,s.pz+side*(s.depth/2+.025)],steel);}};
-        const hinges=(s,hx)=>{for(const y of [.30,1.17,2.02]){const hinge=new THREE.Mesh(new THREE.CylinderGeometry(.009,.009,.08,12),frame);hinge.position.set(hx,y,s.pz+s.depth/2+.01);group.add(hinge);}};
-        if(kind==='french')for(const p of m.panels){
-            // Openslaande deuren: two hinged leaves with 55 mm stiles and rails, handles paired at the meeting stiles, hinges on the outer stiles.
-            const dir=p.index===0?-1:1,s=section({x:p.x,width:p.width,bottomRail:.075});
-            rooster(s);if(p.bars)roedes(s);
-            lever(s,p.x-dir*(p.width/2-f/2),dir);hinges(s,p.x+dir*(p.width/2-.012));
-        }
-        else if(kind.startsWith('sliding')){
-            // Schuifpui: slim profiles, fixed panes in the frame plane, sliding leaves proud on their own track between a bottom and a head track.
-            const lap=.06,slim=.058,fixed=m.panels.length===2?[0]:[0,3];
-            profile([o.width-.01,.022,.05],[0,y0+.011,z+proud],track);profile([o.width-.01,.03,.05],[0,top-.015,z+proud],track);
-            for(const p of m.panels){
-                if(fixed.includes(p.index)){rooster(section({x:p.x,width:p.width,stile:slim,rail:slim,bottomRail:slim}));continue;}
-                // A sliding leaf is ventilated as well; the grille travels with it on its own track.
-                // The leaf overlaps its fixed neighbour by an interlock; the pull handle sits on the stile facing the centre.
-                const lapDir=p.index===2?1:-1,toCentre=p.x<0?1:-1;
-                const s=section({x:p.x+lapDir*lap/2,width:p.width+lap,bottom:y0+.022,ceiling:top-.03,stile:slim,rail:slim,bottomRail:.066,dz:proud,depth:.074});
-                rooster(s);
-                pull(s,s.x+toCentre*(s.width/2-slim/2));
-            }
-        }
-        else{
-            // Harmonicapui: four equal folding leaves hinged to each other under a continuous top track, plus a separate traffic door at the right.
-            const w=o.width/5,at=i=>-o.width/2+(i+.5)*w;
-            profile([o.width,.04,.06],[0,top-.02,z+.055],track);profile([o.width,.012,.03],[0,y0+.006,z+.05],track);
-            for(let i=0;i<5;i++){
-                const s=section({x:at(i),width:w,bottom:y0+.012,ceiling:top-.04,stile:.066,rail:.066,bottomRail:.086});
-                rooster(s);
-                if(i<4)hinges(s,at(i)-w/2+(i?0:.012));
-                else{hinges(s,at(i)+w/2-.012);lever(s,at(i)-w/2+.025,1);}
-            }
-        }
+        // One glazed sash between its edges, its front face `back` behind the frame face. A door's hinge stile and
+        // meeting stile differ (89 / 95 mm on the reference); every other sash has one stile width.
+        const sash=(section,[left,right],{back,depth=spec.sash,glassBack=depth/2,members=sectionMembers(spec,section)})=>{
+            const x=(left+right)/2,width=right-left,front=face-back,rear=front-depth,height=ceiling-bottom;
+            const edgeStile=edge=>section.role==='door'&&family==='french'?((edge<0)===(section.hinge==='left')?spec.stile:spec.meetingStile):spec.stile;
+            const [sl,sr]=[edgeStile(-1),edgeStile(1)],gx=width-sl-sr,gxCentre=left+sl+gx/2;
+            const s={section,x:gxCentre,width,stile:spec.stile,edgeStile,pz:front-glassBack,front,rear,gx,glassTop:ceiling-members.top,glassBottom:bottom+members.bottom,parts:[]};
+            s.parts.push(profile([sl,height,depth],[left+sl/2,bottom+height/2,front-depth/2],frame,'sash-stile'),profile([sr,height,depth],[right-sr/2,bottom+height/2,front-depth/2],frame,'sash-stile'));
+            s.parts.push(profile([gx,members.top,depth],[gxCentre,ceiling-members.top/2,front-depth/2],frame,'sash-rail'),profile([gx,members.bottom,depth],[gxCentre,bottom+members.bottom/2,front-depth/2],frame,'sash-rail'));
+            glaze(s);
+            // The handle centres on its stile: measured from the section's own edges, not from the pane.
+            if(section.handle)handle({...s,x});
+            return s;
+        };
+        // A side light of openslaande deuren is glazed straight into the frame, over the frame's own sill member.
+        const light=(section,[left,right])=>{
+            const x=(left+right)/2,gx=right-left,members=sectionMembers(spec,section),pz=face-spec.lightBack;
+            // front / rear bound the grille box: its faces stand 20 mm off the glass, 44 mm behind the frame face.
+            const s={section,x,width:gx,stile:0,edgeStile:()=>0,pz,front:pz+.03,rear:pz-.03,gx,glassTop:ceiling,glassBottom:bottom+members.bottom,parts:[]};
+            s.parts.push(profile([gx,members.bottom,spec.frameDepth],[x,bottom+members.bottom/2,frameZ],frame,'frame-rail'));
+            glaze(s);
+            return s;
+        };
+        m.panels.forEach((section,i)=>{
+            const s=family==='sliding'?sash(section,edges[i],{back:section.role==='sliding'?spec.slidingBack:spec.fixedBack})
+                :family==='folding'?sash(section,edges[i],{back:spec.back})
+                :section.role==='door'?sash(section,edges[i],{back:spec.back,glassBack:spec.glassBack}):light(section,edges[i]);
+            for(const part of s.parts)part.userData.leaf=section.index;
+        });
     }
 
     makeRooflight(m,frame,glass,inside) {

@@ -145,9 +145,13 @@ class GeometryProfileTests(unittest.TestCase):
                 # Both piers keep the 45 cm minimum, which is what caps the aperture on a narrow extension.
                 self.assertGreaterEqual((width - spec["width"]) / 2, 45)
                 self.assertEqual(opening_aperture_cm("none", width), aperture)
-        # A fitted kozijn is untouched by the skeleton rule.
-        self.assertEqual([opening_spec(kind, 750)["width"] for kind in ("french", "sliding-2", "sliding-4", "folding")], [220, 320, 440, 440])
-        self.assertEqual([opening_spec(kind, 750)["panelCount"] for kind in ("french", "sliding-2", "sliding-4", "folding")], [2, 2, 4, 4])
+        # A fitted kozijn is untouched by the skeleton rule. Since 2.17.0 the sections are the customer's reference
+        # renders: openslaande deuren are two doors between two side lights (440 cm), a harmonicapui is four folding
+        # leaves and a loopdeur.
+        self.assertEqual([opening_spec(kind, 750)["width"] for kind in ("french", "sliding-2", "sliding-4", "folding")], [440, 320, 440, 440])
+        self.assertEqual([opening_spec(kind, 750)["panelCount"] for kind in ("french", "sliding-2", "sliding-4", "folding")], [4, 2, 4, 5])
+        # The side lights narrow with the aperture down to 35 cm next to two 60 cm doors; below that only the doors.
+        self.assertEqual([opening_spec("french", width)["panelCount"] for width in (210, 270, 280, 400, 750)], [2, 2, 4, 4, 4])
         self.assertFalse(any(opening_spec(kind, 750)["skeleton"] for kind in ("french", "sliding-2", "sliding-4", "folding")))
         # The fixture layout reads the same aperture: a 150 cm extension now has a 45 cm pier, not a 75 cm one.
         layout = fixture_layout(canonical_config({"width": 150, "depth": 100, "frontOpening": "none"}), default_geometry_rules())
@@ -229,15 +233,16 @@ class GeometryProfileTests(unittest.TestCase):
             self.assertGreaterEqual(sign * narrow[side]["light"][0] - 8.4, 140 / 2 + 8)
 
     def test_wide_pier_keeps_the_tap_on_its_own_front_axis_toward_the_corner(self):
-        # french on 750 cm: pier 265 cm, so tier 1 holds on both sides — tap 35 cm beyond the electrical axis.
+        # french on 750 cm: pier 155 cm (the 440 cm span since 2.17.0), so tier 1 holds on both sides — tap 35 cm
+        # beyond the electrical axis, still clear of the downpipe on the right.
         result = price_config({"width": 750, "depth": 300, "frontOpening": "french-black", "drainSide": "right", "outsideLight": "both", "outsideSocket": "both", "outsideTap": "both"})
         for side, sign in (("left", -1), ("right", 1)):
             with self.subTest(side=side):
                 mount = result["fixtureLayout"]["exterior"][side]
                 self.assertEqual({key: mount[key] for key in ("surface", "rotation", "available")}, {"surface": "front", "rotation": 0, "available": True})
-                self.assertEqual(mount["light"], [sign * 242.5, 190, 152.5])
-                self.assertEqual(mount["socket"], [sign * 242.5, 105, 152.5])
-                self.assertEqual(mount["tap"], [sign * 277.5, 65, 152.5])
+                self.assertEqual(mount["light"], [sign * 297.5, 190, 152.5])
+                self.assertEqual(mount["socket"], [sign * 297.5, 105, 152.5])
+                self.assertEqual(mount["tap"], [sign * 332.5, 65, 152.5])
                 self.assertEqual(sign * (mount["tap"][0] - mount["socket"][0]), 35)
 
     def test_excessive_clearance_disables_unusable_exterior_and_unknown_asset_is_conservative(self):

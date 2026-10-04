@@ -38,13 +38,52 @@ test('front elevation follows chosen frame divisions, aperture size, drain and e
     assert.doesNotMatch(documentPlanSvg(buildGeometry({width:500,frontOpening:'none'})),/data-plan-panel=/);
 });
 
-test('sliding and folding plans retain closed panels without inventing an opening direction',()=>{
-    for(const [frontOpening,count] of [['sliding-2-black',2],['sliding-4-white',4],['folding-black',4]]) {
-        const svg=documentPlanSvg(buildGeometry({frontOpening}));
-        assert.equal((svg.match(/data-plan-panel=/g)||[]).length,count);
-        assert.doesNotMatch(svg,/data-door-swing=|marker-end=|l-10 -6m10 6l-10 6/);
+/*
+ * 2.17.0: the drawings read the same section layout as the 3D and the option icons (geometry.js openingLayout, from
+ * the customer's reference renders). The owner: "tüm çerçeveleri hem çizim olarak hem de görsel olarak elden geçir".
+ */
+const planRoles=svg=>[...svg.matchAll(/<rect x="[\d.]+" y="([\d.]+)" width="[\d.]+" height="[\d.]+" data-plan-panel="(\d+)" data-plan-role="(\w+)"/g)].map(([,y,index,role])=>({y:+y,index:+index,role}));
+test('the plan draws each kozijn as built: a sliding leaf on the inner track, a door swinging OUT from its hinge',()=>{
+    const plan=frontOpening=>documentPlanSvg(buildGeometry({width:600,depth:300,frontOpening}));
+    for(const [frontOpening,roles] of [['sliding-2-black',['sliding','fixed']],['sliding-4-white',['fixed','sliding','sliding','fixed']],
+        ['folding-black',['folding','folding','folding','folding','door']],['french-black',['fixed','door','door','fixed']]]){
+        assert.deepEqual(planRoles(plan(frontOpening)).map(p=>p.role),roles,frontOpening);
     }
-    assert.equal((documentPlanSvg(buildGeometry({frontOpening:'french-black'})).match(/data-door-swing=/g)||[]).length,2);
+    // A sliding leaf runs behind the fixed pane, on the room side of the frame line.
+    const [leaf,fixed]=planRoles(plan('sliding-2-black'));
+    assert.ok(leaf.y<fixed.y,'the sliding leaf is drawn on the inner track');
+    // Only a door swings, into the garden (larger y), from the hinge the layout names; nothing gets a travel arrow.
+    for(const [frontOpening,hinges] of [['sliding-2-black',[]],['sliding-4-white',[]],['folding-black',['right']],['french-black',['left','right']]]){
+        const svg=plan(frontOpening),arcs=[...svg.matchAll(/data-door-swing="(\d+)" data-hinge="(\w+)" d="M([\d.]+) ([\d.]+)V([\d.]+)/g)];
+        assert.deepEqual(arcs.map(arc=>arc[2]),hinges,frontOpening);
+        for(const [, , , , y, end] of arcs)assert.ok(+end>+y,`${frontOpening}: the door opens outward`);
+        assert.doesNotMatch(svg,/marker-end=/);
+        // The width dimension moves out past the swings instead of running through them.
+        const swing=Math.max(0,...arcs.map(arc=>+arc[5])),dimension=+/data-dimension="600 cm"><path d="M[\d.]+ [\d.]+V[\d.]+ M[\d.]+ [\d.]+V[\d.]+ M[\d.]+ ([\d.]+)H/.exec(svg)[1];
+        assert.ok(dimension-45>swing,`${frontOpening}: dimension at ${dimension}, swing to ${swing}`);
+        assert.match(svg,/TUINZIJDE/);
+    }
+});
+test('the front elevation shows how each section opens, its grille, its handle and its roedes, as on the reference',()=>{
+    const front=frontOpening=>elevationSvg(buildGeometry({width:600,depth:300,frontOpening}),'front');
+    const french=front('french-bars-white');
+    // A swing door's triangle points at its hinge; drawn solid, because it opens toward the viewer in the garden.
+    assert.deepEqual([...french.matchAll(/data-front-swing="(\d+)" data-hinge="(\w+)"/g)].map(match=>[+match[1],match[2]]),[[1,'left'],[2,'right']]);
+    assert.doesNotMatch(french.match(/<path data-front-swing[^>]*>/g).join(''),/stroke-dasharray/);
+    assert.deepEqual([...french.matchAll(/data-front-grille="(\d+)"/g)].map(match=>+match[1]),[0,3],'grilles on the side lights only');
+    assert.deepEqual([...french.matchAll(/data-front-handle="(\d+)" data-handle="(\w+)"/g)].map(match=>[+match[1],match[2]]),[[2,'lever']]);
+    assert.equal((french.match(/data-front-bar=/g)||[]).length,3*4,'three horizontal roedes per pane');
+    assert.doesNotMatch(front('french-white'),/data-front-bar=/);
+    // A schuifpui's sliding leaves carry an arrow toward where they park; a fixed pane carries nothing.
+    const sliding=front('sliding-4-white');
+    assert.deepEqual([...sliding.matchAll(/data-front-slide="(\d+)" data-opens="(\w+)"/g)].map(match=>[+match[1],match[2]]),[[1,'left'],[2,'right']]);
+    assert.deepEqual([...sliding.matchAll(/data-front-grille="(\d+)"/g)].map(match=>+match[1]),[0,3]);
+    assert.doesNotMatch(sliding,/data-front-swing=/);
+    // A harmonicapui: only the loopdeur swings, the grille is on the loopdeur, two flush pulls where it meets the set.
+    const folding=front('folding-white');
+    assert.deepEqual([...folding.matchAll(/data-front-swing="(\d+)"/g)].map(match=>+match[1]),[4]);
+    assert.deepEqual([...folding.matchAll(/data-front-grille="(\d+)"/g)].map(match=>+match[1]),[4]);
+    assert.deepEqual([...folding.matchAll(/data-front-handle="(\d+)" data-handle="(\w+)"/g)].map(match=>[+match[1],match[2]]),[[3,'pull'],[4,'pull']]);
 });
 
 test('right side elevation dimensions the depth and preserves the real lean or gable profile',()=>{

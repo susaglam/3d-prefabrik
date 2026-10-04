@@ -65,6 +65,17 @@ const box=(x,y,z,[w,h,d])=>({x0:x-w/2,x1:x+w/2,z0:z-d/2,z1:z+d/2,y0:y,y1:y+h});
 const overlaps=(a,b,e=1e-6)=>a.x0<b.x1-e&&a.x1>b.x0+e&&a.z0<b.z1-e&&a.z1>b.z0+e;
 const within=(a,b,e=1e-6)=>a.x0>=b.x0-e&&a.x1<=b.x1+e&&a.z0>=b.z0-e&&a.z1<=b.z1+e;
 
+/**
+ * The x range of the walkway to the garden: the whole opening, except that openslaande deuren are walked through
+ * their two doors only — the side lights either side of them (2.17.0) are glass in the frame, and a bed or a
+ * cabinet may stand in front of those as in front of any window.
+ */
+export function walkway(model){
+    const o=model.opening,doors=o.kind==='french'?(model.panels??[]).filter(p=>p.role==='door'):[];
+    if(!doors.length)return [o.x-o.width/2,o.x+o.width/2];
+    return [o.x+Math.min(...doors.map(p=>p.x-p.width/2)),o.x+Math.max(...doors.map(p=>p.x+p.width/2))];
+}
+
 /** The clear room, the keep-out zones that come from the configuration, and a placement helper. */
 function roomContext(model){
     const {bounds,wall}=model,floorTop=model.floorTop??FLOOR_TOP;
@@ -73,7 +84,7 @@ function roomContext(model){
     const opening=model.opening??{kind:'none',width:0,x:0};
     // Walkway to the garden doors: nothing (not even a rug) across the opening width within 0.9 m of the glazing.
     // A "geen kozijn" skeleton is an open hole, so it needs the same walkway as a fitted schuifpui.
-    if(opening.width>0)zones.push({kind:'glazing',x0:opening.x-opening.width/2,x1:opening.x+opening.width/2,z0:clear.z1-STRIP,z1:clear.z1+1,minHeight:0});
+    if(opening.width>0){const [x0,x1]=walkway(model);zones.push({kind:'glazing',x0,x1,z0:clear.z1-STRIP,z1:clear.z1+1,minHeight:0});}
     for(const f of model.fixtures??[]){
         if(f.room&&f.room!=='interior')continue;
         const [x,,z]=f.position,left=f.side?f.side==='left':f.rotation>0;

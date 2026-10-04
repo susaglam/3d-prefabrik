@@ -12,7 +12,11 @@ const overlap3d=(a,b)=>a.x0<b.x1-e&&a.x1>b.x0+e&&a.z0<b.z1-e&&a.z1>b.z0+e&&a.y0<
 /** The rules every plan must honour, whatever the room. */
 function assertRules(model,plan,label){
     const clear={x0:model.bounds.left+model.wall,x1:model.bounds.right-model.wall,z0:model.bounds.back,z1:model.bounds.front-model.wall},floorTop=model.floorTop??.091;
-    const strip={x0:model.opening.x-model.opening.width/2,x1:model.opening.x+model.opening.width/2,z0:clear.z1-.9,z1:clear.z1};
+    // The walkway to the garden spans the opening; openslaande deuren are walked through their doors only (2.17.0:
+    // the side lights either side are glass in the frame). Written out here, not read from the planner.
+    const doors=model.opening.kind==='french'?model.panels.filter(p=>p.role==='door'):[];
+    const [sx0,sx1]=doors.length?[Math.min(...doors.map(p=>p.x-p.width/2)),Math.max(...doors.map(p=>p.x+p.width/2))]:[model.opening.x-model.opening.width/2,model.opening.x+model.opening.width/2];
+    const strip={x0:sx0,x1:sx1,z0:clear.z1-.9,z1:clear.z1};
     for(const p of plan){
         const b=aabb(p);
         assert.ok(b.x0>=clear.x0-e&&b.x1<=clear.x1+e&&b.z0>=clear.z0-e&&b.z1<=clear.z1+e,`${label}: ${p.item} inside the walls`);
@@ -153,6 +157,14 @@ test('bedroom and youth: headboards against a wall, desk under the rooflight whe
     assert.ok(desk,'youth room has a desk');
     assert.ok(Math.abs(desk.position[0]-model.rooflight.x)<1e-9&&Math.abs(desk.position[2]-model.rooflight.z)<.25,'desk sits under the rooflight');
     assert.ok(youth.some(p=>p.item==='singleBed')&&youth.some(p=>p.item==='bookcase'));
+});
+
+test('openslaande deuren keep the walkway in front of their doors; a side light is a window furniture may stand at',()=>{
+    const model=room(500,300,{rooflight:'gable-4'}),doors=model.panels.filter(p=>p.role==='door');
+    assert.equal(doors.length,2);
+    const plan=planScenario(model,'bedroom');assertRules(model,plan,'bedroom 500x300 french');
+    const clearZ1=model.bounds.front-model.wall,doorX0=Math.min(...doors.map(p=>p.x-p.width/2)),openingX0=model.opening.x-model.opening.width/2;
+    assert.ok(plan.some(p=>{const b=aabb(p);return b.z1>clearZ1-.9&&b.x1<=doorX0+e&&b.x1>openingX0;}),'something stands near the glass in front of a side light');
 });
 
 const stubLoader=(fail=[])=>({calls:[],async load(name){this.calls.push(name);if(fail.includes(name))throw new Error('offline');const item=ITEMS[name],m=MODELS[item.model];

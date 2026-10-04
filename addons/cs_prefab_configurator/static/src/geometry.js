@@ -4,8 +4,10 @@
  * "Geen kozijn" is a SKELETON opening, not a closed wall: the customer fits their own frame later, so the extension
  * shows exactly the rough opening a 2-leaf schuifpui would get at this width (hence the shared 320) with only the
  * outer frame built — no leaves, no glass, no hardware. Mirrored value for value in services/geometry_rules.py.
+ * Openslaande deuren span 440 since 2.17.0: the customer's reference is two doors between two wide side lights
+ * (kozijn/openslaande deur wit), not the pair of doors alone that a 220 cm aperture held.
  */
-export const OPENING_SPAN_CM = {french: 220, 'sliding-2': 320, 'sliding-4': 440, folding: 440, none: 320};
+export const OPENING_SPAN_CM = {french: 440, 'sliding-2': 320, 'sliding-4': 440, folding: 440, none: 320};
 export const PIER_MINIMUM_CM = 90;
 export const openingApertureCm = (kind, widthCm) => Math.min(widthCm - PIER_MINIMUM_CM, OPENING_SPAN_CM[kind]);
 /** Aperture plus leaf count for one kozijn, in cm — the unit the Python twin is compared against. */
@@ -34,9 +36,117 @@ export const DAKTRIM_FACE=Object.freeze({anthracite:Object.freeze({top:.015,bott
  */
 export const HOPPER=Object.freeze({height:.20,top:Object.freeze([.13,.16]),bottom:Object.freeze([.105,.14]),gap:.004});
 
+/**
+ * The sightlines of each kozijn family in metres, measured off the customer's reference renders (kozijn/*.png,
+ * rectified to front elevations: docs/verification/kozijn-ref/). head / jamb / mullion are the outer frame; stile /
+ * rail / bottomRail the sash around a pane; `back` is how far a sash's FRONT face lies behind the frame's front face.
+ *  sliding  fixed sash practically flush (5 mm), the sliding leaf on the inner track 75 mm back — it slides INSIDE;
+ *           a 14 mm frame-colour lip on a dark dorpel with a 42 mm face, in both colours
+ *  folding  all five leaves in one plane 50 mm back, standing on a light threshold (no bottom frame member) that runs
+ *           34 mm out in front of the frame and 214 mm behind it, in both colours
+ *  french   two side lights glazed straight into the frame (glass 62 mm back, a 75 mm sill member under it), a 78 mm
+ *           kozijnstijl to each door; the doors flush with the frame, hinge stile 89 and meeting stile 95 mm, a 187 mm
+ *           bottom rail, glass 65 mm back; a 20 mm onderdorpel over a dark drempel that stands 35 mm proud. The roedes
+ *           version and the aluminium profile ("wit-alu") are the same doors in other sightlines (frenchBars,
+ *           frenchAluminium); the deurkruk is a satin-silver lever on a round rosette with a cylinder rosette under it
+ * grille is the ventilatierooster: an 89 mm housing in the frame colour with one row of dark slots in its lower half.
+ * preview.js makeOpening builds the 3D from these numbers and elevationSvg draws with them, so the two agree.
+ */
+export const KOZIJN=Object.freeze({
+    sliding:Object.freeze({head:.056,jamb:.055,lip:.014,sill:'#40372f',sillFace:.042,sillProud:.01,stile:.095,rail:.088,bottomRail:.125,
+        sash:.071,fixedBack:.005,slidingBack:.075,frameDepth:.16}),
+    folding:Object.freeze({head:.087,jamb:.068,threshold:'#eae8e6',stile:.087,rail:.088,bottomRail:.104,doorBottomRail:.111,
+        sash:.06,back:.05,frameDepth:.14}),
+    french:Object.freeze({head:.089,jamb:.07,mullion:.078,lip:.02,sill:'#423a34',sillFace:.04,sillProud:.035,lightSill:.075,lightBack:.062,
+        stile:.089,meetingStile:.095,rail:.094,bottomRail:.187,sash:.1,glassBack:.065,back:0,frameDepth:.12,meeting:.0045}),
+    // Met roedes: every section on the same 88 mm bottom member, so panes and bars line up across the front. The top
+    // rail measures 91; it is held at the grille's 89 so a door's pane starts where a side light's does.
+    frenchBars:Object.freeze({head:.079,jamb:.066,lightSill:.088,rail:.089,bottomRail:.088}),
+    frenchAluminium:Object.freeze({head:.054,jamb:.032,mullion:.059,lightSill:.04,bottomRail:.09}),
+    grille:Object.freeze({height:.089,slot:.017,pitch:.037,below:.0565,divider:.007}),
+    pull:Object.freeze({width:.058,height:.11,proud:.012,y:.92,foldingY:.93}),
+    lever:Object.freeze({y:.879,cylinder:.814,rose:.022,proud:.004,length:.132,height:.016,reach:.049,color:'#dcdbd8'}),
+    bars:3,
+});
+/** The sightlines one kozijn is built and drawn with: its family's, for openslaande deuren with the roedes and alu versions. */
+export function kozijnProfile(kind, {bars = false, material = ''} = {}) {
+    const family = kind.startsWith('sliding') ? 'sliding' : kind === 'folding' ? 'folding' : 'french';
+    if (family !== 'french') return {family, ...KOZIJN[family]};
+    return {family, ...KOZIJN.french, ...(bars ? KOZIJN.frenchBars : {}), ...(material === 'aluminium' ? KOZIJN.frenchAluminium : {})};
+}
+/** The members above and below one section's glass: a sash's rails, or a side light's head and sill member. */
+export function sectionMembers(profile, section) {
+    if (profile.family === 'french' && section.role === 'fixed') return {top: 0, bottom: profile.lightSill};
+    if (profile.family === 'folding' && section.role === 'door') return {top: profile.rail, bottom: profile.doorBottomRail};
+    return {top: profile.rail, bottom: profile.bottomRail};
+}
+
 export function openingSpec(kind, widthCm, heightCm = 280) {
-    return {kind, width: openingApertureCm(kind, widthCm), height: Math.min(230, heightCm - 35), bottom: 7,
-        panelCount: kind === 'none' ? 0 : kind === 'french' || kind === 'sliding-2' ? 2 : 4, skeleton: kind === 'none'};
+    const width = openingApertureCm(kind, widthCm);
+    return {kind, width, height: Math.min(230, heightCm - 35), bottom: 7,
+        panelCount: openingLayout(kind, width / 100).length, skeleton: kind === 'none'};
+}
+
+/**
+ * What each kozijn IS, section by section, left to right as seen from the garden (2.17.0). The owner: "kapıları tam
+ * olarak istediğim gibi yapmamışsın; olmayacak her yere havalandırma koymuşsun; kapı kollarını kendin uydurmuşsun;
+ * sürgülüleri dışarıdan sürgülüymüş gibi göstermişsin; openslaande deur bizimkinde 2 kanat ama orijinalinde farklı".
+ * The customer's reference renders (kozijn/*.png) were rectified to front elevations and measured
+ * (docs/verification/kozijn-ref/): this is what they show, and the 3D, the option icons and the drawings all read it.
+ *
+ *  role    'fixed' glass in the frame, a 'sliding' leaf (it runs on the INNER track, behind the fixed pane), a
+ *          'folding' leaf, a 'door' (a hinged leaf: the doors of openslaande deuren, the loopdeur of a harmonicapui)
+ *  grille  the ventilatierooster: on the fixed panes and the loopdeur only — never on a leaf you slide, fold or open
+ *          as a pair (the owner crossed out the ones we drew on the sliding leaves)
+ *  handle  null, {type:'pull', edge} (the small flush pull of a schuifpui or a harmonicapui) or {type:'lever', edge}
+ *          (the deurkruk of a swing door); `edge` is the stile it sits on
+ *  hinge   the stile a door hangs on; opens: where a leaf goes ('left' / 'right' for sliding and folding, 'out' for a
+ *          door — Dutch garden doors open outward, as the references show)
+ *
+ * Shares are of the aperture. Openslaande deuren keep their doors at a door's width and give the rest to the two side
+ * lights; on an aperture too narrow for side lights the two doors share it (FRENCH_DOORS).
+ */
+export const OPENING_LAYOUTS = Object.freeze({
+    'sliding-2': Object.freeze([
+        {role: 'sliding', share: .5, handle: {type: 'pull', edge: 'left'}, opens: 'right'},
+        {role: 'fixed', share: .5, grille: true}]),
+    'sliding-4': Object.freeze([
+        {role: 'fixed', share: .25, grille: true},
+        {role: 'sliding', share: .25, handle: {type: 'pull', edge: 'right'}, opens: 'left'},
+        {role: 'sliding', share: .25, handle: {type: 'pull', edge: 'left'}, opens: 'right'},
+        {role: 'fixed', share: .25, grille: true}]),
+    folding: Object.freeze([
+        {role: 'folding', share: .2, opens: 'left'}, {role: 'folding', share: .2, opens: 'left'},
+        {role: 'folding', share: .2, opens: 'left'}, {role: 'folding', share: .2, opens: 'left', handle: {type: 'pull', edge: 'right'}},
+        {role: 'door', share: .2, hinge: 'right', opens: 'out', grille: true, handle: {type: 'pull', edge: 'left'}}]),
+});
+/**
+ * Openslaande deuren, in metres: each door a door's width (the reference: 0,90 m), the side lights take the rest but
+ * never less than sideMin. Where that leaves a door narrower than `min`, there are no side lights and the two doors
+ * share the aperture. services/geometry_rules.py FRENCH_DOORS carries the same numbers.
+ */
+export const FRENCH_DOORS = Object.freeze({door: .9, min: .6, sideMin: .35});
+
+/** The sections of one kozijn in an aperture of `width` metres, left to right, with their x centre and width. */
+export function openingLayout(kind, width) {
+    let parts = OPENING_LAYOUTS[kind];
+    if (kind === 'french') {
+        // The right-hand door is the active one: the deurkruk on its meeting stile, the left door bolted (reference).
+        const door = Math.min(FRENCH_DOORS.door, (width - 2 * FRENCH_DOORS.sideMin) / 2), side = (width - 2 * door) / 2;
+        const doors = [{role: 'door', hinge: 'left', opens: 'out'}, {role: 'door', hinge: 'right', opens: 'out', handle: {type: 'lever', edge: 'left'}}];
+        // 1e-9: 1,9 - 0,7 is 1,1999999999999997 in floating point, and the Python twin decides the same case in cm.
+        parts = door >= FRENCH_DOORS.min - 1e-9
+            ? [{role: 'fixed', share: side / width, grille: true}, ...doors.map(d => ({...d, share: door / width})), {role: 'fixed', share: side / width, grille: true}]
+            : doors.map(d => ({...d, share: .5}));
+    }
+    if (!parts || !(width > 0)) return [];
+    let left = -width / 2;
+    return parts.map((part, index) => {
+        const w = part.share * width, section = {index, role: part.role, x: left + w / 2, width: w, grille: !!part.grille,
+            handle: part.handle ? {...part.handle} : null, hinge: part.hinge || null, opens: part.opens || null};
+        left += w;
+        return section;
+    });
 }
 
 /** Fixed mounting coordinates in cm. Kept in parity with services/geometry_rules.py. */
@@ -139,10 +249,10 @@ export function buildGeometry(config = {}, {fixtureLayout=null,scope=[],geometry
     // has always used, where a round-trip through centimetres would drift on a fractional imported width.
     const openingWidth = Math.min(width - PIER_MINIMUM_CM / 100, OPENING_SPAN_CM[kind] / 100);
     const openingHeight = Math.min(2.3, height - .35);
+    const sections = openingLayout(kind, openingWidth);
     const opening = {kind, width: openingWidth, height: openingHeight, bottom: .07,
         x: 0, z: bounds.front - wall / 2, frame: openingCode.endsWith('white') ? '#efede6' : '#303432',
-        bars: openingCode.includes('bars'), panelCount: kind === 'none' ? 0 : kind === 'french' || kind === 'sliding-2' ? 2 : 4,
-        skeleton: kind === 'none'};
+        bars: openingCode.includes('bars'), panelCount: sections.length, skeleton: kind === 'none'};
     const box = (key, x, y, z, w, h, d, role = 'wall') => ({key, center: [x,y,z], size: [w,h,d], role});
     const walls = [
         box('left', bounds.left + wall / 2, height / 2, 0, wall, height, depth),
@@ -154,11 +264,10 @@ export function buildGeometry(config = {}, {fixtureLayout=null,scope=[],geometry
         box('front-right', bounds.right - pier / 2, height / 2, opening.z, pier, height, wall),
         box('front-header', 0, (height + openingHeight + opening.bottom) / 2, opening.z,
             openingWidth, height - openingHeight - opening.bottom, wall));
-    const panels = Array.from({length: opening.panelCount}, (_, i) => ({
-        index: i, x: -openingWidth / 2 + (i + .5) * openingWidth / opening.panelCount,
-        width: openingWidth / opening.panelCount, height: openingHeight, bottom: opening.bottom,
-        z: opening.z, bars: opening.bars,
-    }));
+    // One panel per SECTION of the product (openingLayout): fixed panes, sliding and folding leaves and doors, each
+    // with its role, grille, handle and hinge — the 3D, the icons and the drawings build from these, not from slices.
+    const panels = sections.map(section => ({...section, height: openingHeight, bottom: opening.bottom,
+        z: opening.z, bars: opening.bars}));
     const roofCode = typeof config.rooflight === 'string' ? config.rooflight : 'none';
     const match = /^(lean|gable)-(\d+)$/.exec(roofCode);
     const roofKind = match && ((match[1] === 'lean' && +match[2] >= 1 && +match[2] <= 5)
@@ -319,16 +428,19 @@ function fixturePlanMarkup(m,scope,examplesVisible,interactive){
 }
 
 export function planSvg(model, dimensions = true, {scope=[],examplesVisible=true,interactive=false}={}) {
-    const m = model, padding = .85;
-    const view = [m.bounds.left-padding,m.bounds.back-padding,m.width+padding*2,m.depth+padding*2];
+    // A door swings out into the garden (Dutch garden doors open outward), so the view grows by its width.
+    const m = model, padding = .85, swing = doorSwing(m);
+    const view = [m.bounds.left-padding,m.bounds.back-padding,m.width+padding*2,m.depth+padding*2+swing];
     const rect = (x,z,w,d,attrs='') => `<rect x="${x}" y="${z}" width="${w}" height="${d}" ${attrs}/>`;
     const walls = m.walls.filter(w => w.key !== 'front-header').map(w => rect(w.center[0]-w.size[0]/2,w.center[2]-w.size[2]/2,w.size[0],w.size[2],'fill="#626e62"')).join('');
+    // One mark per section as built (openingLayout): glass on the frame line, a sliding leaf on the inner track behind
+    // it, a door with its swing drawn from the hinge it hangs on.
     const doors = m.panels.map(p => {
-        const y = m.bounds.front-.11, x = p.x-p.width/2;
-        let result = rect(x+.02,y,p.width-.04,.05,'fill="#b4c3bc" stroke="#344b42" stroke-width=".025"');
-        if (m.opening.kind === 'french') {
-            const hinge = p.index === 0 ? x : x+p.width, end = p.index === 0 ? x+p.width : x;
-            result += `<path d="M${hinge} ${y}v${-p.width} M${end} ${y}A${p.width} ${p.width} 0 0 ${p.index===0?0:1} ${hinge} ${y-p.width}" fill="none" stroke="#7b8c7c" stroke-width=".017" stroke-dasharray=".05 .035"/>`;
+        const y = m.bounds.front-.11-(p.role === 'sliding' ? .05 : 0), x = p.x-p.width/2;
+        let result = rect(x+.02,y,p.width-.04,.05,`data-plan-role="${p.role}" fill="#b4c3bc" stroke="#344b42" stroke-width=".025"`);
+        if (p.role === 'door') {
+            const hinge = p.hinge === 'left' ? x : x+p.width, end = p.hinge === 'left' ? x+p.width : x, out = m.bounds.front-.06;
+            result += `<path d="M${hinge} ${out}v${p.width} M${end} ${out}A${p.width} ${p.width} 0 0 ${p.hinge === 'left' ? 1 : 0} ${hinge} ${out+p.width}" fill="none" stroke="#7b8c7c" stroke-width=".017" stroke-dasharray=".05 .035"/>`;
         }
         return result;
     }).join('');
@@ -340,11 +452,13 @@ export function planSvg(model, dimensions = true, {scope=[],examplesVisible=true
         + r.panels.map(p=>`<path data-rooflight-panel="${p.index}" d="M${p.points.map(point=>`${point[0]} ${point[2]}`).join('L')}Z" fill="none" stroke="#a1ada5" stroke-width=".012"/>`).join('') : '';
     const wLabel = `${Math.round(m.width*100)} cm`, dLabel = `${Math.round(m.depth*100)} cm`;
     const fittings=underfloorPlanMarkup(m,scope,examplesVisible,interactive)+fixturePlanMarkup(m,scope,examplesVisible,interactive);
-    const dimensionLines = dimensions ? `<g fill="none" stroke="#66796a" stroke-width=".015"><path d="M${m.bounds.left} ${m.bounds.front+.2}v.35m0-.13h${m.width}m0-.22v.35 M${m.bounds.left-.2} ${m.bounds.back}h-.35m.13 0v${m.depth}m-.13 0h.35"/></g><g fill="#344b42" font-family="system-ui,sans-serif" font-size=".18" text-anchor="middle"><text x="0" y="${m.bounds.front+.68}">${wLabel}</text><text x="${m.bounds.left-.58}" y="0" transform="rotate(-90 ${m.bounds.left-.58} 0)">${dLabel}</text></g>` : '';
+    const dimensionLines = dimensions ? `<g fill="none" stroke="#66796a" stroke-width=".015"><path d="M${m.bounds.left} ${m.bounds.front+swing+.2}v.35m0-.13h${m.width}m0-.22v.35 M${m.bounds.left-.2} ${m.bounds.back}h-.35m.13 0v${m.depth}m-.13 0h.35"/></g><g fill="#344b42" font-family="system-ui,sans-serif" font-size=".18" text-anchor="middle"><text x="0" y="${m.bounds.front+swing+.68}">${wLabel}</text><text x="${m.bounds.left-.58}" y="0" transform="rotate(-90 ${m.bounds.left-.58} 0)">${dLabel}</text></g>` : '';
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${view.join(' ')}" role="${interactive?'group':'img'}" aria-label="Plattegrond van je aanbouw, ${esc(wLabel)} breed en ${esc(dLabel)} diep" style="width:100%;height:100%;display:block"><title>Plattegrond van je aanbouw</title><desc>Buitenmaten ${wLabel} bij ${dLabel}. ${m.opening.skeleton?'Alleen het buitenkozijn in de voorpui, kozijn door klant':`${m.opening.panelCount} panelen in de voorpui`}. ${r.panelCount} daklichtpanelen. Bovenzijde sluit aan op de bestaande woning. Symbolen zijn indicatief; contour is niet inbegrepen.</desc><rect x="${view[0]}" y="${view[1]}" width="${view[2]}" height="${view[3]}" fill="#f1f0e9"/><g transform="translate(0 ${m.bounds.back-.05})"><path d="M${m.bounds.left-.18} 0h${m.width+.36}" stroke="#b5b8ad" stroke-width=".09" stroke-dasharray=".16 .065"/><text x="0" y="-.24" text-anchor="middle" font-size=".16" fill="#626d59" font-family="system-ui,sans-serif">BESTAANDE WONING</text></g>${rect(m.bounds.left+m.wall,m.bounds.back,m.width-m.wall*2,m.depth-m.wall,'fill="#e5e0d3"')}${rooflight}${walls}${doors}${skeleton}<text x="0" y="${r.panelCount?m.bounds.front-.65:0}" text-anchor="middle" fill="#4d6153" font-family="system-ui,sans-serif" font-size=".32" font-weight="500">${m.area.toLocaleString('nl-NL')} m²</text>${fittings}${dimensionLines}</svg>`;
 }
 
 const drawingNumber = value => Number(value.toFixed(2));
+/** How far the widest door of the kozijn swings out past the front wall, in metres (0 without a door). */
+const doorSwing = m => Math.max(0, ...m.panels.filter(p => p.role === 'door').map(p => p.width));
 const centimetres = value => `${Math.round(value * 100)} cm`;
 const drawingColours = {
     'brick-red':'#b88873','brick-black':'#777a72','brick-white':'#e6e3da','brick-yellow':'#d1bd91',
@@ -373,7 +487,9 @@ function drawingSheet(title,description,content) {
 
 /** Dimensioned print drawing, generated from exactly the same solids as the live 3D preview. */
 export function documentPlanSvg(model,{scope=[]}={}) {
-    const m=model,s=Math.min(1060/m.width,550/m.depth),left=(1440-m.width*s)/2,top=(820-m.depth*s)/2;
+    // A door swings out into the garden: the sheet keeps room for that arc under the front wall, and the width
+    // dimension and the garden label move out past it.
+    const m=model,swing=doorSwing(m),s=Math.min(1060/m.width,550/m.depth,690/(m.depth+swing)),left=(1440-m.width*s)/2,top=Math.max(90,(820-(m.depth+swing)*s)/2);
     const X=x=>drawingNumber(left+(x-m.bounds.left)*s),Y=z=>drawingNumber(top+(z-m.bounds.back)*s);
     const bottom=Y(m.bounds.front),right=X(m.bounds.right),rect=(x,y,w,h,attrs)=>`<rect x="${x}" y="${y}" width="${drawingNumber(w)}" height="${drawingNumber(h)}" ${attrs}/>`;
     let content=rect(left,top,m.width*s,m.depth*s,'fill="#f2efe4"');
@@ -386,13 +502,14 @@ export function documentPlanSvg(model,{scope=[]}={}) {
         for(const p of r.panels)content+=`<path data-rooflight-panel="${p.index}" d="M${p.points.map(point=>`${X(point[0])} ${Y(point[2])}`).join('L')}Z" fill="none" stroke="#8ca699" stroke-width="2" stroke-dasharray="8 6"/>`;
     }
     for(const p of m.panels) {
-        const x=X(p.x-p.width/2),y=Y(m.bounds.front-.11),width=p.width*s;
-        content+=rect(x+2,y,width-4,7,`data-plan-panel="${p.index}" fill="#c1d4ce" stroke="#405e4b" stroke-width="2"`);
-        if(m.opening.kind==='french') {
-            const hinge=p.index===0?x:x+width,end=p.index===0?x+width:x;
-            content+=`<path data-door-swing="${p.index}" d="M${hinge} ${y}V${y-width} M${end} ${y}A${width} ${width} 0 0 ${p.index===0?0:1} ${hinge} ${y-width}" fill="none" stroke="#809889" stroke-width="2" stroke-dasharray="9 6"/>`;
+        // One mark per section as built (openingLayout): glass on the frame line, a sliding leaf on the inner track
+        // behind it, a door with its outward swing from the hinge it hangs on. Nothing gets a travel arrow.
+        const x=X(p.x-p.width/2),y=drawingNumber(Y(m.bounds.front-.11)-(p.role==='sliding'?9:0)),width=p.width*s;
+        content+=rect(drawingNumber(x+2),y,width-4,7,`data-plan-panel="${p.index}" data-plan-role="${p.role}" fill="#c1d4ce" stroke="#405e4b" stroke-width="2"`);
+        if(p.role==='door') {
+            const hinge=drawingNumber(p.hinge==='left'?x:x+width),end=drawingNumber(p.hinge==='left'?x+width:x),out=Y(m.bounds.front-.06),reach=drawingNumber(out+width);
+            content+=`<path data-door-swing="${p.index}" data-hinge="${p.hinge}" d="M${hinge} ${out}V${reach} M${end} ${out}A${drawingNumber(width)} ${drawingNumber(width)} 0 0 ${p.hinge==='left'?1:0} ${hinge} ${reach}" fill="none" stroke="#809889" stroke-width="2" stroke-dasharray="9 6"/>`;
         }
-        // Sliding/folding handing is not configured: show closed panels without an invented travel direction.
     }
     // "Geen kozijn": the piers already leave the hole; this band is the outer frame the customer supplies later.
     if(m.opening.skeleton&&m.opening.width>0)content+=rect(X(-m.opening.width/2),Y(m.bounds.front-.11),m.opening.width*s,7,'data-skeleton-opening="true" fill="none" stroke="#405e4b" stroke-width="2" stroke-dasharray="10 7"');
@@ -400,8 +517,9 @@ export function documentPlanSvg(model,{scope=[]}={}) {
     if(m.fixtures?.length)content+='<text x="720" y="36" text-anchor="middle" fill="#526c5e" font-size="19">Symbolen indicatief · contour: niet inbegrepen · gevuld: inbegrepen</text>';
     const areaY=r.panelCount?Math.min(bottom-58,Y(r.z+r.depth/2)+58):top+m.depth*s/2+15;
     content+=`<text x="720" y="${areaY}" text-anchor="middle" fill="#405e4b" font-size="42" font-weight="500">${esc(m.area.toLocaleString('nl-NL'))} m²</text>`;
-    content+=drawingDimension(left,bottom,right,bottom,centimetres(m.width),85)+drawingDimension(left,top,left,bottom,centimetres(m.depth),-85);
-    content+=`<text x="720" y="${Math.min(925,bottom+144)}" text-anchor="middle" fill="#87958b" font-size="25" letter-spacing="2">TUINZIJDE</text>`;
+    const out=drawingNumber(swing*s);
+    content+=drawingDimension(left,bottom,right,bottom,centimetres(m.width),85+out)+drawingDimension(left,top,left,bottom,centimetres(m.depth),-85);
+    content+=`<text x="720" y="${Math.min(925,bottom+144+out)}" text-anchor="middle" fill="#87958b" font-size="25" letter-spacing="2">TUINZIJDE</text>`;
     return drawingSheet('Plattegrond',`Buitenmaten ${centimetres(m.width)} bij ${centimetres(m.depth)}. ${m.opening.skeleton?'alleen het buitenkozijn in de voorpui (kozijn door klant)':`${m.opening.panelCount} panelen in de voorpui`}, ${r.panelCount} daklichtpanelen. Stippellijnen tonen het daklicht boven de ruimte.`,content);
 }
 
@@ -433,11 +551,36 @@ export function elevationSvg(model,view='front') {
         // A skeleton opening is a void with only its outer frame: no pane tone, no divisions, no swing lines.
         content+=rect(X(openingLeft),Y(o.height+o.bottom),o.width*s,o.height*s,
             o.skeleton?`data-skeleton-opening="true" fill="#f4f2ea" stroke="${o.frame}" stroke-width="8"`:`fill="#dce8e4" stroke="${o.frame}" stroke-width="8"`);
+        // Each section as built (openingLayout, KOZIJN): its grille band, its roedes, how it opens and its handle. A
+        // door's triangle points at its hinge and is drawn solid, because it opens toward the viewer in the garden.
+        const k=kozijnProfile(o.kind,{bars:o.bars,material:m.openingMaterial}),family=k.family;
+        const sill=o.bottom+(k.lip||0),headLine=o.bottom+o.height-k.head,hardware='#56645b';
         for(const p of m.panels) {
-            const x=p.x+m.width/2;
-            content+=`<path data-front-panel="${p.index}" d="M${X(x-p.width/2)} ${Y(o.bottom)}V${Y(o.bottom+o.height)} M${X(x+p.width/2)} ${Y(o.bottom)}V${Y(o.bottom+o.height)}" stroke="${o.frame}" stroke-width="5"/>`;
-            if(p.bars)content+=`<path d="M${X(x)} ${Y(o.bottom)}V${Y(o.bottom+o.height)} M${X(x-p.width/2)} ${Y(o.bottom+o.height*.34)}H${X(x+p.width/2)} M${X(x-p.width/2)} ${Y(o.bottom+o.height*.67)}H${X(x+p.width/2)}" stroke="${o.frame}" stroke-width="3"/>`;
-            if(o.kind==='french')content+=`<path d="M${X(x-p.width/2)} ${Y(o.bottom)}L${X(x+p.width/2)} ${Y(o.bottom+o.height/2)}L${X(x-p.width/2)} ${Y(o.bottom+o.height)}" fill="none" stroke="#91a99b" stroke-width="2" stroke-dasharray="9 6"/>`;
+            const x=p.x+m.width/2,l=x-p.width/2,r=x+p.width/2;
+            content+=`<path data-front-panel="${p.index}" d="M${X(l)} ${Y(o.bottom)}V${Y(o.bottom+o.height)} M${X(r)} ${Y(o.bottom)}V${Y(o.bottom+o.height)}" stroke="${o.frame}" stroke-width="5"/>`;
+            // A side light of openslaande deuren is glazed under the head; every sash has its top rail first.
+            const members=sectionMembers(k,p),glassTop=headLine-members.top,paneBottom=sill+members.bottom,paneTop=glassTop-(p.grille?KOZIJN.grille.height:0);
+            if(p.grille)content+=rect(X(l),Y(glassTop),p.width*s,KOZIJN.grille.height*s,`data-front-grille="${p.index}" fill="${o.frame}" stroke="#8b9a90" stroke-width="1.5"`)
+                +`<path d="M${X(l+.04)} ${Y(glassTop-KOZIJN.grille.below)}H${X(r-.04)}" stroke="#1b1e1d" stroke-width="3" stroke-dasharray="5 2"/>`;
+            if(p.bars)for(let n=1;n<=KOZIJN.bars;n++)content+=`<path data-front-bar="${p.index}" d="M${X(l)} ${Y(paneBottom+(paneTop-paneBottom)*n/(KOZIJN.bars+1))}H${X(r)}" stroke="${o.frame}" stroke-width="3"/>`;
+            if(p.role==='door'){
+                const [hinge,free]=p.hinge==='left'?[l,r]:[r,l];
+                content+=`<path data-front-swing="${p.index}" data-hinge="${p.hinge}" d="M${X(free)} ${Y(sill)}L${X(hinge)} ${Y((sill+headLine)/2)}L${X(free)} ${Y(headLine)}" fill="none" stroke="#7d9488" stroke-width="2"/>`;
+            }
+            if(p.role==='sliding'){
+                const dir=p.opens==='left'?-1:1,y=Y(o.bottom+1.35);
+                content+=`<path data-front-slide="${p.index}" data-opens="${p.opens}" d="M${X(x-dir*p.width*.22)} ${y}H${X(x+dir*p.width*.22)}m${-dir*12} -8l${dir*12} 8l${-dir*12} 8" fill="none" stroke="#7d9488" stroke-width="3"/>`;
+            }
+            if(p.handle){
+                const edge=p.handle.edge==='left'?-1:1,hx=x+edge*(p.width/2-k.stile/2);
+                if(p.handle.type==='pull'){
+                    const pull=KOZIJN.pull,y=o.bottom+(family==='folding'?pull.foldingY:pull.y);
+                    content+=rect(X(hx-pull.width/2),Y(y+pull.height/2),pull.width*s,pull.height*s,`data-front-handle="${p.index}" data-handle="pull" fill="none" stroke="${hardware}" stroke-width="2"`);
+                } else {
+                    const lever=KOZIJN.lever,y=o.bottom+lever.y;
+                    content+=`<path data-front-handle="${p.index}" data-handle="lever" d="M${X(hx)} ${Y(y+.05)}V${Y(y-.11)} M${X(hx)} ${Y(y)}H${X(hx-edge*lever.length)}" fill="none" stroke="${hardware}" stroke-width="3"/>`;
+                }
+            }
         }
         content+=drawingDimension(X(openingLeft),base,X(openingLeft+o.width),base,centimetres(o.width),72);
     }
