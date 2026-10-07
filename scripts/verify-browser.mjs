@@ -22,7 +22,7 @@ const output=process.env.PREFAB_TEST_OUTPUT||join(root,'docs/verification/2.8');
 await mkdir(output,{recursive:true});
 const temporary=await mkdtemp(join(tmpdir(),'cs-prefab-browser-'));
 const liveTarget=!!process.env.PREFAB_TEST_URL,allowWrites=!liveTarget||process.env.PREFAB_ALLOW_WRITES==='1';
-const results={release:'2.18.1',startedAt:new Date().toISOString(),liveTarget,writesAllowed:allowWrites,checks:[],viewports:[],screenshots:[],errors:[],failedRequests:[],writes:[],blockedWrites:[],productionWrites:false};
+const results={release:'2.18.2',startedAt:new Date().toISOString(),liveTarget,writesAllowed:allowWrites,checks:[],viewports:[],screenshots:[],errors:[],failedRequests:[],writes:[],blockedWrites:[],productionWrites:false};
 let server,browser;
 const record=(name,detail={})=>{results.checks.push({name,passed:true,...detail});console.log('PASS '+name);};
 const skip=(name,reason)=>{results.checks.push({name,passed:true,skipped:true,reason});console.log('SKIP '+name+' ('+reason+')');};
@@ -61,7 +61,7 @@ try{
  await page.goto(base+'/prefab');await ready();
  expect((await scene()).webglAvailable).toBe(true);
  const moduleRequests=await page.evaluate(()=>performance.getEntriesByType('resource').map(entry=>entry.name).filter(url=>url.includes('/static/src/')&&/\.js(?:\?|$)/.test(url)));
- expect(moduleRequests.length).toBeGreaterThan(0);expect(moduleRequests.filter(url=>new URL(url).searchParams.get('v')!=='2.18.1')).toEqual([]);
+ expect(moduleRequests.length).toBeGreaterThan(0);expect(moduleRequests.filter(url=>new URL(url).searchParams.get('v')!=='2.18.2')).toEqual([]);
  await shot('browser-desktop.png');
  await page.setViewportSize({width:390,height:844});await shot('browser-mobile-initial.png');await page.setViewportSize({width:1440,height:1000});
  record(`Initial WebGL scene, ${results.release} modules, catalogue and server price load without script errors`,{modules:moduleRequests.length});

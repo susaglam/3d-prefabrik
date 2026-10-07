@@ -1,6 +1,6 @@
 {
   "name": "cs-prefab-configurator",
-  "version": "2.18.1",
+  "version": "2.18.2",
   "private": true,
   "type": "module",
   "description": "CS Prefab: guided extension configurator with shared Python/Odoo quote engine",

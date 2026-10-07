@@ -50,7 +50,7 @@ try{
  await load(dense.config);
  expect((await scene()).webglAvailable).toBe(true);
  const modules=await page.evaluate(()=>performance.getEntriesByType('resource').map(entry=>entry.name).filter(url=>url.includes('/static/src/')&&/\.js(?:\?|$)/.test(url)));
- expect(modules.filter(url=>new URL(url).searchParams.get('v')!=='2.18.1')).toEqual([]);
+ expect(modules.filter(url=>new URL(url).searchParams.get('v')!=='2.18.2')).toEqual([]);
  record('Release 2.3 source modules, real WebGL, catalogue and price load');
  const assertExterior=info=>{
   for(const side of ['left','right']){
