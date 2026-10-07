@@ -1144,7 +1144,9 @@ function schedulePrice(immediate=false) {
   try {
    const data=await api('/price',{config,catalogRevision:catalog.catalogRevision});if(sequence!==priceSequence)return;
    price=data;pricePending=false;priceError='';errors={};syncResumeCard();
-   const normalized=data.config?normalizedDraft(data.config,catalog):config;
+   // normalizedDraft leaves the postcode out (a saved draft never holds one), so the visitor's own is carried over:
+   // without this every price answer dropped the bouwplaats again and announced it as an adjusted choice (2.18.0).
+   const normalized=data.config?{...normalizedDraft(data.config,catalog),postcode:config.postcode??''}:config;
    const changed=Object.keys(config).filter(key=>JSON.stringify(config[key])!==JSON.stringify(normalized[key]));
    if(changed.length){config=normalized;preview?.update(config);persist();preservePanelPosition(()=>renderStep());toast('Je keuzes zijn aangepast aan de beschikbare ruimte en de bijbehorende voorzieningen.');}
    preview?.setPlacement?.(data.fixtureLayout||null);renderFooter();updateResolvedScope();
@@ -1229,7 +1231,7 @@ async function refreshComparison(){
  const sequence=++comparisonSequence,snapshots=structuredClone(comparison),restoreFocus=document.activeElement?.dataset.action==='compare-refresh';comparisonBusy=true;comparisonError='';comparisonPrices=null;comparisonOpen=true;updateComparison();
  try{
   const catalogSequence=++catalogReadSequence,currentCatalog=await api('/catalog');if(sequence!==comparisonSequence||catalogSequence!==catalogReadSequence)return;
-  if(currentCatalog.catalogRevision!==catalog.catalogRevision){catalog=currentCatalog;fields=fieldsOf(catalog);config=normalizedDraft(config,catalog);result=null;requestKey=null;preview?.setPlacement?.(null);preview?.update(config);persist();renderStep();schedulePrice(true);}
+  if(currentCatalog.catalogRevision!==catalog.catalogRevision){catalog=currentCatalog;fields=fieldsOf(catalog);config={...normalizedDraft(config,catalog),postcode:config.postcode??''};result=null;requestKey=null;preview?.setPlacement?.(null);preview?.update(config);persist();renderStep();schedulePrice(true);}
   const revision=currentCatalog.catalogRevision;
   const values=await Promise.all(['A','B'].map(slot=>api('/price',{config:normalizedDraft(snapshots[slot],currentCatalog),catalogRevision:revision})));
   if(sequence!==comparisonSequence)return;
@@ -1460,7 +1462,7 @@ document.addEventListener('click',async e=>{
   try{
    const updated=await api('/catalog');if(sequence!==catalogReadSequence)break;
    catalog=updated;fields=fieldsOf(catalog);comparisonPrices=null;comparisonSequence++;comparisonBusy=false;
-   config=normalizedDraft(config,catalog);requestKey=null;result=null;preview?.setPlacement?.(null);preview?.update(config);updatePreviewLabel();persist();renderStep();schedulePrice(true);
+   config={...normalizedDraft(config,catalog),postcode:config.postcode??''};requestKey=null;result=null;preview?.setPlacement?.(null);preview?.update(config);updatePreviewLabel();persist();renderStep();schedulePrice(true);
    toast('De catalogus is bijgewerkt. Controleer je keuzes en de nieuwe leveringsomvang.');
   }catch(error){if(sequence===catalogReadSequence)toast('Bijwerken is niet gelukt: '+error.message);}break;
  }
