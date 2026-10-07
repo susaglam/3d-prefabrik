@@ -334,6 +334,11 @@ try {
   {
     const INDOOR = ['surface:painted', 'surface:plaster', 'surface:gypsum-board', 'surface:floor', 'surface:existing-floor'];
     const rows = [];
+    // Since 2.14.0 the visitor's camera stops level with the house's own front wall (preview.js CAMERA_LIMIT); only
+    // Vormgeving -> "Vrij rondkijken" lets it behind the house. That switch is exactly the case this gate protects, so it
+    // is lifted for the measurement and put back after: with the limit on, controls.update() swung every camera of
+    // this loop back to the garden and the gate measured the front of the house three times over (2.16.2 / 2.17.0).
+    const cameraLimit = await page.evaluate(() => { const p = window.__prefabPreview, was = p.cameraLimit; p.cameraLimit = false; return was; });
     for (const houseType of ['terraced', 'semi', 'detached']) {
       await page.evaluate(async type => {
         const {defaultEnvironment} = await import('/cs_prefab_configurator/static/src/environment.js');
@@ -369,10 +374,11 @@ try {
     const rearSeen = rows.filter(r => r.angle === 180).every(r => r.rearPct >= 3);
     gate('Rear elevation is masonry: no interior lining is ever the first thing a camera behind the house hits',
       worst <= 0.05 && rearSeen, {budgetPct: 0.05, worstInsidePct: worst, rearSeenAt180: rearSeen, rows});
-    await page.evaluate(async () => {
+    await page.evaluate(async limit => {
       const {defaultEnvironment} = await import('/cs_prefab_configurator/static/src/environment.js');
+      window.__prefabPreview.cameraLimit = limit;
       window.__prefabPreview.setEnvironment(defaultEnvironment());
-    });
+    }, cameraLimit);
     await page.evaluate(() => window.__prefabPreview.setView('perspective'));
   }
 
@@ -413,7 +419,9 @@ try {
     await tierPage.waitForFunction(() => window.__prefabPreview);
     await waitAssetsReady(tierPage);
 
-    const config = {...catalog.defaults, interior: true, plaster: true, heating: 'both', ceilingPositions: ['center'], spotPositions: ['r1c1', 'r3c5']};
+    // A glazed kozijn on purpose: since 2.16.1 the catalogue starts on "geen kozijn", an open rough opening with no
+    // pane, and the "glass tight" half of this gate then found 0 glass pixels to compare and failed on nothing.
+    const config = {...catalog.defaults, frontOpening: 'sliding-2-black', interior: true, plaster: true, heating: 'both', ceilingPositions: ['center'], spotPositions: ['r1c1', 'r3c5']};
     const environment = {scenario: 'living', floorFinish: 'laminate'};
     const report = await tierPage.evaluate(async ({config, environment}) => {
       const {Preview} = await import('/cs_prefab_configurator/static/src/preview.js');

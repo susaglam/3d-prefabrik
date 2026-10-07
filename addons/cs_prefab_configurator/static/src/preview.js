@@ -1158,7 +1158,7 @@ export class Preview {
                 if(old&&this.view==='interior'&&this.model.underfloorLoops?.length&&!old.underfloorLoops?.length)this.playUnderfloorAnimation();
                 if(!old)this.resize();
                 else if(this.cameraFocus)this.refreshCameraFocus();
-                else if(!this.cameraTouched&&(old.width!==this.model.width||old.depth!==this.model.depth||old.height!==this.model.height))this.fitCamera();
+                else if(!this.cameraTouched&&(old.width!==this.model.width||old.depth!==this.model.depth||old.height!==this.model.height))this.fitCamera({render:false});
                 this.render();
             }
             catch(error){this.fallback(error);}
@@ -1406,7 +1406,7 @@ export class Preview {
         this.makeDimensions(m);
         // The existing room may share the painted material; it is never part of the extension's stucwerk scope.
         this.root.traverse(object=>{if(object.isMesh&&object.material===innerFinish&&!object.userData.scopeKey&&!object.userData.existing)object.userData.scopeKey=finishKey;});
-        this.applyNeighbourVisibility();
+        this.applyNeighbourVisibility({render:false});
         this.applyIllustrativeVisibility();
         // A rebuild makes fresh groups, so the omgeving switch has to be pushed onto them again — a resize or an
         // edited width during a capture must not quietly hand the surroundings back. The part switches are in the
@@ -2853,14 +2853,15 @@ export class Preview {
         this.root?.traverse(object=>{const kind=object.userData.illustrative;if(kind)state[kind]=!off[kind];});
         return state;
     }
-    applyNeighbourVisibility(){
+    /** `render:false` inside a rebuild: the caller renders once and the flagged shadow pass happens there. */
+    applyNeighbourVisibility({render=true}={}){
         if(!this.neighbourGroup)return false;
         // Only the visitor's own "Buren tonen" lives here now. A proposal image drops the buren with the rest of the
         // omgeving, through their shared parent (setSurroundingsVisible), so this flag stays the visitor's alone.
         const visible=this.environment?.renderNeighbours!==false;
         if(this.neighbourGroup.visible===visible)return false;
         // Two houses fewer is a narrower sun frustum and so a finer shadow texel: refit before the next pass.
-        this.neighbourGroup.visible=visible;this.updatePlotFade();this.fitSunShadow();this.shadowsDirty=true;this.render();
+        this.neighbourGroup.visible=visible;this.updatePlotFade();this.fitSunShadow();this.shadowsDirty=true;if(render)this.render();
         return true;
     }
     /** The lawn material (shared by the plane and the garden lawn) gets the plot fade once; see PLOT. */
@@ -3029,7 +3030,12 @@ export class Preview {
         if(changed&&next&&this.clampCamera())this.render();
         return changed;
     }
-    fitCamera() {
+    /**
+     * Aim the camera at the aanbouw for the current view. `render:false` is for a caller that renders itself right
+     * after (update()). A width change used to cost two shadow passes: buildScene's neighbour refit rendered one,
+     * update() flagged the map again, and this fit rendered the second (scripts/probe-shadow-passes.mjs, 2.18.0).
+     */
+    fitCamera({render=true}={}) {
         if(!this.camera||!this.model)return;
         const m=this.model,aspect=this.camera.aspect||1;
         this.camera.fov=['interior','ceiling'].includes(this.view)?this.view==='ceiling'?95:68:40;
@@ -3047,11 +3053,11 @@ export class Preview {
             const room=existingRoomDepth(houseLayout(this.environment,m).houseDepth);
             const behind=Math.min(Math.max(.45,room-.45),Math.max(.45,doorway/2/tanX*1.12));
             this.camera.position.set(0,1.5,m.bounds.back-behind);
-            this.controls.target.set(0,1.3,m.bounds.front-.5);this.controls.update();this.render();return;
+            this.controls.target.set(0,1.3,m.bounds.front-.5);this.controls.update();if(render)this.render();return;
         }
         if(this.view==='ceiling'){
             this.camera.position.set(0,.28,-.08);this.camera.up.set(0,0,-1);
-            this.controls.target.set(0,m.height,-.08);this.controls.update();this.render();return;
+            this.controls.target.set(0,m.height,-.08);this.controls.update();if(render)this.render();return;
         }
         const vertical=THREE.MathUtils.degToRad(this.camera.fov),horizontal=2*Math.atan(Math.tan(vertical/2)*aspect);
         const span=this.view==='front'?m.width+.8:Math.max(m.width+1.2,m.depth+1.6);
@@ -3074,7 +3080,7 @@ export class Preview {
         // Exterior cameras stay inside the garden, in front of the back fence; a wide building need not fit entirely.
         if(direction.z>.2)distance=Math.min(distance,(m.bounds.front+8.2-target.z)/direction.z);
         this.camera.position.copy(target).addScaledVector(direction,distance);
-        this.camera.up.set(0,1,0);this.controls.target.copy(target);this.controls.maxDistance=Math.max(27,distance*2);this.controls.update();this.render();
+        this.camera.up.set(0,1,0);this.controls.target.copy(target);this.controls.maxDistance=Math.max(27,distance*2);this.controls.update();if(render)this.render();
     }
 
     /** Fixed export cameras use world coordinates: left is -x, right is +x, garden is +z. */

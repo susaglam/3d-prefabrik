@@ -31,14 +31,18 @@ export const FINISHES = Object.freeze({
  // bricks already carry. 2.17.0 made "Baksteen rood" the owner's lighter salmon brick (brick_red_diffuse.jpg, the lit
  // front face renders #c79b8d against the reference's #c79b8e), so the chip follows it: a shade above the lit wall.
  'brick-red':Object.freeze({color:'#c4958c',type:'brick'}),
- 'brick-black':Object.freeze({color:'#454241',type:'brick'}),
- 'brick-white':Object.freeze({color:'#dedbd1',type:'brick'}),
- 'brick-yellow':Object.freeze({color:'#b79b6c',type:'brick'}),
+ // 2.18.0: black and yellow sat just over the picker gate's budget (dE00 9.6 / 9.9, verify-rendering.mjs) and white
+ // close to it: their chips were darker than either wall renders. Each now sits between the lit aanbouw wall and the
+ // lit house wall it stands for (black #5c5c61 / #54555a, white #e8e6eb / #e4e3e8, yellow #d1bc9a / #cab794).
+ 'brick-black':Object.freeze({color:'#56575b',type:'brick'}),
+ 'brick-white':Object.freeze({color:'#e2e1e2',type:'brick'}),
+ 'brick-yellow':Object.freeze({color:'#c8b38f',type:'brick'}),
  // ---- Aanbouw only: cladding and coatings the existing house is never offered --------------------------------
  'wood-horizontal':Object.freeze({color:'#b78d60',type:'wood-h'}),
  'wood-vertical':Object.freeze({color:'#bb9568',type:'wood-v'}),
- 'open-vertical':Object.freeze({color:'#98734c',type:'open-v'}),
- 'open-horizontal':Object.freeze({color:'#98734c',type:'open-h'}),
+ // The open cladding renders #b48b5f / #b0895d lit; the chip keeps a shade darker for the gaps between the boards.
+ 'open-vertical':Object.freeze({color:'#a9845a',type:'open-v'}),
+ 'open-horizontal':Object.freeze({color:'#a9845a',type:'open-h'}),
  'pvc-black':Object.freeze({color:'#343633',type:'pvc'}),
  'pvc-green':Object.freeze({color:'#354b40',type:'pvc'}),
  'pvc-cream':Object.freeze({color:'#e6dfca',type:'pvc'}),

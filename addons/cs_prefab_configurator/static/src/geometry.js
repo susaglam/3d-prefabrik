@@ -57,7 +57,9 @@ export const KOZIJN=Object.freeze({
     // and the dorpel face at 40 mm, a dark warm grey in both colours.
     sliding:Object.freeze({head:.053,jamb:.055,lip:.015,sill:'#3b3532',sillFace:.04,sillProud:.01,stile:.095,rail:.088,bottomRail:.125,
         sash:.071,fixedBack:.005,slidingBack:.075,frameDepth:.16}),
-    folding:Object.freeze({head:.087,jamb:.068,threshold:'#eae8e6',stile:.087,rail:.088,bottomRail:.104,doorBottomRail:.111,
+    // A second, independent measurement of the harmonicapui (its own camera model) put the stiles at 77-83 mm, about
+    // 12% narrower than the 88 mm top rail, and the jamb at 65 mm; the first pass had read both a little wide.
+    folding:Object.freeze({head:.087,jamb:.065,threshold:'#eae8e6',stile:.08,rail:.088,bottomRail:.104,doorBottomRail:.111,
         sash:.06,back:.05,frameDepth:.14}),
     french:Object.freeze({head:.089,jamb:.07,mullion:.078,lip:.02,sill:'#423a34',sillFace:.04,sillProud:.035,lightSill:.075,lightBack:.062,
         stile:.089,meetingStile:.095,rail:.094,bottomRail:.187,sash:.1,glassBack:.065,back:0,frameDepth:.12,meeting:.0045}),

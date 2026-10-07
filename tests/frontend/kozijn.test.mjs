@@ -108,7 +108,7 @@ test('the sash profiles carry the reference weight: broad stiles and a tall bott
     assert.ok(stiles.length >= 2 * m.panels.length, `${frontOpening}: two stiles per section`);
     for (const stile of stiles) {
       const b = box(stile);
-      assert.ok(b.max.x - b.min.x >= .08, `${frontOpening}: a stile ${(b.max.x - b.min.x).toFixed(3)} m across (reference 87-95 mm)`);
+      assert.ok(b.max.x - b.min.x >= .075, `${frontOpening}: a stile ${(b.max.x - b.min.x).toFixed(3)} m across (reference 77-100 mm)`);
     }
     const jambs = meshes(opening(p), o => o.name === 'frame-jamb');
     assert.equal(jambs.length, 2, `${frontOpening}: two jambs`);
