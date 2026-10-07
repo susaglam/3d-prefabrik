@@ -14,7 +14,8 @@ await mkdir(out, {recursive: true});
 const server = spawn('python', ['scripts/serve.py', '--port', '0', '--db', join(await mkdtemp(join(tmpdir(), 'prefab-roof-')), 'r.sqlite3')], {stdio: ['ignore', 'pipe', 'pipe']});
 const origin = await new Promise(resolve => { const f = c => { const m = String(c).match(/https?:\/\/[0-9.:a-z]+/i); if (m) resolve(m[0]); }; server.stdout.on('data', f); server.stderr.on('data', f); });
 const browser = await chromium.launch({headless: true, executablePath: join(homedir(), 'AppData/Local/ms-playwright/chromium-1217/chrome-win64/chrome.exe'), args: ['--enable-gpu', '--ignore-gpu-blocklist']});
-// Camera and target per shot, in terms of the aanbouw: b = bounds, H = wall height.
+// Camera and target per shot, in terms of the aanbouw: b = bounds, H = wall height, F = the face the hopper hangs on
+// (the facade, or the boeiboord of an overstek — 2.18.2).
 const SHOTS = {
   'roof-top': (b, H) => [[b.right + .7, H + 1.5, b.front + 1.0], [b.right - .5, H + .08, b.front - .4]],
   'roof-outlet': (b, H) => [[b.right - .5, H + .75, b.front + .25], [b.right - .12, H + .08, b.front - .05]],
@@ -38,9 +39,12 @@ const SHOTS = {
   'rooflight-close': (b, H) => [[1.5, H + .95, b.front + .7], [.2, H + .28, -.1]],
   'rooflight-ridge': (b, H) => [[.9, H + .75, .55], [.1, H + .35, -.25]],
   'rooflight-under': (b, H) => [[.3, 1.35, b.front - .4], [0, H + .3, -.1]],
-  'hopper': (b, H) => [[b.right + .75, H - .25, b.front + 1.15], [b.right - .2, H - .2, b.front + .04]],
-  'hopper-above': (b, H) => [[b.right + .25, H + .85, b.front + .75], [b.right - .2, H + .02, b.front + .02]],
-  'hopper-front': (b, H) => [[b.right - .55, H - .45, b.front + 1.6], [b.right - .2, H - .3, b.front]],
+  'hopper': (b, H, F) => [[b.right + .75, H - .25, F + 1.15], [b.right - .2, H - .2, F + .04]],
+  'hopper-above': (b, H, F) => [[b.right + .25, H + .85, F + .75], [b.right - .2, H + .02, F + .02]],
+  'hopper-front': (b, H, F) => [[b.right - .55, H - .45, F + 1.6], [b.right - .2, H - .3, F]],
+  // The zwanenhals under the boeiboord, from the garden corner and square from the side.
+  'hopper-neck': (b, H) => [[b.right + 1.05, H - .55, b.front + 1.25], [b.right - .12, H - .45, b.front + .12]],
+  'hopper-side': (b, H) => [[b.right + 1.6, H - .35, b.front + .15], [b.right - .12, H - .35, b.front + .15]],
   'house-corner': (b, H) => [[b.right + 2.2, 2.3, b.front + 3.2], [b.right + .4, 2.2, b.back]],
   'house-roof': (b, H) => [[b.right + 1.5, H + 3.2, b.front + 5.5], [0, H + 2.4, b.back - 1.5]],
   'wide': (b, H) => [[b.right + 4.5, 3.4, b.front + 7.5], [0, 1.6, b.back + .8]],
@@ -61,7 +65,7 @@ try {
     // ROOF_PROBE='{"ground":[[500,390]]}' names the first visible mesh under each canvas pixel of that shot.
     const probe = JSON.parse(process.env.ROOF_PROBE || '{}')[name] || [];
     const facts = await page.evaluate(async ([source, points]) => {
-      const p = window.__prefabPreview, m = p.model, [eye, target] = (0, eval)(source)(m.bounds, m.height);
+      const p = window.__prefabPreview, m = p.model, [eye, target] = (0, eval)(source)(m.bounds, m.height, m.bounds.front + (m.overhangDepth || 0));
       p.controls.target.set(...target); p.camera.position.set(...eye); p.controls.update();
       await new Promise(resolve => setTimeout(resolve, 1600));
       p.render();

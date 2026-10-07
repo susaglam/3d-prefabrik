@@ -183,12 +183,14 @@ test('the daktrim caps a flush roof, while an overstek band carries the roof 20 
     const front=withLight.roof.find(part=>part.key==='roof-front'),left=withLight.roof.find(part=>part.key==='roof-left');
     assert.ok(Math.abs((front.center[2]+front.size[2]/2)-(withLight.bounds.front+.165))<1e-9);
     assert.ok(left.center[0]-left.size[0]/2>withLight.bounds.left,'side parts stay inside the side walls');
-    // Spots hang from the soffit of the band; the downpipe ends in the soffit, or (2.17.0) in its hopper under the daktrim.
+    // Spots hang from the soffit of the band; the downpipe hangs from its hopper under the daktrim — since 2.18.2 also
+    // with an overstek, where the hopper is on the boeiboord.
     const spot=extended.fixtures.find(f=>f.key==='overhangSpots');
     assert.ok(Math.abs(spot.position[1]-(extended.height+.08-.32-.004))<1e-9);assert.ok(Math.abs(spot.position[2]-(extended.bounds.front+.10))<1e-9);
     assert.equal(plain.fixtures.filter(f=>f.key==='overhangSpots').length,0);
-    assert.ok(Math.abs(extended.drain.height-(extended.height+.08-.32))<1e-9);assert.ok(Math.abs(plain.drain.height-plain.drain.hopper.bottom)<1e-9);
-    assert.ok(plain.drain.hopper.bottom>2,'the hopper hangs well above the wall light (top 1,985 m)');
+    for(const model of [plain,extended]){assert.ok(Math.abs(model.drain.height-model.drain.hopper.bottom)<1e-9);
+        assert.ok(model.drain.hopper.bottom>2,'the hopper hangs well above the wall light (top 1,985 m)');}
+    assert.ok(extended.drain.neck.bottom>2,'the zwanenhals is back on the facade above the wall light');
     for(const view of ['front','side']){
         assert.match(elevationSvg(extended,view),/data-overhang="pvc-white"/);assert.match(elevationSvg(extended,view),/data-roof-edge=/);
         assert.doesNotMatch(elevationSvg(plain,view),/data-overhang=/);assert.match(elevationSvg(plain,view),/data-roof-edge=/);

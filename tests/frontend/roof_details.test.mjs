@@ -11,7 +11,7 @@ import {Preview} from '../../addons/cs_prefab_configurator/static/src/preview.js
 import {buildGeometry, elevationSvg, DAKTRIM_FACE, HOPPER} from '../../addons/cs_prefab_configurator/static/src/geometry.js';
 import {normalizeEnvironment} from '../../addons/cs_prefab_configurator/static/src/environment.js';
 import {DOCUMENT_PARTS} from '../../addons/cs_prefab_configurator/static/src/scene_content.js';
-import {ROOF_RECESS, TRIM_REACH, DOWNPIPE, downpipeRoute, roundedRoute, roofOutlet} from '../../addons/cs_prefab_configurator/static/src/architectural_details.js';
+import {ROOF_RECESS, TRIM_REACH, DOWNPIPE, downpipeRoute, roundedRoute} from '../../addons/cs_prefab_configurator/static/src/architectural_details.js';
 import * as THREE from '../../addons/cs_prefab_configurator/static/vendor/three.module.js';
 
 /** Same harness as document_views.test.mjs: a Preview with a real built scene, but no WebGL. */
@@ -42,87 +42,95 @@ const direction = (a, b) => { const v = [b[0] - a[0], b[1] - a[1], b[2] - a[2]],
 const parallel = (u, v) => Math.abs(u[0] * v[0] + u[1] * v[1] + u[2] * v[2] - 1) < 1e-9;
 const near = (a, b, eps = 1e-6) => Math.abs(a - b) < eps;
 
-test('the downpipe is one plumb line, from the hopper under the daktrim (or the overstek soffit) into the ground', () => {
+test('the downpipe hangs from its hopper: one plumb line, and with an overstek a zwanenhals under the boeiboord', () => {
   // 2.16.0, the customer: "HWA buizen komen in de grond". 2.17.0, the owner: the pipe does not turn into the wall under
-  // the roof edge; it hangs from a hopper (vergaarbak) directly under the daktrim — so there is no bend at all.
-  for (const overhang of ['none', 'pvc-white']) for (const drainSide of ['left', 'right', 'both']) {
-    const m = buildGeometry({width: 500, depth: 300, overhang, drainSide});
+  // the roof edge; it hangs from a hopper (vergaarbak) directly under the daktrim. 2.18.2, the owner: "yağmur borusu
+  // çözümünü uygula" — the overstek gets the same hopper, on its boeiboord, so the pipe needs two 45° bends to come back
+  // to the facade, and both lie under the boeiboord, never in it.
+  for (const overhang of ['none', 'pvc-white', 'wood-white']) for (const drainSide of ['left', 'right', 'both']) {
+    const m = buildGeometry({width: 500, depth: 300, overhang, drainSide}), soffit = m.height + m.roofThickness / 2 - m.fasciaHeight;
     for (const drain of m.drains) {
-      const parts = roundedRoute(downpipeRoute(drain, m.bounds.front, m.overhangDepth), DOWNPIPE.bend);
-      const tag = `${overhang}/${drain.side}`;
-      assert.equal(parts.length, 1, `${tag}: one straight run, no bend`);
-      const [dx, dy, dz] = direction(parts[0].from, parts[0].to);
-      assert.ok(near(dx, 0) && near(dz, 0) && near(dy, -1), `${tag}: straight down, got ${[dx, dy, dz]}`);
-      assert.ok(parts[0].to[1] < -.15, `${tag}: it ends in the ground, under the paving (${parts[0].to[1]})`);
-      if (m.overhangDepth) assert.ok(near(parts[0].from[1], drain.height + .02), `${tag}: up into the soffit`);
-      else assert.ok(near(parts[0].from[1], drain.hopper.bottom), `${tag}: it starts at the hopper's outlet (${parts[0].from[1]} vs ${drain.hopper.bottom})`);
+      const parts = roundedRoute(downpipeRoute(drain), DOWNPIPE.bend), tag = `${overhang}/${drain.side}`;
+      const first = parts[0], last = parts[parts.length - 1];
+      assert.ok(near(first.from[1], drain.hopper.bottom) && near(first.from[2], drain.hopper.z), `${tag}: it starts at the hopper's outlet (${first.from})`);
+      assert.ok(near(last.to[2], drain.z) && last.to[1] < -.15, `${tag}: it ends in the ground, under the paving, at the facade (${last.to})`);
+      const [dx, dy, dz] = direction(last.from, last.to);
+      assert.ok(near(dx, 0) && near(dz, 0) && near(dy, -1), `${tag}: down the facade, plumb, got ${[dx, dy, dz]}`);
+      if (!m.overhangDepth) { assert.equal(parts.length, 1, `${tag}: one straight run, no bend`); continue; }
+      const bends = parts.filter(part => part.kind === 'bend'), legs = parts.filter(part => part.kind === 'line');
+      assert.equal(bends.length, 2, `${tag}: a zwanenhals, two bends`);
+      const [ux, uy, uz] = direction(legs[0].from, legs[0].to);
+      assert.ok(near(ux, 0) && near(uz, 0) && near(uy, -1), `${tag}: plumb out of the hopper`);
+      const [, gy, gz] = direction(legs[1].from, legs[1].to);
+      assert.ok(gy < 0 && gz < 0 && near(gy, gz), `${tag}: a 45° leg back to the facade (${gy}, ${gz})`);
+      for (const bend of bends) assert.ok(Math.max(bend.from[1], bend.corner[1], bend.to[1]) < soffit - .02, `${tag}: the bend lies under the boeiboord`);
+      assert.ok(first.from[2] - DOWNPIPE.radius > m.bounds.front + m.overhangDepth, `${tag}: the upper run stands in front of the boeiboord`);
     }
   }
 });
 
-test('without an overstek the hopper hangs directly under the daktrim, in front of the pipe it feeds', () => {
-  for (const roofEdge of ['anthracite', 'aluminium', 'zinc']) for (const drainSide of ['left', 'right', 'both']) {
-    const m = buildGeometry({width: 500, depth: 300, overhang: 'none', drainSide, roofEdge}), slabTop = m.height + m.roofThickness / 2, tag = `${roofEdge}/${drainSide}`;
+test('the hopper hangs directly under the daktrim: on the facade, or with an overstek on the boeiboord', () => {
+  for (const overhang of ['none', 'pvc-white', 'pvc-anthracite', 'wood-white']) for (const roofEdge of ['anthracite', 'aluminium', 'zinc']) for (const drainSide of ['left', 'right', 'both']) {
+    const m = buildGeometry({width: 500, depth: 300, overhang, drainSide, roofEdge}), slabTop = m.height + m.roofThickness / 2;
+    const face = m.bounds.front + m.overhangDepth, tag = `${overhang}/${roofEdge}/${drainSide}`;
     for (const drain of m.drains) {
       const h = drain.hopper, trimBottom = slabTop + DAKTRIM_FACE[roofEdge].bottom;
       assert.ok(h, `${tag}: a hopper`);
       assert.ok(h.top < trimBottom && trimBottom - h.top <= .01, `${tag}: its rim is just under the trim (${(trimBottom - h.top).toFixed(3)} m)`);
       assert.ok(near(h.top - h.bottom, HOPPER.height), `${tag}: ${HOPPER.height} m tall`);
       assert.ok(near(drain.height, h.bottom), `${tag}: the pipe begins where the hopper ends`);
-      // Wider and deeper than the pipe, its back on the facade, the pipe's axis inside its footprint.
+      assert.ok(near(h.face, face), `${tag}: screwed to the ${m.overhangDepth ? 'boeiboord' : 'facade'} (${h.face} vs ${face})`);
+      // Wider and deeper than the pipe, its back on that face, the pipe's axis inside its footprint.
       assert.ok(HOPPER.top[0] > 1.4 * 2 * DOWNPIPE.radius && HOPPER.top[1] >= HOPPER.top[0], `${tag}: wider than the pipe, at least as deep as wide`);
-      assert.ok(drain.z > m.bounds.front && drain.z + DOWNPIPE.radius < m.bounds.front + HOPPER.bottom[1], `${tag}: the pipe's axis lies under the hopper's floor`);
-    }
-  }
-  assert.equal(buildGeometry({overhang: 'pvc-white'}).drain.hopper, null, 'with an overstek the pipe goes up into the soffit instead');
-});
-
-test('the roof outlet of an overstek sits over its pipe with the whole flange on the membrane, clear of the kantplank', () => {
-  for (const overhang of ['pvc-white', 'pvc-anthracite']) for (const drainSide of ['left', 'right', 'both']) {
-    const m = buildGeometry({width: 500, depth: 300, overhang, drainSide});
-    const edgeFront = m.bounds.front + m.overhangDepth, edgeSide = m.width / 2 + (m.overhangDepth ? .006 : 0);
-    for (const drain of m.drains) {
-      const o = roofOutlet(drain, edgeFront, edgeSide);
-      assert.ok(o.z + o.flange <= edgeFront - TRIM_REACH - .005, `${overhang}/${drain.side}: flange clear of the front kantplank`);
-      assert.ok(Math.abs(o.x) + o.flange <= edgeSide - TRIM_REACH - .005, `${overhang}/${drain.side}: flange clear of the side kantplank`);
-      assert.equal(Math.sign(o.x), Math.sign(drain.x), 'on the side of its own pipe');
-      assert.ok(Math.hypot(o.x - drain.x, o.z - drain.z) < .3, 'within a hand of the pipe it feeds');
+      assert.ok(h.z > h.face && h.z + DOWNPIPE.radius < h.face + HOPPER.bottom[1], `${tag}: the pipe's axis lies under the hopper's floor`);
+      assert.ok(drain.z - DOWNPIPE.radius > m.bounds.front && near(drain.z - m.bounds.front, h.z - h.face), `${tag}: down the facade as far out as under the hopper`);
+      if (m.overhangDepth) assert.ok(h.bottom > slabTop - m.fasciaHeight + .02, `${tag}: it ends on the boeiboord, above its lower edge`);
+      else assert.ok(near(h.z, drain.z) && drain.neck === null, `${tag}: no zwanenhals on a plain facade`);
     }
   }
 });
 
-test('in the scene, without an overstek: no hole in the roof, the water leaves through the edge into a hopper', () => {
+test('in the scene: no hole in the roof, the water leaves through the edge into a hopper — with or without an overstek', () => {
   // 2.17.0, the owner, with photographs: "üstten bakıldığında tavanda bir delik değil de iç kısımdan dışa taşan
   // daktrimden boruya bağlantı var". The roof outlet on the membrane goes; a rectangular zijuitloop runs from the inner
-  // face of the roof edge, under the uninterrupted daktrim, out through the facade into the back of the hopper.
-  for (const roofEdge of ['anthracite', 'zinc']) for (const drainSide of ['right', 'both']) {
-    const p = sceneHarness({width: 500, depth: 300, drainSide, overhang: 'none', roofEdge}), m = p.model, b = m.bounds, tag = `${roofEdge}/${drainSide}`;
+  // face of the roof edge, under the uninterrupted daktrim, out through the facade — or, since 2.18.2, the boeiboord of
+  // an overstek — into the back of the hopper.
+  for (const overhang of ['none', 'pvc-white']) for (const roofEdge of ['anthracite', 'zinc']) for (const drainSide of ['right', 'both']) {
+    const p = sceneHarness({width: 500, depth: 300, drainSide, overhang, roofEdge}), m = p.model, b = m.bounds, tag = `${overhang}/${roofEdge}/${drainSide}`;
     const slabTop = m.height + m.roofThickness / 2, trimBottom = slabTop + DAKTRIM_FACE[roofEdge].bottom;
+    const face = b.front + m.overhangDepth, soffit = slabTop - m.fasciaHeight;
     assert.equal(meshes(p.scene, o => o.name === 'roof-outlet').length, 0, `${tag}: no hole in the roof`);
-    assert.equal(meshes(p.root, o => o.name === 'downpipe').length, 0, `${tag}: no elbow into the wall`);
     for (const drain of m.drains) {
       const mine = o => Math.abs(new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3()).x - drain.x) < .2;
       const hopper = boxOf(meshes(p.root, o => o.name === 'downpipe-hopper' && mine(o)));
       assert.ok(!hopper.isEmpty(), `${tag}/${drain.side}: a hopper`);
       assert.ok(hopper.max.y <= trimBottom + 1e-6 && trimBottom - hopper.max.y <= .012, `${tag}/${drain.side}: just under the trim (${(trimBottom - hopper.max.y).toFixed(3)})`);
-      assert.ok(Math.abs(hopper.min.z - b.front) < .006, `${tag}/${drain.side}: its back on the facade (${(hopper.min.z - b.front).toFixed(3)})`);
+      assert.ok(Math.abs(hopper.min.z - face) < .006, `${tag}/${drain.side}: its back on the ${m.overhangDepth ? 'boeiboord' : 'facade'} (${(hopper.min.z - face).toFixed(3)})`);
       assert.ok(hopper.min.x < drain.x - DOWNPIPE.radius && hopper.max.x > drain.x + DOWNPIPE.radius, `${tag}/${drain.side}: over its pipe`);
       // Open at the top: the dark inside is seen from above, under the rim.
       const inside = boxOf(meshes(p.root, o => o.name === 'downpipe-hopper-inside' && mine(o)));
       assert.ok(!inside.isEmpty() && inside.max.y < hopper.max.y && inside.max.y > hopper.max.y - .02, `${tag}/${drain.side}: open, its inside just under the rim`);
-      // The zijuitloop: from inside the facade to within the hopper, below the trim, short of the pipe's axis.
+      // The zijuitloop: from inside the facade or boeiboord to within the hopper, below the trim, short of the pipe's axis.
       const spout = boxOf(meshes(p.root, o => o.name === 'downpipe-spout' && mine(o)));
       assert.ok(!spout.isEmpty(), `${tag}/${drain.side}: a zijuitloop`);
-      assert.ok(spout.min.z < b.front && spout.max.z > b.front + .03 && spout.max.z < drain.z, `${tag}/${drain.side}: through the facade into the hopper, short of the pipe (${spout.min.z - b.front}, ${spout.max.z - b.front})`);
+      assert.ok(spout.min.z < face && spout.max.z > face + .03 && spout.max.z < drain.hopper.z, `${tag}/${drain.side}: through the face into the hopper, short of the pipe (${spout.min.z - face}, ${spout.max.z - face})`);
       assert.ok(spout.max.y < trimBottom && spout.min.y > hopper.min.y, `${tag}/${drain.side}: under the trim, inside the hopper's height`);
       // ...and from the roof: a rectangular opening in the inner face of the roof edge, at the membrane.
       const scupper = boxOf(meshes(p.roofGroup, o => o.name === 'roof-scupper' && mine(o)));
       assert.ok(!scupper.isEmpty(), `${tag}/${drain.side}: the opening in the roof edge`);
       assert.ok(near(scupper.min.y, slabTop - ROOF_RECESS, .006), `${tag}/${drain.side}: at the membrane (${scupper.min.y} vs ${slabTop - ROOF_RECESS})`);
-      assert.ok(scupper.max.z <= b.front - TRIM_REACH + .01 && scupper.max.z > b.front - TRIM_REACH - .03, `${tag}/${drain.side}: in the inner face of the kantplank`);
-      // The pipe hangs from the hopper's outlet.
-      const pipe = boxOf(meshes(p.root, o => o.name === 'downpipe-uitloop' && mine(o)));
+      assert.ok(scupper.max.z <= face - TRIM_REACH + .01 && scupper.max.z > face - TRIM_REACH - .03, `${tag}/${drain.side}: in the inner face of the kantplank`);
+      // The pipe hangs from the hopper's outlet and reaches the ground on the facade.
+      const runs = meshes(p.root, o => /^downpipe(-uitloop)?$/.test(o.name) && mine(o)), pipe = boxOf(runs);
       assert.ok(near(pipe.max.y, drain.hopper.bottom, .02), `${tag}/${drain.side}: the pipe starts at the hopper (${pipe.max.y} vs ${drain.hopper.bottom})`);
+      const [foot] = meshes(p.root, o => o.name === 'downpipe-uitloop' && mine(o));
+      assert.ok(near(new THREE.Box3().setFromObject(foot).getCenter(new THREE.Vector3()).z, drain.z, .005), `${tag}/${drain.side}: down the facade`);
+      const bends = runs.filter(o => o.geometry.type === 'TubeGeometry' && o.geometry.parameters.path.type === 'QuadraticBezierCurve3');
+      if (!m.overhangDepth) assert.equal(runs.length, 1, `${tag}/${drain.side}: one straight pipe, no elbow into the wall`);
+      else {
+        assert.equal(bends.length, 2, `${tag}/${drain.side}: a zwanenhals of two bends`);
+        assert.ok(boxOf(bends).max.y < soffit - .01, `${tag}/${drain.side}: both bends under the boeiboord (${(soffit - boxOf(bends).max.y).toFixed(3)} m clear)`);
+      }
     }
     for (const part of meshes(p.scene, o => /^(downpipe|roof-scupper)/.test(o.name))) assert.equal(part.userData.scopeKey, 'drainMaterial', `${tag}: ${part.name} answers to Regenbuis`);
     // The trim runs on, unbroken, over the hopper: its front run is still ONE piece per layer.
@@ -131,25 +139,25 @@ test('in the scene, without an overstek: no hole in the roof, the water leaves t
   }
 });
 
-test('the print elevation draws the hopper and the pipe into the ground, like the 3D', () => {
+test('the print elevations draw the hopper, the pipe into the ground and the zwanenhals of an overstek, like the 3D', () => {
   const plain = elevationSvg(buildGeometry({width: 500, depth: 300, overhang: 'none', drainSide: 'both'}), 'front');
   assert.equal((plain.match(/data-drain-hopper=/g) || []).length, 2, 'one hopper per pipe');
   assert.doesNotMatch(plain, /data-drain-side="[^"]+" d="[^"]*l10 8/, 'no 45° shoe at the foot any more');
-  const extended = elevationSvg(buildGeometry({width: 500, depth: 300, overhang: 'pvc-white'}), 'front');
-  assert.doesNotMatch(extended, /data-drain-hopper=/, 'with an overstek the pipe goes into the soffit');
+  const extended = elevationSvg(buildGeometry({width: 500, depth: 300, overhang: 'pvc-white', drainSide: 'both'}), 'front');
+  assert.equal((extended.match(/data-drain-hopper=/g) || []).length, 2, 'with an overstek too: one hopper per pipe, on the boeiboord');
+  // From the side the hopper stands out from the boeiboord face, and the pipe swings back to the facade under it.
+  const m = buildGeometry({width: 500, depth: 300, overhang: 'pvc-white', drainSide: 'right'}), side = elevationSvg(m, 'side');
+  const s = Math.min(1040 / m.depth, 510 / (m.height + .7)), X = x => (1440 - m.depth * s) / 2 + x * s;
+  const hopperX = Number(side.match(/data-drain-hopper="side" d="M([0-9.]+)/)[1]);
+  assert.ok(near(hopperX, X(m.depth + m.overhangDepth), .6), `the side hopper starts at the boeiboord face (${hopperX} vs ${X(m.depth + m.overhangDepth)})`);
+  assert.match(side, /data-drain-neck="right"/, 'the zwanenhals is drawn');
+  assert.doesNotMatch(elevationSvg(buildGeometry({width: 500, depth: 300, overhang: 'none'}), 'side'), /data-drain-neck=/, 'a plain facade has none');
 });
 
-test('in the scene, with an overstek: a straight pipe into the soffit and an outlet over it', () => {
+test('in the scene, with an overstek: the membrane lies ROOF_RECESS under the slab top, the daktrim above it', () => {
   for (const drainSide of ['right', 'both']) {
     const p = sceneHarness({width: 500, depth: 300, drainSide, overhang: 'pvc-white'}), m = p.model, tag = drainSide;
-    const drains = m.drains.length, slabTop = m.height + m.roofThickness / 2;
-    const tubes = meshes(p.root, o => /^downpipe/.test(o.name) && o.geometry.type === 'TubeGeometry');
-    assert.equal(tubes.length, 0, `${tag}: no bend`);
-    assert.equal(meshes(p.root, o => o.name === 'downpipe-uitloop').length, drains, `${tag}: one open pipe per drain`);
-    assert.equal(meshes(p.root, o => o.name === 'downpipe-hopper').length, 0, `${tag}: no hopper under a soffit`);
-    const outlets = meshes(p.roofGroup, o => o.name === 'roof-outlet');
-    assert.equal(outlets.length, 3 * drains, `${tag}: flange, ring and bore per outlet`);
-    assert.ok(outlets.every(o => o.userData.scopeKey === 'drainMaterial'), `${tag}: the outlet answers like the pipe`);
+    const slabTop = m.height + m.roofThickness / 2;
     // The membrane: every roof slab box, top face ROOF_RECESS under the slab top; the trim stands at least that far above it.
     const membrane = p.materials.get('surface:roof-membrane');
     const roof = meshes(p.roofGroup, o => o.material === membrane && o.geometry.type === 'BoxGeometry' && o.geometry.parameters.height > .1 && !/upstand/.test(o.name)); // the slab, not the kantplank cladding or the opstand
@@ -157,7 +165,6 @@ test('in the scene, with an overstek: a straight pipe into the soffit and an out
     assert.ok(near(boxOf(roof).max.y, slabTop - ROOF_RECESS), `${tag}: membrane at ${boxOf(roof).max.y}`);
     const trim = boxOf(meshes(p.roofGroup, o => o.userData.scopeKey === 'roofEdge'));
     assert.ok(trim.max.y - (slabTop - ROOF_RECESS) >= ROOF_RECESS, `${tag}: the daktrim stands ${trim.max.y - (slabTop - ROOF_RECESS)} m above the membrane`);
-    for (const outlet of outlets) assert.ok(new THREE.Box3().setFromObject(outlet).min.y >= slabTop - ROOF_RECESS - 1e-6, `${tag}: the outlet lies on the membrane`);
     // "Eskitme bir şey koyma": one even sheet, no scanned stains.
     assert.ok(!membrane.map && !membrane.roughnessMap, 'no scan on the membrane');
   }

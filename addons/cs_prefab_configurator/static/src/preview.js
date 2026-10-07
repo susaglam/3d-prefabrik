@@ -5,7 +5,7 @@ import { EffectComposer, RenderPass, GTAOPass, OutputPass } from '../vendor/rend
 import { buildGeometry, planSvg, DAKTRIM_FACE, HOPPER, KOZIJN, kozijnProfile, sectionMembers } from './geometry.js';
 import { buildFixture, fixtureAppearance, buildPreparation, buildUnderfloorHeating, underfloorAppearance } from './fixtures.js';
 import { sceneChange, canonicalFixtureKey, visibleLightEffectCount, renderTier } from './render_state.js';
-import { profileGeometry, metricUVs, softPad, ROOF_RECESS, TRIM_REACH, DOWNPIPE, downpipeRoute, roundedRoute, pipeGeometries, roofOutlet, SPOUT } from './architectural_details.js';
+import { profileGeometry, metricUVs, softPad, ROOF_RECESS, TRIM_REACH, DOWNPIPE, downpipeRoute, roundedRoute, pipeGeometries, SPOUT } from './architectural_details.js';
 import { FENCE_STYLE_IDS, DEFAULT_FENCE_STYLE, FENCE_HEIGHT, HEDGE, fencePanels, mergedBoxes, modernPanelParts, hedgeLeaves, classicPanelParts, occludingPanels, seeded } from './garden_fence.js';
 import { normalizeEnvironment, sceneEnvironmentKey, houseLayout } from './environment.js';
 import { finishColor, shadeHex } from './finishes.js';
@@ -1383,16 +1383,16 @@ export class Preview {
             // "Plaatsing" shares it: one pipe can only open one field, and both controls sit in the same card, so the
             // click lands with Materiaal focused and Plaatsing directly under it (docs/verification/2.9/scene-links.json).
             const drainPart=object=>{this.tag(object,'drainMaterial');this.root.add(object);};
-            // One pipe from the roof edge to the uitloop: out of the wall under the daktrim (or down from the overstek
-            // soffit), down the facade, and a 45° uitloop into the garden. Every corner is a real rounded bend (2.13.0,
-            // "45'lik dirsek bağlantı kısmı yuvarlak olmalı"): two straight cylinders meeting at an angle read as a
-            // broken pipe. The last run stays a hollow tube, so the open end still shows its bore.
-            const parts=roundedRoute(downpipeRoute(drain,b.front,m.overhangDepth),DOWNPIPE.bend),end=parts.pop();
+            // One pipe from its hopper under the daktrim into the ground: plumb down a plain facade, or on an overstek
+            // out of the hopper on the boeiboord and through a zwanenhals back to the facade (2.18.2). Every corner is a
+            // real rounded bend (2.13.0, "45'lik dirsek bağlantı kısmı yuvarlak olmalı"): two straight cylinders meeting
+            // at an angle read as a broken pipe. The last run stays a hollow tube, so the open end still shows its bore.
+            const parts=roundedRoute(downpipeRoute(drain),DOWNPIPE.bend),end=parts.pop();
             for(const geometry of pipeGeometries(parts,DOWNPIPE.radius)){const tube=new THREE.Mesh(geometry,pipe);tube.castShadow=true;tube.name='downpipe';drainPart(tube);}
             const mouth=lineBetween(end.from,end.to,pipe,2*DOWNPIPE.radius,{hollow:bore});mouth.name='downpipe-uitloop';drainPart(mouth);
-            // Without an overstek the water leaves through the roof EDGE into a hopper under the daktrim (2.17.0); with
-            // one it drops through the overstek floor, so the outlet on the roof stays where the pipe is under it.
-            if(drain.hopper)this.buildHopper(m,drain,pipe,bore,drainPart);else this.buildRoofOutlet(m,drain,pipe,bore);
+            // The water leaves through the roof EDGE into a hopper under the daktrim: on the facade (2.17.0) or on the
+            // boeiboord of an overstek (2.18.2). There is no hole in the roof any more.
+            this.buildHopper(m,drain,pipe,bore,drainPart);
             for(const y of [.5,1.8])this.tag(this.box(this.root,[.095,.034,.035],[drain.x,y,drain.z+.007],pipe),'drainMaterial');
         }
         this.buildFixtures();
@@ -1566,11 +1566,13 @@ export class Preview {
      * inner face of the roof edge; that 80 x 60 mm tube running out under the uninterrupted daktrim, through the
      * facade; and an open vergaarbak screwed to the facade directly under the trim, the tube entering its back. The
      * pipe hangs from the hopper's floor (geometry.js drain.hopper), so there is no elbow and no hole in the roof.
+     * On an overstek (2.18.2) the same three parts sit 20 cm further out: the tube runs through the boeiboord and the
+     * hopper is screwed to the boeiboord (h.face), the pipe under it at h.z (downpipeRoute adds the zwanenhals).
      * Everything answers to "Regenbuis" like the pipe; the kiezelbak lies in the roof group and leaves with the roof.
      */
     buildHopper(m,drain,pipe,bore,drainPart){
-        const b=m.bounds,h=drain.hopper,back=b.front+.003,[wTop,dTop]=HOPPER.top,[wBottom,dBottom]=HOPPER.bottom;
-        // A prismoid between two rectangles, flat back against the wall, the front and sides leaning in toward the outlet.
+        const h=drain.hopper,back=h.face+.003,[wTop,dTop]=HOPPER.top,[wBottom,dBottom]=HOPPER.bottom;
+        // A prismoid between two rectangles, flat back against the face, the front and sides leaning in toward the outlet.
         const outline=(y,w,d,inset=0)=>[[drain.x-w/2+inset,y,back+inset],[drain.x+w/2-inset,y,back+inset],[drain.x+w/2-inset,y,back+d-inset],[drain.x-w/2+inset,y,back+d-inset]];
         const shell=(top,bottom,{inward=false,capBottom=true}={})=>{
             const positions=[],centre=[0,1,2].map(i=>(top.concat(bottom)).reduce((sum,p)=>sum+p[i],0)/8);
@@ -1596,14 +1598,15 @@ export class Preview {
         part(rimGeometry,pipe,'downpipe-hopper');
         // The outlet collar under the floor, where the pipe is pushed in.
         const collar=new THREE.Mesh(new THREE.CylinderGeometry(DOWNPIPE.radius+.004,DOWNPIPE.radius+.004,.03,18),pipe);
-        collar.position.set(drain.x,h.bottom-.015,drain.z);collar.name='downpipe-hopper';collar.castShadow=true;drainPart(collar);
-        // The zijuitloop: from inside the wall, through the facade, into the back of the hopper — just under its rim.
+        collar.position.set(drain.x,h.bottom-.015,h.z);collar.name='downpipe-hopper';collar.castShadow=true;drainPart(collar);
+        // The zijuitloop: from inside the wall or the boeiboord, through its face, into the back of the hopper — just
+        // under its rim.
         const lead=this.material('downpipe-spout',{color:'#6b6e72',roughness:.7,metalness:.3});
         const spoutTop=h.top-.02,spoutLength=SPOUT.into+SPOUT.reach;
-        const spout=this.box(this.root,[SPOUT.width,SPOUT.height,spoutLength],[drain.x,spoutTop-SPOUT.height/2,b.front-SPOUT.into+spoutLength/2],lead);
+        const spout=this.box(this.root,[SPOUT.width,SPOUT.height,spoutLength],[drain.x,spoutTop-SPOUT.height/2,h.face-SPOUT.into+spoutLength/2],lead);
         spout.name='downpipe-spout';this.tag(spout,'drainMaterial');
         // On the roof: the kiezelbak plate on the membrane and the dark mouth of the tube in the inner face of the edge.
-        const slabTop=m.height+m.roofThickness/2,surface=slabTop-ROOF_RECESS,innerFace=b.front-TRIM_REACH;
+        const slabTop=m.height+m.roofThickness/2,surface=slabTop-ROOF_RECESS,innerFace=h.face-TRIM_REACH;
         const plate=this.box(this.roofGroup,[.16,.004,.16],[drain.x,surface+.002,innerFace-.08],lead,{shadow:false});
         plate.name='roof-scupper';this.tag(plate,'drainMaterial');
         // 2 mm proud of the inner face of the kantplank and 8 mm into it, so it reads as the tube's mouth from the roof.
@@ -1611,20 +1614,6 @@ export class Preview {
         mouth.name='roof-scupper';this.tag(mouth,'drainMaterial');
     }
 
-    /**
-     * The roof outlet (2.13.0, "çatıdaki suyun akacağı yerde delik olmalı, boruya bağlanan"): where the water leaves
-     * the membrane for the downpipe. A membrane flange pressed on the roof, a metal ring and a dark bore — from above,
-     * a hole with the pipe under it. Since 2.17.0 only for an overstek: the pipe stands under the overstek floor, so
-     * that is where the water goes down. Without one the roof drains through its edge (buildHopper).
-     */
-    buildRoofOutlet(m,drain,pipe,bore){
-        const ovh=m.overhangDepth||0,o=roofOutlet(drain,m.bounds.front+ovh,m.width/2+(ovh?.006:0)),y=m.height+m.roofThickness/2-ROOF_RECESS;
-        const flange=new THREE.Mesh(new THREE.CylinderGeometry(o.flange,o.flange+.006,.004,32),this.surface('roof-membrane',ROOF_MEMBRANE));
-        flange.position.set(o.x,y+.002,o.z);
-        const ring=new THREE.Mesh(new THREE.TorusGeometry(o.radius+.004,.005,8,32),pipe);ring.rotation.x=Math.PI/2;ring.position.set(o.x,y+.005,o.z);
-        const hole=new THREE.Mesh(new THREE.CircleGeometry(o.radius,32),bore);hole.rotation.x=-Math.PI/2;hole.position.set(o.x,y+.0045,o.z);
-        for(const part of [flange,ring,hole]){part.name='roof-outlet';part.receiveShadow=true;this.tag(part,'drainMaterial');this.roofGroup.add(part);}
-    }
 
     buildCladding(){
         this.release(this.claddingGroup);this.claddingGroup=new THREE.Group();this.claddingGroup.userData.scopeKey='facade';this.root.add(this.claddingGroup);

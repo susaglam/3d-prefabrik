@@ -59,16 +59,17 @@ export const TRIM_REACH = .09;
 export const DOWNPIPE = Object.freeze({radius: .0375, bend: .07, shoe: .14, shoeY: .2, ground: -.28});
 
 /**
- * One downpipe as a polyline, top to bottom: ONE plumb line. Without an overstek it hangs from its hopper under the
- * daktrim (geometry.js HOPPER, drain.height is the hopper's outlet); with one it drops straight out of the soffit.
- * `drain` is a geometry.js drain (x, z, height); `front` is kept in the signature for callers, the route no longer
- * enters the wall.
+ * One downpipe as a polyline, top to bottom, from its hopper's outlet (geometry.js HOPPER; drain.height) into the
+ * ground. On a plain facade that is ONE plumb line. On an overstek the hopper hangs on the boeiboord and the pipe
+ * swings back onto the facade through a zwanenhals: down out of the hopper, a 45° leg under the board, down the
+ * facade (geometry.js ZWANENHALS, drain.neck). `drain` is a geometry.js drain (x, z, height, hopper, neck).
  */
-export function downpipeRoute(drain, front, overhangDepth) {
+export function downpipeRoute(drain) {
     // 2.16.0, the customer: "HWA buizen komen in de grond" — straight down past the terras into the ground, no 45° shoe.
     // 2.17.0, the owner: no elbow into the wall under the roof edge either; the water reaches the pipe through a hopper.
-    const {x, z} = drain;
-    return [[x, drain.height + (overhangDepth ? .02 : 0), z], [x, DOWNPIPE.ground, z]];
+    // 2.18.2, the owner: the same hopper for an overstek, so no hole in its roof either.
+    const {x, z, hopper, neck} = drain, top = [x, drain.height, hopper ? hopper.z : z], foot = [x, DOWNPIPE.ground, z];
+    return neck ? [top, [x, neck.top, hopper.z], [x, neck.bottom, z], foot] : [top, foot];
 }
 
 /** The zijuitloop (stadsuitloop): a rectangular tube through the roof edge into the back of the hopper, 80 x 60 mm. */
@@ -106,16 +107,6 @@ export function pipeGeometries(parts, radius, {radial = 14, bendSegments = 12} =
         : new THREE.LineCurve3(vector(part.from), vector(part.to)), part.kind === 'bend' ? bendSegments : 1, radius, radial, false));
 }
 
-/**
- * Where the roof outlet sits ("çatıdaki suyun akacağı yerde delik olmalı, boruya bağlanan"): above its downpipe, but
- * with the whole flange on the membrane, clear of the kantplank on the front and on the side. `edgeFront` and
- * `edgeSide` are the outer roof edge (buildRoofEdge), so an overstek moves the outlet out with the roof.
- */
-export const ROOF_OUTLET = Object.freeze({radius: .045, flange: .085});
-export function roofOutlet(drain, edgeFront, edgeSide) {
-    const clear = TRIM_REACH + ROOF_OUTLET.flange + .01;
-    return {x: Math.sign(drain.x || 1) * Math.min(Math.abs(drain.x), edgeSide - clear), z: Math.min(drain.z, edgeFront - clear), ...ROOF_OUTLET};
-}
 
 /** Continuous physical courses across separate wall segments, including returns. */
 export function metricUVs(geometry,position,periodX,periodY){
