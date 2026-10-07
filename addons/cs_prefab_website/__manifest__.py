@@ -7,7 +7,7 @@
     # 'saas~19.4.' prefix and the deploy helper asserts this exact string, so the number is
     # bumped by hand -- it is deliberately NOT the configurator's 2.9.x series, because the
     # release helpers derive the next version by text-substituting that series.
-    "version": "saas~19.4.1.3.2",
+    "version": "saas~19.4.1.4.0",
     "category": "Website",
     "license": "LGPL-3",
     "author": "Codesnap",
