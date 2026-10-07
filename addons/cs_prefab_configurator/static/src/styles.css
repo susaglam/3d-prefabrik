@@ -328,6 +328,9 @@ dialog::backdrop{background:#17231dc2}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px 16px}
 .contact-field label{display:block;font-size:calc(var(--font-size) * 12 / 16);color:var(--ink);margin-bottom:5px}
 .contact-field label>span{color:var(--muted)}
+.text-field .text-input{width:100%;max-width:12rem;border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:11px 12px;min-height:44px;font-size:calc(var(--font-size) * 16 / 16);letter-spacing:.04em;text-transform:uppercase}
+.text-field .text-input::placeholder{color:var(--muted);text-transform:none}
+.text-field .text-input[aria-invalid=true]{border-color:var(--danger)}
 .contact-field input,.contact-field textarea{width:100%;max-width:100%;border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:11px 12px;min-height:44px;font-size:calc(var(--font-size) * 14 / 16);resize:vertical}
 .contact-field input::placeholder,.contact-field textarea::placeholder{color:var(--muted)}
 .contact-field input[aria-invalid=true]{border-color:var(--danger)}

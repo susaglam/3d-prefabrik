@@ -45,7 +45,8 @@ test('a step lists its lead fields first, then its sections in document order, a
   assert.ok(!step0.includes('roofShade'), 'zonwering is hidden without a lessenaar-daklicht');
   assert.ok(!step0.includes('overhangSpots'), 'overstekspots are hidden without an overstek');
   assert.deepEqual(keysOf(config, 1), ['interior'], 'with "Aanbouw binnen" off the step has exactly one choice');
-  assert.deepEqual(keysOf(config, 2), ['demolition', 'access', 'piles']);
+  // 2.18.0: the building site's postcode opens step 3 — the kilometervergoeding is priced from it.
+  assert.deepEqual(keysOf(config, 2), ['postcode', 'demolition', 'access', 'piles']);
   assert.deepEqual(keysOf(config, 3), [], 'the review step has no choices at all');
 });
 

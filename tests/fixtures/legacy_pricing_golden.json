@@ -249,15 +249,6 @@
      "unitPrice": 7500
     },
     {
-     "id": "rollaag",
-     "label": "Rollaag · Product: Rollaag",
-     "quantity": 1.0,
-     "role": "product",
-     "total": 65000,
-     "unit": "post",
-     "unitPrice": 65000
-    },
-    {
      "id": "roofEdge",
      "label": "Daktrim · Product: Zinken kraal",
      "quantity": 1.0,
@@ -480,21 +471,6 @@
       }
      ],
      "key": "facade"
-    },
-    {
-     "components": [
-      {
-       "label": "Product",
-       "quantity": 1.0,
-       "role": "product",
-       "status": "extra",
-       "statusLabel": "Apart geprijsd",
-       "total": 65000,
-       "unit": "post",
-       "unitPrice": 65000
-      }
-     ],
-     "key": "rollaag"
     },
     {
      "components": [
@@ -1142,9 +1118,9 @@
      "key": "overhangSpots"
     }
    ],
-   "subtotal": 7671750,
-   "total": 9282818,
-   "vat": 1611068
+   "subtotal": 7606750,
+   "total": 9204168,
+   "vat": 1597418
   },
   "odd-501x299": {
    "config": {
@@ -1180,15 +1156,6 @@
      "total": 179759,
      "unit": "m²",
      "unitPrice": 12000
-    },
-    {
-     "id": "rollaag",
-     "label": "Rollaag · Product: Rollaag",
-     "quantity": 1.0,
-     "role": "product",
-     "total": 65000,
-     "unit": "post",
-     "unitPrice": 65000
     },
     {
      "id": "roofEdge",
@@ -1233,21 +1200,6 @@
       }
      ],
      "key": "facade"
-    },
-    {
-     "components": [
-      {
-       "label": "Product",
-       "quantity": 1.0,
-       "role": "product",
-       "status": "extra",
-       "statusLabel": "Apart geprijsd",
-       "total": 65000,
-       "unit": "post",
-       "unitPrice": 65000
-      }
-     ],
-     "key": "rollaag"
     },
     {
      "components": [
@@ -1355,9 +1307,9 @@
      "key": "openingMaterial"
     }
    ],
-   "subtotal": 3077046,
-   "total": 3723226,
-   "vat": 646180
+   "subtotal": 3012046,
+   "total": 3644576,
+   "vat": 632530
   },
   "tiny-151x101": {
    "config": {

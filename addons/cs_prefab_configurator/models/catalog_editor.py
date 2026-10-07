@@ -8,6 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 
 from ..services.catalog import ROLE_LABELS, STATUS_LABELS, check_base_curve, credit_allowed
 from ..services.catalog_editor import choice_label, euro_to_cents, field_index, patch_existing, patch_fields, same_value, value_key
+from ..services.travel import ROAD_FACTOR, TRAVEL_DEFAULTS, check_travel, travel_settings
 
 
 def _eur(value, credit=False):
@@ -60,6 +61,22 @@ class CatalogEditor(models.TransientModel):
              "prijslijst HSB 1-12-2025 in alle 169 maten).")
     base_curve_round_to = fields.Monetary(string="Afronden op (excl. btw)",
         help="De cascoprijs wordt afgerond op een veelvoud van dit bedrag. 1,00 geeft hele euro's zoals de prijslijst.")
+    # Kilometervergoeding (2.18.0). Without its own block in the pricebook the configurator uses services/travel.py
+    # TRAVEL_DEFAULTS; this form shows those and writes a block only when something differs from them.
+    travel_origin_postcode = fields.Char(string="Postcode vestiging", size=4,
+        help="Vanaf waar de kilometers tellen: de vier cijfers van de postcode van de vestiging, bijvoorbeeld 2288 voor "
+             "Rijswijk. De afstand naar de bouwplaats is de rechte lijn tussen de twee postcodegebieden keer "
+             + str(ROAD_FACTOR).replace(".", ",") + ", de gemiddelde omweg over de weg (CBS-postcodegebieden).")
+    travel_origin_label = fields.Char(string="Plaats vestiging",
+        help="De plaatsnaam in de prijsregel van het voorstel, bijvoorbeeld 'Kilometervergoeding vanaf Rijswijk: ca. 112 km, "
+             "124 km boven de eerste 50 km (heen en terug) à € 1,50'.")
+    travel_free_km = fields.Integer(string="Vrije kilometers (enkele reis)",
+        help="Zoveel kilometer vanaf de vestiging zijn inbegrepen; pas daarboven telt de kilometervergoeding. Voorbeeld: 50.")
+    travel_per_km = fields.Monetary(string="Prijs per kilometer (excl. btw)",
+        help="Het bedrag per kilometer boven de vrije kilometers. Bij 0 staat de kilometervergoeding uit en verdwijnt de "
+             "regel. Voorbeeld: 1,50.")
+    travel_round_trip = fields.Boolean(string="Heen en terug rekenen",
+        help="Aan: elke kilometer boven de vrije afstand telt twee keer, heen en terug. Uit: alleen de enkele reis.")
     field_ids = fields.One2many("cs.prefab.catalog.editor.field", "editor_id", string="Keuzevelden")
     number_ids = fields.One2many("cs.prefab.catalog.editor.number", "editor_id", string="Maatregels")
     text_ids = fields.One2many("cs.prefab.catalog.editor.text", "editor_id", string="Secties en toelichtingen")
@@ -69,7 +86,8 @@ class CatalogEditor(models.TransientModel):
     policy_field_id = fields.Many2one("cs.prefab.catalog.editor.field", string="Onderdeel", domain="[('editor_id', '=', id), ('has_scope_rule', '=', True)]", ondelete="set null")
     policy_choice_id = fields.Many2one("cs.prefab.catalog.editor.choice", string="Uitvoering", domain="[('field_id', '=', policy_field_id)]", ondelete="set null")
 
-    @api.constrains("base_per_m2", "fixed_setup", "vat_rate", "use_base_curve", "base_curve_fixed", "base_curve_factor", "base_curve_exponent", "base_curve_round_to")
+    @api.constrains("base_per_m2", "fixed_setup", "vat_rate", "use_base_curve", "base_curve_fixed", "base_curve_factor", "base_curve_exponent", "base_curve_round_to",
+                    "travel_origin_postcode", "travel_origin_label", "travel_free_km", "travel_per_km", "travel_round_trip")
     def _check_globals(self):
         for record in self:
             _eur(record.base_per_m2)
@@ -77,6 +95,7 @@ class CatalogEditor(models.TransientModel):
             if not 0 <= record.vat_rate <= 100:
                 raise ValidationError("Btw moet tussen 0 en 100 procent liggen.")
             record._base_curve()
+            record._travel()
 
     def _base_curve(self):
         """The pricebook's baseCurve from the form, or None when the switch is off; validated like a publication."""
@@ -91,16 +110,27 @@ class CatalogEditor(models.TransientModel):
             raise ValidationError(str(exc)) from None
         return curve
 
+    def _travel(self):
+        """The pricebook's kilometervergoeding from the form; validated like a publication."""
+        self.ensure_one()
+        travel = {"originPostcode": (self.travel_origin_postcode or "").strip(), "originLabel": (self.travel_origin_label or "").strip(),
+                  "freeKm": self.travel_free_km, "perKm": _eur(self.travel_per_km), "roundTrip": bool(self.travel_round_trip)}
+        try:
+            check_travel(travel)
+        except ValueError as exc:
+            raise ValidationError(str(exc)) from None
+        return travel
+
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
-            for key in ("base_per_m2", "fixed_setup", "base_curve_fixed", "base_curve_factor", "base_curve_round_to"):
+            for key in ("base_per_m2", "fixed_setup", "base_curve_fixed", "base_curve_factor", "base_curve_round_to", "travel_per_km"):
                 if key in values:
                     _eur(values[key])
         return super().create(vals_list)
 
     def write(self, values):
-        for key in ("base_per_m2", "fixed_setup", "base_curve_fixed", "base_curve_factor", "base_curve_round_to"):
+        for key in ("base_per_m2", "fixed_setup", "base_curve_fixed", "base_curve_factor", "base_curve_round_to", "travel_per_km"):
             if key in values:
                 _eur(values[key])
         return super().write(values)
@@ -174,11 +204,15 @@ class CatalogEditor(models.TransientModel):
         source = self._source_lines(release)
         book = release.pricebook_json
         curve = book.get("baseCurve") or {}
+        travel = travel_settings(book)
         wizard = self.create({"release_id": release.id, "source_hash": release._content_bundle()["revision"],
             "pricebook_version": book["pricebookVersion"], "base_per_m2": book["basePerM2"] / 100,
             "fixed_setup": book["fixedSetup"] / 100, "vat_rate": book["vatRate"], "disclaimer": book["disclaimer"],
             "use_base_curve": bool(curve), "base_curve_fixed": curve.get("fixed", 0) / 100, "base_curve_factor": curve.get("factor", 0) / 100,
             "base_curve_exponent": curve.get("exponent", "1"), "base_curve_round_to": curve.get("roundTo", 100) / 100,
+            **{"travel_" + name: value for name, value in (
+                ("origin_postcode", travel["originPostcode"]), ("origin_label", travel["originLabel"]), ("free_km", travel["freeKm"]),
+                ("per_km", travel["perKm"] / 100), ("round_trip", travel["roundTrip"]))},
             **{key: [Command.create(line) for line in lines] for key, lines in source.items()}})
         for field in wizard.field_ids:
             default = release.catalog_json["defaults"][field.key]
@@ -300,6 +334,11 @@ class CatalogEditor(models.TransientModel):
             updated_book.pop("baseCurve", None)
         elif curve != book.get("baseCurve"):
             updated_book["baseCurve"] = curve
+        # Same rule as the curve: a book without a kilometervergoeding of its own stays byte-identical while the form
+        # still shows the defaults, so an unchanged apply changes no revision and voids no approval.
+        travel = self._travel()
+        if ("travel" in book or travel != TRAVEL_DEFAULTS) and travel != book.get("travel"):
+            updated_book["travel"] = travel
         expected = {(line["source"], line.get("component_id", False), line["path_key"]): line for line in source["price_ids"]}
         actual = {(line.source, line.component_id.id, line.path_key): line for line in self.price_ids}
         if len(self.price_ids) != len(expected) or set(actual) != set(expected):

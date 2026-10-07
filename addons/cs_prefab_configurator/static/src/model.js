@@ -8,7 +8,7 @@ export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, x => 
 export const STEPS = [
  {label:'Buitenzijde',short:'Buiten',title:'Stel je aanbouw samen',description:'Begin met de buitenmaten. Kies daarna de materialen en de verbinding met je tuin.',icon:'home',fields:['width','depth','facade','rollaag','openingMaterial','frontOpening','rooflight','roofEdge','overhang','overhangSpots','overhangSpotControl','outsideLight','outsideLightControl','outsideSocket','outsideTap','drainMaterial','drainSide']},
  {label:'Binnenzijde',short:'Binnen',title:'Richt de binnenzijde in',description:'Kies de afwerking en de plaatsen voor verwarming en elektra. De leveringsomvang staat bij iedere voorziening.',icon:'floor',fields:['interior','plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','socketPositions','sockets','switches']},
- {label:'Situatie & levering',short:'Situatie',title:'De aansluiting op je woning',description:'Geef de situatie ter plaatse aan en controleer wat er bij je keuzes wordt geleverd.',icon:'shield',fields:['demolition','access','piles']},
+ {label:'Situatie & levering',short:'Situatie',title:'De aansluiting op je woning',description:'Geef de situatie ter plaatse aan en controleer wat er bij je keuzes wordt geleverd.',icon:'shield',fields:['postcode','demolition','access','piles']},
  {label:'Jouw voorstel',short:'Voorstel',title:'Controleer je ontwerp',description:'Je keuzes, de leveringsomvang en de voorbeeldberekening op één plek.',icon:'list',fields:[]}];
 export const INTERIOR_FIELDS = ['plaster','painting','screed','underfloorHeating','heating','ceilingPositions','ceilingLights','ceilingLightControl','spotPositions','spotlights','spotControl','socketPositions','sockets','switches'];
 /**
@@ -59,7 +59,17 @@ export function normalizeInterior(config, defaults) {
  for(const [key,active] of [['outsideLightControl',result.outsideLight!=='none'],['ceilingLightControl',result.ceilingLights>0],['spotControl',result.spotlights>0]])if(!active&&Object.hasOwn(defaults,key))result[key]=defaults[key];
  return result;
 }
-export function labelFor(fields,key,value) {
+/**
+ * A rollaag is a course of bricks on end over the kozijn, so it exists only in a brick facade (2.18.0, the owner:
+ * "olmadığı halde neden fiyat eklesin"). On any other facade the first rollaag choice means the cladding carries on
+ * above the frame: no price, and it reads so. services/configuration.py masonry_rollaag_applies is the same rule.
+ */
+export const ROLLAAG_CONTINUES='Gevel loopt door boven het kozijn';
+export const rollaagContinues=config=>config?.rollaag==='masonry'&&!String(config?.facade??'').startsWith('brick');
+
+/** The label of a value; pass the design (`config`) wherever one choice reads differently in another context. */
+export function labelFor(fields,key,value,config=null) {
+ if(key==='rollaag'&&value==='masonry'&&config&&rollaagContinues({...config,rollaag:value}))return ROLLAAG_CONTINUES;
  if(Array.isArray(value))return value.length?value.map(id=>fields[key]?.options?.find(option=>option.id===id)?.label||id).join(', '):'Geen';
  const option=fields[key]?.options?.find(o=>o.id===value);
  return option?.label ?? (typeof value==='boolean' ? (value?'Ja':'Nee') : String(value));
@@ -96,10 +106,13 @@ export function comparisonDrafts(input,catalog) {
 export function comparisonRows(a,b,catalog) {
  const left=normalizedDraft(a,catalog),right=normalizedDraft(b,catalog),fields=fieldsOf(catalog);
  const keys=[...new Set(STEPS.slice(0,3).flatMap(item=>item.fields))];
- return keys.filter(key=>JSON.stringify(left[key])!==JSON.stringify(right[key])&&(fieldIsVisible(key,left,fields)||fieldIsVisible(key,right,fields))).map(key=>({
+ // A row shows a difference the visitor can read: a different value, or the same value reading differently in the
+ // other design (a masonry rollaag is "Rollaag" on brick and the facade carrying on elsewhere).
+ const differs=key=>JSON.stringify(left[key])!==JSON.stringify(right[key])||!catalog.dimensions[key]&&labelFor(fields,key,left[key],left)!==labelFor(fields,key,right[key],right);
+ return keys.filter(key=>differs(key)&&(fieldIsVisible(key,left,fields)||fieldIsVisible(key,right,fields))).map(key=>({
   key,label:catalog.dimensions[key]?.label||fields[key]?.label||key,
-  a:catalog.dimensions[key]?`${left[key]} cm`:labelFor(fields,key,left[key]),
-  b:catalog.dimensions[key]?`${right[key]} cm`:labelFor(fields,key,right[key]),
+  a:catalog.dimensions[key]?`${left[key]} cm`:labelFor(fields,key,left[key],left),
+  b:catalog.dimensions[key]?`${right[key]} cm`:labelFor(fields,key,right[key],right),
  }));
 }
 export function validateContact(contact) {

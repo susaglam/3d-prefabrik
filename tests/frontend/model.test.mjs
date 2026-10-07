@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {STEPS, INTERIOR_FIELDS, fieldsOf, normalizedDraft, normalizeInterior, validDimensions, validateContact, escapeHTML, labelFor, fieldIsVisible} from '../../addons/cs_prefab_configurator/static/src/model.js';
+import {STEPS, INTERIOR_FIELDS, fieldsOf, normalizedDraft, normalizeInterior, validDimensions, validateContact, escapeHTML, labelFor, fieldIsVisible, rollaagContinues, ROLLAAG_CONTINUES, comparisonRows} from '../../addons/cs_prefab_configurator/static/src/model.js';
 
 const catalog = JSON.parse(readFileSync(new URL('../../addons/cs_prefab_configurator/data/catalog.json', import.meta.url)));
 const reference = JSON.parse(readFileSync(new URL('../../research/reference/configurator-definition.json', import.meta.url))).configurator;
@@ -140,6 +140,26 @@ test('HTML escaping protects both attribute and text contexts without losing ord
   assert.equal(escapeHTML('<img src=x onerror="alert(1)"> & \'quote\''),'&lt;img src=x onerror=&quot;alert(1)&quot;&gt; &amp; &#39;quote&#39;');
   assert.equal(escapeHTML('Zoë & D’Haene'),'Zoë &amp; D’Haene');
   assert.equal(escapeHTML(null),'');assert.equal(escapeHTML(undefined),'');assert.equal(escapeHTML(0),'0');
+});
+
+test('a rollaag reads as the facade carrying on wherever the facade is not brick (2.18.0)', () => {
+  // The owner: "olmadığı halde neden fiyat eklesin" — a rollaag is a course of bricks; the server stops pricing it
+  // on other facades (tests/test_rollaag_facade.py), and the form must not keep calling it a rollaag there.
+  for (const facade of ['brick-red', 'brick-black', 'brick-white', 'brick-yellow']) {
+    assert.equal(labelFor(fields, 'rollaag', 'masonry', {facade}), 'Rollaag', facade);
+    assert.equal(rollaagContinues({facade, rollaag: 'masonry'}), false, facade);
+  }
+  for (const facade of ['wood-vertical', 'open-horizontal', 'pvc-anthracite', 'render']) {
+    assert.equal(labelFor(fields, 'rollaag', 'masonry', {facade}), ROLLAAG_CONTINUES, facade);
+    assert.equal(rollaagContinues({facade, rollaag: 'masonry'}), true, facade);
+  }
+  assert.equal(labelFor(fields, 'rollaag', 'panel-white', {facade: 'wood-vertical'}), 'Geen rollaag wit', 'a panel stays a panel');
+  assert.equal(labelFor(fields, 'rollaag', 'masonry'), 'Rollaag', 'without a design the catalogue label stands');
+  // The comparison reads each design in its own context.
+  const rows = comparisonRows({facade: 'brick-red', rollaag: 'masonry'}, {facade: 'wood-vertical', rollaag: 'masonry'}, catalog);
+  assert.ok(rows.find(row => row.key === 'facade'), 'the facades differ');
+  assert.deepEqual(rows.find(row => row.key === 'rollaag'), {key: 'rollaag', label: 'Rollaag', a: 'Rollaag', b: ROLLAAG_CONTINUES},
+    'the same value reads differently, so the row is shown');
 });
 
 test('labels resolve typed numeric/boolean options without truthiness errors', () => {

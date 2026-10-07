@@ -170,6 +170,19 @@ def _sync_position_counts(config):
     config["sockets"] = "both" if len(sides) == 2 else "left" if "L" in sides else "right" if "R" in sides else "none"
 
 
+ROLLAAG_CONTINUES = "Gevel loopt door boven het kozijn"
+
+
+def masonry_rollaag_applies(config):
+    """A rollaag is a course of bricks on end over the kozijn, so it exists only in a brick facade (2.18.0).
+
+    On wood, plastic, open cladding or stucco the first rollaag choice means the cladding carries on above the frame:
+    no extra work, no price, and it reads ROLLAAG_CONTINUES. The choice itself is kept, so a later brick facade brings
+    the rollaag back. static/src/model.js rollaagContinues() is the same rule for the form.
+    """
+    return config.get("rollaag") == "masonry" and str(config.get("facade", "")).startswith("brick")
+
+
 def config_labels(config):
     catalog = get_catalog()
     result = []
@@ -186,6 +199,8 @@ def config_labels(config):
                 label = ", ".join(o["label"] for o in field["options"] if o["id"] in val) or "Geen"
             else:
                 label = next((o["label"] for o in field.get("options", []) if type(o["id"]) is type(val) and o["id"] == val), str(val))
+            if field["key"] == "rollaag" and val == "masonry" and not masonry_rollaag_applies(config):
+                label = ROLLAAG_CONTINUES
             if label:
                 result.append({"key": field["key"], "label": field["label"], "value": label, "description": field.get("description", "")})
     return result

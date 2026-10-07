@@ -4,7 +4,7 @@ import {scenarioIcon,qualityIcon} from './view_icons.js';
 import {viewpointIcon,toolIcon} from './scene_icons.js';
 import {dimensionLimits,dimensionValue,profileConstraint} from './interaction.js';
 import {applyAppearance,getFeatures,getSceneContent} from './theme.js';
-import {STEPS,STORAGE_KEY,COMPARISON_STORAGE_KEY,INTERIOR_FIELDS,MATERIALS,money,preciseMoney,metric,escapeHTML as esc,fieldsOf,normalizedDraft,normalizeInterior,labelFor,validDimensions,validateContact,fieldIsVisible,comparisonDrafts,comparisonRows} from './model.js';
+import {STEPS,STORAGE_KEY,COMPARISON_STORAGE_KEY,INTERIOR_FIELDS,MATERIALS,money,preciseMoney,metric,escapeHTML as esc,fieldsOf,normalizedDraft,normalizeInterior,labelFor,rollaagContinues,validDimensions,validateContact,fieldIsVisible,comparisonDrafts,comparisonRows} from './model.js';
 import {STEP_SECTIONS,STEP_LEAD_KEYS,sectionDone,sectionSummary,openGroupId,stepChoiceKeys,nextChoice,remainingChoices,choiceDestination} from './sections.js';
 import {FENCE_STYLES,HOUSE_TYPES,FACADE_FINISHES,FLOOR_FINISHES,ALIGNMENTS,SCENARIOS,NEIGHBOUR_TOGGLE,HOUSE_OPENINGS_TOGGLE,FACADE_WIDTH_MIN,FACADE_WIDTH_MAX,ENVIRONMENT_STORAGE_KEY,defaultEnvironment,normalizeEnvironment,loadEnvironment,saveEnvironment,facadeWidthCm} from './environment.js';
 import {extraAvailable,sceneDefaults,sceneState} from './scene_content.js';
@@ -106,7 +106,7 @@ function openModal(title,body,cls='') {
 function closeModal(){modal.close();lastFocus?.focus({preventScroll:true});}
 modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
 function fieldLabel(key){return fields[key]?.label || key;}
-function selectedLabel(key){return labelFor(fields,key,config[key]);}
+function selectedLabel(key){return labelFor(fields,key,config[key],config);}
 function demoPricing(){return (price?.priceMode||catalog?.priceMode||'demonstration')!=='commercial';}
 function pricingDisclaimer(){return price?.disclaimer||(demoPricing()?'Deze berekening gebruikt een voorbeeldprijsboek. De definitieve prijs en uitvoering worden bevestigd na controle van je woning.':'De uitvoering en definitieve prijs worden bevestigd na controle van je woning.');}
 
@@ -178,7 +178,10 @@ function dimensionField(key) {
 const descriptions={
  facade:'Kies de materiaalsoort en afwerking. Kleur en structuur in het beeld zijn indicatief.',
  rollaag:'Boven de voorpui: de gevel loopt door (rollaag), of een wit of zwart paneel tot aan de daktrim.',
+ // A rollaag is a course of bricks; on any other facade the cladding itself carries on, at no extra cost (2.18.0).
+ rollaagContinues:'Een rollaag is een rij gemetselde stenen boven de voorpui en bestaat alleen bij een stenen gevel. Bij deze gevel loopt de gevelbekleding zelf door boven het kozijn, zonder meerprijs; of kies een wit of zwart paneel tot aan de daktrim.',
  frontOpening:'De buitenmaat en de gekozen pui moeten bij elkaar passen.',
+ postcode:'Waar de aanbouw komt. Daarmee rekenen we de kilometervergoeding uit; je adres vul je pas bij je voorstel in.',
  openingMaterial:'Kies het materiaal van de kozijnen. Een eerder ontwerp kan nog zonder materiaalkeuze zijn opgeslagen.',
  rooflight:'Kies het type en de verdeling van het glas.',
  roofShade:'Zonwering voor een geschikt daklicht.',
@@ -279,7 +282,7 @@ function renderField(key) {
  let options=optionsFor(field,key);
  if(['wallLights','socketPositions'].includes(key))options=[...options].sort((a,b)=>Number(a.id.slice(1))-Number(b.id.slice(1))||a.id.localeCompare(b.id));
  const area=config.width*config.depth/10000;
- const description=(descriptions[key]||field.description||'')+(key==='piles'?'\nVoor jouw '+esc(area.toLocaleString('nl-NL',{maximumFractionDigits:2}))+' m² adviseren wij '+recommendedPiles(area)+' heipalen.':'');
+ const description=((key==='rollaag'&&rollaagContinues({...config,rollaag:'masonry'})?descriptions.rollaagContinues:descriptions[key])||field.description||'')+(key==='piles'?'\nVoor jouw '+esc(area.toLocaleString('nl-NL',{maximumFractionDigits:2}))+' m² adviseren wij '+recommendedPiles(area)+' heipalen.':'');
  const focusKey=({ceilingPositions:'ceilingLights',spotPositions:'spotlights',socketPositions:'sockets'})[key]||key;
  const canFocus=['outsideLight','outsideSocket','outsideTap','heating','ceilingLights','spotlights','sockets','wallLights','switches','overhangSpots','ceilingLightControl','spotControl','wallLightControl'].includes(focusKey)&&(Array.isArray(config[key])?config[key].length>0:typeof config[key]==='number'?config[key]>0:!['none',false,null,undefined].includes(config[key]));
  const help=description?'<p class="field-description">'+esc(description)+'</p>':'';
@@ -289,11 +292,16 @@ function renderField(key) {
   const max=field.max??Math.max(...options.map(option=>Number(option.id)).filter(Number.isFinite),1),min=field.min??0;
   return '<div class="field-block count-field" data-field="'+key+'" tabindex="-1" role="group" aria-labelledby="'+key+'-label"><div class="field-head"><label id="'+key+'-label" for="'+key+'">'+esc(field.label)+'</label>'+inspect+'</div><div class="count-body"><div>'+help+'</div><div class="counter"><button data-count="'+key+'" data-delta="-1" aria-label="Minder '+esc(field.label)+'" '+(config[key]<=min?'disabled':'')+'>'+icon('minus')+'</button><input id="'+key+'" data-config="'+key+'" type="number" min="'+min+'" max="'+max+'" step="1" value="'+config[key]+'" aria-label="'+esc(field.label)+'"><button data-count="'+key+'" data-delta="1" aria-label="Meer '+esc(field.label)+'" '+(config[key]>=max?'disabled':'')+'>'+icon('plus')+'</button></div></div>'+scopeLine(key)+'</div>';
  }
+ if(field.type==='text'){
+  // The building site's postcode (2.18.0): the kilometervergoeding is priced from it. Like every postcode it is
+  // never kept on this device (persist() strips it) and never put in a resume card.
+  return '<div class="field-block text-field" data-field="'+key+'" tabindex="-1"><div class="field-head"><label id="'+key+'-label" for="'+key+'">'+esc(field.label)+'</label></div>'+help+'<input class="text-input" id="'+key+'" data-config="'+key+'" type="text" autocomplete="postal-code" autocapitalize="characters" spellcheck="false" maxlength="'+(field.maxLength||7)+'" placeholder="'+esc(field.placeholder||'')+'" value="'+esc(config[key]||'')+'" aria-describedby="'+key+'-error"'+(errors[key]?' aria-invalid="true"':'')+'>'+scopeLine(key)+'<p class="field-error" id="'+key+'-error">'+esc(errors[key]||'')+'</p></div>';
+ }
  const multiple=field.type==='multiselect',visual=['facade','frontOpening','rooflight'].includes(key);
  let unavailableCount=0;
  const renderOption=option=>{
   const selected=multiple?config[key]?.includes(option.id):config[key]===option.id;
-  const label=esc(option.label);
+  const label=esc(key==='rollaag'?labelFor(fields,key,option.id,config):option.label);
   let reason=profileConstraint(key,option.id,config,catalog),unavailable=!!reason;
   const allowed=knownPrice()?.allowedPositions?.[key]; // the last answer while the next is pending: no lock blinks
   if(allowed&&!allowed.includes(option.id)){unavailable=true;reason=price.positionIssues?.find(issue=>issue.field===key&&issue.position===option.id)?.message||'Past niet bij de huidige indeling';}
@@ -1268,6 +1276,7 @@ function priceBreakdown(){
 function contactForm(){
  if(adminPreview){toast('Dit concept is alleen beschikbaar voor controle. Publiceer de catalogus voordat klanten een voorstel kunnen maken.');return;}
  if(result){showResult();return;}
+ if(!contact.postcode&&config.postcode)contact.postcode=config.postcode;
  const inputs=[['firstName','Voornaam','given-name','text'],['lastName','Achternaam','family-name','text'],['email','E-mailadres','email','email'],['phone','Telefoonnummer','tel','tel'],['address','Straat','address-line1','text'],['houseNumber','Huisnummer','address-line2','text'],['postcode','Postcode','postal-code','text'],['city','Woonplaats','address-level2','text']];
  openModal('Maak je persoonlijke voorstel',`<p>Bewaar je ontwerp en berekening als persoonlijk PDF-voorstel. Je aanvraag wordt in deze omgeving geregistreerd.</p><form id="quote-form" novalidate><div class="contact-grid">${inputs.map(([key,label,autocomplete,type])=>`<div class="contact-field"><label for="contact-${key}">${label} <span>*</span></label><input id="contact-${key}" name="${key}" type="${type}" autocomplete="${autocomplete}" maxlength="${key==='houseNumber'?20:key==='postcode'?7:120}" required value="${esc(contact[key]||'')}" ${key==='postcode'?'placeholder="1234 AB"':''} aria-describedby="contact-error-${key}"><p class="field-error" id="contact-error-${key}"></p></div>`).join('')}</div><div class="contact-field"><label for="contact-message">Opmerking <span class="optional">optioneel</span></label><textarea id="contact-message" name="message" rows="3" maxlength="2000" placeholder="Vertel gerust iets over je plannen…">${esc(contact.message||'')}</textarea></div><label class="consent"><input type="checkbox" name="consent" required ${contact.consent?'checked':''}><span>Ik geef toestemming om mijn gegevens voor dit voorstel te verwerken. <button type="button" data-action="privacy-inline">Privacygegevens</button></span></label><p id="contact-error-consent" class="field-error"></p><div id="quote-error" class="api-error" role="alert"></div><button type="submit" class="button primary submit-button">Voorstel opslaan & PDF maken ${icon('arrow')}</button><p class="form-note">Geen betaling. Er wordt vanuit de lokale demo geen e-mail verzonden.</p></form>`);
  $('#quote-form').addEventListener('input',e=>{const key=e.target.name;if(!key)return;contact[key]=e.target.type==='checkbox'?e.target.checked:e.target.value;const valid=key==='consent'?contact.consent:!validateContact(contact)[key];if(valid){e.target.removeAttribute('aria-invalid');const error=$('#contact-error-'+CSS.escape(key));if(error)error.textContent='';}});
@@ -1287,7 +1296,9 @@ async function submitQuote(e){
  updateProgress('Je ontwerp wordt gecontroleerd…');
  const payloadContact={firstName:contact.firstName,lastName:contact.lastName,name:`${contact.firstName} ${contact.lastName}`,email:contact.email,phone:contact.phone,postcode:contact.postcode,houseNumber:contact.houseNumber,address:contact.address,city:contact.city,message:contact.message||''};
  // Freeze the submitted design before any network or rendering work; the live design stays editable.
- const submittedConfig=JSON.stringify(config),snapshotConfig=JSON.parse(submittedConfig);
+ // The design goes with the postcode the proposal confirms: the server refuses a design and a contact that name two
+ // different building sites, and the kilometervergoeding is priced from this one.
+ const submittedConfig=JSON.stringify({...config,postcode:contact.postcode||''}),snapshotConfig=JSON.parse(submittedConfig);
  const fingerprint=JSON.stringify([snapshotConfig,payloadContact]);if(!requestKey||requestKey.fingerprint!==fingerprint)requestKey={fingerprint,key:crypto.randomUUID()};
  const attempt=requestKey,generation=designGeneration,current=()=>generation===designGeneration;
  try{
@@ -1445,6 +1456,11 @@ document.addEventListener('change',e=>{
  else if(target.type==='number')value=Number(value);
  if(catalog.dimensions[key]){commitDimension(key,target.value);return;}
  if(target.type==='number'&&!catalog.dimensions[key]&&(!Number.isInteger(value)||value<Number(target.min)||value>Number(target.max))){target.value=config[key];toast('Kies een geldig aantal.');return;}
+ if(key==='postcode'){
+  const typed=String(value).trim().toUpperCase().replace(/\s+/g,'');
+  if(typed&&!/^[1-9][0-9]{3}[A-Z]{2}$/.test(typed)){errors.postcode='Gebruik een Nederlandse postcode, bijvoorbeeld 1234 AB.';target.setAttribute('aria-invalid','true');const note=$('#postcode-error');if(note)note.textContent=errors.postcode;return;}
+  delete errors.postcode;target.removeAttribute('aria-invalid');value=typed?typed.slice(0,4)+' '+typed.slice(4):'';target.value=value;
+ }
  changeConfig(key,value);
 });
 document.addEventListener('input',e=>{

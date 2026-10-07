@@ -5,6 +5,10 @@ Two independent anchors:
     without baseCurve must still price byte-for-byte as it did (lines, labels, units, totals and scope);
   * fixtures/excel_base_matrix.json, the 169 cells of 'Aanbouw blanco prijslijst concept HSB 1-12-2025': the curve
     must reproduce every cell to the euro.
+
+One deliberate change to the first anchor (2.18.0): the two designs on a pvc and a render facade lost the default
+masonry rollaag line (€ 650 in the demo book) and its scope row — a rollaag exists only in a brick facade, see
+test_rollaag_facade.py. Only those rows and the totals they feed moved; every other line is as captured.
 """
 import copy
 from decimal import Decimal

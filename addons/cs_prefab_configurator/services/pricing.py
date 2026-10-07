@@ -3,7 +3,8 @@ from decimal import Decimal, ROUND_HALF_UP, localcontext
 
 from .catalog import get_catalog, get_pricebook, release_context, ROLE_LABELS, STATUS_LABELS, price_status_label, model_assets
 from .geometry_rules import placement_result
-from .configuration import canonical_config, config_labels
+from .configuration import canonical_config, config_labels, masonry_rollaag_applies
+from .travel import travel_charge, travel_warning
 
 
 def cents(value):
@@ -69,9 +70,17 @@ def _price_config(value, release):
     else:
         add("base", "Geïsoleerde prefab casco aanbouw", area, "m²", book["basePerM2"])
     add("setup", "Werkvoorbereiding, transport en plaatsing (basis)", 1, "post", book["fixedSetup"], "installation")
+    # The kilometres beyond the free radius, as one post (services/travel.py); add() drops it at 0.
+    travel = travel_charge(config, book)
+    if travel and travel["total"]:
+        add("travel", travel["label"], 1, "post", travel["total"], "installation")
     for key, policy in release["policies"].items():
         quantity = selected_quantity(config, key)
         if not quantity or key not in labels:
+            continue
+        # A masonry rollaag on a facade that is not brick does not exist: the cladding carries on above the frame.
+        # No line and no delivery-scope row for it (2.18.0, the owner: "olmadığı halde neden fiyat eklesin").
+        if key == "rollaag" and config["rollaag"] == "masonry" and not masonry_rollaag_applies(config):
             continue
         value = config[key]
         option_key = str(value).lower() if isinstance(value, bool) else str(value)
@@ -99,6 +108,9 @@ def _price_config(value, release):
     subtotal = sum(line["total"] for line in lines)
     vat = cents(Decimal(subtotal) * Decimal(book["vatRate"]) / 100)
     warnings = [catalog["engineeringNotice"]]
+    travel_note = travel_warning(config, book, travel)
+    if travel_note:
+        warnings.append(travel_note)
     def preparation_included(item):
         return any(c["role"] == "preparation" and c["status"] in {"included", "extra"} for c in item["components"])
     if any(item["key"] in ("heating", "outsideLight", "outsideSocket", "sockets", "switches") and preparation_included(item) and not item["productIncluded"] for item in scope):

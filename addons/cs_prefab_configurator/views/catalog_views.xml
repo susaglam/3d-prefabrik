@@ -89,6 +89,11 @@
               <group><field name="base_curve_fixed" invisible="not use_base_curve" readonly="source_state != 'draft'"/><field name="base_curve_factor" invisible="not use_base_curve" readonly="source_state != 'draft'"/><field name="base_curve_round_to" invisible="not use_base_curve" readonly="source_state != 'draft'"/></group>
             </group>
             <div class="alert alert-info" role="alert" invisible="not use_base_curve">Casco = vaste basis + factor × (breedte × diepte in m²)<sup>groeifactor</sup>, afgerond. Het bedrag <strong>Casco per m² vloer</strong> wordt dan niet gebruikt. Vaste startkosten blijven een eigen regel.</div>
+            <group string="Kilometervergoeding">
+              <group><field name="travel_origin_postcode" readonly="source_state != 'draft'" placeholder="bijv. 2288"/><field name="travel_origin_label" readonly="source_state != 'draft'" placeholder="bijv. Rijswijk"/></group>
+              <group><field name="travel_free_km" readonly="source_state != 'draft'"/><field name="travel_per_km" readonly="source_state != 'draft'"/><field name="travel_round_trip" readonly="source_state != 'draft'"/></group>
+            </group>
+            <div class="alert alert-info" role="alert">De kilometervergoeding staat als eigen regel in het voorstel zodra de bezoeker de postcode van de bouwplaats invult. Afstand = rechte lijn tussen de postcodegebieden × 1,25. Prijs per kilometer 0 zet haar uit.</div>
             <field name="disclaimer" readonly="source_state != 'draft'"/>
             <p>De prijsstatus en commerciële voorwaarden worden op de catalogus beheerd. Deze bedragen zijn exclusief btw.</p>
           </page>

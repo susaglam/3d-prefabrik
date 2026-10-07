@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 
 from .errors import DomainError
+from .travel import check_travel
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 _RELEASE = ContextVar("prefab_catalog_release", default=None)
@@ -212,6 +213,11 @@ def validate_release(bundle, *, allow_unapproved=False):
         if "baseCurve" in book:
             try:
                 check_base_curve(book["baseCurve"])
+            except ValueError as exc:
+                fail(str(exc))
+        if "travel" in book:
+            try:
+                check_travel(book["travel"])
             except ValueError as exc:
                 fail(str(exc))
         if not all(isinstance(book[k], str) and book[k].strip() for k in ("pricebookVersion", "disclaimer")):

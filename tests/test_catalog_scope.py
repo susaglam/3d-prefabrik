@@ -83,11 +83,13 @@ class ScopeTests(unittest.TestCase):
 
     def test_retired_rollaag_toggle_is_ignored_and_every_finish_is_priced_and_labelled(self):
         # Since 2.8.1 the finish above the frame is a plain three-way choice; the old toggle key is dropped like the client does.
+        # Since 2.18.0 a masonry rollaag on this wooden facade is the cladding carrying on: kept as the choice and
+        # labelled so, but nothing to deliver (tests/test_rollaag_facade.py).
         for finish in ("masonry", "panel-white", "panel-black"):
             with self.subTest(finish=finish):
                 result = price_config({"facade": "wood-horizontal", "rollaag": finish})
                 self.assertEqual(result["config"]["rollaag"], finish)
-                self.assertIn("rollaag", {i["key"] for i in result["scope"]})
+                self.assertEqual("rollaag" in {i["key"] for i in result["scope"]}, finish != "masonry")
                 self.assertIn("rollaag", {i["key"] for i in result["labels"]})
         legacy = price_config({"rollaag": "panel-black", "rollaagEnabled": False})
         self.assertNotIn("rollaagEnabled", legacy["config"])

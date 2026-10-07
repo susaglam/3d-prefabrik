@@ -15,9 +15,10 @@ def sales_rows(snapshot):
                      "unitPrice": int(unit_price), "role": role, "status": status,
                      "roleLabel": ROLE_NAMES.get(role, role), "statusLabel": "Minderprijs" if unit_price < 0 else STATUS_NAMES.get(status, status)})
 
-    # Before version 2, the priced rows are the only frozen source of scope.
+    # Before version 2, the priced rows are the only frozen source of scope. The posts that belong to no option —
+    # casco, startkosten and (2.18.0) the kilometervergoeding — are always taken from the priced rows.
     for line in price.get("lines", []):
-        if not scope or line["id"] in {"base", "setup"}:
+        if not scope or line["id"] in {"base", "setup", "travel"}:
             add(line["id"], line["label"], line["quantity"], line["unit"], line["unitPrice"], line.get("role", "product"))
     for item in scope:
         for component in item.get("components", []):

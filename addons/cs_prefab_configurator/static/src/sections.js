@@ -38,6 +38,7 @@ export const STEP_SECTIONS=[
   {id:'elektra',title:'Stopcontacten & schakelaars',keys:['sockets','socketPositions','switches']},
  ],
  [
+  {id:'bouwplaats',title:'Bouwplaats',keys:['postcode']},
   {id:'doorbraak',title:'Geveldoorbraak',keys:['demolition']},
   {id:'achterom',title:'Bereikbaarheid',keys:['access']},
   {id:'heipalen',title:'Heipalen',keys:['piles']},
