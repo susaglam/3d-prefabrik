@@ -4,12 +4,40 @@
 // is no bar. 2.18.1: it never covers the cookie notice (it waits until the notice is answered) nor the WhatsApp button
 // in the same corner, on a desktop and on a phone.
 // Needs the Odoo website, so it runs against an origin: PREFAB_ORIGIN=https://... node scripts/verify-resume-bar.mjs
+// Before a deploy, PREFAB_CANDIDATE_CSS=<resume_bar.scss compiled by libsass> runs the same proof with the LOCAL
+// resume_bar.js (or PREFAB_CANDIDATE_JS) and that CSS in place of their segments in the served bundles; the cookie
+// notice, the WhatsApp button and their timing stay the live site's own.
 import {chromium} from '@playwright/test';
+import {readFileSync} from 'node:fs';
 import {homedir} from 'node:os';
 import {join} from 'node:path';
 
 const origin = process.env.PREFAB_ORIGIN;
 if (!origin) { console.error('Set PREFAB_ORIGIN to the website, e.g. https://prefabpartner.codesnap.nl'); process.exit(2); }
+const candidate = process.env.PREFAB_CANDIDATE_CSS ? {
+  css: readFileSync(process.env.PREFAB_CANDIDATE_CSS, 'utf8'),
+  js: readFileSync(process.env.PREFAB_CANDIDATE_JS || 'addons/cs_prefab_website/static/src/js/resume_bar.js', 'utf8'),
+} : null;
+/** Replace one file's segment of an Odoo bundle (from its header comment to the next one) by `replacement`. */
+function swapSegment(body, header, replacement) {
+  const start = body.indexOf(header);
+  if (start < 0 || body.indexOf(header, start + 1) >= 0) throw new Error(`candidate: ${header} is not in the bundle exactly once`);
+  const next = body.indexOf('\n/* /', start + header.length);
+  return body.slice(0, start) + replacement + (next < 0 ? '' : body.slice(next));
+}
+async function useCandidate(context) {
+  const serve = (pattern, header, replacement) => context.route(pattern, async route => {
+    const response = await route.fetch();
+    const headers = Object.fromEntries(Object.entries(response.headers())
+      .filter(([name]) => !['content-length', 'content-encoding', 'transfer-encoding'].includes(name.toLowerCase())));
+    await route.fulfill({status: response.status(), headers, body: swapSegment(await response.text(), header, replacement)});
+  });
+  const js = '/* /cs_prefab_website/static/src/js/resume_bar.js */', css = '/* /cs_prefab_website/static/src/scss/resume_bar.scss */';
+  // The same wrapper Odoo 19 puts around every file of a bundle (since 18 a file is a module without any marker).
+  await serve(/\/web\/assets\/[^?]+\/web\.assets_frontend_lazy\.min\.js/, js,
+    `${js}\nodoo.define('@cs_prefab_website/js/resume_bar',[],function(require){'use strict';let __exports={};\n${candidate.js}\nreturn __exports;});;\n`);
+  await serve(/\/web\/assets\/[^?]+\/web\.assets_frontend\.min\.css/, css, `${css}\n${candidate.css}\n`);
+}
 const browser = await chromium.launch({headless: true, executablePath: join(homedir(), 'AppData/Local/ms-playwright/chromium-1217/chrome-win64/chrome.exe')});
 const problems = [], facts = {};
 const check = (ok, message) => { if (!ok) problems.push(message); };
@@ -28,6 +56,7 @@ const card = revision => ({label: 'Aanbouw', url: '/prefab', total: 7557000, rev
 try {
   for (const [name, viewport] of [['desktop', {width: 1440, height: 900}], ['phone', {width: 390, height: 844}]]) {
     const context = await browser.newContext({viewport});
+    if (candidate) await useCandidate(context);
     const page = await context.newPage();
     await page.goto(`${origin}/`, {waitUntil: 'networkidle', timeout: 90000});
     const body = await page.evaluate(() => ({site: document.body.classList.contains('o_prefab_site'), revision: document.body.getAttribute('data-cs-resume')}));
@@ -78,6 +107,6 @@ try {
     await context.close();
   }
 } finally { await browser.close(); }
-console.log(JSON.stringify({facts, problems}, null, 1));
+console.log(JSON.stringify({candidate: candidate ? (process.env.PREFAB_CANDIDATE_JS || 'local resume_bar.js') + ' + ' + process.env.PREFAB_CANDIDATE_CSS : null, facts, problems}, null, 1));
 console.log(problems.length ? 'PROBLEMS: ' + problems.join('; ') : 'resume bar: after the cookie notice, beside the WhatsApp button, with the visitor\'s own total, label only on an older catalogue, the × holds, never next to the configurator');
 process.exit(problems.length ? 1 : 0);

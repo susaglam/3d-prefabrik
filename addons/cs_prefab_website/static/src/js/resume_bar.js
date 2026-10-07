@@ -10,10 +10,11 @@
  * serves now; the × hides one product for 7 days and a fresh save of that product clears it; anything unreadable
  * means no bar, silently — a broken card may never break a page.
  *
- * Like prefab_site.js this is a plain script, no Odoo module marker: web.assets_frontend is per instance, so it runs
- * on every website of this Odoo and returns at once without `.o_prefab_site`, or when Vormgeving → "Doorgaan-melding
- * tonen" is off (the layout then leaves out `data-cs-resume` on <body>). `csResumeBar` exposes the pure rules for
- * tests/frontend/resume_card.test.mjs.
+ * Like prefab_site.js it carries no Odoo module marker and imports nothing (Odoo 19 still wraps it in odoo.define, as
+ * every bundle file since 18, and runs it from the lazy frontend bundle -- so it never assumes WHEN it starts).
+ * web.assets_frontend is per instance, so it runs on every website of this Odoo and returns at once without
+ * `.o_prefab_site`, or when Vormgeving → "Doorgaan-melding tonen" is off (the layout then leaves out `data-cs-resume`
+ * on <body>). `csResumeBar` exposes the pure rules for tests/frontend/resume_card.test.mjs.
  */
 (function () {
     'use strict';
@@ -22,6 +23,9 @@
     var DAY = 864e5;
     var STALE = 30 * DAY;
     var QUIET = 7 * DAY;
+    // Odoo's cookie notice: the popup's id, which is also the name of the cookie that keeps the visitor's answer.
+    var NOTICE = 'website_cookies_bar';
+    var NOTICE_GRACE = 10000;
 
     function read(storage, key) {
         try {
@@ -78,7 +82,27 @@
             .format(cents / 100).replace(/ /g, ' ');
     }
 
-    var api = {KEY: KEY, DISMISSED: DISMISSED, pick: pick, read: read, priceText: priceText};
+    /** Whether the visitor answered the cookie notice on an earlier page: Odoo then never opens it again. */
+    function answered(cookieText) {
+        return String(cookieText || '').split(';').some(function (pair) {
+            return pair.trim().split('=')[0] === NOTICE;
+        });
+    }
+
+    /**
+     * Whether the bar still waits for the cookie notice, from {open, present, answered, waited (ms)}. Odoo opens the
+     * notice 1.2-1.6 s after the page is ready (measured on the live site, 2.18.1), so "not open" at load time does
+     * not mean "not coming": an unanswered notice on the page holds the bar too. An open notice holds it until it
+     * is answered; one that never opens (or whose answer cannot be stored) holds it NOTICE_GRACE ms at most.
+     */
+    function holds(notice) {
+        if (notice.open) {
+            return true;
+        }
+        return !!notice.present && !notice.answered && notice.waited < NOTICE_GRACE;
+    }
+
+    var api = {KEY: KEY, DISMISSED: DISMISSED, pick: pick, read: read, priceText: priceText, answered: answered, holds: holds};
     (typeof globalThis !== 'undefined' ? globalThis : this).csResumeBar = api;
     if (typeof document === 'undefined') {
         return;
@@ -86,7 +110,7 @@
 
     /**
      * Odoo 19 shows the cookie notice as a popup modal INSIDE #website_cookies_bar; the wrapper stays in the page after
-     * it is answered. So the question is whether that modal is shown (2.18.1: on a phone the bar covered its buttons).
+     * it is answered. So "open" is whether that modal is shown (2.18.1: on a phone the bar covered its buttons).
      */
     function cookieNoticeOpen() {
         var modal = document.querySelector('#website_cookies_bar .modal.show, .modal.o_cookies_discrete.show');
@@ -168,13 +192,18 @@
             if (!choice) {
                 return;
             }
-            // The cookie notice speaks first, and the bar never covers it: it waits until the notice is answered.
+            // The cookie notice speaks first, and the bar never covers it: it waits while the notice is open or still
+            // to come (see holds), and appears once it is answered.
+            var began = Date.now();
             (function wait() {
-                if (cookieNoticeOpen()) {
-                    window.setTimeout(wait, 800);
-                    return;
-                }
-                show(choice);
+                try {
+                    if (holds({open: cookieNoticeOpen(), present: !!document.getElementById(NOTICE),
+                               answered: answered(document.cookie), waited: Date.now() - began})) {
+                        window.setTimeout(wait, 400);
+                        return;
+                    }
+                    show(choice);
+                } catch (error) { /* a broken check may never break a page either */ }
             })();
         } catch (error) { /* a broken card may never break a page */ }
     }

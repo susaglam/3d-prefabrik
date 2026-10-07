@@ -92,3 +92,20 @@ test('the reader: anything unreadable means no bar, silently', () => {
   assert.equal(Object.keys(bar.read({getItem: () => '[1,2]'}, bar.KEY)).length, 0, 'an array is not a set of cards');
   assert.ok(pick({aanbouw: card({extra: 'ignored'})}), 'unknown fields are ignored, not fatal');
 });
+
+test('the reader: the cookie notice speaks first, also while it is still to come (2.18.1, measured on the live site)', () => {
+  // Odoo opens its notice 1.2-1.6 s AFTER DOMContentLoaded (data-show-after 500 plus its own start), and keeps the
+  // visitor's answer in a cookie named after the popup: a check of "is it open" at load time alone comes too early.
+  assert.equal(bar.answered('frontend_lang=nl_NL; tz=Europe/Amsterdam'), false);
+  assert.equal(bar.answered('frontend_lang=nl_NL; website_cookies_bar={"required": true, "optional": false}; tz=x'), true);
+  assert.equal(bar.answered('website_cookies_bar=%7B%22required%22%3A%20true%7D'), true);
+  assert.equal(bar.answered('my_website_cookies_bar=1; website_cookies_bar_x=1'), false, 'the name itself, not a part of one');
+  assert.equal(bar.answered(''), false);
+  const notice = (overrides = {}) => ({open: false, present: true, answered: false, waited: 0, ...overrides});
+  assert.equal(bar.holds(notice()), true, 'on the page, unanswered, not open yet: it is about to open');
+  assert.equal(bar.holds(notice({open: true, waited: 120000})), true, 'an open notice holds the bar until it is answered');
+  assert.equal(bar.holds(notice({answered: true})), false, 'answered on an earlier visit: it will not open again');
+  assert.equal(bar.holds(notice({present: false})), false, 'a site without a cookie notice shows the bar at once');
+  assert.equal(bar.holds(notice({waited: 9999})), true);
+  assert.equal(bar.holds(notice({waited: 10000})), false, 'a notice that never opens (or a blocked cookie) holds it 10 s at most');
+});
