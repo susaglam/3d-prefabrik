@@ -171,6 +171,49 @@ test('openslaande deuren carry the reference sightlines: flush doors, deep glass
   assert.ok(width(p, 'frame-jamb').every(w => near(w, .07, .002)), 'kunststof jambs');
 });
 
+test('a kozijn opens the way it is built to, and closes back to exactly as built (2.18.0)', () => {
+  // The owner: "kapılara açılış yönü ve yöntemlerine göre animasyon ekle ... kapıya tıklattığında açılsın, tıklattığında
+  // kapansın". The poses themselves are tested in kozijn_motion.test.mjs; here the BUILT scene has to follow them.
+  for (const frontOpening of ['sliding-2-white', 'sliding-4-black', 'folding-white', 'french-white']) {
+    const p = scene({width: 600, depth: 300, frontOpening}), m = p.model;
+    const face = Math.max(...meshes(opening(p), o => o.name === 'frame-jamb').map(o => box(o).max.z));
+    const panes = () => meshes(opening(p), o => o.name === 'clear-glazing').map(o => ({mesh: o, b: box(o)}));
+    const closed = panes(), roleOf = new Map(closed.map(({mesh, b}) => [mesh, m.panels.find(panel => within(b, panel))]));
+    const leaves = [];
+    opening(p).traverse(o => { if (o.userData.kozijnLeaf) leaves.push(o); });
+    assert.equal(leaves.length, m.panels.filter(panel => panel.role !== 'fixed').length, `${frontOpening}: one leaf group per moving section`);
+    assert.equal(p.kozijnLeafOf(meshes(leaves[0], o => o.name === 'sash-stile')[0]), leaves[0], 'a part knows its leaf');
+    assert.equal(p.kozijnLeafOf(meshes(opening(p), o => o.name === 'frame-jamb')[0]), null, 'the frame is no leaf');
+    p.setKozijnOpen(true, {instant: true});
+    p.root.updateMatrixWorld(true);
+    for (const {mesh, b} of panes()) {
+      const panel = roleOf.get(mesh), before = closed.find(item => item.mesh === mesh).b;
+      if (panel.role === 'fixed') {
+        assert.ok(near(b.min.x, before.min.x, 1e-9) && near(b.max.z, before.max.z, 1e-9), `${frontOpening}: fixed pane ${panel.index} stays`);
+      } else if (panel.role === 'sliding') {
+        const dx = (b.min.x + b.max.x - before.min.x - before.max.x) / 2;
+        assert.ok(Math.sign(dx) === (panel.opens === 'left' ? -1 : 1) && Math.abs(dx) > .8 * panel.width, `${frontOpening}: leaf ${panel.index} slid ${panel.opens}`);
+        assert.ok(near(b.max.z, before.max.z, 1e-9), 'on its own track');
+      } else {
+        assert.ok(b.max.z > face + .4 * panel.width, `${frontOpening}: ${panel.role} ${panel.index} stands out in the garden (${(b.max.z - face).toFixed(2)} m)`);
+      }
+    }
+    assert.equal(p.kozijnOpen, true);
+    p.setKozijnOpen(false, {instant: true});
+    p.root.updateMatrixWorld(true);
+    const again = panes();
+    closed.forEach(({mesh, b}) => {
+      const now = again.find(item => item.mesh === mesh).b;
+      assert.ok(['min', 'max'].every(side => ['x', 'y', 'z'].every(axis => near(now[side][axis], b[side][axis], 1e-9))), `${frontOpening}: closed again exactly as built`);
+    });
+    assert.doesNotThrow(() => p.previewKozijn(), 'the preview sequence is harmless without a browser');
+  }
+  // "Geen kozijn" has nothing to open.
+  const bare = scene({width: 600, depth: 300, frontOpening: 'none'});
+  assert.doesNotThrow(() => bare.setKozijnOpen(true, {instant: true}));
+  assert.equal(bare.kozijnOpen, false);
+});
+
 test('a harmonicapui hangs in one plane, shows no hinge barrels and stands on a light threshold', () => {
   for (const frontOpening of ['folding-black', 'folding-white']) {
     const p = scene({width: 500, depth: 300, frontOpening}), m = p.model;

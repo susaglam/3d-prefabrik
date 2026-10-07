@@ -1177,6 +1177,8 @@ function changeConfig(key,value,{rerender=true}={}) {
   // camera back out. The rebuild re-applies the same frame (preview.refreshCameraFocus), so only the name changes.
   if(materialCloseUp&&key==='facade')updateMaterialCallout();
   else{closeMaterialCallout();preview?.focusOption?.(key,{automatic:true});currentView=preview?.getSceneInfo().view||currentView;}
+  // 2.18.0, the owner: "kapı seçildikten sonra otomatik oynatsın" — the chosen kozijn opens once and closes again.
+  if(key==='frontOpening')preview?.previewKozijn?.();
  }
 }
 function commitDimension(key,raw,{rerender=true}={}){

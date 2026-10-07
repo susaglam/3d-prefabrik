@@ -10,6 +10,7 @@ import { FENCE_STYLE_IDS, DEFAULT_FENCE_STYLE, FENCE_HEIGHT, HEDGE, fencePanels,
 import { normalizeEnvironment, sceneEnvironmentKey, houseLayout } from './environment.js';
 import { finishColor, shadeHex } from './finishes.js';
 import { DOCUMENT_PARTS, normalizeDocumentParts } from './scene_content.js';
+import { KOZIJN_MOTION, OPERABLE, easeInOut, sectionPoses } from './kozijn_motion.js';
 
 /**
  * Which scanned albedo answers for which facade finish (`this.maps` key). The three non-red bricks are recoloured
@@ -225,6 +226,8 @@ export const BOARD_JOINT=Object.freeze({sheet:1.2,width:.05,corner:.03,color:'#b
  * point may go down to grade (0) and no further.
  */
 const CAMERA_FLOOR=Object.freeze({eye:.25,target:0});
+/** The visitor asked for less motion: a kozijn then changes state at once and never plays on its own. */
+const reducedMotion=()=>!!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 /**
  * How far the visitor may travel around the building (2.14.0, the customer: "prefabriğin etrafında tam tur
  * atabiliyor, bunu sınırlandırmak daha doğru olmaz mı — ana binanın duvar hizasına kadar yaklaşması yeterli").
@@ -1883,6 +1886,7 @@ export class Preview {
     }
 
     makeOpening(m,frame,glass) {
+        this.stopKozijnMotion();this.kozijnLeaves=null;this.kozijnOpenness=0;this.kozijnTarget=0;
         if(!m.opening.panelCount&&!m.opening.skeleton)return;
         const o=m.opening,group=new THREE.Group();group.name='opening';group.userData.scopeKey='frontOpening';this.root.add(group);
         const rubber=this.material('window-gasket',{color:'#222625',roughness:.92});
@@ -2006,12 +2010,71 @@ export class Preview {
             glaze(s);
             return s;
         };
+        // 2.18.0: every section that opens hangs in a leaf group on its hinge line — a door on its outer face at the hinge
+        // stile, a folding leaf and a sliding leaf on their own plane — so the kozijn can open the way it is built to
+        // (kozijn_motion.js) and close back to exactly this.
+        const rest=sectionPoses(m.panels,edges,0,{stile:spec.stile}),leaves=[];
         m.panels.forEach((section,i)=>{
             const s=family==='sliding'?sash(section,edges[i],{back:section.role==='sliding'?spec.slidingBack:spec.fixedBack})
                 :family==='folding'?sash(section,edges[i],{back:spec.back})
                 :section.role==='door'?sash(section,edges[i],{back:spec.back,glassBack:spec.glassBack}):light(section,edges[i]);
             for(const part of s.parts)part.userData.leaf=section.index;
+            if(!OPERABLE.includes(section.role))return;
+            const pivot=new THREE.Vector3(rest[i].pivotX,0,section.role==='door'?s.front:s.pz),leaf=new THREE.Group();
+            leaf.name='kozijn-leaf';leaf.userData={kozijnLeaf:true,section:section.index};leaf.position.copy(pivot);group.add(leaf);
+            for(const part of s.parts){leaf.add(part);part.position.sub(pivot);}
+            leaves.push({group:leaf,pivot,index:i});
         });
+        this.kozijnLeaves=leaves.length?{leaves,sections:m.panels,edges:edges.map(edge=>[...edge]),stile:spec.stile}:null;
+        this.applyKozijnPose();
+    }
+
+    /** The leaf group a part of the kozijn hangs in, or null: the frame and the fixed glass are no leaf. */
+    kozijnLeafOf(object){for(let node=object;node;node=node.parent)if(node.userData?.kozijnLeaf)return node;return null;}
+    /** Whether the kozijn is open, or opening: the state a click toggles. */
+    get kozijnOpen(){return !!this.kozijnTarget;}
+    applyKozijnPose(){
+        const k=this.kozijnLeaves;if(!k)return;
+        const poses=sectionPoses(k.sections,k.edges,this.kozijnOpenness||0,{stile:k.stile});
+        for(const leaf of k.leaves){
+            const pose=poses[leaf.index];if(!pose)continue;
+            leaf.group.position.set(leaf.pivot.x+pose.dx,leaf.pivot.y,leaf.pivot.z+pose.dz);leaf.group.rotation.y=pose.ry;
+        }
+    }
+    stopKozijnMotion(){
+        if(this.kozijnFrame&&typeof cancelAnimationFrame==='function')cancelAnimationFrame(this.kozijnFrame);
+        clearTimeout(this.kozijnTimer);this.kozijnFrame=null;this.kozijnTimer=null;
+    }
+    /**
+     * Open or close the kozijn. It moves from wherever it is, eased, about a second; the shadow map is redrawn once it
+     * comes to rest, not on every frame (the leaves are mostly glass, and eight shadow passes a frame would stutter on a
+     * phone). At once with `instant`, with reduced motion, in a proposal image and without a browser.
+     */
+    setKozijnOpen(open,{instant=false,done=null}={}){
+        this.stopKozijnMotion();
+        if(!this.kozijnLeaves){this.kozijnTarget=0;return false;}
+        const to=open?1:0,from=this.kozijnOpenness||0;this.kozijnTarget=to;
+        if(instant||from===to||this.documentMode||reducedMotion()||typeof requestAnimationFrame!=='function'){
+            this.kozijnOpenness=to;this.applyKozijnPose();this.shadowsDirty=true;this.render();done?.();return true;
+        }
+        const duration=Math.abs(to-from)*(to?KOZIJN_MOTION.openMs:KOZIJN_MOTION.closeMs),start=performance.now();
+        const step=now=>{
+            this.kozijnFrame=null;
+            const t=Math.min(1,Math.max(0,(now-start)/duration));
+            this.kozijnOpenness=from+(to-from)*easeInOut(t);this.applyKozijnPose();
+            if(t<1){this.render();this.kozijnFrame=requestAnimationFrame(step);}
+            else{this.shadowsDirty=true;this.render();done?.();}
+        };
+        this.kozijnFrame=requestAnimationFrame(step);
+        return true;
+    }
+    toggleKozijn(){return this.setKozijnOpen(!this.kozijnTarget);}
+    /** Right after a kozijn is chosen: it opens, stays open a moment and closes again — once, never with reduced motion. */
+    previewKozijn(){
+        if(!this.kozijnLeaves||this.documentMode||reducedMotion()||typeof requestAnimationFrame!=='function')return false;
+        this.stopKozijnMotion();
+        this.kozijnTimer=setTimeout(()=>this.setKozijnOpen(true,{done:()=>{this.kozijnTimer=setTimeout(()=>this.setKozijnOpen(false),KOZIJN_MOTION.holdMs);}}),KOZIJN_MOTION.delayMs);
+        return true;
     }
 
     makeRooflight(m,frame,glass,inside) {
@@ -3100,6 +3163,7 @@ export class Preview {
         // choice (cs.prefab.appearance.document_surroundings, default off), and it is ONE switch — see
         // setSurroundingsVisible for what it covers and why it is not a list of flags here.
         this.documentMode=true;
+        this.setKozijnOpen(false,{instant:true});
         this.setSurroundingsVisible(this.documentSurroundings===true);
         // What the aanbouw stands on and what stands behind it are named switches of their own (DOCUMENT_PARTS),
         // because one omgeving flag could not keep the slab and drop the apron, nor keep the terras and drop the
@@ -3223,14 +3287,16 @@ export class Preview {
         if(!box.width||!box.height)return null;
         this.raycaster.setFromCamera(new THREE.Vector2((clientX-box.left)/box.width*2-1,-(clientY-box.top)/box.height*2+1),this.camera);
         for(const hit of this.raycaster.intersectObject(this.root,true)){
-            let node=hit.object,visible=true,pickable=true,key=null,carrier=null;
+            let node=hit.object,visible=true,pickable=true,key=null,carrier=null,leaf=null;
             while(node){
                 if(!node.visible)visible=false;
                 if(node.userData.noPick)pickable=false;
                 if(!key&&node.userData.scopeKey){key=node.userData.scopeKey;carrier=node;}
+                if(!leaf&&node.userData.kozijnLeaf)leaf=node;
                 node=node.parent;
             }
             if(!visible||!pickable)continue;
+            if(leaf&&!this.documentMode)return {key:key||'frontOpening',carrier:carrier||leaf,object:hit.object,leaf};
             return key&&this.canSelect(key)?{key,carrier,object:hit.object}:null;
         }
         return null;
@@ -3238,6 +3304,8 @@ export class Preview {
     selectAt(clientX,clientY){
         const pick=this.pickAt(clientX,clientY);
         if(!pick)return null;
+        // 2.18.0, the owner: "kapıya tıklattığında açılsın, tıklattığında kapansın".
+        if(pick.leaf){this.toggleKozijn();return 'kozijn';}
         this.selectionHandler?.(canonicalFixtureKey(pick.key));
         return pick.key;
     }
@@ -3485,7 +3553,7 @@ export class Preview {
             fixtureStates:(this.model?.fixtures||[]).map(f=>({id:f.id,key:f.key,...fixtureAppearance(this.scope,f.key,this.examplesVisible)})),rendererInfo:this.renderer?{geometries:this.renderer.info.memory.geometries,textures:this.renderer.info.memory.textures,drawCalls:this.renderer.info.render.calls,triangles:this.renderer.info.render.triangles,lightEffectCount:flat?0:visibleLightEffectCount(this.root),pixelRatio:this.renderer.getPixelRatio(),quality:this.quality,meanRenderCpuMs:this.renderTimes.length?this.renderTimes.reduce((a,b)=>a+b,0)/this.renderTimes.length:0}:null};
     }
     destroy() {
-        if(this.disposed)return;this.dprQuery?.removeEventListener?.('change',this._dprChange);this.dprQuery=null;this.disposeComposer();this.disposed=true;if(this.renderFrame)cancelAnimationFrame(this.renderFrame);this.resizeObserver?.disconnect();this.controls?.removeEventListener('change',this._render);this.controls?.removeEventListener('change',this._clampToGround);this.controls?.removeEventListener('start',this._controlStart);this.controls?.dispose();
+        if(this.disposed)return;this.stopKozijnMotion();this.dprQuery?.removeEventListener?.('change',this._dprChange);this.dprQuery=null;this.disposeComposer();this.disposed=true;if(this.renderFrame)cancelAnimationFrame(this.renderFrame);this.resizeObserver?.disconnect();this.controls?.removeEventListener('change',this._render);this.controls?.removeEventListener('change',this._clampToGround);this.controls?.removeEventListener('start',this._controlStart);this.controls?.dispose();
         this.release(this.root);this.lampLights?.removeFromParent();this.materials.forEach(material=>material.dispose());this.textures.forEach(texture=>texture.dispose());
         this.scene?.traverse(object=>object.shadow?.dispose());this.lampLights?.traverse(object=>object.shadow?.dispose());
         this.environmentTarget?.dispose();

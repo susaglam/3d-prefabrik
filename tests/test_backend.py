@@ -330,7 +330,7 @@ class HttpTests(unittest.TestCase):
         # recomputes it with serve.importmap_csp_sources over the shipped index.html and rewrites the line
         # below; it is never typed by hand, and no release number belongs in this comment because every
         # release reissues it.
-        self.assertEqual(script_policy, "script-src 'self' 'sha256-S7aHLk+FoVBMD73yOIyTgjvyNutLjclHTedlG6Gkx+4='")
+        self.assertEqual(script_policy, "script-src 'self' 'sha256-m1LgQwriyK9jKQ79yWhLwXGcUUX7pZnuvgrjZps9YxY='")
         self.assertNotIn("unsafe-inline", script_policy)
         self.assertEqual(server_module.importmap_csp_sources(body.replace(b"\r\n", b"\n")),
                          server_module.importmap_csp_sources(body.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")))
