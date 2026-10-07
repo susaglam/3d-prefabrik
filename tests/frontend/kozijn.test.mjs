@@ -225,3 +225,19 @@ test('a harmonicapui hangs in one plane, shows no hinge barrels and stands on a 
     assert.equal(`#${threshold[0].material.color.getHexString()}`, '#eae8e6', `${frontOpening}: light, in both colours`);
   }
 });
+
+test('a threshold shares its top plane with no other surface, so it cannot flicker while the camera moves', () => {
+  // The owner, with three screenshots (2.18.3): "fareyle hareket ettiğimde kapı eşiğinden kararma/glitch oluyor". The
+  // structural slab's top lay exactly level with the threshold's top inside the opening, so the two z-fought: the light
+  // harmonica threshold showed through the dark slab as white jaggies that changed with every camera move.
+  for (const frontOpening of ['folding-black', 'folding-white', 'sliding-2-black', 'sliding-4-white', 'french-black']) {
+    const p = scene({width: 500, depth: 300, frontOpening}), [threshold] = meshes(opening(p), o => o.name === 'kozijn-threshold'), t = box(threshold);
+    const rivals = meshes(p.scene, o => {
+      if (o === threshold) return false;
+      const b = box(o);
+      return b.max.x > t.min.x && b.min.x < t.max.x && b.max.z > t.min.z && b.min.z < t.max.z && Math.abs(b.max.y - t.max.y) < .001;
+    });
+    assert.deepEqual(rivals.map(o => `${o.name || o.geometry.type} [${[...p.materials].find(([, m]) => m === o.material)?.[0]}]`), [],
+      `${frontOpening}: a surface level with the threshold's top`);
+  }
+});

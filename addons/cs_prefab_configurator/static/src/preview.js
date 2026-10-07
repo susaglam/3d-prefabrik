@@ -1903,14 +1903,19 @@ export class Preview {
         profile([o.width,spec.head,spec.frameDepth],[0,top-spec.head/2,frameZ],frame,'frame-head');
         for(const side of [-1,1])profile([spec.jamb,o.height,spec.frameDepth],[side*(o.width/2-spec.jamb/2),y0+o.height/2,frameZ],frame,'frame-jamb');
         let bottom=y0;
+        // Every threshold stands `proud` above the floor slab it lies on (2.18.3, the owner: "fareyle hareket ettiğimde
+        // kapı eşiğinden kararma/glitch oluyor"): its top lay exactly level with the slab's top inside the opening, and
+        // two coplanar faces z-fight — the light harmonica threshold flickered through the dark slab with every camera
+        // move. 2 mm is invisible and far above the depth buffer's resolution; what stands on it simply starts inside it.
+        const proud=.002;
         if(spec.threshold){
             // A harmonicapui stands on a light threshold in both colours, 34 mm out in front of the frame and 214 mm
             // behind it, with no frame member at its foot.
-            this.box(group,[o.width+.04,.03,.248],[0,y0-.015,face-.09],this.material('kozijn-threshold',{color:spec.threshold,roughness:.6,metalness:.2})).name='kozijn-threshold';
+            this.box(group,[o.width+.04,.03+proud,.248],[0,y0-.015+proud/2,face-.09],this.material('kozijn-threshold',{color:spec.threshold,roughness:.6,metalness:.2})).name='kozijn-threshold';
         } else {
             // A schuifpui and openslaande deuren stand on a frame-colour onderdorpel over a DARK drempel of their own,
             // the same in both colours.
-            this.box(group,[o.width+.04,spec.sillFace,.24],[0,y0-spec.sillFace/2,face+spec.sillProud-.12],this.material(`kozijn-sill:${spec.sill}`,{color:spec.sill,roughness:.7,metalness:.15})).name='kozijn-threshold';
+            this.box(group,[o.width+.04,spec.sillFace+proud,.24],[0,y0-spec.sillFace/2+proud/2,face+spec.sillProud-.12],this.material(`kozijn-sill:${spec.sill}`,{color:spec.sill,roughness:.7,metalness:.15})).name='kozijn-threshold';
             profile([clear,spec.lip,spec.frameDepth],[0,y0+spec.lip/2,frameZ],frame,'frame-lip');
             bottom=y0+spec.lip;
         }
