@@ -1383,16 +1383,17 @@ export class Preview {
             // "Plaatsing" shares it: one pipe can only open one field, and both controls sit in the same card, so the
             // click lands with Materiaal focused and Plaatsing directly under it (docs/verification/2.9/scene-links.json).
             const drainPart=object=>{this.tag(object,'drainMaterial');this.root.add(object);};
-            // One pipe from its hopper under the daktrim into the ground: plumb down a plain facade, or on an overstek
-            // out of the hopper on the boeiboord and through a zwanenhals back to the facade (2.18.2). Every corner is a
-            // real rounded bend (2.13.0, "45'lik dirsek bağlantı kısmı yuvarlak olmalı"): two straight cylinders meeting
-            // at an angle read as a broken pipe. The last run stays a hollow tube, so the open end still shows its bore.
+            // One plumb pipe down the facade into the ground: from its hopper under the daktrim, or on an overstek from
+            // inside the soffit (2.18.3). Should a route ever turn, every corner is a real rounded bend (2.13.0, "45'lik
+            // dirsek bağlantı kısmı yuvarlak olmalı"). The last run stays a hollow tube, so the open end shows its bore.
             const parts=roundedRoute(downpipeRoute(drain),DOWNPIPE.bend),end=parts.pop();
             for(const geometry of pipeGeometries(parts,DOWNPIPE.radius)){const tube=new THREE.Mesh(geometry,pipe);tube.castShadow=true;tube.name='downpipe';drainPart(tube);}
             const mouth=lineBetween(end.from,end.to,pipe,2*DOWNPIPE.radius,{hollow:bore});mouth.name='downpipe-uitloop';drainPart(mouth);
-            // The water leaves through the roof EDGE into a hopper under the daktrim: on the facade (2.17.0) or on the
-            // boeiboord of an overstek (2.18.2). There is no hole in the roof any more.
-            this.buildHopper(m,drain,pipe,bore,drainPart);
+            // The water always leaves the roof through the inner face of its EDGE, never through a hole in the roof
+            // floor (2.17.0; for an overstek since 2.18.2). On a plain facade it runs on into a hopper under the daktrim;
+            // under an overstek it meets the pipe inside the overstek, out of sight (2.18.3).
+            this.buildRoofScupper(m,drain);
+            if(drain.hopper)this.buildHopper(m,drain,pipe,bore,drainPart);
             for(const y of [.5,1.8])this.tag(this.box(this.root,[.095,.034,.035],[drain.x,y,drain.z+.007],pipe),'drainMaterial');
         }
         this.buildFixtures();
@@ -1566,9 +1567,8 @@ export class Preview {
      * inner face of the roof edge; that 80 x 60 mm tube running out under the uninterrupted daktrim, through the
      * facade; and an open vergaarbak screwed to the facade directly under the trim, the tube entering its back. The
      * pipe hangs from the hopper's floor (geometry.js drain.hopper), so there is no elbow and no hole in the roof.
-     * On an overstek (2.18.2) the same three parts sit 20 cm further out: the tube runs through the boeiboord and the
-     * hopper is screwed to the boeiboord (h.face), the pipe under it at h.z (downpipeRoute adds the zwanenhals).
-     * Everything answers to "Regenbuis" like the pipe; the kiezelbak lies in the roof group and leaves with the roof.
+     * Only on a plain facade: under an overstek the pipe stays inside, up into the soffit (2.18.3). The kiezelbak is
+     * buildRoofScupper, for both. Everything answers to "Regenbuis" like the pipe.
      */
     buildHopper(m,drain,pipe,bore,drainPart){
         const h=drain.hopper,back=h.face+.003,[wTop,dTop]=HOPPER.top,[wBottom,dBottom]=HOPPER.bottom;
@@ -1605,8 +1605,19 @@ export class Preview {
         const spoutTop=h.top-.02,spoutLength=SPOUT.into+SPOUT.reach;
         const spout=this.box(this.root,[SPOUT.width,SPOUT.height,spoutLength],[drain.x,spoutTop-SPOUT.height/2,h.face-SPOUT.into+spoutLength/2],lead);
         spout.name='downpipe-spout';this.tag(spout,'drainMaterial');
-        // On the roof: the kiezelbak plate on the membrane and the dark mouth of the tube in the inner face of the edge.
-        const slabTop=m.height+m.roofThickness/2,surface=slabTop-ROOF_RECESS,innerFace=h.face-TRIM_REACH;
+    }
+
+    /**
+     * Where the water leaves the roof, seen from above (2.17.0; the owner on 2.18.2: "çatı üstünden bağlantı noktası
+     * ve deliğin yeri bu sefer tam doğru yerde, yani çatının tabanında değil de yandan boruya doğru bağlanıyor"): the
+     * kiezelbak plate on the membrane and the dark mouth of the zijuitloop in the inner face of the roof edge, right
+     * over its pipe. The edge is the facade band, or the boeiboord of an overstek. It lies in the roof group and
+     * leaves with the roof.
+     */
+    buildRoofScupper(m,drain){
+        const lead=this.material('downpipe-spout',{color:'#6b6e72',roughness:.7,metalness:.3});
+        const bore=this.material('pipe-bore',{color:'#141716',roughness:1,side:THREE.DoubleSide});
+        const slabTop=m.height+m.roofThickness/2,surface=slabTop-ROOF_RECESS,innerFace=m.bounds.front+(m.overhangDepth||0)-TRIM_REACH;
         const plate=this.box(this.roofGroup,[.16,.004,.16],[drain.x,surface+.002,innerFace-.08],lead,{shadow:false});
         plate.name='roof-scupper';this.tag(plate,'drainMaterial');
         // 2 mm proud of the inner face of the kantplank and 8 mm into it, so it reads as the tube's mouth from the roof.

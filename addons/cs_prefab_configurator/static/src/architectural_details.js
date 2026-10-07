@@ -59,17 +59,16 @@ export const TRIM_REACH = .09;
 export const DOWNPIPE = Object.freeze({radius: .0375, bend: .07, shoe: .14, shoeY: .2, ground: -.28});
 
 /**
- * One downpipe as a polyline, top to bottom, from its hopper's outlet (geometry.js HOPPER; drain.height) into the
- * ground. On a plain facade that is ONE plumb line. On an overstek the hopper hangs on the boeiboord and the pipe
- * swings back onto the facade through a zwanenhals: down out of the hopper, a 45° leg under the board, down the
- * facade (geometry.js ZWANENHALS, drain.neck). `drain` is a geometry.js drain (x, z, height, hopper, neck).
+ * One downpipe as a polyline, top to bottom: ONE plumb line down the facade into the ground. Without an overstek it
+ * hangs from its hopper under the daktrim (geometry.js HOPPER; drain.height is the hopper's outlet); with one it goes
+ * 2 cm up into the soffit, so no gap shows where it disappears. `drain` is a geometry.js drain (x, z, height, hopper).
  */
 export function downpipeRoute(drain) {
     // 2.16.0, the customer: "HWA buizen komen in de grond" — straight down past the terras into the ground, no 45° shoe.
     // 2.17.0, the owner: no elbow into the wall under the roof edge either; the water reaches the pipe through a hopper.
-    // 2.18.2, the owner: the same hopper for an overstek, so no hole in its roof either.
-    const {x, z, hopper, neck} = drain, top = [x, drain.height, hopper ? hopper.z : z], foot = [x, DOWNPIPE.ground, z];
-    return neck ? [top, [x, neck.top, hopper.z], [x, neck.bottom, z], foot] : [top, foot];
+    // 2.18.3, the owner: under an overstek the pipe stays inside, up into the soffit — no hopper on the boeiboord.
+    const {x, z} = drain;
+    return [[x, drain.height + (drain.hopper ? 0 : .02), z], [x, DOWNPIPE.ground, z]];
 }
 
 /** The zijuitloop (stadsuitloop): a rectangular tube through the roof edge into the back of the hopper, 80 x 60 mm. */

@@ -42,8 +42,8 @@ const SHOTS = {
   'hopper': (b, H, F) => [[b.right + .75, H - .25, F + 1.15], [b.right - .2, H - .2, F + .04]],
   'hopper-above': (b, H, F) => [[b.right + .25, H + .85, F + .75], [b.right - .2, H + .02, F + .02]],
   'hopper-front': (b, H, F) => [[b.right - .55, H - .45, F + 1.6], [b.right - .2, H - .3, F]],
-  // The zwanenhals under the boeiboord, from the garden corner and square from the side.
-  'hopper-neck': (b, H) => [[b.right + 1.05, H - .55, b.front + 1.25], [b.right - .12, H - .45, b.front + .12]],
+  // Under an overstek: the pipe going up into the soffit, from the garden corner (2.18.3).
+  'soffit-pipe': (b, H) => [[b.right + 1.05, H - .55, b.front + 1.25], [b.right - .12, H - .2, b.front + .12]],
   'hopper-side': (b, H) => [[b.right + 1.6, H - .35, b.front + .15], [b.right - .12, H - .35, b.front + .15]],
   'house-corner': (b, H) => [[b.right + 2.2, 2.3, b.front + 3.2], [b.right + .4, 2.2, b.back]],
   'house-roof': (b, H) => [[b.right + 1.5, H + 3.2, b.front + 5.5], [0, H + 2.4, b.back - 1.5]],

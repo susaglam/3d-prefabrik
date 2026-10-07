@@ -35,15 +35,6 @@ export const DAKTRIM_FACE=Object.freeze({anthracite:Object.freeze({top:.015,bott
  * top / bottom are [width along the wall, depth out of it] in metres; gap is the air under the trim.
  */
 export const HOPPER=Object.freeze({height:.20,top:Object.freeze([.13,.16]),bottom:Object.freeze([.105,.14]),gap:.004});
-/**
- * The zwanenhals of a downpipe on an overstek (2.18.2, the owner: "yağmur borusu çözümünü uygula" — the hopper under
- * the daktrim for the overstek too, so no hole in the roof there either). The hopper hangs on the boeiboord, 20 cm in
- * front of the facade; two 45° bends bring the pipe back onto the facade under the board, as a Dutch roofer fits a
- * vergaarbak on a boeiboord. `drop` is how far under the boeiboord's lower edge the first bend's corner lies: the 7 cm
- * bend (architectural_details.js DOWNPIPE.bend) then starts 3 cm under the board, so the pipe turns only below it.
- * `out` is the pipe's axis in front of the face it is fixed to, under the hopper and down the facade alike.
- */
-export const ZWANENHALS=Object.freeze({drop:.10,out:.10});
 
 /**
  * The sightlines of each kozijn family in metres, measured off the customer's reference renders (kozijn/*.png,
@@ -343,18 +334,18 @@ export function buildGeometry(config = {}, {fixtureLayout=null,scope=[],geometry
     for (const side of positions(config.sockets)) markers.push({type:'interior-socket-conduit',side,
         position:[side === 'left' ? bounds.left + wall + .025 : bounds.right - wall - .025,.45,depth * .15]});
     const drainSide = config.drainSide === 'left' ? 'left' : 'right';
-    // The downpipe takes its water at the roof EDGE: a zijuitloop under the uninterrupted daktrim into a hopper
-    // (HOPPER) directly under the trim — screwed to the facade without an overstek (2.17.0), to the boeiboord with one
-    // (2.18.2), where a zwanenhals (ZWANENHALS) brings the pipe back onto the facade under the board. No hole in the
-    // roof either way. `face` is what the hopper is fixed to, `z` the pipe's axis under it; the drain's own `z` is the
-    // pipe down the facade; `height` is the top of the PIPE, the hopper's outlet.
+    // The downpipe takes its water at the roof EDGE, never through a hole in the roof floor: a kiezelbak on the
+    // membrane drains through the inner face of the edge (2.17.0). Without an overstek the tube runs out under the
+    // uninterrupted daktrim into a hopper (HOPPER) on the facade directly under the trim, and the pipe hangs from it.
+    // With an overstek the pipe stands against the facade UNDER the overstek and goes up into the soffit, where the tube
+    // meets it inside the overstek — the opening in the edge lies right above it (2.18.3, the owner: "onun içeriden
+    // olması lazım ... şu anki müşterim o şekilde montaj yapmıyor": the vergaarbak on the boeiboord with a zwanenhals of
+    // 2.18.2 is not how they fit it). `height` is the top of the PIPE where it is seen: the hopper's outlet, or the soffit.
     const trimBottom = height + roofThickness / 2 + (DAKTRIM_FACE[config.roofEdge] || DAKTRIM_FACE.anthracite).bottom;
-    const face = bounds.front + overhangDepth, soffit = height + roofThickness / 2 - fasciaHeight;
-    const hopper = {top: trimBottom - HOPPER.gap, bottom: trimBottom - HOPPER.gap - HOPPER.height, face, z: face + ZWANENHALS.out};
-    // 45°: the leg back to the facade runs as far down as the overstek is deep.
-    const neck = overhangDepth ? {top: soffit - ZWANENHALS.drop, bottom: soffit - ZWANENHALS.drop - overhangDepth} : null;
+    const hopper = overhang === 'none' ? {top: trimBottom - HOPPER.gap, bottom: trimBottom - HOPPER.gap - HOPPER.height, face: bounds.front, z: bounds.front + .1} : null;
     const drain = {side:drainSide,material:['zinc','pvc-black'].includes(config.drainMaterial) ? config.drainMaterial : 'pvc',
-        x:drainSide === 'left' ? bounds.left + .12 : bounds.right - .12,z:bounds.front + ZWANENHALS.out,hopper,neck,height:hopper.bottom};
+        x:drainSide === 'left' ? bounds.left + .12 : bounds.right - .12,z:bounds.front + .1,hopper,
+        height:hopper ? hopper.bottom : height + roofThickness / 2 - fasciaHeight};
     const drains=config.drainSide==='both'?[-1,1].map(sign=>({...drain,side:sign<0?'left':'right',x:sign*(width/2-.12)})):[drain];
     const fixtures=[];
     const add=(id,key,kind,position,rotation=0,room='interior',extra={})=>fixtures.push({id,key,kind,position,rotation,room,...extra});
@@ -618,8 +609,8 @@ export function elevationSvg(model,view='front') {
     }
     if(front) {
         // The pipe runs into the ground (2.16.0, "HWA buizen komen in de grond") — the 45° shoe this drawing still carried
-        // was retired from the 3D then — and hangs from its hopper under the daktrim (2.17.0; on the boeiboord of an
-        // overstek since 2.18.2, where the zwanenhals runs straight at the viewer and so draws as the same line).
+        // was retired from the 3D then — and without an overstek it hangs from its hopper under the daktrim (2.17.0);
+        // with one it goes up into the soffit (2.18.3).
         for(const drain of m.drains||[m.drain]){const drainX=X(drain.x+m.width/2),stroke=drain.material==='zinc'?'#9ba99d':'#6b7b6d';
         content+=`<path data-drain-side="${drain.side}" d="M${drainX} ${Y(drain.height)}V${Y(0)}" fill="none" stroke="${stroke}" stroke-width="8"/>`;
         if(drain.hopper){const [top,bottom]=[HOPPER.top[0]/2*s,HOPPER.bottom[0]/2*s];
@@ -628,12 +619,10 @@ export function elevationSvg(model,view='front') {
     } else {
         content+=`<path d="M${left-12} ${base}V${Y(m.height+.62)}" stroke="#99aa9e" stroke-width="4" stroke-dasharray="12 8"/><text x="${left-37}" y="${Y(m.height/2)}" text-anchor="middle" transform="rotate(-90 ${left-37} ${Y(m.height/2)})" fill="#8a9b8e" font-size="23" letter-spacing="1">BESTAANDE WONING</text>`;
         if((m.drains||[m.drain]).some(d=>d.side==='right')){
-            // Seen from the side the hopper shows its depth, from the face it is fixed to out over the pipe; on an
-            // overstek that is the boeiboord, and the zwanenhals swings the pipe back to the facade under it (2.18.2).
-            const d=m.drain,h=d.hopper,at=X(span+(m.overhangDepth||0));
-            const route=d.neck?`M${at+9} ${Y(d.height)}V${Y(d.neck.top)}L${X(span)+9} ${Y(d.neck.bottom)}V${Y(0)}`:`M${X(span)+9} ${Y(d.height)}V${Y(0)}`;
-            content+=`<path${d.neck?' data-drain-neck="right"':''} d="${route}" fill="none" stroke="#7b8c7d" stroke-width="8" stroke-linejoin="round"/>`;
-            content+=`<path data-drain-hopper="side" d="M${at} ${Y(h.top)}H${at+HOPPER.top[1]*s}L${at+HOPPER.bottom[1]*s} ${Y(h.bottom)}H${at}Z" fill="#7b8c7d" stroke="#4c6052" stroke-width="2"/>`;
+            content+=`<path d="M${X(span)+9} ${Y(m.drain.height)}V${Y(0)}" stroke="#7b8c7d" stroke-width="8"/>`;
+            // Seen from the side the hopper shows its depth: from the facade line out over the pipe. Under an overstek
+            // the pipe simply runs up into the soffit (2.18.3).
+            if(m.drain.hopper)content+=`<path data-drain-hopper="side" d="M${X(span)} ${Y(m.drain.hopper.top)}H${X(span)+HOPPER.top[1]*s}L${X(span)+HOPPER.bottom[1]*s} ${Y(m.drain.hopper.bottom)}H${X(span)}Z" fill="#7b8c7d" stroke="#4c6052" stroke-width="2"/>`;
         }
     }
     content+=drawingDimension(left,base,X(span),base,centimetres(span),front&&m.opening.width>0?142:87)+drawingDimension(left,Y(m.height),left,base,centimetres(m.height),-100);
