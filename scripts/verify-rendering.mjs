@@ -79,7 +79,7 @@ const BUDGET = {
   const hex2rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
   const rgb2hex = c => '#' + c.map(v => Math.round(v).toString(16).padStart(2, '0')).join('');
 
-const results = {release: '2.18.3', startedAt: new Date().toISOString(), gates: [], errors: []};
+const results = {release: '2.18.4', startedAt: new Date().toISOString(), gates: [], errors: []};
 const gate = (name, passed, detail = {}) => { results.gates.push({name, passed, ...detail}); console.log((passed ? 'PASS ' : 'FAIL ') + name); };
 
 let server, browser;

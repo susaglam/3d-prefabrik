@@ -31,7 +31,7 @@
                 repository test asserts that it does, because a forgotten bump here is a stale
                 cached file and not an error anybody sees.
             -->
-            <link rel="stylesheet" href="/cs_prefab_configurator/static/src/embed_host.css?v=2.18.3"/>
+            <link rel="stylesheet" href="/cs_prefab_configurator/static/src/embed_host.css?v=2.18.4"/>
             <!--
                 The way out of the frame. The configurator's "volledig scherm" button needs the
                 allow/allowfullscreen pair above to work at all, and this link is the answer for
@@ -41,7 +41,7 @@
             <a class="o_prefab_embed_escape mb16" href="/prefab" target="_blank" rel="noopener">Open de configurator in een nieuw venster.</a>
             <iframe src="/prefab/embed" title="Ontwerp je aanbouw — configurator" data-prefab-embed="1" loading="lazy" allow="fullscreen" allowfullscreen="allowfullscreen">
             </iframe>
-            <script type="module" src="/cs_prefab_configurator/static/src/embed_host.js?v=2.18.3"></script>
+            <script type="module" src="/cs_prefab_configurator/static/src/embed_host.js?v=2.18.4"></script>
         </div>
     </template>
     <!--
