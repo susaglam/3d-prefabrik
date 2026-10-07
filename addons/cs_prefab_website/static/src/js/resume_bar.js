@@ -84,14 +84,28 @@
         return;
     }
 
-    function cookieBarOpen() {
-        var element = document.getElementById('website_cookies_bar');
-        return !!element && element.offsetParent !== null && getComputedStyle(element).display !== 'none';
+    /**
+     * Odoo 19 shows the cookie notice as a popup modal INSIDE #website_cookies_bar; the wrapper stays in the page after
+     * it is answered. So the question is whether that modal is shown (2.18.1: on a phone the bar covered its buttons).
+     */
+    function cookieNoticeOpen() {
+        var modal = document.querySelector('#website_cookies_bar .modal.show, .modal.o_cookies_discrete.show');
+        return !!modal && getComputedStyle(modal).display !== 'none';
+    }
+
+    /** The site's WhatsApp button holds the corner (prefab_site.scss .o_prefab_whatsapp): the bar stands beside it. */
+    function chatInCorner() {
+        var chat = document.querySelector('.o_prefab_whatsapp');
+        if (!chat) {
+            return false;
+        }
+        var style = getComputedStyle(chat), box = chat.getBoundingClientRect();
+        return style.position === 'fixed' && style.display !== 'none' && style.visibility !== 'hidden' && box.width > 0;
     }
 
     function show(choice) {
         var bar = document.createElement('aside');
-        bar.className = 'cs-resume-bar';
+        bar.className = 'cs-resume-bar' + (chatInCorner() ? ' cs-resume-bar--beside-chat' : '');
         bar.setAttribute('aria-label', 'Je ontwerp staat klaar');
         var link = document.createElement('a');
         link.className = 'cs-resume-bar__link';
@@ -154,12 +168,10 @@
             if (!choice) {
                 return;
             }
-            // The cookie notice speaks first; the bar waits until it is answered (or gives up after a minute).
-            var waited = 0;
+            // The cookie notice speaks first, and the bar never covers it: it waits until the notice is answered.
             (function wait() {
-                if (cookieBarOpen() && waited < 60) {
-                    waited += 1;
-                    window.setTimeout(wait, 1000);
+                if (cookieNoticeOpen()) {
+                    window.setTimeout(wait, 800);
                     return;
                 }
                 show(choice);

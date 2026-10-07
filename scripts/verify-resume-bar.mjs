@@ -1,7 +1,9 @@
 // Browser proof of "Je ontwerp staat klaar" (2.18.0, docs/resume-card-contract.md) on the WEBSITE: with a resume
 // card the bar appears on a site page with the visitor's own total, its arrow goes to the card's url, the × keeps it
 // away on the next page load, the offerte page that carries the configurator never shows it, and without a card there
-// is no bar. Needs the Odoo website, so it runs against an origin: PREFAB_ORIGIN=https://... node scripts/verify-resume-bar.mjs
+// is no bar. 2.18.1: it never covers the cookie notice (it waits until the notice is answered) nor the WhatsApp button
+// in the same corner, on a desktop and on a phone.
+// Needs the Odoo website, so it runs against an origin: PREFAB_ORIGIN=https://... node scripts/verify-resume-bar.mjs
 import {chromium} from '@playwright/test';
 import {homedir} from 'node:os';
 import {join} from 'node:path';
@@ -11,52 +13,71 @@ if (!origin) { console.error('Set PREFAB_ORIGIN to the website, e.g. https://pre
 const browser = await chromium.launch({headless: true, executablePath: join(homedir(), 'AppData/Local/ms-playwright/chromium-1217/chrome-win64/chrome.exe')});
 const problems = [], facts = {};
 const check = (ok, message) => { if (!ok) problems.push(message); };
+const cookieShown = page => page.evaluate(() => !!document.querySelector('#website_cookies_bar .modal.show, .modal.o_cookies_discrete.show'));
 async function answerCookies(page) {
-  // The bar waits for the cookie notice (resume_bar.js); a visitor answers it, so the proof does too.
-  const buttons = page.locator('#website_cookies_bar button, #website_cookies_bar a.btn');
-  if (await buttons.count()) { await buttons.last().click().catch(() => {}); await page.waitForTimeout(400); }
+  // A visitor answers the cookie notice; the bar only comes after that, so the proof answers it too.
+  const buttons = page.locator('#website_cookies_bar .modal.show button, #website_cookies_bar .modal.show a.btn');
+  if (await buttons.count()) { await buttons.last().click().catch(() => {}); await page.waitForTimeout(600); }
 }
+const rects = page => page.evaluate(() => {
+  const box = el => el ? (r => ({left: r.left, top: r.top, right: r.right, bottom: r.bottom}))(el.getBoundingClientRect()) : null;
+  return {bar: box(document.querySelector('.cs-resume-bar')), chat: box(document.querySelector('.o_prefab_whatsapp')), width: innerWidth, height: innerHeight};
+});
+const overlap = (a, b) => !!a && !!b && a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+const card = revision => ({label: 'Aanbouw', url: '/prefab', total: 7557000, revision, savedAt: new Date().toISOString()});
 try {
-  const context = await browser.newContext({viewport: {width: 1440, height: 900}});
-  const page = await context.newPage();
-  await page.goto(`${origin}/`, {waitUntil: 'networkidle', timeout: 90000});
-  await answerCookies(page);
-  const body = await page.evaluate(() => ({site: document.body.classList.contains('o_prefab_site'), revision: document.body.getAttribute('data-cs-resume')}));
-  facts.body = body;
-  check(body.site, 'the home page is not marked o_prefab_site');
-  check(body.revision !== null, 'Vormgeving → Doorgaan-melding tonen is off or the layout lost data-cs-resume');
-  check(await page.locator('.cs-resume-bar').count() === 0, 'a bar without any card');
-  const card = {label: 'Aanbouw', url: '/prefab', total: 7557000, revision: body.revision, savedAt: new Date().toISOString()};
-  await page.evaluate(card => { localStorage.removeItem('cs-resume-dismissed-v1'); localStorage.setItem('cs-resume-v1', JSON.stringify({aanbouw: card})); }, card);
-  await page.reload({waitUntil: 'networkidle'});
-  await page.waitForSelector('.cs-resume-bar.is-visible', {timeout: 8000}).catch(() => {});
-  const shown = await page.evaluate(() => { const bar = document.querySelector('.cs-resume-bar'); return bar ? {text: bar.innerText.replace(/\s+/g, ' ').trim(), href: bar.querySelector('a')?.getAttribute('href'), visible: bar.classList.contains('is-visible')} : null; });
-  facts.shown = shown;
-  check(shown?.visible, 'with a card the bar did not appear');
-  check(shown?.text.includes('Je ontwerp staat klaar') && /Aanbouw · € 75\.570/.test(shown?.text || ''), `the bar does not read title, product and total (${shown?.text})`);
-  check(shown?.href === '/prefab', 'the arrow does not go to the card url');
-  await page.screenshot({path: join('docs', 'verification', 'resume-bar.png')});
-  // A card priced on another catalogue shows the product alone.
-  await page.evaluate(card => localStorage.setItem('cs-resume-v1', JSON.stringify({aanbouw: {...card, revision: 'an-older-catalogue'}})), card);
-  await page.reload({waitUntil: 'networkidle'});
-  await page.waitForSelector('.cs-resume-bar.is-visible', {timeout: 8000}).catch(() => {});
-  facts.stale = await page.evaluate(() => document.querySelector('.cs-resume-bar')?.innerText.replace(/\s+/g, ' ').trim() || null);
-  check(facts.stale && !facts.stale.includes('€'), `a total from another catalogue was shown (${facts.stale})`);
-  // The × keeps it away on the next page.
-  await page.click('.cs-resume-bar__close');
-  await page.reload({waitUntil: 'networkidle'});
-  await page.waitForTimeout(1500);
-  facts.afterDismiss = await page.locator('.cs-resume-bar').count();
-  check(facts.afterDismiss === 0, 'the × did not keep the bar away');
-  // The page that carries the configurator never shows it.
-  await page.evaluate(card => { localStorage.removeItem('cs-resume-dismissed-v1'); localStorage.setItem('cs-resume-v1', JSON.stringify({aanbouw: card})); }, card);
-  await page.goto(`${origin}/offerte`, {waitUntil: 'networkidle', timeout: 90000});
-  await page.waitForTimeout(1500);
-  facts.onOfferte = await page.locator('.cs-resume-bar').count();
-  check(facts.onOfferte === 0, 'the bar appeared on the offerte page next to the configurator');
-  await page.evaluate(() => { localStorage.removeItem('cs-resume-v1'); localStorage.removeItem('cs-resume-dismissed-v1'); });
-  await context.close();
+  for (const [name, viewport] of [['desktop', {width: 1440, height: 900}], ['phone', {width: 390, height: 844}]]) {
+    const context = await browser.newContext({viewport});
+    const page = await context.newPage();
+    await page.goto(`${origin}/`, {waitUntil: 'networkidle', timeout: 90000});
+    const body = await page.evaluate(() => ({site: document.body.classList.contains('o_prefab_site'), revision: document.body.getAttribute('data-cs-resume')}));
+    facts[name] = {body};
+    check(body.site, `${name}: the home page is not marked o_prefab_site`);
+    check(body.revision !== null, `${name}: Vormgeving → Doorgaan-melding tonen is off or the layout lost data-cs-resume`);
+    check(await page.locator('.cs-resume-bar').count() === 0, `${name}: a bar without any card`);
+    await page.evaluate(card => { localStorage.removeItem('cs-resume-dismissed-v1'); localStorage.setItem('cs-resume-v1', JSON.stringify({aanbouw: card})); }, card(body.revision));
+    await page.reload({waitUntil: 'networkidle'});
+    await page.waitForTimeout(1800);
+    if (await cookieShown(page)) {
+      facts[name].barWhileCookieNotice = await page.locator('.cs-resume-bar').count();
+      check(facts[name].barWhileCookieNotice === 0, `${name}: the bar came while the cookie notice was still open`);
+      await answerCookies(page);
+    }
+    await page.waitForSelector('.cs-resume-bar.is-visible', {timeout: 8000}).catch(() => {});
+    const shown = await page.evaluate(() => { const bar = document.querySelector('.cs-resume-bar'); return bar ? {text: bar.innerText.replace(/\s+/g, ' ').trim(), href: bar.querySelector('a')?.getAttribute('href'), visible: bar.classList.contains('is-visible')} : null; });
+    const where = await rects(page);
+    facts[name].shown = shown;
+    facts[name].rects = where;
+    check(shown?.visible, `${name}: with a card the bar did not appear`);
+    check(shown?.text.includes('Je ontwerp staat klaar') && /Aanbouw · € 75\.570/.test(shown?.text || ''), `${name}: the bar does not read title, product and total (${shown?.text})`);
+    check(shown?.href === '/prefab', `${name}: the arrow does not go to the card url`);
+    check(!overlap(where.bar, where.chat), `${name}: the bar covers the WhatsApp button`);
+    check(where.bar && where.bar.left >= 0 && where.bar.right <= where.width && where.bar.bottom <= where.height, `${name}: the bar leaves the screen`);
+    await page.screenshot({path: join('docs', 'verification', `resume-bar-${name}.png`)});
+    if (name === 'desktop') {
+      // A card priced on another catalogue shows the product alone.
+      await page.evaluate(card => localStorage.setItem('cs-resume-v1', JSON.stringify({aanbouw: {...card, revision: 'an-older-catalogue'}})), card(body.revision));
+      await page.reload({waitUntil: 'networkidle'});
+      await page.waitForSelector('.cs-resume-bar.is-visible', {timeout: 8000}).catch(() => {});
+      facts.stale = await page.evaluate(() => document.querySelector('.cs-resume-bar')?.innerText.replace(/\s+/g, ' ').trim() || null);
+      check(facts.stale && !facts.stale.includes('€'), `a total from another catalogue was shown (${facts.stale})`);
+      // The × keeps it away on the next page.
+      await page.click('.cs-resume-bar__close');
+      await page.reload({waitUntil: 'networkidle'});
+      await page.waitForTimeout(1500);
+      facts.afterDismiss = await page.locator('.cs-resume-bar').count();
+      check(facts.afterDismiss === 0, 'the × did not keep the bar away');
+      // The page that carries the configurator never shows it.
+      await page.evaluate(card => { localStorage.removeItem('cs-resume-dismissed-v1'); localStorage.setItem('cs-resume-v1', JSON.stringify({aanbouw: card})); }, card(body.revision));
+      await page.goto(`${origin}/offerte`, {waitUntil: 'networkidle', timeout: 90000});
+      await page.waitForTimeout(1500);
+      facts.onOfferte = await page.locator('.cs-resume-bar').count();
+      check(facts.onOfferte === 0, 'the bar appeared on the offerte page next to the configurator');
+    }
+    await page.evaluate(() => { localStorage.removeItem('cs-resume-v1'); localStorage.removeItem('cs-resume-dismissed-v1'); });
+    await context.close();
+  }
 } finally { await browser.close(); }
 console.log(JSON.stringify({facts, problems}, null, 1));
-console.log(problems.length ? 'PROBLEMS: ' + problems.join('; ') : 'resume bar: shown with the visitor\'s own total, label only on an older catalogue, the × holds, never next to the configurator');
+console.log(problems.length ? 'PROBLEMS: ' + problems.join('; ') : 'resume bar: after the cookie notice, beside the WhatsApp button, with the visitor\'s own total, label only on an older catalogue, the × holds, never next to the configurator');
 process.exit(problems.length ? 1 : 0);
