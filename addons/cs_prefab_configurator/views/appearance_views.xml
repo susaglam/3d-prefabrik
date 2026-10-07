@@ -37,7 +37,7 @@
         <field name="document_note" readonly="1"/></group>
       <p>De drie ruimtelijke beelden van het voorstel — dezelfde beelden die bij de aanvraag staan en in de PDF worden afgedrukt — tonen standaard alleen de aanbouw met het terras waarop hij staat. Wat erop gemonteerd wordt blijft staan: de wandlampen, de stopcontacten, de buitenkraan, de spots en de radiator. De bestaande woning, de buurhuizen, het gras, de schutting, de tuinset en de voorbeeldinrichting blijven eruit, want die worden niet geleverd.</p>
       <p>Zet je 'Omgeving in de voorstelbeelden' aan, dan staat de aanbouw op die beelden weer in de voorbeeldtuin. Het beeld waarin de bezoeker zijn aanbouw samenstelt verandert hier nooit van; dat houdt zijn eigen knoppen. En aanvragen die al binnen zijn houden de beelden waarmee ze zijn verstuurd — die worden bij het versturen vastgelegd en nooit opnieuw getekend, dus een oud voorstel blijft er precies zo uitzien als de klant het heeft ontvangen.</p>
-      <group string="Functies"><field name="compare_enabled"/><field name="render_quality"/>
+      <group string="Functies"><field name="compare_enabled"/><field name="resume_bar"/><field name="render_quality"/>
         <field name="exit_url" placeholder="/ of https://www.voorbeeld.nl/"/></group>
       <!-- Scene content, kept visibly apart from the colours and fonts above: this section decides
            WHAT the 3D beeld shows, not how the form looks. -->

@@ -4,7 +4,7 @@ import {scenarioIcon,qualityIcon} from './view_icons.js';
 import {viewpointIcon,toolIcon} from './scene_icons.js';
 import {dimensionLimits,dimensionValue,profileConstraint} from './interaction.js';
 import {applyAppearance,getFeatures,getSceneContent} from './theme.js';
-import {STEPS,STORAGE_KEY,COMPARISON_STORAGE_KEY,INTERIOR_FIELDS,MATERIALS,money,preciseMoney,metric,escapeHTML as esc,fieldsOf,normalizedDraft,normalizeInterior,labelFor,rollaagContinues,validDimensions,validateContact,fieldIsVisible,comparisonDrafts,comparisonRows} from './model.js';
+import {STEPS,STORAGE_KEY,COMPARISON_STORAGE_KEY,INTERIOR_FIELDS,MATERIALS,money,preciseMoney,metric,escapeHTML as esc,fieldsOf,normalizedDraft,normalizeInterior,labelFor,rollaagContinues,RESUME_PRODUCT,resumeCard,putResumeCard,dropResumeCard,validDimensions,validateContact,fieldIsVisible,comparisonDrafts,comparisonRows} from './model.js';
 import {STEP_SECTIONS,STEP_LEAD_KEYS,sectionDone,sectionSummary,openGroupId,stepChoiceKeys,nextChoice,remainingChoices,choiceDestination} from './sections.js';
 import {FENCE_STYLES,HOUSE_TYPES,FACADE_FINISHES,FLOOR_FINISHES,ALIGNMENTS,SCENARIOS,NEIGHBOUR_TOGGLE,HOUSE_OPENINGS_TOGGLE,FACADE_WIDTH_MIN,FACADE_WIDTH_MAX,ENVIRONMENT_STORAGE_KEY,defaultEnvironment,normalizeEnvironment,loadEnvironment,saveEnvironment,facadeWidthCm} from './environment.js';
 import {extraAvailable,sceneDefaults,sceneState} from './scene_content.js';
@@ -1082,9 +1082,27 @@ function updateResolvedScope() {
  });});renderErrors();
 }
 
+/**
+ * The resume card for the website's "Je ontwerp staat klaar" (docs/resume-card-contract.md): written where the draft
+ * is written and again once the price for it is in, only for a design the visitor changed, never with the postcode,
+ * and not after a proposal for this design was sent. Embedded on a website page, "continue" means that page.
+ */
+let resumeEnded=-1;
+function resumeUrl(){
+ try{if(window.parent!==window&&window.parent.location.origin===location.origin)return window.parent.location.pathname;}catch{/* a foreign parent: continue on the configurator itself */}
+ return location.pathname.replace(/\/embed\/?$/,'')||'/prefab';
+}
+function syncResumeCard(){
+ if(adminPreview||!catalog||!config)return;
+ try{
+  const card=resumeEnded===designGeneration?null:resumeCard({changed:designChanged(),total:!pricePending&&price?price.total:undefined,
+   revision:(!pricePending&&price?.catalogRevision)||catalog.catalogRevision,url:resumeUrl(),savedAt:(savedAt||new Date()).toISOString()});
+  if(card)putResumeCard(localStorage,RESUME_PRODUCT,card);else dropResumeCard(localStorage,RESUME_PRODUCT);
+ }catch{/* no storage: no reminder, nothing else */}
+}
 function persist(){
  if(adminPreview)return false;
- try{savedAt=new Date();localStorage.setItem(STORAGE_KEY,JSON.stringify({version:catalog.schemaVersion,config:{...config,postcode:''},savedAt:savedAt.toISOString()}));if($('#save-status'))$('#save-status').textContent=`Op dit apparaat bewaard om ${savedAt.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`;return true;}catch{if($('#save-status'))$('#save-status').textContent='Opslaan op dit apparaat niet beschikbaar. Gebruik een deellink.';return false;}
+ try{savedAt=new Date();localStorage.setItem(STORAGE_KEY,JSON.stringify({version:catalog.schemaVersion,config:{...config,postcode:''},savedAt:savedAt.toISOString()}));syncResumeCard();if($('#save-status'))$('#save-status').textContent=`Op dit apparaat bewaard om ${savedAt.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`;return true;}catch{if($('#save-status'))$('#save-status').textContent='Opslaan op dit apparaat niet beschikbaar. Gebruik een deellink.';return false;}
 }
 
 function resetDesign(){
@@ -1098,7 +1116,7 @@ function resetDesign(){
  const startWith=environmentBase();
  dimensionsVisible=false;roofVisible=true;examplesVisible=startWith.fixtures;decorVisible=startWith.garden;currentView='perspective';
  expandedGroups.clear();expandedGroups.add('dimensions');expandedGroups.add('facade');
- if(!adminPreview){try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(COMPARISON_STORAGE_KEY);}catch{/* Reset still works when browser storage is unavailable. */}}
+ if(!adminPreview){dropResumeCard(localStorage,RESUME_PRODUCT);try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(COMPARISON_STORAGE_KEY);}catch{/* Reset still works when browser storage is unavailable. */}}
  const url=new URL(location.href);url.searchParams.delete('share');history.replaceState({},'',url.pathname+url.search+url.hash);
  if(modal.open)modal.close();$('#modal-content').replaceChildren();lastFocus=null;
  clearTimeout(toast.timer);$('#toast').classList.remove('visible');
@@ -1125,7 +1143,7 @@ function schedulePrice(immediate=false) {
  priceTimer=setTimeout(async()=>{
   try {
    const data=await api('/price',{config,catalogRevision:catalog.catalogRevision});if(sequence!==priceSequence)return;
-   price=data;pricePending=false;priceError='';errors={};
+   price=data;pricePending=false;priceError='';errors={};syncResumeCard();
    const normalized=data.config?normalizedDraft(data.config,catalog):config;
    const changed=Object.keys(config).filter(key=>JSON.stringify(config[key])!==JSON.stringify(normalized[key]));
    if(changed.length){config=normalized;preview?.update(config);persist();preservePanelPosition(()=>renderStep());toast('Je keuzes zijn aangepast aan de beschikbare ruimte en de bijbehorende voorzieningen.');}
@@ -1298,7 +1316,7 @@ async function submitQuote(e){
  // Freeze the submitted design before any network or rendering work; the live design stays editable.
  // The design goes with the postcode the proposal confirms: the server refuses a design and a contact that name two
  // different building sites, and the kilometervergoeding is priced from this one.
- const submittedConfig=JSON.stringify({...config,postcode:contact.postcode||''}),snapshotConfig=JSON.parse(submittedConfig);
+ const submittedDesign=JSON.stringify(config),submittedConfig=JSON.stringify({...config,postcode:contact.postcode||''}),snapshotConfig=JSON.parse(submittedConfig);
  const fingerprint=JSON.stringify([snapshotConfig,payloadContact]);if(!requestKey||requestKey.fingerprint!==fingerprint)requestKey={fingerprint,key:crypto.randomUUID()};
  const attempt=requestKey,generation=designGeneration,current=()=>generation===designGeneration;
  try{
@@ -1325,7 +1343,9 @@ async function submitQuote(e){
   const received=await api('/quote',{config:attempt.config,contact:payloadContact,consent:true,idempotencyKey:attempt.key,visuals:attempt.visuals,catalogRevision:attempt.catalogRevision},{timeoutMs:45000});
   if(!current())return;
   const record={...received,documentViewCount:attempt.visuals.views.length,documentMissingViews:attempt.visuals.missingViews};
-  if(JSON.stringify(config)===submittedConfig)result=record;
+  if(JSON.stringify(config)===submittedDesign)result=record;
+  // A sent proposal ends the reminder: the visitor has the PDF and must not be chased by "Je ontwerp staat klaar".
+  resumeEnded=designGeneration;if(!adminPreview)dropResumeCard(localStorage,RESUME_PRODUCT);
   showResult(record);
  }
  catch(error){if(!current())return;if(error.code==='catalog_changed'){catalogChanged=true;priceError=error.message;pricePending=false;invalidateComparison();renderFooter();updateResolvedScope();}const errorBox=form.querySelector('#quote-error');if(form.isConnected&&modal.open){errorBox.textContent=error.message;progress.textContent='Je ingevulde gegevens zijn behouden.';for(const[key,message]of Object.entries(error.fields||{})){const normalized=key.replace(/^contact\./,'');const el=form.querySelector(`#contact-error-${CSS.escape(normalized)}`);if(el)el.textContent=message;}}else toast(`Voorstel niet opgeslagen: ${error.message}`);button.disabled=false;button.innerHTML=`Opnieuw proberen ${icon('arrow')}`;}

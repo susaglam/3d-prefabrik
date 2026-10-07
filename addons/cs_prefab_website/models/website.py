@@ -218,6 +218,17 @@ class Website(models.Model):
              "Tekst, foto's, formulieren en de configurator blijven zonder deze effecten werken. "
              "De website-editor en de voorkeur voor minder beweging hebben altijd voorrang.")
 
+    cs_prefab_resume_bar = fields.Boolean(
+        string="Doorgaan-melding",
+        compute="_compute_cs_prefab_resume",
+        help="Leest terug of de melding 'Je ontwerp staat klaar' op deze website aan staat: Prefab Partner-site "
+             "en Configurator → Vormgeving → 'Doorgaan-melding tonen'. Zonder vormgevingsrecord geldt de standaard: aan.")
+    cs_prefab_resume_revision = fields.Char(
+        string="Catalogusversie voor de doorgaan-melding",
+        compute="_compute_cs_prefab_resume",
+        help="De gepubliceerde catalogus van de configurator op deze website. De melding toont de prijs van een "
+             "bewaard ontwerp alleen als dat op precies deze catalogus is berekend; anders alleen het product.")
+
     cs_prefab_menu_status = fields.Char(
         string="Menu-items van vóór Prefab Partner",
         compute="_compute_cs_prefab_status",
@@ -226,6 +237,25 @@ class Website(models.Model):
              "Wat er dus nog van vóór de inrichting in staat, leest dit veld terug, zodat je "
              "het zelf kunt weghalen via Website → Site → Menu bewerken als het er niet "
              "hoort.")
+
+    @api.depends("cs_prefab_site")
+    def _compute_cs_prefab_resume(self):
+        """What <body> tells resume_bar.js (layout_templates.xml). Read on every page, so it never raises: a
+        missing configurator model or a read error means no bar, not a broken page."""
+        for website in self:
+            enabled, revision = False, ""
+            try:
+                if website.cs_prefab_site:
+                    appearance = self.env["cs.prefab.appearance"].sudo().search([("website_id", "=", website.id)], limit=1)
+                    enabled = bool(appearance.resume_bar) if appearance else True
+                    release = self.env["cs.prefab.catalog.release"].sudo().search(
+                        [("website_id", "=", website.id), ("state", "=", "published")], order="published_at desc, id desc", limit=1)
+                    revision = release.revision or ""
+            except Exception:  # noqa: BLE001 - a readback on every page must degrade, never raise
+                _logger.warning("Doorgaan-melding uitgeschakeld voor website %s: instellingen niet leesbaar", website.id, exc_info=True)
+                enabled, revision = False, ""
+            website.cs_prefab_resume_bar = enabled
+            website.cs_prefab_resume_revision = revision
 
     @api.depends("domain", "cs_prefab_site")
     def _compute_cs_prefab_status(self):

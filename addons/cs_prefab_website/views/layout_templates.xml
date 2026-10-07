@@ -23,6 +23,9 @@
         -->
         <xpath expr="//body" position="attributes">
             <attribute name="t-attf-class" add="#{'o_prefab_site' if website and website.cs_prefab_site else ''} #{'o_prefab_motion_enabled' if website and website.cs_prefab_site and website.cs_prefab_motion else ''}" separator=" "/>
+            <!-- "Je ontwerp staat klaar" (2.18.0): present only when Vormgeving → Doorgaan-melding tonen is on; its value is
+                 the catalogue revision a saved price must match to be shown (resume_bar.js). '-' = no published catalogue. -->
+            <attribute name="t-att-data-cs-resume">(website.cs_prefab_resume_revision or '-') if website and website.cs_prefab_resume_bar else None</attribute>
         </xpath>
         <!--
             The sticky header. Core uses exactly this idiom on this node for its own header

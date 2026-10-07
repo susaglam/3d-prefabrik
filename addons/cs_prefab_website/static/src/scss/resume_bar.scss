@@ -1,0 +1,118 @@
+// "Je ontwerp staat klaar" (2.18.0, docs/resume-card-contract.md). Bottom right on a desktop, the bottom edge on a
+// phone, inside the safe area. It can appear on every page, so it moves like an interface element and not like a
+// hero: 220 ms, transform and opacity only, and not at all with reduced motion. Scoped to .o_prefab_site like every
+// rule of this module: the bundle is per instance and the other website matches nothing.
+.o_prefab_site .cs-resume-bar {
+    position: fixed;
+    z-index: 1040;
+    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: stretch;
+    max-width: 380px;
+    background: #ffffff;
+    color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(26, 26, 26, .16), 0 1px 3px rgba(26, 26, 26, .12);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .22s cubic-bezier(.23, 1, .32, 1), transform .22s cubic-bezier(.23, 1, .32, 1);
+
+    &.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    .cs-resume-bar__link {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "title go" "detail go";
+        align-items: center;
+        column-gap: 16px;
+        row-gap: 2px;
+        padding: 14px 8px 14px 18px;
+        color: inherit;
+        text-decoration: none;
+        border-radius: 8px 0 0 8px;
+
+        &:hover .cs-resume-bar__go,
+        &:focus-visible .cs-resume-bar__go {
+            background: #af3e16;
+            color: #ffffff;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #af3e16;
+            outline-offset: 2px;
+        }
+    }
+
+    .cs-resume-bar__title {
+        grid-area: title;
+        font-size: 1rem;
+        line-height: 1.3;
+    }
+
+    .cs-resume-bar__detail {
+        grid-area: detail;
+        font-size: .875rem;
+        line-height: 1.4;
+        color: #5a5552;
+    }
+
+    .cs-resume-bar__price {
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+        color: #1a1a1a;
+    }
+
+    .cs-resume-bar__go {
+        grid-area: go;
+        padding: 8px 14px;
+        border: 1px solid #af3e16;
+        border-radius: 999px;
+        color: #af3e16;
+        font-size: .875rem;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: background-color .15s ease-out, color .15s ease-out;
+
+        &::after {
+            content: " \2192"; // a right arrow, escaped so the bundle needs no @charset
+        }
+    }
+
+    .cs-resume-bar__close {
+        min-width: 44px;
+        border: 0;
+        border-left: 1px solid #e7e2de;
+        border-radius: 0 8px 8px 0;
+        background: transparent;
+        color: #5a5552;
+        font-size: 1.25rem;
+        line-height: 1;
+        cursor: pointer;
+
+        &:hover {
+            color: #1a1a1a;
+            background: #f3f0eb;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #af3e16;
+            outline-offset: -2px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        left: 12px;
+        right: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+        max-width: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        transition: none;
+    }
+}

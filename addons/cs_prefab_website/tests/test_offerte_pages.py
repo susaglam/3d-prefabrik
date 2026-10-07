@@ -144,3 +144,25 @@ class TestPrefabOfferte(HttpCase):
             self.assertIn("cs_prefab_website.offerte_frame", page.view_id.arch, page.url)
             self.assertNotIn("<iframe", page.view_id.arch, page.url)
         self.assertIn("/prefab/embed", frame.arch)
+
+    # ------------------------------------------------------------------
+    # "Je ontwerp staat klaar" (2.18.0, docs/resume-card-contract.md)
+    # ------------------------------------------------------------------
+
+    def test_the_resume_bar_follows_the_vormgeving_switch(self):
+        """<body> carries data-cs-resume exactly when Vormgeving -> Doorgaan-melding tonen is on.
+
+        Its value is the catalogue revision a saved price must match to be shown; the bar's script
+        and stylesheet ride the frontend bundle of every page.
+        """
+        appearance = self.env["cs.prefab.appearance"].search([("website_id", "=", self.site.id)], limit=1)
+        self.assertTrue(self.site.cs_prefab_resume_bar, "on by default")
+        body = html.fromstring(self.on_the_site("/")).xpath("//body")[0]
+        self.assertIn("data-cs-resume", body.attrib)
+        self.assertEqual(body.get("data-cs-resume"), self.site.cs_prefab_resume_revision or "-")
+        if appearance:
+            appearance.resume_bar = False
+            self.site.invalidate_recordset(["cs_prefab_resume_bar"])
+            self.assertFalse(self.site.cs_prefab_resume_bar)
+            body = html.fromstring(self.on_the_site("/")).xpath("//body")[0]
+            self.assertNotIn("data-cs-resume", body.attrib, "switched off: no attribute, so no bar")

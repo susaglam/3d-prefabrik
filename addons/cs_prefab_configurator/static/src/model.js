@@ -1,6 +1,36 @@
 import {FINISHES, PREFAB_FACADES} from './finishes.js';
 export const STORAGE_KEY = 'cs-prefab-design-v1';
 export const COMPARISON_STORAGE_KEY = 'cs-prefab-comparison-v1';
+/**
+ * The resume card (docs/resume-card-contract.md, 2.18.0): what the website's "Je ontwerp staat klaar" bar reads —
+ * never the draft itself. One flat card per product under RESUME_KEY; this configurator owns RESUME_PRODUCT only.
+ */
+export const RESUME_KEY = 'cs-resume-v1';
+export const RESUME_PRODUCT = 'aanbouw';
+/** The card for this design, or null for an untouched default design. `total` is cents incl. btw, omitted when unknown. */
+export function resumeCard({changed, total, revision, url, savedAt}) {
+ if (!changed) return null;
+ const card = {label: 'Aanbouw', url, revision: revision || '', savedAt};
+ if (Number.isInteger(total) && total > 0) card.total = total;
+ return card;
+}
+function readCards(storage) {
+ try { const value = JSON.parse(storage.getItem(RESUME_KEY) || '{}'); return value && typeof value === 'object' && !Array.isArray(value) ? value : {}; }
+ catch { return {}; }
+}
+/** Write this product's card, keeping every other product's. A store that refuses never breaks the configurator. */
+export function putResumeCard(storage, product, card) {
+ try { storage.setItem(RESUME_KEY, JSON.stringify({...readCards(storage), [product]: card})); } catch { /* storage unavailable: no bar, nothing else */ }
+}
+/** Remove this product's card (reset, quote sent); the key goes when it holds nothing. */
+export function dropResumeCard(storage, product) {
+ try {
+  const cards = readCards(storage);
+  if (!(product in cards)) return;
+  delete cards[product];
+  if (Object.keys(cards).length) storage.setItem(RESUME_KEY, JSON.stringify(cards)); else storage.removeItem(RESUME_KEY);
+ } catch { /* storage unavailable */ }
+}
 export const money = cents => new Intl.NumberFormat('nl-NL', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(cents / 100);
 export const preciseMoney = cents => new Intl.NumberFormat('nl-NL', {style:'currency', currency:'EUR'}).format(cents / 100);
 export const metric = cm => new Intl.NumberFormat('nl-NL', {minimumFractionDigits:2,maximumFractionDigits:2}).format(cm / 100);

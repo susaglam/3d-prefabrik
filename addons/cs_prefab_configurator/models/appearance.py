@@ -112,6 +112,12 @@ class PrefabAppearance(models.Model):
              "startpagina of /aanbouw, of een volledig adres met https://. Staat de configurator via een iframe op "
              "een andere website, vul dan het adres van die website in: dan verlaat de bezoeker het hele venster, "
              "niet alleen het kader. Leeg laten zet de terugweg uit.")
+    resume_bar = fields.Boolean(string="Doorgaan-melding tonen", default=True,
+        help="Toont op elke pagina van de website, behalve bij de configurator zelf, de melding 'Je ontwerp staat klaar' "
+             "aan een bezoeker die een ontwerp heeft gemaakt en nog geen voorstel heeft aangevraagd: het product, de prijs "
+             "van zijn eigen ontwerp en een knop terug. Eén schakelaar voor alle configuratoren. De bezoeker kan de melding "
+             "wegklikken; ze komt dan 7 dagen niet terug, en na 30 dagen vervalt ze vanzelf. Er wordt niets naar de server "
+             "gestuurd: het ontwerp staat alleen in de browser van de bezoeker.")
     compare_enabled = fields.Boolean(string="Ontwerpen vergelijken", default=False,
         help="Toont in stap 4 het paneel om twee ontwerpen A en B naast elkaar te prijzen. "
              "Standaard uit; de opgeslagen ontwerpen blijven op het apparaat van de bezoeker.")

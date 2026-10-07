@@ -114,6 +114,9 @@
             "cs_prefab_website/static/src/scss/prefab_motion.scss",
             "cs_prefab_website/static/src/js/prefab_site.js",
             "cs_prefab_website/static/src/js/prefab_home_motion.js",
+            # "Je ontwerp staat klaar" (2.18.0): two files of their own, as docs/resume-card-contract.md settled.
+            "cs_prefab_website/static/src/scss/resume_bar.scss",
+            "cs_prefab_website/static/src/js/resume_bar.js",
         ],
     },
     "installable": True,
