@@ -3006,6 +3006,10 @@ export class Preview {
      */
     clampCamera(){
         if(!this.camera||!this.controls)return false;
+        // A proposal camera is computed (setDocumentView) and nobody steers it, so no visitor limit applies to it. Its
+        // "Een blik naar binnen" is called 'interior' like the binnenweergave, and the room limit of that view pulled it
+        // down into the room on the 'change' its own controls.update() fired: every PDF showed the floor (2.18.4).
+        if(this.documentMode)return false;
         let moved=false;
         if(this.controls.target.y<CAMERA_FLOOR.target){this.controls.target.y=CAMERA_FLOOR.target;moved=true;}
         const room=this.cameraRoomBox();

@@ -33,7 +33,11 @@ function documentHarness(config,{environment,documentSurroundings=false,document
   environment:normalizeEnvironment(environment),scenario:'none',floorFinish:'laminate',
   scene:new THREE.Scene(),renderer:{shadowMap:{}},plan:{style:{}},host:{style:{}},
   container:{clientWidth:1440,clientHeight:960},
-  controls:{target:new THREE.Vector3(),maxDistance:27,update(){camera.updateMatrixWorld(true);}},
+  // update() does what the real OrbitControls does on a moved camera: it fires 'change', and the Preview's 'change'
+  // listener is clampCamera (preview.js _clampToGround). Without that this harness passed the proposal's "Een blik naar
+  // binnen" while every real PDF showed a close-up of the floor (2.18.4): the room limit of the inside views pulled the
+  // document camera, whose view is also called 'interior', down into the room.
+  controls:{target:new THREE.Vector3(),maxDistance:27,update(){camera.updateMatrixWorld(true);preview.clampCamera();camera.updateMatrixWorld(true);}},
   updatePlan(){},render(){},applyMode(){},setHighlight(){},buildFixtures(){},updateFacade(){}});
  preview.scene.fog=new THREE.Fog('#e7e9e5',27,60);
  preview.scene.add(preview.camera);

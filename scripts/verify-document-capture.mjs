@@ -269,7 +269,7 @@ try {
      if(/(^|\/)terrace/.test(path))return 'terras';
      return 'aanbouw';
     };
-    const out={};
+    const out={};let doorbraakDepth=0;
     for(const view of ['perspective-left','perspective-right','interior']) {
      p.setDocumentView(view);
      const raycaster=new THREE.Raycaster(),point=new THREE.Vector2(),counts={},cols=48,rows=32;
@@ -284,10 +284,16 @@ try {
       counts[bucket]=(counts[bucket]||0)+1;
      }
      out[view]=Object.fromEntries(Object.entries(counts).map(([key,n])=>[key,+(n/(cols*rows)*100).toFixed(2)]));
+     // How far the drawn doorbraak reaches behind the house wall, in the view without a roof.
+     if(view==='interior')p.root.traverse(object=>{
+      if(!object.isMesh)return;
+      const names=[];let drawn=true;for(let node=object;node&&node!==p.root;node=node.parent){if(node.name)names.unshift(node.name);if(!node.visible)drawn=false;}
+      if(drawn&&/doorbraak/.test(names.join('/')))doorbraakDepth=Math.max(doorbraakDepth,p.model.bounds.back-new THREE.Box3().setFromObject(object).min.z);
+     });
     }
-    return out;
+    return {views:out,doorbraakDepth};
    },config);
-   for(const [view,share] of Object.entries(shares)) {
+   for(const [view,share] of Object.entries(shares.views)) {
     // The customer's request, exactly: not one cell of a proposal image is de woning, de buren, het gras, de
     // schutting, de tuinset or de inrichting. Two equalities, not a budget, because a budget is a number somebody
     // loosens. The first covers everything inside the omgeving group; the second covers the woning wherever else
@@ -295,10 +301,17 @@ try {
     assert.equal(share.omgeving||0,0,`${label} ${view}: no woning, buren, gras, schutting or inrichting in the frame`);
     assert.equal(share.woning||0,0,`${label} ${view}: no surface of the bestaande woning outside that group either (${share.woning||0} %)`);
     // The doorbraak is not the woning and it is not the product: it is the opening in between, kept so a full-width
-    // hole reads as an opening (DOORBRAAK_REVEAL). Half a metre of it is architecture; a room of it is the defect
-    // this gate missed. Measured across this sweep it runs 0,20-6,25 % of the frame, so a ceiling of 12 % is twice
-    // the worst case and still an order of magnitude under the 22,08 % the full room reached.
-    assert.ok((share.doorbraak||0)<=12,`${label} ${view}: the doorbraak is an opening, not a second room (${share.doorbraak||0} %)`);
+    // hole reads as an opening (DOORBRAAK_REVEAL, 55 cm). Half a metre of it is architecture; a room of it is the
+    // defect. In the two tuinperspectieven its share of the frame says which: measured 0-8,66 % across this sweep
+    // and every corner of the catalogue (2.18.4), under a ceiling of 12 %.
+    // Not in "Een blik naar binnen". Until 2.18.4 that image was a close-up of the floor (the room limit of the
+    // binnenweergave pulled the document camera into the room, see preview.js clampCamera), and the 12 % was set
+    // against it: its "0,20 %" is what a floor close-up shows. Framed again, from above with the roof off, the
+    // reveal's closing face stands square to the camera and takes 5,5-20,6 % of the frame (probe, 2.18.4) — the
+    // full room took 22,08 %. A pixel share cannot tell those apart there, so that view holds the doorbraak by what
+    // "not a second room" means: it reaches no further than 0,60 m behind the house wall, where a room is metres.
+    if(view==='interior')assert.ok(shares.doorbraakDepth<=.6,`${label} interior: the doorbraak is an opening, not a second room (${shares.doorbraakDepth.toFixed(2)} m deep)`);
+    else assert.ok((share.doorbraak||0)<=12,`${label} ${view}: the doorbraak is an opening, not a second room (${share.doorbraak||0} %)`);
     // A loose floor under the product itself, to catch a camera that starts pulling back again. The doorbraak and
     // the woning are deliberately NOT in this sum — a product number that a non-product can lift is not a product
     // number. It is deliberately low: what sets the ceiling here is the aanbouw's own proportions against a 3:2
